@@ -1,0 +1,47 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply box-border;
+  }
+
+  html {
+    @apply antialiased;
+  }
+
+  body {
+    @apply bg-sounglah-cream-50 font-sans text-sounglah-ink-900;
+  }
+
+  #root {
+    @apply min-h-screen;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display text-sounglah-ink-900;
+  }
+}
+
+@layer components {
+  .section {
+    @apply mx-auto max-w-7xl px-6 lg:px-10;
+  }
+
+  .card {
+    @apply rounded-card border border-sounglah-earth-100 bg-white/80 shadow-soft;
+  }
+
+  .btn-primary {
+    @apply rounded-button border border-transparent bg-sounglah-green-600 px-6 py-3 font-semibold text-white shadow-soft transition hover:bg-sounglah-green-700;
+  }
+
+  .btn-secondary {
+    @apply rounded-button border border-sounglah-green-500 bg-white px-6 py-3 font-semibold text-sounglah-green-700 shadow-soft transition hover:bg-sounglah-green-50;
+  }
+}

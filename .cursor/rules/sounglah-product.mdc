@@ -1,0 +1,30 @@
+---
+description: Sounglah product voice, users, and UI direction (heritage learning, family-centered).
+alwaysApply: true
+---
+
+# Sounglah product
+
+Sounglah is a heritage language learning platform for diaspora families, starting with Médumba.
+
+It is not just a translation app.
+
+## How it should feel
+
+- Warm, family-centered, child-friendly
+- Culturally grounded and respectful
+- Simple to use
+- Expandable to many African and local languages
+
+Primary users: parents and children in the diaspora; later, admins and reviewers for content.
+
+## UI and copy
+
+- Avoid cold “generic SaaS” tone and visuals.
+- Prefer emotional, plain language: family, roots, culture, preservation, speaking with grandparents.
+- **Core promise:** help children speak with parents, grandparents, and community while keeping the language alive across generations.
+
+## Visual system (see also coding standards)
+
+- Design tokens and utilities live in `frontend/tailwind.config.js` and `frontend/src/styles/index.css` (for example `.section`, `.card`, `.btn-primary`, `.btn-secondary`).
+- Prefer the Sounglah palette (cream canvas, deep green CTAs, earth tones, Playfair + Inter) over arbitrary grays or blues unless there is a strong accessibility reason.

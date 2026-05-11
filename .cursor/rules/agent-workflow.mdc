@@ -1,0 +1,35 @@
+---
+description: Sounglah slice workflow — one child slice (SS###) per chat; Planner → Builder → Reviewer.
+alwaysApply: true
+---
+
+# Agent workflow
+
+Work in **small vertical slices**. Large work is split into epics and child slices.
+
+## Default flow
+
+1. **Planner** — scope, acceptance criteria, files to touch, Builder handoff (no implementation).
+2. **Builder** — implements only that slice; minimal changes; runs checks.
+3. **Reviewer** — correctness, scope, tests/risks, slice doc updates.
+4. **Human** — approval and commit when comfortable.
+
+## One child slice (SS###) per chat or agent run
+
+Parent slices (for example **S001**) can list many **child slices** (**SS001**, **SS002**, … under `docs/slices/.../`). Treat each **SS** as its own unit of work for agents.
+
+- **Default:** One **SS###** (or one top-level **S###** that has no child SS rows) per **Cursor chat** or per **agent run**. Complete or explicitly pause that SS before starting another in the same thread.
+- **At the start:** Confirm the single slice ID in scope (for example “This chat = **SS004** only”). If the user did not name one, ask which **SS** (or **S**) to execute before changing files.
+- **Do not batch** multiple SS steps in one chat (for example SS001 through SS008 together) unless the **human explicitly overrides** and accepts the loss of review boundaries; even then, prefer splitting into separate chats for clearer history and review.
+- **Continuing work:** A follow-up message in the **same** chat may continue the **same** SS (fix review feedback, small doc edits for that SS). Starting a **different** SS should be a **new chat** (or a clearly labeled new agent task) so Planner → Builder → Reviewer maps cleanly to one deliverable.
+- **Read-only exploration** (no repo edits) can mention multiple SS files for orientation; once you **implement**, narrow to one SS.
+
+## Rules
+
+- The Planner does not ship code in the same pass as planning unless the slice is explicitly “doc only.”
+- The Builder follows the Planner handoff and existing patterns.
+- No slice is **Done** until review passes and the slice document reflects reality.
+- If a slice is too big, split it (parent folder + `00-overview.md` for parent slices).
+- Update **`docs/slice-board.md`** and the relevant slice file when status changes; see **`docs/definition-of-done.md`**.
+- Do not silently expand scope or invent API contracts without documenting assumptions.
+- Prompts for agents live under **`docs/prompts/`**; product and architecture context under **`docs/`**.

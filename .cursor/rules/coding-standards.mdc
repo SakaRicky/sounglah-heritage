@@ -1,0 +1,35 @@
+---
+description: Sounglah monorepo coding conventions (Flask backend, React frontend, Tailwind).
+globs: "**/*.{ts,tsx,js,py,css,md}"
+alwaysApply: false
+---
+
+# Coding standards
+
+## Repository layout
+
+- **`backend/`** — Flask API (`create_app`, blueprints, `pytest` from this directory).
+- **`frontend/`** — React + Vite + TypeScript + Tailwind.
+- **`docs/`** — Product brief, architecture, slice specs, prompts.
+
+## Frontend
+
+- Stack: React, Vite, TypeScript, Tailwind. Prefer existing layout and components before adding new patterns.
+- Do not add heavy UI libraries unless the team agrees.
+- Run `npm run build` and `npm run lint` from `frontend/` when you touch the UI (when those scripts exist).
+- **Tailwind:** Sounglah colors are flat keys under `theme.extend.colors.sounglah` (for example `sounglah-cream-50`) so utilities work with `@apply` in CSS. Do not reintroduce deeply nested color objects without checking `index.css` `@apply` usage.
+
+## Backend
+
+- Flask with the **application factory** pattern; routes in **blueprints** under `backend/app/routes/`.
+- Push growing logic into **`services/`**; keep route handlers thin.
+- Secrets and config via **environment variables** (see `.env.example`).
+- Prefer clear, junior-friendly code and predictable JSON APIs under the **`/api`** prefix.
+- From **`backend/`** with venv active: `pytest`; use **`python3 -m venv .venv`** on macOS if `python` is missing, then `source .venv/bin/activate`.
+
+## General
+
+- Minimal diffs; do not rewrite unrelated files or invent large abstractions early.
+- Document assumptions in the slice doc or PR when something is ambiguous.
+- Run whatever checks exist for the area you changed before calling work complete.
+- **Slices:** implement **one child slice (SS###) per chat** unless continuing the same SS; see **`.cursor/rules/agent-workflow.mdc`**.
