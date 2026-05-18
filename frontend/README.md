@@ -26,7 +26,7 @@ npm run lint
 
 ```text
 public/
-  images/        static assets (e.g. hero-family.png) served at /
+  images/        static assets (e.g. hero/hero-family.png) served at /
 eslint.config.js
 vite.config.ts
 tailwind.config.js

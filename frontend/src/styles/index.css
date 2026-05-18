@@ -9,39 +9,89 @@
     @apply box-border;
   }
 
+  /* Fill the layout viewport; %-based widths resolve predictably vs nested flex */
   html {
-    @apply antialiased;
+    @apply min-h-screen min-w-full w-full overflow-x-hidden antialiased;
   }
 
   body {
-    @apply bg-sounglah-cream-50 font-sans text-sounglah-ink-900;
+    @apply min-h-screen min-w-full w-full max-w-none bg-cream-50 font-sans text-cocoa-800;
+    margin: 0;
   }
 
   #root {
-    @apply min-h-screen;
+    @apply min-h-screen min-w-full w-full max-w-none;
   }
 
   h1,
   h2,
   h3 {
-    @apply font-display text-sounglah-ink-900;
+    @apply font-serif text-cocoa-800;
   }
 }
 
 @layer components {
   .section {
-    @apply mx-auto max-w-7xl px-6 lg:px-10;
+    @apply mx-auto px-6 lg:px-10;
+    max-width: 110rem;
   }
 
   .card {
-    @apply rounded-card border border-sounglah-earth-100 bg-white/80 shadow-soft;
+    @apply rounded-card border border-sand-100 bg-cream-50/90 shadow-card;
   }
 
+  /* Default pill; add .rounded-cta on hero/marketing CTAs for 14px corners */
   .btn-primary {
-    @apply rounded-button border border-transparent bg-sounglah-green-600 px-6 py-3 font-semibold text-white shadow-soft transition hover:bg-sounglah-green-700;
+    @apply rounded-button border border-transparent px-6 py-3 font-semibold text-white shadow-button transition;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+    background-color: theme('colors.forest.accent');
+    --tw-ring-color: theme('colors.forest.accent');
+    --tw-ring-offset-color: theme('colors.cream.hero');
+  }
+
+  .btn-primary:hover {
+    background-color: theme('colors.forest.accent-hover');
   }
 
   .btn-secondary {
-    @apply rounded-button border border-sounglah-green-500 bg-white px-6 py-3 font-semibold text-sounglah-green-700 shadow-soft transition hover:bg-sounglah-green-50;
+    @apply rounded-button border-2 px-6 py-3 font-semibold shadow-soft transition;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+    @apply hover:bg-cream-100;
+    background-color: theme('colors.cream.hero');
+    border-color: theme('colors.forest.accent');
+    color: theme('colors.forest.accent');
+    --tw-ring-color: theme('colors.forest.accent');
+    --tw-ring-offset-color: theme('colors.cream.hero');
   }
+
+  /* Admin sidebar left-edge stripe (horizontal pattern-band rotated vertical) */
+  .admin-sidebar-pattern {
+    display: none;
+    position: relative;
+    flex-shrink: 0;
+    align-self: stretch;
+    width: 2.25rem;
+    overflow: hidden;
+  }
+
+  @media (min-width: 768px) {
+    .admin-sidebar-pattern {
+      display: block;
+    }
+  }
+
+  .admin-sidebar-pattern__tile {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 100vh;
+    height: 2.25rem;
+    transform: rotate(-90deg);
+    transform-origin: top left;
+    background-image: url('/images/patterns/pattern-band.png');
+    background-repeat: repeat-x;
+    background-size: auto 2.25rem;
+    background-position: left top;
+  }
+
 }

@@ -40,6 +40,8 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 |---|---|---|
 | S004 - Public app shell | Done | `PublicLayout`, `Navbar`, `Footer`, React Router shell in `frontend/`. |
 | S005 - Landing page | Done | Marketing landing sections and hero in `LandingPage.tsx`. |
+| SS009 - Explore languages section (S005) | Done | Horizontal explore strip, `/languages` stub, shared `content/languages.ts` (see `docs/slices/E02-public-experience/SS009-explore-languages-section.md`). |
+| SS010 - Middle feature band (S005) | Done | Mint band, three cards (continue / stories / daily goal), shared `content/stories.ts` (see `docs/slices/E02-public-experience/SS010-middle-feature-band.md`). |
 | S006 - Login CTA from navbar | Done | Nav links to `/login`. |
 
 ## Epic 3 - Authentication + Admin Shell
@@ -48,7 +50,7 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 |---|---|---|
 | S007 - Login page UI | Review | `/login` form UI present; wire-up / validation in later slices. |
 | S008 - Login API integration | Backlog | Token/session + backend auth. |
-| S009 - Protected admin route | Backlog | Guard `/admin` and nested admin routes. |
+| S009 - Protected admin route | Done | `ProtectedRoute` + `AdminLayout`; token check via `isAuthenticated()`. |
 | S010 - Admin dashboard shell | Backlog | `AdminLayout` exists but router currently mounts only `/admin` dashboard stub; wire layout + nested routes when ready. |
 
 ## Epic 4 - Content Admin CRUD

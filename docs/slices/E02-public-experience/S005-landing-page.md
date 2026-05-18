@@ -6,7 +6,7 @@ Epic 2 - Public Experience
 
 ## Status
 
-Backlog
+Done
 
 ## Goal
 
@@ -42,3 +42,5 @@ The landing page should communicate:
 - It feels warm and family-centered.
 - It does not look like a generic SaaS landing page.
 - It has a clear login/admin entry point.
+- “Explore our languages” uses a horizontal scroll strip (snap on small screens; chevron scroll from `md`) with a “View all languages” link to `/languages`; Médumba is the only active CTA until more languages ship (child slice **SS009**).
+- Middle feature band (mint background, three cards) and shared stories content: child slice **SS010**.

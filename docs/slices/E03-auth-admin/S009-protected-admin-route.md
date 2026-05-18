@@ -6,7 +6,7 @@ Epic 3 - Authentication + Admin Shell
 
 ## Status
 
-Backlog
+Done
 
 ## Goal
 

@@ -1,23 +1,18 @@
-import { Link, Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
+
+import { AdminSidebar } from '../admin/AdminSidebar'
 
 export function AdminLayout() {
   return (
-    <div className="min-h-screen bg-sounglah-cream-100 text-sounglah-ink-900">
-      <aside className="fixed inset-y-0 left-0 hidden w-64 border-r border-sounglah-earth-100 bg-white p-6 md:block">
-        <h1 className="text-xl font-bold">Sounglah Admin</h1>
-        <nav className="mt-8 flex flex-col gap-3 text-sm">
-          <Link to="/admin">Dashboard</Link>
-          <Link to="/admin/languages">Languages</Link>
-          <Link to="/admin/concepts">Concepts</Link>
-          <Link to="/admin/lessons">Lessons</Link>
-        </nav>
-      </aside>
-
-      <main className="md:pl-64">
-        <div className="p-6">
-          <Outlet />
-        </div>
-      </main>
+    <div className="flex min-h-screen w-full flex-col text-cocoa-800 md:h-screen md:flex-row md:overflow-hidden">
+      <AdminSidebar />
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col bg-white">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto">
+          <div className="mx-auto min-h-full w-full max-w-5xl px-5 py-8 md:px-10 md:py-10">
+            <Outlet />
+          </div>
+        </main>
+      </div>
     </div>
   )
 }

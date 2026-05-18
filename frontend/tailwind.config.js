@@ -1,55 +1,86 @@
 /** @type {import('tailwindcss').Config} */
-/* Sounglah colors use dashed flat keys (e.g. cream-50) so @apply in CSS resolves reliably. */
 export default {
-  content: ["./index.html", "./src/**/*.{ts,tsx}"],
+  content: ["./index.html", "./src/**/*.{ts,tsx,css}"],
   theme: {
     extend: {
       colors: {
-        sounglah: {
-          "cream-50": "#FFFDF8",
-          "cream-100": "#FFF7E8",
-          "cream-200": "#F8E8C8",
-          "green-50": "#EEF8F1",
-          "green-100": "#D7EBDD",
-          "green-300": "#7DBB8C",
-          "green-500": "#18733A",
-          "green-600": "#0F5F2F",
-          "green-700": "#084A25",
-          "green-900": "#062F19",
-          "earth-100": "#F2DFCA",
-          "earth-300": "#D8A66F",
-          "earth-500": "#A65F2B",
-          "earth-700": "#6B3518",
-          "gold-300": "#FFD36A",
-          "gold-400": "#F4B83F",
-          "gold-500": "#E09A1B",
-          "clay-400": "#C96A3A",
-          "clay-500": "#A94E2A",
-          "ink-500": "#6B5E52",
-          "ink-700": "#3E332B",
-          "ink-900": "#1E1915",
+        cream: {
+          50: "#FFFDF7",
+          /** Marketing / landing canvas (hero, public header) */
+          hero: "#FFF8EC",
+          100: "#FBF3E4",
+          200: "#F3E3C8",
+        },
+        sand: {
+          100: "#EED8B5",
+          200: "#DDBB88",
+          300: "#C99A5C",
+        },
+        terracotta: {
+          400: "#C46A32",
+          500: "#A94F25",
+          600: "#7F351B",
+        },
+        forest: {
+          500: "#1F5A3D",
+          600: "#17452F",
+          700: "#0F3323",
+          /** Primary action green on marketing surfaces */
+          accent: "#0F6B3A",
+          "accent-hover": "#0c5630",
+        },
+        gold: {
+          400: "#D8A441",
+          500: "#B98224",
+          star: "#F4B431",
+        },
+        cocoa: {
+          ink: "#1F1A14",
+          body: "#3F3328",
+          700: "#4A2A18",
+          800: "#2F1A10",
+        },
+        /** Landing middle feature band (pale mint canvas) */
+        mint: {
+          band: "#F2F5ED",
         },
       },
       fontFamily: {
-        display: ['"Playfair Display"', "Georgia", "serif"],
-        sans: ["Inter", "system-ui", "sans-serif"],
+        serif: ['"Playfair Display"', "Georgia", "serif"],
+        sans: ["Inter", "ui-sans-serif", "system-ui"],
       },
       borderRadius: {
-        sounglah: "1.25rem",
         card: "1.5rem",
-        button: "0.9rem",
+        /** Full pill — navbar auth, forms */
+        button: "999px",
+        /** Marketing / hero CTAs (reference: 14px) */
+        cta: "14px",
+        soft: "1rem",
       },
       boxShadow: {
-        soft: "0 10px 30px rgba(30, 25, 21, 0.08)",
-        card: "0 8px 24px rgba(30, 25, 21, 0.10)",
-        floating: "0 18px 50px rgba(30, 25, 21, 0.16)",
+        soft: "0 12px 35px rgba(74, 42, 24, 0.12)",
+        card: "0 18px 45px rgba(47, 26, 16, 0.14)",
+        button: "0 10px 25px rgba(31, 90, 61, 0.25)",
       },
       backgroundImage: {
-        "hero-warm":
-          "linear-gradient(90deg, #FFFDF8 0%, rgba(255,253,248,0.92) 35%, rgba(255,247,232,0.3) 100%)",
+        "sounglah-warm":
+          "linear-gradient(135deg, #FFFDF7 0%, #FBF3E4 45%, #EED8B5 100%)",
+        "sounglah-hero":
+          "radial-gradient(circle at top right, rgba(216,164,65,0.25), transparent 35%), linear-gradient(135deg, #FFFDF7, #FBF3E4)",
+        "sounglah-dashes":
+          "repeating-linear-gradient(90deg, #C99A5C 0px, #C99A5C 6px, transparent 6px, transparent 12px)",
+        "forest-gradient":
+          "linear-gradient(135deg, #1F5A3D, #0F3323)",
+        /** Hero photo blends — rgba matches cream.hero (#FFF8EC) */
+        "hero-image-fade":
+          "linear-gradient(to right, rgba(255,248,236,0.96) 0%, rgba(255,248,236,0.7) 16%, rgba(255,248,236,0.36) 30%, rgba(255,248,236,0.1) 44%, rgba(255,248,236,0) 58%)",
+        "hero-image-fade-mobile":
+          "linear-gradient(to bottom, #FFF8EC 0%, rgba(255,248,236,0.34) 38%, rgba(255,248,236,0) 92%)",
       },
       maxWidth: {
         measure: "42rem",
+        /** 25% wider than prior page width (~2100px at 16px/rem) */
+        page: "131.25rem",
       },
     },
   },
