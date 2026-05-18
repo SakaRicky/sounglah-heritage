@@ -4,27 +4,27 @@ const contentAreas = [
   {
     title: 'Languages',
     description: 'Manage supported languages.',
-    to: '/admin/languages',
+    to: '/admin/content/languages',
   },
   {
     title: 'Concepts',
     description: 'Organize learning concepts.',
-    to: '/admin/concepts',
+    to: '/admin/content/concepts',
   },
   {
     title: 'Concept Texts',
     description: 'Connect concepts to translated text.',
-    to: '/admin/concept-texts',
+    to: '/admin/content/concept-texts',
   },
   {
     title: 'Lessons',
     description: 'Build structured learning paths.',
-    to: '/admin/lessons',
+    to: '/admin/content/lessons',
   },
   {
     title: 'Lesson Items',
     description: 'Create the small learning steps inside lessons.',
-    to: '/admin/lesson-items',
+    to: '/admin/content/lesson-items',
   },
 ] as const
 

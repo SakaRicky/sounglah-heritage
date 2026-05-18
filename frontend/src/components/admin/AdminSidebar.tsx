@@ -93,11 +93,11 @@ const navSections: NavSection[] = [
   {
     title: 'Content Management',
     items: [
-      { type: 'link', label: 'Languages', to: '/admin/languages', icon: <BookIcon /> },
-      { type: 'link', label: 'Concepts', to: '/admin/concepts', icon: <LayersIcon /> },
-      { type: 'link', label: 'Concept Texts', to: '/admin/concept-texts', icon: <DocumentIcon /> },
-      { type: 'link', label: 'Lessons', to: '/admin/lessons', icon: <BookIcon /> },
-      { type: 'link', label: 'Lesson Items', to: '/admin/lesson-items', icon: <ListIcon /> },
+      { type: 'link', label: 'Languages', to: '/admin/content/languages', icon: <BookIcon /> },
+      { type: 'link', label: 'Concepts', to: '/admin/content/concepts', icon: <LayersIcon /> },
+      { type: 'link', label: 'Concept Texts', to: '/admin/content/concept-texts', icon: <DocumentIcon /> },
+      { type: 'link', label: 'Lessons', to: '/admin/content/lessons', icon: <BookIcon /> },
+      { type: 'link', label: 'Lesson Items', to: '/admin/content/lesson-items', icon: <ListIcon /> },
       { type: 'disabled', label: 'Stories', icon: <DocumentIcon /> },
       { type: 'disabled', label: 'Vocabulary', icon: <ListIcon /> },
       { type: 'disabled', label: 'Culture & Media', icon: <LayersIcon /> },
@@ -121,10 +121,10 @@ const navSections: NavSection[] = [
 
 function navLinkClass(isActive: boolean) {
   return [
-    'flex items-center gap-3 rounded-soft px-3 py-2.5 text-sm font-medium transition',
+    'flex items-center gap-3 rounded-cta px-3 py-2.5 text-sm font-medium transition-all duration-200',
     isActive
       ? 'bg-forest-accent text-white shadow-button'
-      : 'text-cocoa-body hover:bg-cream-200/60',
+      : 'text-cocoa-body hover:bg-forest-50/45 hover:text-forest-700',
   ].join(' ')
 }
 
@@ -132,7 +132,7 @@ function SidebarNavItem({ item }: { item: NavItem }) {
   if (item.type === 'disabled') {
     return (
       <div
-        className="flex cursor-not-allowed items-center gap-3 rounded-soft px-3 py-2.5 text-sm text-cocoa-body/45"
+        className="flex cursor-not-allowed items-center gap-3 rounded-cta px-3 py-2.5 text-sm text-cocoa-body/45 transition-colors hover:bg-cream-100/35"
         aria-disabled="true"
       >
         <span className="opacity-50">{item.icon}</span>
@@ -160,7 +160,7 @@ export function AdminSidebar() {
       </div>
 
       <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-        <div className="border-b border-sand-200/50 px-5 py-6 md:border-b-0 md:px-4">
+        <div className="border-b border-sand-200/50 px-5 py-7 md:border-b-0 md:px-4">
           <div className="flex items-center gap-3">
             <img
               src="/images/brand/logo-placeholder.png"
@@ -174,13 +174,13 @@ export function AdminSidebar() {
           </div>
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-3 py-4 md:px-2" aria-label="Admin">
+        <nav className="flex-1 overflow-y-auto px-3 py-6 md:px-2" aria-label="Admin">
           {navSections.map((section) => (
-            <div key={section.title} className="mb-6 last:mb-0">
-              <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider text-cocoa-body/55">
+            <div key={section.title} className="mb-9 last:mb-0">
+              <p className="mb-3 px-3 text-[11px] font-semibold uppercase tracking-wider text-cocoa-body/55">
                 {section.title}
               </p>
-              <ul className="space-y-0.5">
+              <ul className="space-y-1">
                 {section.items.map((item) => (
                   <li key={item.label}>
                     <SidebarNavItem item={item} />
@@ -190,6 +190,18 @@ export function AdminSidebar() {
             </div>
           ))}
         </nav>
+
+        <div className="border-t border-sand-200/60 p-4">
+          <div className="flex items-center gap-3 rounded-cta border border-sand-100 bg-cream-50/80 p-3 shadow-soft">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-forest-accent text-sm font-bold text-white">
+              A
+            </div>
+            <div className="min-w-0">
+              <p className="truncate text-sm font-semibold text-cocoa-800">Admin</p>
+              <p className="truncate text-xs text-cocoa-body/65">Content manager</p>
+            </div>
+          </div>
+        </div>
       </div>
     </aside>
   )

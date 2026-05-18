@@ -44,6 +44,8 @@ cd backend
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+flask --app run.py db upgrade
+flask --app run.py seed
 python run.py
 ```
 
@@ -61,6 +63,15 @@ Run tests (from `backend/` with venv active):
 cd backend
 source .venv/bin/activate
 pytest
+```
+
+Apply database migrations after pulling schema changes:
+
+```bash
+cd backend
+source .venv/bin/activate
+flask --app run.py db upgrade
+flask --app run.py seed
 ```
 
 ### Frontend
@@ -84,7 +95,7 @@ npm run lint
 From the repository root, after a clean checkout (or when sanity-checking):
 
 ```bash
-cd backend && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && pytest
+cd backend && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && flask --app run.py db upgrade && flask --app run.py seed && pytest
 cd ../frontend && npm install && npm run build && npm run lint
 ```
 

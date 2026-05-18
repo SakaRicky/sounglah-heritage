@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { Navigate, createBrowserRouter } from 'react-router-dom'
 
 import { ProtectedRoute } from '../components/auth/ProtectedRoute'
 import { AdminLayout } from '../components/layout/AdminLayout'
@@ -9,6 +9,9 @@ import { StoriesCulturesPage } from '../pages/public/StoriesCulturesPage'
 import { LoginPage } from '../pages/auth/LoginPage'
 import { AdminDashboardPage } from '../pages/admin/AdminDashboardPage'
 import { AdminPlaceholderPage } from '../pages/admin/AdminPlaceholderPage'
+import { AdminConceptTextsPage } from '../features/conceptTexts/pages/ConceptTextsPage'
+import { AdminConceptsPage } from '../features/concepts/pages/ConceptsPage'
+import { AdminLanguagesPage } from '../features/languages/pages/LanguagesPage'
 
 export const router = createBrowserRouter([
   {
@@ -46,36 +49,22 @@ export const router = createBrowserRouter([
           },
           {
             path: 'languages',
-            element: (
-              <AdminPlaceholderPage
-                title="Languages"
-                description="Manage supported languages for Sounglah."
-                nextSlice="S011"
-              />
-            ),
+            element: <Navigate to="/admin/content/languages" replace />,
           },
           {
-            path: 'concepts',
-            element: (
-              <AdminPlaceholderPage
-                title="Concepts"
-                description="Organize learning concepts used across lessons."
-                nextSlice="S012"
-              />
-            ),
+            path: 'content/languages',
+            element: <AdminLanguagesPage />,
           },
           {
-            path: 'concept-texts',
-            element: (
-              <AdminPlaceholderPage
-                title="Concept Texts"
-                description="Connect concepts to learner-facing translated text."
-                nextSlice="S013"
-              />
-            ),
+            path: 'content/concepts',
+            element: <AdminConceptsPage />,
           },
           {
-            path: 'lessons',
+            path: 'content/concept-texts',
+            element: <AdminConceptTextsPage />,
+          },
+          {
+            path: 'content/lessons',
             element: (
               <AdminPlaceholderPage
                 title="Lessons"
@@ -85,7 +74,7 @@ export const router = createBrowserRouter([
             ),
           },
           {
-            path: 'lesson-items',
+            path: 'content/lesson-items',
             element: (
               <AdminPlaceholderPage
                 title="Lesson Items"
@@ -93,6 +82,22 @@ export const router = createBrowserRouter([
                 nextSlice="S015"
               />
             ),
+          },
+          {
+            path: 'concepts',
+            element: <Navigate to="/admin/content/concepts" replace />,
+          },
+          {
+            path: 'concept-texts',
+            element: <Navigate to="/admin/content/concept-texts" replace />,
+          },
+          {
+            path: 'lessons',
+            element: <Navigate to="/admin/content/lessons" replace />,
+          },
+          {
+            path: 'lesson-items',
+            element: <Navigate to="/admin/content/lesson-items" replace />,
           },
         ],
       },

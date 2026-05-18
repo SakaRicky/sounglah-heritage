@@ -1,0 +1,312 @@
+import { useCallback, useEffect, useMemo, useState } from 'react'
+
+import { AdminPageHeader } from '../../../components/admin/AdminPageHeader'
+import { InsightCard } from '../../../components/admin/InsightCard'
+import { StatsCard } from '../../../components/admin/StatsCard'
+import { ApiError } from '../../../lib/api'
+import {
+  createConcept,
+  getConcepts,
+  updateConcept,
+  updateConceptStatus,
+} from '../api/conceptsApi'
+import { ConceptFilters } from '../components/ConceptFilters'
+import type { ConceptSort } from '../components/ConceptFilters'
+import { ConceptForm } from '../components/ConceptForm'
+import { ConceptTable } from '../components/ConceptTable'
+import { DisableConceptDialog } from '../components/DisableConceptDialog'
+import type {
+  Concept,
+  ConceptDifficultyLevel,
+  ConceptStatus,
+  CreateConceptPayload,
+  UpdateConceptPayload,
+} from '../types/concept.types'
+
+type FormMode = {
+  concept: Concept | null
+} | null
+
+function PlusIcon() {
+  return (
+    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14M5 12h14" />
+    </svg>
+  )
+}
+
+function LayersIcon() {
+  return (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3l8 4.5-8 4.5-8-4.5L12 3zM4 12l8 4.5L20 12M4 16.5L12 21l8-4.5" />
+    </svg>
+  )
+}
+
+function CheckIcon() {
+  return (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75l2 2 4-5.25M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  )
+}
+
+function CategoryIcon() {
+  return (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4 6.5A2.5 2.5 0 016.5 4H9l2 2h6.5A2.5 2.5 0 0120 8.5v7A2.5 2.5 0 0117.5 18h-11A2.5 2.5 0 014 15.5v-9z" />
+    </svg>
+  )
+}
+
+function LeafAccent() {
+  return (
+    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gold-400/20 text-gold-500 ring-1 ring-gold-400/20">
+      <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7} aria-hidden>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 20v-7M8 20h8M9 13h6l1-6H8l1 6zM10 7c0-2 1-3 2-4 1 1 2 2 2 4" />
+      </svg>
+    </div>
+  )
+}
+
+export function AdminConceptsPage() {
+  const [concepts, setConcepts] = useState<Concept[]>([])
+  const [total, setTotal] = useState(0)
+  const [search, setSearch] = useState('')
+  const [status, setStatus] = useState<ConceptStatus | 'all'>('all')
+  const [category, setCategory] = useState('')
+  const [difficultyLevel, setDifficultyLevel] = useState<ConceptDifficultyLevel | 'all'>('all')
+  const [sort, setSort] = useState<ConceptSort>('sortOrder')
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
+  const [notice, setNotice] = useState('')
+  const [formMode, setFormMode] = useState<FormMode>(null)
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
+  const [statusTarget, setStatusTarget] = useState<Concept | null>(null)
+
+  const loadConcepts = useCallback(async () => {
+    setLoading(true)
+    setError('')
+
+    try {
+      const response = await getConcepts({
+        search,
+        status,
+        category,
+        difficultyLevel,
+        sort,
+        page: 1,
+        pageSize: 50,
+      })
+      setConcepts(response.data)
+      setTotal(response.meta.total)
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : 'Unable to load concepts.')
+    } finally {
+      setLoading(false)
+    }
+  }, [category, difficultyLevel, search, sort, status])
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      void loadConcepts()
+    }, 200)
+
+    return () => window.clearTimeout(timer)
+  }, [loadConcepts])
+
+  const activeCount = concepts.filter((concept) => concept.status === 'active').length
+  const categoryCounts = useMemo(() => {
+    const counts = new Map<string, number>()
+    concepts.forEach((concept) => {
+      const categoryName = concept.category || 'Uncategorized'
+      counts.set(categoryName, (counts.get(categoryName) ?? 0) + 1)
+    })
+
+    return [...counts.entries()]
+      .map(([label, count]) => ({ label, count }))
+      .sort((first, second) => second.count - first.count || first.label.localeCompare(second.label))
+      .slice(0, 5)
+  }, [concepts])
+  const categories = categoryCounts.length
+  const filtered = Boolean(search || category || status !== 'all' || difficultyLevel !== 'all')
+
+  function openCreateForm() {
+    setFieldErrors({})
+    setFormMode({ concept: null })
+  }
+
+  function openEditForm(concept: Concept) {
+    setFieldErrors({})
+    setFormMode({ concept })
+  }
+
+  async function handleFormSubmit(payload: CreateConceptPayload | UpdateConceptPayload) {
+    setSaving(true)
+    setFieldErrors({})
+    setError('')
+
+    try {
+      if (formMode?.concept) {
+        await updateConcept(formMode.concept.id, payload as UpdateConceptPayload)
+        setNotice('Concept updated.')
+      } else {
+        await createConcept(payload as CreateConceptPayload)
+        setNotice('Concept created.')
+      }
+
+      setFormMode(null)
+      await loadConcepts()
+    } catch (requestError) {
+      if (requestError instanceof ApiError && requestError.fields) {
+        setFieldErrors(requestError.fields)
+      }
+      setError(requestError instanceof Error ? requestError.message : 'Unable to save concept.')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  async function handleStatusConfirm() {
+    if (!statusTarget) {
+      return
+    }
+
+    const nextStatus = statusTarget.status === 'active' ? 'disabled' : 'active'
+    setSaving(true)
+    setError('')
+
+    try {
+      await updateConceptStatus(statusTarget.id, nextStatus)
+      setNotice(nextStatus === 'active' ? 'Concept enabled.' : 'Concept disabled.')
+      setStatusTarget(null)
+      await loadConcepts()
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : 'Unable to update concept.')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <div className="space-y-8">
+      <AdminPageHeader
+        breadcrumb={['Content Management', 'Concepts']}
+        title="Concepts"
+        description="Manage language-independent learning ideas such as greetings, family terms, food, water, and courtesy expressions. Translations will be attached later through Concept Texts."
+        action={
+          <button
+            type="button"
+            onClick={openCreateForm}
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-forest-600 px-5 py-3 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(31,90,61,0.15)] transition-all duration-200 hover:bg-forest-700 hover:shadow-[0_12px_30px_rgba(31,90,61,0.2)] focus:outline-none focus:ring-2 focus:ring-forest-200"
+          >
+            <PlusIcon />
+            Add concept
+          </button>
+        }
+      />
+
+      {notice ? (
+        <div className="rounded-cta border border-forest-accent/20 bg-forest-accent/10 px-4 py-3 text-sm font-medium text-forest-700">
+          {notice}
+        </div>
+      ) : null}
+
+      {error ? (
+        <div className="rounded-cta border border-terracotta-500/20 bg-terracotta-400/10 px-4 py-3 text-sm font-medium text-terracotta-600">
+          {error}
+        </div>
+      ) : null}
+
+      <section className="grid gap-4 md:grid-cols-3" aria-label="Concept summary">
+        <StatsCard icon={<LayersIcon />} label="Total Concepts" value={total} description="Reusable learning ideas" variant="green" />
+        <StatsCard icon={<CheckIcon />} label="Active Concepts" value={activeCount} description="Available for content" />
+        <StatsCard icon={<CategoryIcon />} label="Visible Categories" value={categories} description="Current groupings" variant="warm" />
+      </section>
+
+      <ConceptFilters
+        search={search}
+        status={status}
+        category={category}
+        difficultyLevel={difficultyLevel}
+        sort={sort}
+        onSearchChange={setSearch}
+        onStatusChange={setStatus}
+        onCategoryChange={setCategory}
+        onDifficultyLevelChange={setDifficultyLevel}
+        onSortChange={setSort}
+      />
+
+      <ConceptTable
+        concepts={concepts}
+        loading={loading}
+        total={total}
+        filtered={filtered}
+        onCreate={openCreateForm}
+        onEdit={openEditForm}
+        onToggleStatus={setStatusTarget}
+      />
+
+      <section className="grid gap-6 lg:grid-cols-2">
+        <InsightCard title="Category Shape" description="A quick view of how this concept set is organized.">
+          <div className="space-y-4">
+            {(categoryCounts.length ? categoryCounts : [{ label: 'No categories yet', count: 0 }]).map((item) => {
+              const percent = total > 0 ? Math.round((item.count / total) * 100) : 0
+
+              return (
+                <div key={item.label}>
+                  <div className="mb-2 flex items-center justify-between text-sm">
+                    <span className="font-semibold text-cocoa-800">{item.label}</span>
+                    <span className="font-medium text-forest-600/75">{item.count} items</span>
+                  </div>
+                  <div className="h-2.5 rounded-full bg-cream-100 ring-1 ring-sand-100">
+                    <div
+                      className="h-2.5 rounded-full bg-forest-accent shadow-[0_4px_12px_rgba(31,90,61,0.14)]"
+                      style={{ width: `${percent}%` }}
+                    />
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </InsightCard>
+
+        <InsightCard title="Concept Stewardship" accent={<LeafAccent />}>
+          <ul className="space-y-4 pr-4 text-sm leading-6 text-cocoa-body">
+            <li className="flex gap-3">
+              <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-forest-accent" />
+              <span>Use language-neutral keys such as family_mother or thank_you.</span>
+            </li>
+            <li className="flex gap-3">
+              <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-gold-500" />
+              <span>Keep disabled concepts visible when reviewing older content dependencies.</span>
+            </li>
+            <li className="flex gap-3">
+              <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-terracotta-500" />
+              <span>Attach translated wording later through Concept Texts, not this record.</span>
+            </li>
+          </ul>
+        </InsightCard>
+      </section>
+
+      {formMode ? (
+        <ConceptForm
+          key={formMode.concept?.id ?? 'new-concept'}
+          concept={formMode.concept}
+          fieldErrors={fieldErrors}
+          saving={saving}
+          onCancel={() => setFormMode(null)}
+          onSubmit={handleFormSubmit}
+        />
+      ) : null}
+
+      <DisableConceptDialog
+        concept={statusTarget}
+        saving={saving}
+        onCancel={() => setStatusTarget(null)}
+        onConfirm={handleStatusConfirm}
+      />
+    </div>
+  )
+}
