@@ -154,7 +154,7 @@ function SidebarNavItem({ item }: { item: NavItem }) {
 
 export function AdminSidebar() {
   return (
-    <aside className="flex w-full shrink-0 flex-col border-b border-sand-200/60 bg-cream-hero md:sticky md:top-0 md:h-screen md:w-72 md:flex-row md:border-b-0 md:border-r md:border-sand-200/50">
+    <aside className="flex w-full shrink-0 flex-col border-b border-sand-200/60 bg-cream-hero md:sticky md:top-0 md:h-screen md:w-80 md:flex-row md:border-b-0 md:border-r md:border-sand-200/50">
       <div className="admin-sidebar-pattern" aria-hidden>
         <div className="admin-sidebar-pattern__tile" />
       </div>

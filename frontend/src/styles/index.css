@@ -70,7 +70,7 @@
     position: relative;
     flex-shrink: 0;
     align-self: stretch;
-    width: 2.25rem;
+    width: 2.6rem;
     overflow: hidden;
   }
 
@@ -82,16 +82,16 @@
 
   .admin-sidebar-pattern__tile {
     position: absolute;
-    top: 0;
-    left: 100%;
+    top: 100%;
+    left: 0;
     width: 100vh;
-    height: 2.25rem;
+    height: 2.6rem;
     transform: rotate(-90deg);
     transform-origin: top left;
     background-image: url('/images/patterns/pattern-band.png');
     background-repeat: repeat-x;
-    background-size: auto 2.25rem;
-    background-position: left top;
+    background-size: auto 8rem;
+    background-position: left center;
   }
 
 }
