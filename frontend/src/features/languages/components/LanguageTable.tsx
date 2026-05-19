@@ -84,7 +84,7 @@ export function LanguageTable({ languages, loading, total, onEdit, onToggleStatu
         header: 'Updated',
         cell: ({ getValue }) => (
           <div>
-            <div>{formatDate(getValue<string>())}</div>
+            <div>{formatDate(getValue<string | null>())}</div>
             <div className="text-xs font-medium text-forest-600/65">by Boris E.</div>
           </div>
         ),

@@ -13,8 +13,8 @@ export interface Concept {
   difficultyLevel: ConceptDifficultyLevel
   status: ConceptStatus
   sortOrder: number
-  createdAt: string
-  updatedAt: string
+  createdAt: string | null
+  updatedAt: string | null
 }
 
 export interface CreateConceptPayload {

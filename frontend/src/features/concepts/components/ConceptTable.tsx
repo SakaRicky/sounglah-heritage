@@ -85,7 +85,7 @@ export function ConceptTable({ concepts, loading, total, filtered, onCreate, onE
       {
         accessorKey: 'updatedAt',
         header: 'Updated',
-        cell: ({ getValue }) => formatDate(getValue<string>()),
+        cell: ({ getValue }) => formatDate(getValue<string | null>()),
       },
       {
         id: 'actions',

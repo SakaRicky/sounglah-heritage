@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+
+import { clearToken, isAuthenticated, subscribeToAuthChanges } from '../../lib/auth'
 
 function MenuIcon({ open }: { open: boolean }) {
   return (
@@ -25,12 +27,20 @@ function MenuIcon({ open }: { open: boolean }) {
 
 export function Navbar() {
   const location = useLocation()
+  const navigate = useNavigate()
   const activeHash = location.hash
   const headerRef = useRef<HTMLElement>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [menuTopPx, setMenuTopPx] = useState(0)
+  const [authenticated, setAuthenticated] = useState(() => isAuthenticated())
 
   const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), [])
+
+  const handleLogout = useCallback(() => {
+    clearToken()
+    closeMobileMenu()
+    navigate('/')
+  }, [closeMobileMenu, navigate])
 
   const navItems = [
     { label: 'Home', href: '/' },
@@ -109,6 +119,10 @@ export function Navbar() {
     }
   }, [mobileMenuOpen])
 
+  useEffect(() => {
+    return subscribeToAuthChanges(() => setAuthenticated(isAuthenticated()))
+  }, [])
+
   const mobileMenu =
     mobileMenuOpen &&
     typeof document !== 'undefined' &&
@@ -146,20 +160,41 @@ export function Navbar() {
             className="section border-t border-sand-100/90 bg-cream-200/35 px-4 py-4"
           >
             <div className="flex min-w-0 flex-row gap-2 sm:gap-3">
-              <Link
-                to="/login"
-                className="flex min-w-0 flex-1 items-center justify-center rounded-button border-2 border-[#0F6B3A] bg-transparent px-2 py-3 text-center text-sm font-semibold text-[#0F6B3A] transition hover:bg-cream-100 sm:px-3"
-                onClick={closeMobileMenu}
-              >
-                Log in
-              </Link>
-              <Link
-                to="/login"
-                className="flex min-w-0 flex-1 items-center justify-center rounded-button border-2 border-transparent bg-[#0F6B3A] px-2 py-3 text-center text-sm font-semibold text-white shadow-button transition hover:bg-[#0c5630] sm:px-3"
-                onClick={closeMobileMenu}
-              >
-                Sign up
-              </Link>
+              {authenticated ? (
+                <>
+                  <Link
+                    to="/admin"
+                    className="flex min-w-0 flex-1 items-center justify-center rounded-button border-2 border-transparent bg-[#0F6B3A] px-2 py-3 text-center text-sm font-semibold text-white shadow-button transition hover:bg-[#0c5630] sm:px-3"
+                    onClick={closeMobileMenu}
+                  >
+                    Admin
+                  </Link>
+                  <button
+                    type="button"
+                    className="flex min-w-0 flex-1 items-center justify-center rounded-button border-2 border-[#0F6B3A] bg-transparent px-2 py-3 text-center text-sm font-semibold text-[#0F6B3A] transition hover:bg-cream-100 sm:px-3"
+                    onClick={handleLogout}
+                  >
+                    Log out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="flex min-w-0 flex-1 items-center justify-center rounded-button border-2 border-[#0F6B3A] bg-transparent px-2 py-3 text-center text-sm font-semibold text-[#0F6B3A] transition hover:bg-cream-100 sm:px-3"
+                    onClick={closeMobileMenu}
+                  >
+                    Log in
+                  </Link>
+                  <Link
+                    to="/login"
+                    className="flex min-w-0 flex-1 items-center justify-center rounded-button border-2 border-transparent bg-[#0F6B3A] px-2 py-3 text-center text-sm font-semibold text-white shadow-button transition hover:bg-[#0c5630] sm:px-3"
+                    onClick={closeMobileMenu}
+                  >
+                    Sign up
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -226,18 +261,38 @@ export function Navbar() {
               <MenuIcon open={mobileMenuOpen} />
             </button>
             <div className="hidden items-center gap-2 sm:gap-3 lg:flex">
-              <Link
-                to="/login"
-                className="rounded-button border-2 border-[#0F6B3A] bg-transparent px-4 py-2.5 text-sm font-semibold text-[#0F6B3A] transition hover:bg-cream-100 sm:px-5"
-              >
-                Log in
-              </Link>
-              <Link
-                to="/login"
-                className="rounded-button border-2 border-transparent bg-[#0F6B3A] px-4 py-2.5 text-sm font-semibold text-white shadow-button transition hover:bg-[#0c5630] sm:px-5"
-              >
-                Sign up
-              </Link>
+              {authenticated ? (
+                <>
+                  <Link
+                    to="/admin"
+                    className="rounded-button border-2 border-transparent bg-[#0F6B3A] px-4 py-2.5 text-sm font-semibold text-white shadow-button transition hover:bg-[#0c5630] sm:px-5"
+                  >
+                    Admin
+                  </Link>
+                  <button
+                    type="button"
+                    className="rounded-button border-2 border-[#0F6B3A] bg-transparent px-4 py-2.5 text-sm font-semibold text-[#0F6B3A] transition hover:bg-cream-100 sm:px-5"
+                    onClick={handleLogout}
+                  >
+                    Log out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="rounded-button border-2 border-[#0F6B3A] bg-transparent px-4 py-2.5 text-sm font-semibold text-[#0F6B3A] transition hover:bg-cream-100 sm:px-5"
+                  >
+                    Log in
+                  </Link>
+                  <Link
+                    to="/login"
+                    className="rounded-button border-2 border-transparent bg-[#0F6B3A] px-4 py-2.5 text-sm font-semibold text-white shadow-button transition hover:bg-[#0c5630] sm:px-5"
+                  >
+                    Sign up
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </nav>

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 
 import { clearToken } from '../../lib/auth'
@@ -11,6 +11,30 @@ function DashboardIcon({ className = 'h-5 w-5' }: NavIconProps) {
   return (
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden>
       <path strokeLinecap="round" strokeLinejoin="round" d="M4 5h6v6H4V5zm10 0h6v6h-6V5zM4 13h6v6H4v-6zm10 0h6v6h-6v-6z" />
+    </svg>
+  )
+}
+
+function HomeIcon({ className = 'h-5 w-5' }: NavIconProps) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4 10.5L12 4l8 6.5V20a1 1 0 01-1 1h-5v-6h-4v6H5a1 1 0 01-1-1v-9.5z" />
+    </svg>
+  )
+}
+
+function MenuIcon({ className = 'h-5 w-5' }: NavIconProps) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.9} aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M4 12h16M4 17h16" />
+    </svg>
+  )
+}
+
+function CloseIcon({ className = 'h-5 w-5' }: NavIconProps) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.9} aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6 6l12 12M18 6L6 18" />
     </svg>
   )
 }
@@ -98,6 +122,7 @@ const navSections: NavSection[] = [
     title: 'Main',
     items: [
       { type: 'link', label: 'Dashboard', to: '/admin', icon: <DashboardIcon />, end: true },
+      { type: 'link', label: 'View Public Site', to: '/', icon: <HomeIcon />, end: true },
     ],
   },
   {
@@ -138,7 +163,7 @@ function navLinkClass(isActive: boolean) {
   ].join(' ')
 }
 
-function SidebarNavItem({ item }: { item: NavItem }) {
+function SidebarNavItem({ item, onNavigate }: { item: NavItem; onNavigate?: () => void }) {
   if (item.type === 'disabled') {
     return (
       <div
@@ -155,7 +180,7 @@ function SidebarNavItem({ item }: { item: NavItem }) {
   }
 
   return (
-    <NavLink to={item.to} end={item.end} className={({ isActive }) => navLinkClass(isActive)}>
+    <NavLink to={item.to} end={item.end} onClick={onNavigate} className={({ isActive }) => navLinkClass(isActive)}>
       {item.icon}
       <span>{item.label}</span>
     </NavLink>
@@ -163,6 +188,7 @@ function SidebarNavItem({ item }: { item: NavItem }) {
 }
 
 export function AdminSidebar() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const navigate = useNavigate()
 
   function handleLogout() {
@@ -171,13 +197,38 @@ export function AdminSidebar() {
   }
 
   return (
-    <aside className="flex w-full shrink-0 flex-col border-b border-sand-200/60 bg-cream-hero md:sticky md:top-0 md:h-screen md:w-80 md:flex-row md:border-b-0 md:border-r md:border-sand-200/50">
+    <aside className="sticky top-0 z-30 flex w-full shrink-0 flex-col border-b border-sand-200/60 bg-cream-hero md:h-screen md:w-80 md:flex-row md:border-b-0 md:border-r md:border-sand-200/50">
       <div className="admin-sidebar-pattern" aria-hidden>
         <div className="admin-sidebar-pattern__tile" />
       </div>
 
       <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-        <div className="border-b border-sand-200/50 px-5 py-7 md:border-b-0 md:px-4">
+        <div className="flex items-center gap-3 border-b border-sand-200/50 px-4 py-3 md:hidden">
+          <button
+            type="button"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-cta border border-sand-200 bg-cream-50 text-forest-700 shadow-soft transition hover:border-forest-accent/30 hover:bg-forest-50/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-accent focus-visible:ring-offset-2 focus-visible:ring-offset-cream-hero"
+            aria-label={isMenuOpen ? 'Close admin menu' : 'Open admin menu'}
+            aria-controls="admin-mobile-menu"
+            aria-expanded={isMenuOpen}
+            onClick={() => setIsMenuOpen((current) => !current)}
+          >
+            {isMenuOpen ? <CloseIcon /> : <MenuIcon />}
+          </button>
+
+          <div className="flex min-w-0 items-center gap-3">
+            <img
+              src="/images/brand/logo-placeholder.png"
+              alt=""
+              className="h-10 w-10 shrink-0 rounded-full border border-sand-200 bg-cream-100 object-cover"
+            />
+            <div className="min-w-0">
+              <p className="truncate font-serif text-base font-bold leading-tight text-forest-700">Sounglah</p>
+              <p className="truncate text-xs font-medium text-terracotta-500">Admin dashboard</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="hidden border-b border-sand-200/50 px-5 py-7 md:block md:border-b-0 md:px-4">
           <div className="flex items-center gap-3">
             <img
               src="/images/brand/logo-placeholder.png"
@@ -191,42 +242,50 @@ export function AdminSidebar() {
           </div>
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-3 py-6 md:px-2" aria-label="Admin">
-          {navSections.map((section) => (
-            <div key={section.title} className="mb-9 last:mb-0">
-              <p className="mb-3 px-3 text-[11px] font-semibold uppercase tracking-wider text-cocoa-body/55">
-                {section.title}
-              </p>
-              <ul className="space-y-1">
-                {section.items.map((item) => (
-                  <li key={item.label}>
-                    <SidebarNavItem item={item} />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </nav>
+        <div
+          id="admin-mobile-menu"
+          className={[
+            isMenuOpen ? 'block' : 'hidden',
+            'max-h-[calc(100svh-4.5rem)] overflow-y-auto md:flex md:max-h-none md:min-h-0 md:flex-1 md:flex-col md:overflow-hidden',
+          ].join(' ')}
+        >
+          <nav className="px-3 py-5 md:flex-1 md:overflow-y-auto md:px-2 md:py-6" aria-label="Admin">
+            {navSections.map((section) => (
+              <div key={section.title} className="mb-8 last:mb-0 md:mb-9">
+                <p className="mb-3 px-3 text-[11px] font-semibold uppercase tracking-wider text-cocoa-body/55">
+                  {section.title}
+                </p>
+                <ul className="space-y-1">
+                  {section.items.map((item) => (
+                    <li key={item.label}>
+                      <SidebarNavItem item={item} onNavigate={() => setIsMenuOpen(false)} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </nav>
 
-        <div className="border-t border-sand-200/60 p-4">
-          <div className="space-y-3">
-            <div className="flex items-center gap-3 rounded-cta border border-sand-100 bg-cream-50/80 p-3 shadow-soft">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-forest-accent text-sm font-bold text-white">
-                A
+          <div className="border-t border-sand-200/60 p-4">
+            <div className="space-y-3">
+              <div className="flex items-center gap-3 rounded-cta border border-sand-100 bg-cream-50/80 p-3 shadow-soft">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-forest-accent text-sm font-bold text-white">
+                  A
+                </div>
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold text-cocoa-800">Admin</p>
+                  <p className="truncate text-xs text-cocoa-body/65">Content manager</p>
+                </div>
               </div>
-              <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-cocoa-800">Admin</p>
-                <p className="truncate text-xs text-cocoa-body/65">Content manager</p>
-              </div>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="flex w-full items-center justify-center gap-2 rounded-cta border border-sand-200 bg-white/80 px-3 py-2.5 text-sm font-semibold text-cocoa-body transition hover:border-terracotta-500/50 hover:bg-cream-100/60 hover:text-terracotta-600 focus:outline-none focus:ring-2 focus:ring-forest-200"
+              >
+                <LogoutIcon className="h-4 w-4" />
+                <span>Logout</span>
+              </button>
             </div>
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="flex w-full items-center justify-center gap-2 rounded-cta border border-sand-200 bg-white/80 px-3 py-2.5 text-sm font-semibold text-cocoa-body transition hover:border-terracotta-500/50 hover:bg-cream-100/60 hover:text-terracotta-600 focus:outline-none focus:ring-2 focus:ring-forest-200"
-            >
-              <LogoutIcon className="h-4 w-4" />
-              <span>Logout</span>
-            </button>
           </div>
         </div>
       </div>

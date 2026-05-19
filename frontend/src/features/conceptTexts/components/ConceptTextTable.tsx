@@ -103,7 +103,7 @@ export function ConceptTextTable({
       {
         accessorKey: 'updatedAt',
         header: 'Updated',
-        cell: ({ getValue }) => formatDate(getValue<string>()),
+        cell: ({ getValue }) => formatDate(getValue<string | null>()),
       },
       {
         id: 'actions',
