@@ -3,32 +3,38 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "packageManager": "npm@10.9.2",
+  "engines": {
+    "node": ">=22.15.0",
+    "npm": ">=10"
+  },
   "scripts": {
     "dev": "vite",
+    "typecheck": "tsc --noEmit",
     "build": "tsc --noEmit && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tanstack/react-table": "^8.21.3",
-    "@vitejs/plugin-react": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "react-router-dom": "latest",
-    "typescript": "latest",
-    "vite": "latest"
+    "@tanstack/react-table": "8.21.3",
+    "@vitejs/plugin-react": "6.0.1",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "react-router-dom": "7.15.0",
+    "typescript": "6.0.3",
+    "vite": "8.0.11"
   },
   "devDependencies": {
-    "@eslint/js": "latest",
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
-    "autoprefixer": "latest",
-    "eslint": "latest",
-    "eslint-plugin-react-hooks": "latest",
-    "eslint-plugin-react-refresh": "latest",
-    "globals": "^15.14.0",
-    "postcss": "latest",
-    "tailwindcss": "^3.4.17",
-    "typescript-eslint": "latest"
+    "@eslint/js": "10.0.1",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "autoprefixer": "10.5.0",
+    "eslint": "10.3.0",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "eslint-plugin-react-refresh": "0.5.2",
+    "globals": "15.15.0",
+    "postcss": "8.5.14",
+    "tailwindcss": "3.4.19",
+    "typescript-eslint": "8.59.2"
   }
 }
