@@ -14,8 +14,8 @@ export interface ConceptText {
   usageNote?: string | null
   status: ConceptTextStatus
   reviewStatus: ConceptTextReviewStatus
-  createdAt: string
-  updatedAt: string
+  createdAt: string | null
+  updatedAt: string | null
   concept?: {
     id: string
     key: string

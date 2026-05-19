@@ -12,8 +12,8 @@ export interface Language {
   direction: LanguageDirection
   status: LanguageStatus
   sortOrder: number
-  createdAt: string
-  updatedAt: string
+  createdAt: string | null
+  updatedAt: string | null
 }
 
 export interface CreateLanguagePayload {
