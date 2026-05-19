@@ -30,7 +30,7 @@ export function DisableLanguageDialog({ language, saving, onCancel, onConfirm }:
             type="button"
             onClick={onCancel}
             disabled={saving}
-            className="rounded-cta border border-sand-200 px-4 py-2 text-sm font-semibold text-cocoa-body transition hover:bg-cream-100 disabled:opacity-60"
+            className="rounded-cta border border-sand-200 bg-white px-4 py-2 text-sm font-semibold text-cocoa-body transition hover:bg-cream-100 disabled:opacity-60"
           >
             Cancel
           </button>

@@ -107,7 +107,7 @@ export function ConceptForm({ concept, fieldErrors, saving, onCancel, onSubmit }
 
   return (
     <div className="fixed inset-0 z-40 flex justify-end bg-cocoa-ink/30">
-      <div className="h-full w-full max-w-2xl overflow-y-auto bg-[linear-gradient(135deg,#FFFDF7,rgba(31,90,61,0.035))] p-5 shadow-card md:p-8">
+      <div className="h-full w-full max-w-2xl overflow-y-auto bg-cream-50 p-5 shadow-card md:p-8">
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-2xl font-bold text-cocoa-800">{title}</h2>
@@ -119,7 +119,7 @@ export function ConceptForm({ concept, fieldErrors, saving, onCancel, onSubmit }
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-cta border border-sand-200 bg-white/80 px-3 py-1.5 text-sm font-semibold text-cocoa-body transition hover:border-forest-accent/30 hover:bg-[rgba(31,90,61,0.05)] hover:text-forest-700"
+            className="rounded-cta border border-sand-200 bg-white px-3 py-1.5 text-sm font-semibold text-cocoa-body transition hover:border-forest-accent/30 hover:bg-forest-50 hover:text-forest-700"
           >
             Close
           </button>
@@ -132,7 +132,7 @@ export function ConceptForm({ concept, fieldErrors, saving, onCancel, onSubmit }
               <input
                 value={values.title}
                 onChange={(event) => updateValue('title', event.target.value)}
-                className="mt-1 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
                 required
               />
               {errorFor('title')}
@@ -143,7 +143,7 @@ export function ConceptForm({ concept, fieldErrors, saving, onCancel, onSubmit }
               <input
                 value={values.key}
                 onChange={(event) => updateValue('key', event.target.value)}
-                className="mt-1 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 font-mono text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 font-mono text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
                 required
               />
               {errorFor('key')}
@@ -154,7 +154,7 @@ export function ConceptForm({ concept, fieldErrors, saving, onCancel, onSubmit }
               <input
                 value={values.slug}
                 onChange={(event) => updateValue('slug', event.target.value)}
-                className="mt-1 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 font-mono text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 font-mono text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
                 required
               />
               {errorFor('slug')}
@@ -165,7 +165,7 @@ export function ConceptForm({ concept, fieldErrors, saving, onCancel, onSubmit }
               <input
                 value={values.category}
                 onChange={(event) => updateValue('category', event.target.value)}
-                className="mt-1 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
               />
               {errorFor('category')}
             </label>
@@ -175,7 +175,7 @@ export function ConceptForm({ concept, fieldErrors, saving, onCancel, onSubmit }
               <select
                 value={values.difficultyLevel}
                 onChange={(event) => updateValue('difficultyLevel', event.target.value as ConceptDifficultyLevel)}
-                className="mt-1 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
               >
                 <option value="beginner">Beginner</option>
                 <option value="intermediate">Intermediate</option>
@@ -189,7 +189,7 @@ export function ConceptForm({ concept, fieldErrors, saving, onCancel, onSubmit }
               <input
                 value={values.defaultImageUrl}
                 onChange={(event) => updateValue('defaultImageUrl', event.target.value)}
-                className="mt-1 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
                 maxLength={500}
               />
               {errorFor('defaultImageUrl')}
@@ -200,7 +200,7 @@ export function ConceptForm({ concept, fieldErrors, saving, onCancel, onSubmit }
               <select
                 value={values.status}
                 onChange={(event) => updateValue('status', event.target.value as ConceptStatus)}
-                className="mt-1 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
               >
                 <option value="active">Active</option>
                 <option value="disabled">Disabled</option>
@@ -214,7 +214,7 @@ export function ConceptForm({ concept, fieldErrors, saving, onCancel, onSubmit }
                 type="number"
                 value={values.sortOrder}
                 onChange={(event) => updateValue('sortOrder', event.target.value)}
-                className="mt-1 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
               />
               {errorFor('sortOrder')}
             </label>
@@ -225,7 +225,7 @@ export function ConceptForm({ concept, fieldErrors, saving, onCancel, onSubmit }
             <textarea
               value={values.description}
               onChange={(event) => updateValue('description', event.target.value)}
-              className="mt-1 min-h-28 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+              className="mt-1 min-h-28 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
             />
             {errorFor('description')}
           </label>
@@ -235,7 +235,7 @@ export function ConceptForm({ concept, fieldErrors, saving, onCancel, onSubmit }
               type="button"
               onClick={onCancel}
               disabled={saving}
-              className="rounded-cta border border-sand-200 bg-white/80 px-4 py-2 text-sm font-semibold text-cocoa-body transition hover:border-forest-accent/30 hover:bg-[rgba(31,90,61,0.05)] disabled:opacity-60"
+              className="rounded-cta border border-sand-200 bg-white px-4 py-2 text-sm font-semibold text-cocoa-body transition hover:border-forest-accent/30 hover:bg-forest-50 disabled:opacity-60"
             >
               Cancel
             </button>

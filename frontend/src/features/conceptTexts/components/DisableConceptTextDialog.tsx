@@ -25,7 +25,7 @@ export function DisableConceptTextDialog({ conceptText, saving, onCancel, onConf
             ? 'This text will remain in the system, but it will not be used in learner-facing content by default.'
             : 'This text will become available for learner-facing content again.'}
         </p>
-        <div className="mt-5 rounded-cta border border-sand-100 bg-white/80 p-3">
+        <div className="mt-5 rounded-cta border border-sand-100 bg-white p-3">
           <p className="font-semibold text-cocoa-800">{conceptText.text}</p>
           <p className="mt-1 text-sm text-cocoa-body/70">
             {conceptText.concept?.title ?? 'Concept'} · {conceptText.language?.name ?? 'Language'}
@@ -36,7 +36,7 @@ export function DisableConceptTextDialog({ conceptText, saving, onCancel, onConf
             type="button"
             onClick={onCancel}
             disabled={saving}
-            className="rounded-cta border border-sand-200 bg-white/80 px-4 py-2 text-sm font-semibold text-cocoa-body transition hover:border-forest-accent/30 hover:bg-[rgba(31,90,61,0.05)] disabled:opacity-60"
+            className="rounded-cta border border-sand-200 bg-white px-4 py-2 text-sm font-semibold text-cocoa-body transition hover:border-forest-accent/30 hover:bg-forest-50 disabled:opacity-60"
           >
             Cancel
           </button>
