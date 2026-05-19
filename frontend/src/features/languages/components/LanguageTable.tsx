@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import type { ColumnDef } from '@tanstack/react-table'
 
 import { AdminTable } from '../../../components/admin/AdminTable'
+import { formatDate } from '../../../lib/date'
 import { LanguageStatusBadge } from './LanguageStatusBadge'
 import type { Language } from '../types/language.types'
 
@@ -11,14 +12,6 @@ type Props = {
   total: number
   onEdit: (language: Language) => void
   onToggleStatus: (language: Language) => void
-}
-
-function formatDate(value: string) {
-  return new Intl.DateTimeFormat(undefined, {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  }).format(new Date(value))
 }
 
 function LanguageMark({ name }: { name: string }) {

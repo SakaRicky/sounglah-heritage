@@ -17,6 +17,8 @@ def concept_to_dict(concept):
         "title": concept.title,
         "description": concept.description,
         "category": concept.category,
+        "defaultImageUrl": concept.default_image_url,
+        "default_image_url": concept.default_image_url,
         "difficultyLevel": concept.difficulty_level,
         "status": concept.status,
         "sortOrder": concept.sort_order,

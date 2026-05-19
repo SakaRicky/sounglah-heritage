@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { AdminPageHeader } from '../../../components/admin/AdminPageHeader'
 import { StatsCard } from '../../../components/admin/StatsCard'
 import { ApiError } from '../../../lib/api'
+import { getTimestamp } from '../../../lib/date'
 import {
   createLanguage,
   getLanguages,
@@ -217,7 +218,7 @@ export function AdminLanguagesPage() {
   const sortedLanguages = useMemo(() => {
     return [...languages].sort((first, second) => {
       if (sort === 'newest') {
-        return new Date(second.updatedAt).getTime() - new Date(first.updatedAt).getTime()
+        return getTimestamp(second.updatedAt) - getTimestamp(first.updatedAt)
       }
 
       if (sort === 'sortOrder') {

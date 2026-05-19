@@ -13,6 +13,7 @@ class Concept(db.Model):
     title = db.Column(db.String(160), nullable=False)
     description = db.Column(db.Text, nullable=True)
     category = db.Column(db.String(120), nullable=True)
+    default_image_url = db.Column(db.String(500), nullable=True)
     difficulty_level = db.Column(db.String(30), nullable=False, default="beginner")
     status = db.Column(db.String(30), nullable=False, default="active")
     sort_order = db.Column(db.Integer, nullable=False, default=0)

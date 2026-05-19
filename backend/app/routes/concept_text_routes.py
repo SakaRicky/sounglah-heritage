@@ -19,6 +19,10 @@ VALID_SORTS = {"updated", "concept", "language", "text"}
 WRITABLE_FIELDS = {
     "text",
     "pronunciation",
+    "audioUrl",
+    "audio_url",
+    "pronunciationNote",
+    "pronunciation_note",
     "literalMeaning",
     "usageNote",
     "status",
@@ -36,6 +40,14 @@ def _optional_string(value):
 
     normalized = str(value).strip()
     return normalized or None
+
+
+def _optional_string_with_max(value, max_length):
+    normalized = _optional_string(value)
+    if normalized is not None and len(normalized) > max_length:
+        return normalized, f"Must be {max_length} characters or fewer."
+
+    return normalized, None
 
 
 def _validate_payload(data, existing_concept_text=None, partial=False):
@@ -87,6 +99,18 @@ def _validate_payload(data, existing_concept_text=None, partial=False):
         if key in data:
             normalized[key] = _optional_string(data.get(key))
 
+    audio_value = data.get("audioUrl", data.get("audio_url"))
+    if "audioUrl" in data or "audio_url" in data:
+        audio_url, error = _optional_string_with_max(audio_value, 500)
+        if error:
+            fields["audioUrl"] = error
+        else:
+            normalized["audioUrl"] = audio_url
+
+    pronunciation_note_value = data.get("pronunciationNote", data.get("pronunciation_note"))
+    if "pronunciationNote" in data or "pronunciation_note" in data:
+        normalized["pronunciationNote"] = _optional_string(pronunciation_note_value)
+
     if not partial or "status" in data:
         status = str(data.get("status", "active")).strip().lower()
         if status not in VALID_STATUSES:
@@ -123,6 +147,10 @@ def _apply_concept_text_payload(concept_text, payload):
     field_map = {
         "conceptId": "concept_id",
         "languageId": "language_id",
+        "audioUrl": "audio_url",
+        "audio_url": "audio_url",
+        "pronunciationNote": "pronunciation_note",
+        "pronunciation_note": "pronunciation_note",
         "literalMeaning": "literal_meaning",
         "usageNote": "usage_note",
         "reviewStatus": "review_status",

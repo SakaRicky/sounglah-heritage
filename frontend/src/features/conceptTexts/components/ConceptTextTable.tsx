@@ -2,6 +2,8 @@ import { useMemo } from 'react'
 import type { ColumnDef } from '@tanstack/react-table'
 
 import { AdminTable } from '../../../components/admin/AdminTable'
+import { AudioPreview } from '../../../components/admin/MediaPreview'
+import { formatDate } from '../../../lib/date'
 import { ConceptTextReviewBadge } from './ConceptTextReviewBadge'
 import { ConceptTextStatusBadge } from './ConceptTextStatusBadge'
 import type { ConceptText } from '../types/conceptText.types'
@@ -14,14 +16,6 @@ type Props = {
   onCreate: () => void
   onEdit: (conceptText: ConceptText) => void
   onToggleStatus: (conceptText: ConceptText) => void
-}
-
-function formatDate(value: string) {
-  return new Intl.DateTimeFormat(undefined, {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  }).format(new Date(value))
 }
 
 function ConceptMark({ title }: { title: string }) {
@@ -80,6 +74,18 @@ export function ConceptTextTable({
             <p className="max-w-sm truncate font-semibold text-cocoa-800">{row.original.text}</p>
             {row.original.pronunciation ? (
               <p className="max-w-sm truncate text-xs text-cocoa-body/65">{row.original.pronunciation}</p>
+            ) : null}
+          </div>
+        ),
+      },
+      {
+        accessorKey: 'audioUrl',
+        header: 'Audio',
+        cell: ({ row }) => (
+          <div className="space-y-1">
+            <AudioPreview src={row.original.audioUrl} />
+            {row.original.pronunciationNote ? (
+              <p className="max-w-44 truncate text-xs text-cocoa-body/60">{row.original.pronunciationNote}</p>
             ) : null}
           </div>
         ),

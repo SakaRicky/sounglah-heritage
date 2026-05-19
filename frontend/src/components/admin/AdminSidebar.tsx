@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+
+import { clearToken } from '../../lib/auth'
 
 type NavIconProps = {
   className?: string
@@ -58,6 +60,14 @@ function SettingsIcon({ className = 'h-5 w-5' }: NavIconProps) {
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden>
       <path strokeLinecap="round" strokeLinejoin="round" d="M12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5z" />
       <path strokeLinecap="round" strokeLinejoin="round" d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9c.26.604.852 1 1.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" />
+    </svg>
+  )
+}
+
+function LogoutIcon({ className = 'h-5 w-5' }: NavIconProps) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15 7.5V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2h7a2 2 0 002-2v-1.5M10 12h10m0 0l-3-3m3 3l-3 3" />
     </svg>
   )
 }
@@ -153,6 +163,13 @@ function SidebarNavItem({ item }: { item: NavItem }) {
 }
 
 export function AdminSidebar() {
+  const navigate = useNavigate()
+
+  function handleLogout() {
+    clearToken()
+    navigate('/login', { replace: true })
+  }
+
   return (
     <aside className="flex w-full shrink-0 flex-col border-b border-sand-200/60 bg-cream-hero md:sticky md:top-0 md:h-screen md:w-80 md:flex-row md:border-b-0 md:border-r md:border-sand-200/50">
       <div className="admin-sidebar-pattern" aria-hidden>
@@ -192,14 +209,24 @@ export function AdminSidebar() {
         </nav>
 
         <div className="border-t border-sand-200/60 p-4">
-          <div className="flex items-center gap-3 rounded-cta border border-sand-100 bg-cream-50/80 p-3 shadow-soft">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-forest-accent text-sm font-bold text-white">
-              A
+          <div className="space-y-3">
+            <div className="flex items-center gap-3 rounded-cta border border-sand-100 bg-cream-50/80 p-3 shadow-soft">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-forest-accent text-sm font-bold text-white">
+                A
+              </div>
+              <div className="min-w-0">
+                <p className="truncate text-sm font-semibold text-cocoa-800">Admin</p>
+                <p className="truncate text-xs text-cocoa-body/65">Content manager</p>
+              </div>
             </div>
-            <div className="min-w-0">
-              <p className="truncate text-sm font-semibold text-cocoa-800">Admin</p>
-              <p className="truncate text-xs text-cocoa-body/65">Content manager</p>
-            </div>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="flex w-full items-center justify-center gap-2 rounded-cta border border-sand-200 bg-white/80 px-3 py-2.5 text-sm font-semibold text-cocoa-body transition hover:border-terracotta-500/50 hover:bg-cream-100/60 hover:text-terracotta-600 focus:outline-none focus:ring-2 focus:ring-forest-200"
+            >
+              <LogoutIcon className="h-4 w-4" />
+              <span>Logout</span>
+            </button>
           </div>
         </div>
       </div>

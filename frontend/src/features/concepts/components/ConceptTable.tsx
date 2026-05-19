@@ -2,6 +2,8 @@ import { useMemo } from 'react'
 import type { ColumnDef } from '@tanstack/react-table'
 
 import { AdminTable } from '../../../components/admin/AdminTable'
+import { ImagePreview } from '../../../components/admin/MediaPreview'
+import { formatDate } from '../../../lib/date'
 import { ConceptDifficultyBadge } from './ConceptDifficultyBadge'
 import { ConceptStatusBadge } from './ConceptStatusBadge'
 import type { Concept } from '../types/concept.types'
@@ -14,14 +16,6 @@ type Props = {
   onCreate: () => void
   onEdit: (concept: Concept) => void
   onToggleStatus: (concept: Concept) => void
-}
-
-function formatDate(value: string) {
-  return new Intl.DateTimeFormat(undefined, {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  }).format(new Date(value))
 }
 
 function ConceptMark({ title }: { title: string }) {
@@ -54,6 +48,11 @@ export function ConceptTable({ concepts, loading, total, filtered, onCreate, onE
           )
         },
         meta: { cellClassName: 'py-5' },
+      },
+      {
+        accessorKey: 'defaultImageUrl',
+        header: 'Image',
+        cell: ({ row }) => <ImagePreview src={row.original.defaultImageUrl} alt={row.original.title} />,
       },
       {
         accessorKey: 'key',
