@@ -118,7 +118,7 @@ export function ConceptTextForm({
 
   return (
     <div className="fixed inset-0 z-40 flex justify-end bg-cocoa-ink/30">
-      <div className="h-full w-full max-w-2xl overflow-y-auto bg-[linear-gradient(135deg,#FFFDF7,rgba(31,90,61,0.035))] p-5 shadow-card md:p-8">
+      <div className="h-full w-full max-w-2xl overflow-y-auto bg-cream-50 p-5 shadow-card md:p-8">
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-2xl font-bold text-cocoa-800">{title}</h2>
@@ -129,7 +129,7 @@ export function ConceptTextForm({
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-cta border border-sand-200 bg-white/80 px-3 py-1.5 text-sm font-semibold text-cocoa-body transition hover:border-forest-accent/30 hover:bg-[rgba(31,90,61,0.05)] hover:text-forest-700"
+            className="rounded-cta border border-sand-200 bg-white px-3 py-1.5 text-sm font-semibold text-cocoa-body transition hover:border-forest-accent/30 hover:bg-forest-50 hover:text-forest-700"
           >
             Close
           </button>
@@ -138,7 +138,7 @@ export function ConceptTextForm({
         <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
           <div className="grid gap-4 md:grid-cols-2">
             {conceptText ? (
-              <div className="rounded-cta border border-sand-200 bg-white/80 px-3 py-3">
+              <div className="rounded-cta border border-sand-200 bg-white px-3 py-3">
                 <span className="text-sm font-medium text-cocoa-body">Concept</span>
                 <p className="mt-1 font-semibold text-cocoa-800">{selectedConcept?.title ?? 'Unknown concept'}</p>
                 <p className="font-mono text-xs text-cocoa-body/65">{selectedConcept?.key ?? values.conceptId}</p>
@@ -149,7 +149,7 @@ export function ConceptTextForm({
                 <select
                   value={values.conceptId}
                   onChange={(event) => updateValue('conceptId', event.target.value)}
-                  className="mt-1 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                  className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
                   required
                 >
                   <option value="">Select concept</option>
@@ -164,7 +164,7 @@ export function ConceptTextForm({
             )}
 
             {conceptText ? (
-              <div className="rounded-cta border border-sand-200 bg-white/80 px-3 py-3">
+              <div className="rounded-cta border border-sand-200 bg-white px-3 py-3">
                 <span className="text-sm font-medium text-cocoa-body">Language</span>
                 <p className="mt-1 font-semibold text-cocoa-800">{selectedLanguage?.name ?? 'Unknown language'}</p>
                 <p className="font-mono text-xs text-cocoa-body/65">{selectedLanguage?.code ?? values.languageId}</p>
@@ -175,7 +175,7 @@ export function ConceptTextForm({
                 <select
                   value={values.languageId}
                   onChange={(event) => updateValue('languageId', event.target.value)}
-                  className="mt-1 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                  className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
                   required
                 >
                   <option value="">Select language</option>
@@ -194,7 +194,7 @@ export function ConceptTextForm({
               <textarea
                 value={values.text}
                 onChange={(event) => updateValue('text', event.target.value)}
-                className="mt-1 min-h-24 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                className="mt-1 min-h-24 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
                 required
               />
               {errorFor('text')}
@@ -205,7 +205,7 @@ export function ConceptTextForm({
               <input
                 value={values.pronunciation}
                 onChange={(event) => updateValue('pronunciation', event.target.value)}
-                className="mt-1 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
               />
               {errorFor('pronunciation')}
             </label>
@@ -215,7 +215,7 @@ export function ConceptTextForm({
               <input
                 value={values.audioUrl}
                 onChange={(event) => updateValue('audioUrl', event.target.value)}
-                className="mt-1 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
                 maxLength={500}
               />
               {errorFor('audioUrl')}
@@ -226,7 +226,7 @@ export function ConceptTextForm({
               <select
                 value={values.reviewStatus}
                 onChange={(event) => updateValue('reviewStatus', event.target.value as ConceptTextReviewStatus)}
-                className="mt-1 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
               >
                 <option value="draft">Draft</option>
                 <option value="needs_review">Needs review</option>
@@ -240,7 +240,7 @@ export function ConceptTextForm({
               <select
                 value={values.status}
                 onChange={(event) => updateValue('status', event.target.value as ConceptTextStatus)}
-                className="mt-1 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
               >
                 <option value="active">Active</option>
                 <option value="disabled">Disabled</option>
@@ -254,7 +254,7 @@ export function ConceptTextForm({
             <textarea
               value={values.pronunciationNote}
               onChange={(event) => updateValue('pronunciationNote', event.target.value)}
-              className="mt-1 min-h-20 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+              className="mt-1 min-h-20 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
             />
             {errorFor('pronunciationNote')}
           </label>
@@ -264,7 +264,7 @@ export function ConceptTextForm({
             <textarea
               value={values.literalMeaning}
               onChange={(event) => updateValue('literalMeaning', event.target.value)}
-              className="mt-1 min-h-24 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+              className="mt-1 min-h-24 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
             />
             {errorFor('literalMeaning')}
           </label>
@@ -274,7 +274,7 @@ export function ConceptTextForm({
             <textarea
               value={values.usageNote}
               onChange={(event) => updateValue('usageNote', event.target.value)}
-              className="mt-1 min-h-28 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+              className="mt-1 min-h-28 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
             />
             {errorFor('usageNote')}
           </label>
@@ -284,7 +284,7 @@ export function ConceptTextForm({
               type="button"
               onClick={onCancel}
               disabled={saving}
-              className="rounded-cta border border-sand-200 bg-white/80 px-4 py-2 text-sm font-semibold text-cocoa-body transition hover:border-forest-accent/30 hover:bg-[rgba(31,90,61,0.05)] disabled:opacity-60"
+              className="rounded-cta border border-sand-200 bg-white px-4 py-2 text-sm font-semibold text-cocoa-body transition hover:border-forest-accent/30 hover:bg-forest-50 disabled:opacity-60"
             >
               Cancel
             </button>
