@@ -9,6 +9,7 @@ export interface Concept {
   title: string
   description?: string | null
   category?: string | null
+  defaultImageUrl?: string | null
   difficultyLevel: ConceptDifficultyLevel
   status: ConceptStatus
   sortOrder: number
@@ -22,6 +23,7 @@ export interface CreateConceptPayload {
   title: string
   description?: string
   category?: string
+  defaultImageUrl?: string
   difficultyLevel: ConceptDifficultyLevel
   status: ConceptStatus
   sortOrder: number
@@ -33,6 +35,7 @@ export interface UpdateConceptPayload {
   title?: string
   description?: string
   category?: string
+  defaultImageUrl?: string
   difficultyLevel?: ConceptDifficultyLevel
   status?: ConceptStatus
   sortOrder?: number

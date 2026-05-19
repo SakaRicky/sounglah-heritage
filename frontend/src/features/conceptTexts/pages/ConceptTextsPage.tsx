@@ -120,7 +120,11 @@ export function AdminConceptTextsPage() {
   }, [conceptId, languageId, reviewStatus, search, sort, status])
 
   useEffect(() => {
-    void loadReferenceData()
+    const timer = window.setTimeout(() => {
+      void loadReferenceData()
+    }, 0)
+
+    return () => window.clearTimeout(timer)
   }, [loadReferenceData])
 
   useEffect(() => {

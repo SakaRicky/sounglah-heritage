@@ -16,6 +16,7 @@ type FormValues = {
   slug: string
   description: string
   category: string
+  defaultImageUrl: string
   difficultyLevel: ConceptDifficultyLevel
   status: ConceptStatus
   sortOrder: string
@@ -35,6 +36,7 @@ const emptyValues: FormValues = {
   slug: '',
   description: '',
   category: '',
+  defaultImageUrl: '',
   difficultyLevel: 'beginner',
   status: 'active',
   sortOrder: '0',
@@ -51,6 +53,7 @@ function valuesFromConcept(concept: Concept | null): FormValues {
     slug: concept.slug,
     description: concept.description ?? '',
     category: concept.category ?? '',
+    defaultImageUrl: concept.defaultImageUrl ?? '',
     difficultyLevel: concept.difficultyLevel,
     status: concept.status,
     sortOrder: String(concept.sortOrder),
@@ -89,6 +92,7 @@ export function ConceptForm({ concept, fieldErrors, saving, onCancel, onSubmit }
       slug: values.slug,
       description: values.description,
       category: values.category,
+      defaultImageUrl: values.defaultImageUrl,
       difficultyLevel: values.difficultyLevel,
       status: values.status,
       sortOrder: Number(values.sortOrder),
@@ -178,6 +182,17 @@ export function ConceptForm({ concept, fieldErrors, saving, onCancel, onSubmit }
                 <option value="advanced">Advanced</option>
               </select>
               {errorFor('difficultyLevel')}
+            </label>
+
+            <label className="block md:col-span-2">
+              <span className="text-sm font-medium text-cocoa-body">Default image URL</span>
+              <input
+                value={values.defaultImageUrl}
+                onChange={(event) => updateValue('defaultImageUrl', event.target.value)}
+                className="mt-1 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                maxLength={500}
+              />
+              {errorFor('defaultImageUrl')}
             </label>
 
             <label className="block">

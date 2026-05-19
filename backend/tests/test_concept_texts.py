@@ -45,6 +45,8 @@ def test_list_seeded_concept_texts():
     assert data["meta"]["total"] == 12
     assert data["data"][0]["concept"]["key"]
     assert data["data"][0]["language"]["code"]
+    assert "audioUrl" in data["data"][0]
+    assert "pronunciationNote" in data["data"][0]
 
 
 def test_get_one_concept_text():
@@ -57,7 +59,10 @@ def test_get_one_concept_text():
     response = client.get(f"/api/admin/concept-texts/{concept_text['id']}", headers=headers)
 
     assert response.status_code == 200
-    assert response.get_json()["data"]["text"] == "Bonjour"
+    data = response.get_json()["data"]
+    assert data["text"] == "Bonjour"
+    assert "audioUrl" in data
+    assert "pronunciationNote" in data
 
 
 def test_create_concept_text_normalizes_values():
@@ -74,6 +79,8 @@ def test_create_concept_text_normalizes_values():
             "languageId": language_id,
             "text": "  [needs translation]  ",
             "pronunciation": "  ",
+            "audio_url": "  /media/audio/med/yes.mp3  ",
+            "pronunciation_note": "  Native speaker review required. ",
             "literalMeaning": "  Placeholder pending translator review. ",
             "usageNote": "  Do not publish until reviewed. ",
             "status": "active",
@@ -85,6 +92,10 @@ def test_create_concept_text_normalizes_values():
     concept_text = response.get_json()["data"]
     assert concept_text["text"] == "[needs translation]"
     assert concept_text["pronunciation"] is None
+    assert concept_text["audioUrl"] == "/media/audio/med/yes.mp3"
+    assert concept_text["audio_url"] == "/media/audio/med/yes.mp3"
+    assert concept_text["pronunciationNote"] == "Native speaker review required."
+    assert concept_text["pronunciation_note"] == "Native speaker review required."
     assert concept_text["literalMeaning"] == "Placeholder pending translator review."
     assert concept_text["usageNote"] == "Do not publish until reviewed."
     assert concept_text["reviewStatus"] == "needs_review"
@@ -224,6 +235,8 @@ def test_update_concept_text_and_status_flow():
         json={
             "text": "  Bonjour  ",
             "pronunciation": "bon-zhoor",
+            "audioUrl": "/media/audio/fr/bonjour.mp3",
+            "pronunciationNote": "Listen for the soft final r.",
             "usageNote": "Standard French greeting.",
             "reviewStatus": "approved",
         },
@@ -233,6 +246,10 @@ def test_update_concept_text_and_status_flow():
     updated = update_response.get_json()["data"]
     assert updated["text"] == "Bonjour"
     assert updated["pronunciation"] == "bon-zhoor"
+    assert updated["audioUrl"] == "/media/audio/fr/bonjour.mp3"
+    assert updated["audio_url"] == "/media/audio/fr/bonjour.mp3"
+    assert updated["pronunciationNote"] == "Listen for the soft final r."
+    assert updated["pronunciation_note"] == "Listen for the soft final r."
     assert updated["usageNote"] == "Standard French greeting."
     assert updated["reviewStatus"] == "approved"
 

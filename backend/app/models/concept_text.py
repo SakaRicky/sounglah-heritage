@@ -22,6 +22,8 @@ class ConceptText(db.Model):
     )
     text = db.Column(db.Text, nullable=False)
     pronunciation = db.Column(db.String(255), nullable=True)
+    audio_url = db.Column(db.String(500), nullable=True)
+    pronunciation_note = db.Column(db.Text, nullable=True)
     literal_meaning = db.Column(db.Text, nullable=True)
     usage_note = db.Column(db.Text, nullable=True)
     status = db.Column(db.String(30), nullable=False, default="active")

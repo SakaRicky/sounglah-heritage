@@ -16,6 +16,8 @@ type FormValues = {
   languageId: string
   text: string
   pronunciation: string
+  audioUrl: string
+  pronunciationNote: string
   literalMeaning: string
   usageNote: string
   status: ConceptTextStatus
@@ -37,6 +39,8 @@ const emptyValues: FormValues = {
   languageId: '',
   text: '',
   pronunciation: '',
+  audioUrl: '',
+  pronunciationNote: '',
   literalMeaning: '',
   usageNote: '',
   status: 'active',
@@ -53,6 +57,8 @@ function valuesFromConceptText(conceptText: ConceptText | null): FormValues {
     languageId: conceptText.languageId,
     text: conceptText.text,
     pronunciation: conceptText.pronunciation ?? '',
+    audioUrl: conceptText.audioUrl ?? '',
+    pronunciationNote: conceptText.pronunciationNote ?? '',
     literalMeaning: conceptText.literalMeaning ?? '',
     usageNote: conceptText.usageNote ?? '',
     status: conceptText.status,
@@ -84,6 +90,8 @@ export function ConceptTextForm({
     const payload = {
       text: values.text,
       pronunciation: values.pronunciation,
+      audioUrl: values.audioUrl,
+      pronunciationNote: values.pronunciationNote,
       literalMeaning: values.literalMeaning,
       usageNote: values.usageNote,
       status: values.status,
@@ -203,6 +211,17 @@ export function ConceptTextForm({
             </label>
 
             <label className="block">
+              <span className="text-sm font-medium text-cocoa-body">Audio URL</span>
+              <input
+                value={values.audioUrl}
+                onChange={(event) => updateValue('audioUrl', event.target.value)}
+                className="mt-1 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                maxLength={500}
+              />
+              {errorFor('audioUrl')}
+            </label>
+
+            <label className="block">
               <span className="text-sm font-medium text-cocoa-body">Review status</span>
               <select
                 value={values.reviewStatus}
@@ -229,6 +248,16 @@ export function ConceptTextForm({
               {errorFor('status')}
             </label>
           </div>
+
+          <label className="block">
+            <span className="text-sm font-medium text-cocoa-body">Pronunciation note</span>
+            <textarea
+              value={values.pronunciationNote}
+              onChange={(event) => updateValue('pronunciationNote', event.target.value)}
+              className="mt-1 min-h-20 w-full rounded-cta border border-sand-200 bg-white/90 px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+            />
+            {errorFor('pronunciationNote')}
+          </label>
 
           <label className="block">
             <span className="text-sm font-medium text-cocoa-body">Literal meaning</span>

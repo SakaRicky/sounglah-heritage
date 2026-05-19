@@ -33,6 +33,7 @@ def test_list_seeded_concepts():
     assert data["meta"]["total"] == 10
     assert [concept["key"] for concept in data["data"][:3]] == ["greeting", "mother", "father"]
     assert data["data"][0]["difficultyLevel"] == "beginner"
+    assert "defaultImageUrl" in data["data"][0]
 
 
 def test_get_one_concept():
@@ -45,7 +46,9 @@ def test_get_one_concept():
     response = client.get(f"/api/admin/concepts/{thank_you['id']}", headers=headers)
 
     assert response.status_code == 200
-    assert response.get_json()["data"]["key"] == "thank_you"
+    concept = response.get_json()["data"]
+    assert concept["key"] == "thank_you"
+    assert "defaultImageUrl" in concept
 
 
 def test_create_concept_normalizes_values():
@@ -61,6 +64,7 @@ def test_create_concept_normalizes_values():
             "slug": "Good Morning",
             "description": "  A morning greeting.  ",
             "category": "  Greetings  ",
+            "defaultImageUrl": "  /media/images/concepts/good-morning.png  ",
             "difficultyLevel": "Beginner",
             "status": "active",
             "sortOrder": "11",
@@ -74,6 +78,8 @@ def test_create_concept_normalizes_values():
     assert concept["slug"] == "good-morning"
     assert concept["description"] == "A morning greeting."
     assert concept["category"] == "Greetings"
+    assert concept["defaultImageUrl"] == "/media/images/concepts/good-morning.png"
+    assert concept["default_image_url"] == "/media/images/concepts/good-morning.png"
     assert concept["difficultyLevel"] == "beginner"
     assert concept["sortOrder"] == 11
 
@@ -128,6 +134,7 @@ def test_update_concept_and_status_flow():
         json={
             "description": "A basic polite expression used to show gratitude.",
             "category": "Courtesy",
+            "default_image_url": "/media/images/concepts/thank-you.png",
             "difficultyLevel": "intermediate",
             "sortOrder": 15,
         },
@@ -136,6 +143,8 @@ def test_update_concept_and_status_flow():
     assert update_response.status_code == 200
     updated = update_response.get_json()["data"]
     assert updated["description"] == "A basic polite expression used to show gratitude."
+    assert updated["defaultImageUrl"] == "/media/images/concepts/thank-you.png"
+    assert updated["default_image_url"] == "/media/images/concepts/thank-you.png"
     assert updated["difficultyLevel"] == "intermediate"
     assert updated["sortOrder"] == 15
 

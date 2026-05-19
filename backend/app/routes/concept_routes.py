@@ -21,6 +21,8 @@ WRITABLE_FIELDS = {
     "title",
     "description",
     "category",
+    "defaultImageUrl",
+    "default_image_url",
     "difficultyLevel",
     "status",
     "sortOrder",
@@ -53,6 +55,14 @@ def _optional_string(value):
 
     normalized = str(value).strip()
     return normalized or None
+
+
+def _optional_string_with_max(value, max_length):
+    normalized = _optional_string(value)
+    if normalized is not None and len(normalized) > max_length:
+        return normalized, f"Must be {max_length} characters or fewer."
+
+    return normalized, None
 
 
 def _validate_payload(data, existing_concept=None, partial=False):
@@ -96,6 +106,14 @@ def _validate_payload(data, existing_concept=None, partial=False):
     if "category" in data:
         normalized["category"] = _optional_string(data.get("category"))
 
+    default_image_value = data.get("defaultImageUrl", data.get("default_image_url"))
+    if "defaultImageUrl" in data or "default_image_url" in data:
+        default_image_url, error = _optional_string_with_max(default_image_value, 500)
+        if error:
+            fields["defaultImageUrl"] = error
+        else:
+            normalized["defaultImageUrl"] = default_image_url
+
     if not partial or "difficultyLevel" in data:
         difficulty_level = str(data.get("difficultyLevel", "beginner")).strip().lower()
         if difficulty_level not in VALID_DIFFICULTY_LEVELS:
@@ -125,6 +143,8 @@ def _validate_payload(data, existing_concept=None, partial=False):
 def _apply_concept_payload(concept, payload):
     field_map = {
         "difficultyLevel": "difficulty_level",
+        "defaultImageUrl": "default_image_url",
+        "default_image_url": "default_image_url",
         "sortOrder": "sort_order",
     }
 

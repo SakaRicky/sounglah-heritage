@@ -8,6 +8,8 @@ export interface ConceptText {
   languageId: string
   text: string
   pronunciation?: string | null
+  audioUrl?: string | null
+  pronunciationNote?: string | null
   literalMeaning?: string | null
   usageNote?: string | null
   status: ConceptTextStatus
@@ -31,6 +33,8 @@ export interface CreateConceptTextPayload {
   languageId: string
   text: string
   pronunciation?: string
+  audioUrl?: string
+  pronunciationNote?: string
   literalMeaning?: string
   usageNote?: string
   status: ConceptTextStatus
@@ -40,6 +44,8 @@ export interface CreateConceptTextPayload {
 export interface UpdateConceptTextPayload {
   text?: string
   pronunciation?: string
+  audioUrl?: string
+  pronunciationNote?: string
   literalMeaning?: string
   usageNote?: string
   status?: ConceptTextStatus
