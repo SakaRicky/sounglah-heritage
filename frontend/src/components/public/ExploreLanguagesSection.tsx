@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { HERITAGE_LANGUAGES } from '../../content/languages'
+import { useI18n } from '../../i18n'
 import { LanguageHeritageCard } from './LanguageHeritageCard'
 
 const SCROLLER_ID = 'explore-languages-scroll'
@@ -28,6 +29,7 @@ function ChevronIcon({ direction }: { direction: 'left' | 'right' }) {
 }
 
 export function ExploreLanguagesSection() {
+  const { t } = useI18n()
   const scrollRef = useRef<HTMLDivElement>(null)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(false)
@@ -75,17 +77,17 @@ export function ExploreLanguagesSection() {
           id="explore-languages-heading"
           className="text-2xl font-bold sm:text-3xl"
         >
-          Explore our languages
+          {t('languages.explore.title')}
         </h2>
         <p className="mt-2 text-cocoa-700">
-          Starting with Médumba. Many more coming soon.
+          {t('languages.explore.description')}
         </p>
         <div className="mt-4">
           <Link
             to="/languages"
             className="text-sm font-semibold text-forest-600 underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-500 focus-visible:ring-offset-2 focus-visible:ring-offset-cream-50"
           >
-            View all languages
+            {t('languages.explore.viewAll')}
           </Link>
         </div>
       </div>
@@ -93,7 +95,7 @@ export function ExploreLanguagesSection() {
       <div className="mt-8 flex items-stretch gap-2 sm:mt-10 md:gap-3">
         <button
           type="button"
-          aria-label="Scroll languages left"
+          aria-label={t('languages.scrollLeft')}
           aria-controls={SCROLLER_ID}
           disabled={!canScrollLeft}
           onClick={() => scrollByAmount(-1)}
@@ -107,7 +109,7 @@ export function ExploreLanguagesSection() {
             ref={scrollRef}
             id={SCROLLER_ID}
             role="region"
-            aria-label="Heritage languages"
+            aria-label={t('languages.region')}
             tabIndex={0}
             className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-1 [-ms-overflow-style:none] [scrollbar-width:none] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-500 focus-visible:ring-offset-2 [&::-webkit-scrollbar]:hidden"
             style={{ scrollPaddingInline: '0.25rem' }}
@@ -129,7 +131,7 @@ export function ExploreLanguagesSection() {
 
         <button
           type="button"
-          aria-label="Scroll languages right"
+          aria-label={t('languages.scrollRight')}
           aria-controls={SCROLLER_ID}
           disabled={!canScrollRight}
           onClick={() => scrollByAmount(1)}

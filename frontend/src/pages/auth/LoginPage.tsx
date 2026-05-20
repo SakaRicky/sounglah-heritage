@@ -1,10 +1,12 @@
 import { FormEvent, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 
+import { useI18n } from '../../i18n'
 import { login } from '../../lib/api'
 import { isAuthenticated, saveToken } from '../../lib/auth'
 
 export function LoginPage() {
+  const { t } = useI18n()
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -26,7 +28,7 @@ export function LoginPage() {
       navigate('/admin')
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : 'Unable to sign in. Please try again.',
+        err instanceof Error ? err.message : t('login.error'),
       )
     } finally {
       setLoading(false)
@@ -36,9 +38,9 @@ export function LoginPage() {
   return (
     <section className="section mx-auto max-w-md py-16">
       <div className="card p-8 shadow-card">
-        <h1 className="text-3xl font-bold">Admin login</h1>
+        <h1 className="text-3xl font-bold">{t('login.title')}</h1>
         <p className="mt-2 text-sm text-cocoa-700">
-          Access the Sounglah content management area.
+          {t('login.description')}
         </p>
 
         <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
@@ -49,7 +51,7 @@ export function LoginPage() {
           ) : null}
 
           <label className="block">
-            <span className="text-sm font-medium text-cocoa-700">Email</span>
+            <span className="text-sm font-medium text-cocoa-700">{t('common.email')}</span>
             <input
               type="email"
               autoComplete="email"
@@ -63,7 +65,7 @@ export function LoginPage() {
           </label>
 
           <label className="block">
-            <span className="text-sm font-medium text-cocoa-700">Password</span>
+            <span className="text-sm font-medium text-cocoa-700">{t('common.password')}</span>
             <input
               type="password"
               autoComplete="current-password"
@@ -77,7 +79,7 @@ export function LoginPage() {
           </label>
 
           <button type="submit" className="btn-primary w-full disabled:opacity-60" disabled={loading}>
-            {loading ? 'Signing in…' : 'Login'}
+            {loading ? t('login.submitting') : t('common.login')}
           </button>
         </form>
       </div>

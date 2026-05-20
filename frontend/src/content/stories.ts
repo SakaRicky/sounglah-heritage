@@ -1,10 +1,12 @@
+import type { TranslationKey } from '../i18n'
+
 export type LandingStory = {
   id: string
-  title: string
-  category: string
+  titleKey: TranslationKey
+  categoryKey: TranslationKey
   readMinutes: number
   image: string
-  alt: string
+  altKey: TranslationKey
   /** Tailwind object-* utility for image crop */
   objectPosition?: string
 }
@@ -12,8 +14,14 @@ export type LandingStory = {
 /** Thumbnail on the middle “Stories & Culture” card; change to highlight a different story. */
 export const FEATURED_STORY_ID = 'grandmas-advice'
 
-export function formatStoryMeta(story: LandingStory): string {
-  return `${story.category} • ${story.readMinutes} min`
+export function formatStoryMeta(
+  story: LandingStory,
+  t: (key: TranslationKey, params?: Record<string, string | number>) => string,
+): string {
+  return t('stories.meta', {
+    category: t(story.categoryKey),
+    minutes: story.readMinutes,
+  })
 }
 
 export function getFeaturedStory(): LandingStory {
@@ -29,38 +37,38 @@ export function getStoriesPreview(count = 3): LandingStory[] {
 export const LANDING_STORIES: LandingStory[] = [
   {
     id: 'grandmas-advice',
-    title: "Grandma's Advice",
-    category: 'Family & Life',
+    titleKey: 'stories.grandmasAdvice.title',
+    categoryKey: 'stories.grandmasAdvice.category',
     readMinutes: 5,
     image: '/images/hero/hero-family.png',
-    alt: 'Grandmother and family sharing a quiet moment together outdoors',
+    altKey: 'stories.grandmasAdvice.alt',
     objectPosition: 'object-center',
   },
   {
     id: 'day-at-market',
-    title: 'A Day at the Market',
-    category: 'Culture',
+    titleKey: 'stories.dayAtMarket.title',
+    categoryKey: 'stories.dayAtMarket.category',
     readMinutes: 4,
     image: '/images/stories/story-market.png',
-    alt: 'Busy marketplace with vendors and families',
+    altKey: 'stories.dayAtMarket.alt',
     objectPosition: 'object-center',
   },
   {
     id: 'talking-drum',
-    title: 'The Talking Drum',
-    category: 'Folk Tales',
+    titleKey: 'stories.talkingDrum.title',
+    categoryKey: 'stories.talkingDrum.category',
     readMinutes: 6,
     image: '/images/stories/story-song.png',
-    alt: 'Community gathered with drums, dancing, and music',
+    altKey: 'stories.talkingDrum.alt',
     objectPosition: 'object-center',
   },
   {
     id: 'why-the-moon-follows-us',
-    title: 'Why the Moon Follows Us',
-    category: 'Folk Tales',
+    titleKey: 'stories.moon.title',
+    categoryKey: 'stories.moon.category',
     readMinutes: 5,
     image: '/images/stories/story-moon-transparent.png',
-    alt: 'Elders and children storytelling by firelight under the moon',
+    altKey: 'stories.moon.alt',
     objectPosition: 'object-center',
   },
 ]

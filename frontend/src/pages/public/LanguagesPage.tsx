@@ -3,8 +3,10 @@ import { useLocation } from 'react-router-dom'
 
 import { LanguageHeritageCard } from '../../components/public/LanguageHeritageCard'
 import { HERITAGE_LANGUAGES } from '../../content/languages'
+import { useI18n } from '../../i18n'
 
 export function LanguagesPage() {
+  const { t } = useI18n()
   const location = useLocation()
 
   useEffect(() => {
@@ -20,10 +22,9 @@ export function LanguagesPage() {
 
   return (
     <div className="section py-12 sm:py-14 lg:py-20">
-      <h1 className="text-3xl font-bold sm:text-4xl">Heritage languages</h1>
+      <h1 className="text-3xl font-bold sm:text-4xl">{t('languages.page.title')}</h1>
       <p className="mt-3 max-w-measure text-cocoa-700">
-        Sounglah is starting with Médumba and will welcome more heritage languages
-        over time. Browse the roadmap below.
+        {t('languages.page.description')}
       </p>
 
       <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

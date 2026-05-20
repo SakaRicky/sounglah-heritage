@@ -52,6 +52,7 @@
 - Frontend stack: React, Vite, TypeScript, and Tailwind.
 - Do not add heavy UI libraries unless the team agrees.
 - When touching UI, run `npm run build` and `npm run lint` from `frontend/` when those scripts exist.
+- UI copy must support both English and French. When adding or changing user-facing text, update the i18n dictionaries and check both languages for layout fit, especially buttons, nav items, cards, forms, and mobile widths.
 - Design tokens and utilities live in `frontend/tailwind.config.js` and `frontend/src/styles/index.css`, including utilities such as `.section`, `.card`, `.btn-primary`, and `.btn-secondary`.
 - Prefer the Sounglah palette, including cream canvas, deep green CTAs, earth tones, Playfair, and Inter, over arbitrary grays or blues unless accessibility requires otherwise.
 - Tailwind Sounglah colors are flat keys under `theme.extend.colors.sounglah`, such as `sounglah-cream-50`, so utilities work with `@apply` in CSS. Do not reintroduce deeply nested color objects without checking `index.css` `@apply` usage.

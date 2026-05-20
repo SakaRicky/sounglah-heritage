@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 
 import { formatStoryMeta, type LandingStory } from '../../content/stories'
+import { useI18n } from '../../i18n'
 
 type StoryCardProps = {
   story: LandingStory
@@ -8,6 +9,7 @@ type StoryCardProps = {
 }
 
 export function StoryCard({ story, variant = 'default' }: StoryCardProps) {
+  const { t } = useI18n()
   const objectPosition = story.objectPosition ?? 'object-center'
 
   if (variant === 'carousel') {
@@ -18,16 +20,16 @@ export function StoryCard({ story, variant = 'default' }: StoryCardProps) {
       >
         <img
           src={story.image}
-          alt={story.alt}
+          alt={t(story.altKey)}
           loading="lazy"
           className={`h-[8.4375rem] w-full object-cover ${objectPosition}`}
         />
         <div className="px-5 py-4">
           <h3 className="font-sans text-lg font-bold leading-tight text-cocoa-ink">
-            {story.title}
+            {t(story.titleKey)}
           </h3>
           <p className="mt-2 text-sm text-cocoa-body">
-            {story.category}
+            {t(story.categoryKey)}
             <span className="mx-2" aria-hidden>
               •
             </span>
@@ -43,14 +45,14 @@ export function StoryCard({ story, variant = 'default' }: StoryCardProps) {
       <div className="aspect-[16/10] w-full overflow-hidden bg-cream-100">
         <img
           src={story.image}
-          alt={story.alt}
+          alt={t(story.altKey)}
           loading="lazy"
           className={`h-full w-full object-cover ${objectPosition}`}
         />
       </div>
       <div className="p-4">
-        <h3 className="font-bold">{story.title}</h3>
-        <p className="text-sm text-cocoa-700">{formatStoryMeta(story)}</p>
+        <h3 className="font-bold">{t(story.titleKey)}</h3>
+        <p className="text-sm text-cocoa-700">{formatStoryMeta(story, t)}</p>
       </div>
     </div>
   )

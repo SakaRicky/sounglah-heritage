@@ -35,6 +35,7 @@ The landing page should communicate:
 - Language support starting with Médumba
 - Parent-focused call to action
 - Login button for admins
+- English/French UI language support for the public experience
 
 ## Acceptance Criteria
 
@@ -44,3 +45,6 @@ The landing page should communicate:
 - It has a clear login/admin entry point.
 - “Explore our languages” uses a horizontal scroll strip (snap on small screens; chevron scroll from `md`) with a “View all languages” link to `/languages`; Médumba is the only active CTA until more languages ship (child slice **SS009**).
 - Middle feature band (mint background, three cards) and shared stories content: child slice **SS010**.
+- Public landing, language, stories, login, navbar, and footer copy use the shared frontend i18n provider with English and French translations.
+- A navbar language selector switches between English and French, persists the choice in localStorage, and updates the document `lang` attribute.
+- Future UI work must keep both English and French strings current.

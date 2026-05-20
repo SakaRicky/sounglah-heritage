@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 
 import type { HeritageLanguage } from '../../content/languages'
+import { useI18n } from '../../i18n'
 
 export type LanguageHeritageCardProps = Omit<HeritageLanguage, 'id'>
 
@@ -8,17 +9,19 @@ export function LanguageHeritageCard({
   name,
   nativeName,
   image,
-  alt,
+  altKey,
   objectPosition,
   availability,
   ctaHref,
 }: LanguageHeritageCardProps) {
+  const { t } = useI18n()
+
   return (
     <article className="card flex h-full flex-col overflow-hidden transition hover:shadow-card">
       <div className="aspect-[4/3] w-full shrink-0 overflow-hidden bg-cream-100">
         <img
           src={image}
-          alt={alt}
+          alt={t(altKey)}
           loading="lazy"
           className={`h-full w-full object-cover ${objectPosition}`}
         />
@@ -32,10 +35,10 @@ export function LanguageHeritageCard({
               to={ctaHref}
               className="text-sm font-semibold text-forest-600 underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-500 focus-visible:ring-offset-2"
             >
-              Start learning →
+              {t('common.startLearningArrow')}
             </Link>
           ) : (
-            <span className="text-sm text-cocoa-700/75">Coming soon</span>
+            <span className="text-sm text-cocoa-700/75">{t('common.comingSoon')}</span>
           )}
         </div>
       </div>
