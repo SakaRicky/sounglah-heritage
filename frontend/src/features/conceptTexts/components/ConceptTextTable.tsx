@@ -1,8 +1,8 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import type { ColumnDef } from '@tanstack/react-table'
+import { MoreVertical, Pencil, Power, PowerOff, Volume2, VolumeX } from 'lucide-react'
 
 import { AdminTable } from '../../../components/admin/AdminTable'
-import { AudioPreview } from '../../../components/admin/MediaPreview'
 import { formatDate } from '../../../lib/date'
 import { ConceptTextReviewBadge } from './ConceptTextReviewBadge'
 import { ConceptTextStatusBadge } from './ConceptTextStatusBadge'
@@ -22,11 +22,68 @@ type Props = {
   onPageSizeChange: (pageSize: number) => void
 }
 
+const conceptMarkColors = [
+  'border-forest-accent/15 bg-forest-accent/10 text-forest-700',
+  'border-gold-500/20 bg-gold-400/15 text-cocoa-700',
+  'border-terracotta-500/15 bg-terracotta-400/10 text-terracotta-600',
+  'border-forest-300/20 bg-forest-50 text-forest-600',
+]
+
+const languageFlags: Record<string, string> = {
+  med: '🇨🇲',
+  fr: '🇫🇷',
+  en: '🇺🇸',
+}
+
 function ConceptMark({ title }: { title: string }) {
+  const initial = title.slice(0, 1).toUpperCase()
+  const colorClass = conceptMarkColors[initial.charCodeAt(0) % conceptMarkColors.length]
+
   return (
-    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-forest-accent/15 bg-[rgba(31,90,61,0.06)] text-sm font-bold text-forest-700">
-      {title.slice(0, 1).toUpperCase()}
+    <span
+      className={[
+        'flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border text-base font-bold shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]',
+        colorClass,
+      ].join(' ')}
+    >
+      {initial}
     </span>
+  )
+}
+
+function LanguageFlag({ code }: { code?: string }) {
+  const normalizedCode = code?.toLowerCase() ?? ''
+  const flag = languageFlags[normalizedCode] ?? '🌍'
+
+  return (
+    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white text-lg shadow-[0_0_0_1px_rgba(221,187,136,0.45)]">
+      {flag}
+    </span>
+  )
+}
+
+function AudioCell({ conceptText }: { conceptText: ConceptText }) {
+  if (!conceptText.audioUrl) {
+    return (
+      <div className="flex items-center gap-2 whitespace-nowrap text-xs font-medium text-cocoa-body/55">
+        <VolumeX className="h-4 w-4 text-cocoa-body/45" aria-hidden />
+        <span>No audio</span>
+      </div>
+    )
+  }
+
+  return (
+    <div className="space-y-1.5">
+      <div className="flex items-center gap-2 text-xs font-semibold text-forest-700">
+        <Volume2 className="h-4 w-4" aria-hidden />
+        <audio src={conceptText.audioUrl} controls className="h-8 w-40 max-w-full" preload="none">
+          <a href={conceptText.audioUrl}>Audio</a>
+        </audio>
+      </div>
+      {conceptText.pronunciationNote ? (
+        <p className="max-w-44 truncate text-xs text-cocoa-body/60">{conceptText.pronunciationNote}</p>
+      ) : null}
+    </div>
   )
 }
 
@@ -43,6 +100,8 @@ export function ConceptTextTable({
   onPageChange,
   onPageSizeChange,
 }: Props) {
+  const [openActionId, setOpenActionId] = useState<string | null>(null)
+
   const columns = useMemo<ColumnDef<ConceptText>[]>(
     () => [
       {
@@ -56,7 +115,7 @@ export function ConceptTextTable({
             <div className="flex items-center gap-3">
               <ConceptMark title={title} />
               <div>
-                <p className="font-semibold text-cocoa-800">{title}</p>
+                <p className="font-semibold leading-5 text-cocoa-800">{title}</p>
                 <p className="font-mono text-xs text-cocoa-body/65">{concept?.key ?? row.original.conceptId}</p>
               </div>
             </div>
@@ -67,36 +126,43 @@ export function ConceptTextTable({
       {
         accessorKey: 'language',
         header: 'Language',
-        cell: ({ row }) => (
-          <div>
-            <p className="font-semibold text-cocoa-800">{row.original.language?.name ?? 'Unknown language'}</p>
-            <p className="font-mono text-xs text-cocoa-body/65">{row.original.language?.code ?? row.original.languageId}</p>
-          </div>
-        ),
+        cell: ({ row }) => {
+          const language = row.original.language
+
+          return (
+            <div className="flex items-center gap-3">
+              <LanguageFlag code={language?.code} />
+              <div>
+                <p className="font-semibold leading-5 text-cocoa-800">{language?.name ?? 'Unknown language'}</p>
+                <p className="font-mono text-xs text-cocoa-body/65">{language?.code ?? row.original.languageId}</p>
+              </div>
+            </div>
+          )
+        },
       },
       {
         accessorKey: 'text',
         header: 'Text',
-        cell: ({ row }) => (
-          <div>
-            <p className="max-w-sm truncate font-semibold text-cocoa-800">{row.original.text}</p>
-            {row.original.pronunciation ? (
-              <p className="max-w-sm truncate text-xs text-cocoa-body/65">{row.original.pronunciation}</p>
-            ) : null}
-          </div>
-        ),
+        cell: ({ row }) => {
+          const conceptText = row.original
+
+          return (
+            <div className="max-w-sm">
+              <p className="truncate text-sm font-semibold text-cocoa-ink">{conceptText.text}</p>
+              {conceptText.pronunciation ? (
+                <p className="mt-1 truncate text-xs text-cocoa-body/65">{conceptText.pronunciation}</p>
+              ) : null}
+              {conceptText.literalMeaning ? (
+                <p className="mt-1 truncate text-xs italic text-forest-600/70">{conceptText.literalMeaning}</p>
+              ) : null}
+            </div>
+          )
+        },
       },
       {
         accessorKey: 'audioUrl',
         header: 'Audio',
-        cell: ({ row }) => (
-          <div className="space-y-1">
-            <AudioPreview src={row.original.audioUrl} />
-            {row.original.pronunciationNote ? (
-              <p className="max-w-44 truncate text-xs text-cocoa-body/60">{row.original.pronunciationNote}</p>
-            ) : null}
-          </div>
-        ),
+        cell: ({ row }) => <AudioCell conceptText={row.original} />,
       },
       {
         accessorKey: 'reviewStatus',
@@ -111,7 +177,7 @@ export function ConceptTextTable({
       {
         accessorKey: 'updatedAt',
         header: 'Updated',
-        cell: ({ getValue }) => formatDate(getValue<string | null>()),
+        cell: ({ getValue }) => <span className="font-medium text-cocoa-body/75">{formatDate(getValue<string | null>())}</span>,
       },
       {
         id: 'actions',
@@ -120,29 +186,51 @@ export function ConceptTextTable({
         meta: { align: 'right' },
         cell: ({ row }) => {
           const conceptText = row.original
+          const isActive = conceptText.status === 'active'
 
           return (
             <div className="flex justify-end gap-2">
               <button
                 type="button"
                 onClick={() => onEdit(conceptText)}
-                className="rounded-xl border border-forest-accent/35 bg-white px-3 py-1.5 text-sm font-semibold text-forest-700 transition hover:border-forest-accent hover:bg-forest-50/30 hover:shadow-[0_8px_22px_rgba(31,90,61,0.08)] focus:outline-none focus:ring-2 focus:ring-forest-200"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-forest-accent/25 bg-white px-3 py-2 text-sm font-semibold text-forest-700 shadow-[0_4px_14px_rgba(47,26,16,0.04)] transition hover:border-forest-accent hover:bg-forest-50/50 hover:shadow-[0_8px_22px_rgba(31,90,61,0.08)] focus:outline-none focus:ring-2 focus:ring-forest-200"
               >
+                <Pencil className="h-4 w-4" aria-hidden />
                 Edit
               </button>
-              <button
-                type="button"
-                onClick={() => onToggleStatus(conceptText)}
-                className="rounded-xl border border-sand-200 bg-white px-3 py-1.5 text-sm font-semibold text-cocoa-body transition hover:border-terracotta-500/50 hover:bg-cream-100/60 hover:text-terracotta-600 focus:outline-none focus:ring-2 focus:ring-forest-200"
-              >
-                {conceptText.status === 'active' ? 'Disable' : 'Enable'}
-              </button>
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setOpenActionId((currentId) => (currentId === conceptText.id ? null : conceptText.id))}
+                  aria-expanded={openActionId === conceptText.id}
+                  aria-label="More actions"
+                  title="More actions"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-sand-200 bg-white text-cocoa-body/65 shadow-[0_4px_14px_rgba(47,26,16,0.04)] transition hover:border-forest-300 hover:bg-forest-50/40 hover:text-forest-700 focus:outline-none focus:ring-2 focus:ring-forest-200"
+                >
+                  <MoreVertical className="h-4 w-4" aria-hidden />
+                </button>
+                {openActionId === conceptText.id ? (
+                  <div className="absolute right-0 z-20 mt-2 w-40 rounded-xl border border-sand-200 bg-white p-1.5 text-left shadow-card">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setOpenActionId(null)
+                        onToggleStatus(conceptText)
+                      }}
+                      className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-cocoa-body transition hover:bg-cream-100 hover:text-terracotta-600 focus:outline-none focus:ring-2 focus:ring-forest-200"
+                    >
+                      {isActive ? <PowerOff className="h-4 w-4" aria-hidden /> : <Power className="h-4 w-4" aria-hidden />}
+                      {isActive ? 'Disable' : 'Enable'}
+                    </button>
+                  </div>
+                ) : null}
+              </div>
             </div>
           )
         },
       },
     ],
-    [onEdit, onToggleStatus],
+    [onEdit, onToggleStatus, openActionId],
   )
 
   return (
