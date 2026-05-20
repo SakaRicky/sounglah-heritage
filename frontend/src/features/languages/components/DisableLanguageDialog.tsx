@@ -1,3 +1,4 @@
+import { ModalPortal } from '../../../components/common/ModalPortal'
 import type { Language } from '../types/language.types'
 
 type Props = {
@@ -15,9 +16,16 @@ export function DisableLanguageDialog({ language, saving, onCancel, onConfirm }:
   const disabling = language.status === 'active'
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-cocoa-ink/35 p-4">
-      <div className="w-full max-w-md rounded-soft bg-white p-6 shadow-card">
-        <h2 className="text-xl font-bold text-cocoa-800">
+    <ModalPortal>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-cocoa-ink/35 p-4" role="presentation" onClick={onCancel}>
+      <div
+        className="w-full max-w-md rounded-soft bg-white p-6 shadow-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="disable-language-title"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <h2 id="disable-language-title" className="text-xl font-bold text-cocoa-800">
           {disabling ? `Disable ${language.name}?` : `Enable ${language.name}?`}
         </h2>
         <p className="mt-3 text-sm leading-6 text-cocoa-body">
@@ -45,5 +53,6 @@ export function DisableLanguageDialog({ language, saving, onCancel, onConfirm }:
         </div>
       </div>
     </div>
+    </ModalPortal>
   )
 }

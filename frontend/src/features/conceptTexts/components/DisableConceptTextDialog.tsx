@@ -1,3 +1,4 @@
+import { ModalPortal } from '../../../components/common/ModalPortal'
 import type { ConceptText } from '../types/conceptText.types'
 
 type Props = {
@@ -15,9 +16,16 @@ export function DisableConceptTextDialog({ conceptText, saving, onCancel, onConf
   const isActive = conceptText.status === 'active'
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-cocoa-ink/35 p-4">
-      <div className="w-full max-w-md rounded-2xl border border-sand-200 bg-cream-50 p-6 shadow-card">
-        <h2 className="text-xl font-bold text-cocoa-800">
+    <ModalPortal>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-cocoa-ink/35 p-4" role="presentation" onClick={onCancel}>
+      <div
+        className="w-full max-w-md rounded-2xl border border-sand-200 bg-cream-50 p-6 shadow-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="disable-concept-text-title"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <h2 id="disable-concept-text-title" className="text-xl font-bold text-cocoa-800">
           {isActive ? 'Disable this concept text?' : 'Enable this concept text?'}
         </h2>
         <p className="mt-3 text-sm leading-6 text-cocoa-body">
@@ -51,5 +59,6 @@ export function DisableConceptTextDialog({ conceptText, saving, onCancel, onConf
         </div>
       </div>
     </div>
+    </ModalPortal>
   )
 }

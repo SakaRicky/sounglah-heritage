@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import type { FormEvent } from 'react'
+import type { FormEvent, ReactNode } from 'react'
 
+import { ModalPortal } from '../../../components/common/ModalPortal'
 import { toLanguageIdentifier } from '../utils/languageSlug'
 import type {
   CreateLanguagePayload,
@@ -40,6 +41,12 @@ const emptyValues: FormValues = {
   sortOrder: '0',
 }
 
+const fieldLabelClass = 'text-sm font-semibold text-cocoa-ink'
+const fieldClass = 'mt-1.5 w-full rounded-cta border border-sand-200 bg-white px-4 py-3 text-sm text-cocoa-body outline-none transition placeholder:text-cocoa-body/40 focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]'
+const fieldHelpClass = 'mt-2 text-sm leading-5 text-cocoa-body/70'
+const sectionRuleClass = 'h-px flex-1 bg-sand-100'
+const requiredMark = <span className="text-terracotta-500">*</span>
+
 function valuesFromLanguage(language: Language | null): FormValues {
   if (!language) {
     return emptyValues
@@ -57,11 +64,67 @@ function valuesFromLanguage(language: Language | null): FormValues {
   }
 }
 
+function CloseIcon() {
+  return (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2} aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  )
+}
+
+function IdentityIcon() {
+  return (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 8.25a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 20.25a6.75 6.75 0 0113.5 0" />
+    </svg>
+  )
+}
+
+function SettingsIcon() {
+  return (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 4.5l.45-1.5h2.1l.45 1.5 1.42.58 1.38-.75 1.48 1.49-.74 1.37.58 1.42 1.5.45v2.1l-1.5.45-.58 1.42.74 1.37-1.48 1.49-1.38-.75-1.42.58-.45 1.5h-2.1l-.45-1.5-1.42-.58-1.38.75-1.48-1.49.74-1.37-.58-1.42-1.5-.45v-2.1l1.5-.45.58-1.42-.74-1.37 1.48-1.49 1.38.75 1.42-.58z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 11.1a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+    </svg>
+  )
+}
+
+function NotesIcon() {
+  return (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M7 3.75h7.25L18 7.5v12.75H7V3.75z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 3.75V7.5H18M9.75 11.25h5.5M9.75 14.25h5.5M9.75 17.25h3.25" />
+    </svg>
+  )
+}
+
+function SaveIcon() {
+  return (
+    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M5 4.5h11l3 3v12H5v-15z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M8 4.5v5h7v-5M8 19.5v-5h8v5" />
+    </svg>
+  )
+}
+
+function SectionHeader({ icon, title }: { icon: ReactNode; title: string }) {
+  return (
+    <div className="flex items-center gap-4">
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-forest-accent/10 text-forest-700 ring-1 ring-forest-accent/10">
+        {icon}
+      </span>
+      <h3 className="shrink-0 text-sm font-bold uppercase text-forest-700">{title}</h3>
+      <span className={sectionRuleClass} />
+    </div>
+  )
+}
+
 export function LanguageForm({ language, fieldErrors, saving, onCancel, onSubmit }: Props) {
   const [values, setValues] = useState<FormValues>(() => valuesFromLanguage(language))
   const [identifierTouched, setIdentifierTouched] = useState(Boolean(language))
 
-  const title = language ? `Edit ${language.name}` : 'Add language'
+  const title = language ? `Edit ${language.name}` : 'Add Language'
 
   function updateValue<Key extends keyof FormValues>(key: Key, value: FormValues[Key]) {
     if (key === 'code' || key === 'slug') {
@@ -103,136 +166,184 @@ export function LanguageForm({ language, fieldErrors, saving, onCancel, onSubmit
   }
 
   return (
-    <div className="fixed inset-0 z-40 flex justify-end bg-cocoa-ink/30">
-      <div className="h-full w-full max-w-2xl overflow-y-auto bg-cream-50 p-5 shadow-card md:p-8">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <h2 className="text-2xl font-bold text-cocoa-800">{title}</h2>
-            <p className="mt-2 text-sm text-forest-600/75">
+    <ModalPortal>
+    <div
+      className="fixed inset-0 z-40 overflow-y-auto bg-cocoa-ink/55 p-3 md:p-6"
+      role="presentation"
+      onClick={onCancel}
+    >
+      <div
+        className="mx-auto my-2 w-full max-w-5xl overflow-hidden rounded-2xl border border-sand-100 bg-cream-50 shadow-card md:my-0"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="language-form-title"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="relative overflow-hidden px-5 py-6 md:px-8">
+          <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[30rem] bg-[url('/images/artifacts/sounglah_corner_decor_01.png')] bg-[length:auto_15rem] bg-right-bottom bg-no-repeat opacity-55 md:block" />
+          <div className="pointer-events-none absolute right-28 top-4 hidden h-44 w-44 rounded-full bg-forest-accent/5 md:block" />
+          <div className="relative flex items-start justify-between gap-4">
+            <div>
+              <h2 id="language-form-title" className="font-serif text-4xl font-bold leading-tight text-cocoa-800">
+                {title}
+              </h2>
+              <p className="mt-3 max-w-2xl text-base leading-7 text-forest-700">
               Code and slug are stable identifiers. Edit them carefully once content depends on them.
-            </p>
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={onCancel}
+              aria-label="Close language form"
+              className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-cta border border-sand-200 bg-white text-cocoa-ink transition hover:border-forest-accent/30 hover:bg-forest-50 hover:text-forest-700"
+            >
+              <CloseIcon />
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={onCancel}
-            className="rounded-cta border border-sand-200 bg-white px-3 py-1.5 text-sm font-semibold text-cocoa-body transition hover:border-forest-accent/30 hover:bg-forest-50 hover:text-forest-700"
-          >
-            Close
-          </button>
         </div>
 
-        <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
-          <div className="grid gap-4 md:grid-cols-2">
+        <form className="space-y-8 border-t border-sand-100 px-5 py-6 md:px-8" onSubmit={handleSubmit}>
+          <section className="space-y-5">
+            <SectionHeader icon={<IdentityIcon />} title="Language identity" />
+            <div className="grid gap-5 md:grid-cols-2">
             <label className="block">
-              <span className="text-sm font-medium text-cocoa-body">Name</span>
+              <span className={fieldLabelClass}>Name {requiredMark}</span>
               <input
                 value={values.name}
                 onChange={(event) => updateValue('name', event.target.value)}
-                className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                className={fieldClass}
+                placeholder="e.g. English"
                 required
               />
+              <p className={fieldHelpClass}>The name used within the system.</p>
               {errorFor('name')}
             </label>
 
             <label className="block">
-              <span className="text-sm font-medium text-cocoa-body">Native name</span>
+              <span className={fieldLabelClass}>Native name</span>
               <input
                 value={values.nativeName}
                 onChange={(event) => updateValue('nativeName', event.target.value)}
-                className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                className={fieldClass}
+                placeholder="e.g. Francais"
               />
+              <p className={fieldHelpClass}>The name in the native form.</p>
               {errorFor('nativeName')}
             </label>
+            </div>
+          </section>
 
+          <section className="space-y-5">
+            <SectionHeader icon={<SettingsIcon />} title="System configuration" />
+            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             <label className="block">
-              <span className="text-sm font-medium text-cocoa-body">Code</span>
+              <span className={fieldLabelClass}>Code {requiredMark}</span>
               <input
                 value={values.code}
                 onChange={(event) => updateValue('code', event.target.value)}
-                className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 font-mono text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                className={`${fieldClass} font-mono`}
+                placeholder="e.g. en"
                 required
               />
+              <p className={fieldHelpClass}>Short stable identifier used internally.</p>
               {errorFor('code')}
             </label>
 
             <label className="block">
-              <span className="text-sm font-medium text-cocoa-body">Slug</span>
+              <span className={fieldLabelClass}>Slug {requiredMark}</span>
               <input
                 value={values.slug}
                 onChange={(event) => updateValue('slug', event.target.value)}
-                className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 font-mono text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                className={`${fieldClass} font-mono`}
+                placeholder="e.g. english"
                 required
               />
+              <p className={fieldHelpClass}>Used in URLs and public routing.</p>
               {errorFor('slug')}
             </label>
 
             <label className="block">
-              <span className="text-sm font-medium text-cocoa-body">Direction</span>
+              <span className={fieldLabelClass}>Direction</span>
               <select
                 value={values.direction}
                 onChange={(event) => updateValue('direction', event.target.value as LanguageDirection)}
-                className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                className={fieldClass}
               >
-                <option value="ltr">LTR</option>
-                <option value="rtl">RTL</option>
+                <option value="ltr">LTR (Left to Right)</option>
+                <option value="rtl">RTL (Right to Left)</option>
               </select>
+              <p className={fieldHelpClass}>Text direction for this language.</p>
               {errorFor('direction')}
             </label>
 
-            <label className="block">
-              <span className="text-sm font-medium text-cocoa-body">Status</span>
+            <label className="block lg:col-span-2">
+              <span className={fieldLabelClass}>Status {requiredMark}</span>
               <select
                 value={values.status}
                 onChange={(event) => updateValue('status', event.target.value as LanguageStatus)}
-                className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                className={fieldClass}
               >
                 <option value="active">Active</option>
                 <option value="disabled">Disabled</option>
               </select>
+              <p className={fieldHelpClass}>Enable or disable this language.</p>
               {errorFor('status')}
             </label>
 
             <label className="block">
-              <span className="text-sm font-medium text-cocoa-body">Sort order</span>
+              <span className={fieldLabelClass}>Sort order {requiredMark}</span>
               <input
                 type="number"
                 value={values.sortOrder}
                 onChange={(event) => updateValue('sortOrder', event.target.value)}
-                className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                className={fieldClass}
               />
+              <p className={fieldHelpClass}>Controls display order in learner interfaces.</p>
               {errorFor('sortOrder')}
             </label>
-          </div>
+            </div>
+          </section>
 
-          <label className="block">
-            <span className="text-sm font-medium text-cocoa-body">Description</span>
+          <section className="space-y-5">
+            <SectionHeader icon={<NotesIcon />} title="Additional notes" />
+            <label className="block">
+            <span className={fieldLabelClass}>Description</span>
             <textarea
               value={values.description}
               onChange={(event) => updateValue('description', event.target.value)}
-              className="mt-1 min-h-28 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+              className={`${fieldClass} min-h-28 resize-y`}
+              maxLength={500}
+              placeholder="Add a short description about this language (optional)"
             />
+            <div className="mt-2 flex items-start justify-between gap-4">
+              <p className={fieldHelpClass}>Optional notes to help content managers understand this language.</p>
+              <p className="shrink-0 text-sm font-medium text-cocoa-body/70">{values.description.length} / 500</p>
+            </div>
             {errorFor('description')}
           </label>
+          </section>
 
-          <div className="flex justify-end gap-3 border-t border-sand-100 pt-5">
+          <div className="flex flex-col-reverse gap-3 border-t border-sand-100 pt-5 sm:flex-row sm:justify-end">
             <button
               type="button"
               onClick={onCancel}
               disabled={saving}
-              className="rounded-cta border border-sand-200 bg-white px-4 py-2 text-sm font-semibold text-cocoa-body transition hover:border-forest-accent/30 hover:bg-forest-50 disabled:opacity-60"
+              className="rounded-cta border border-sand-200 bg-white px-7 py-3 text-sm font-semibold text-cocoa-ink transition hover:border-forest-accent/30 hover:bg-forest-50 disabled:opacity-60"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving}
-              className="rounded-cta bg-forest-accent px-4 py-2 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(31,90,61,0.18)] transition hover:bg-forest-accent-hover disabled:opacity-60"
+              className="inline-flex items-center justify-center gap-2 rounded-cta bg-forest-accent px-7 py-3 text-sm font-semibold text-white shadow-[0_10px_28px_rgba(31,90,61,0.24)] transition hover:bg-forest-accent-hover disabled:opacity-60"
             >
+              <SaveIcon />
               {saving ? 'Saving...' : 'Save language'}
             </button>
           </div>
         </form>
       </div>
     </div>
+    </ModalPortal>
   )
 }

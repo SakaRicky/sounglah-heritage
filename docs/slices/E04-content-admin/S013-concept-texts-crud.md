@@ -25,3 +25,9 @@ Texts:
 
 - Admin can manage text per concept and language.
 - Structure supports English, French, Médumba, and future languages.
+
+## Current UI Notes
+
+- Text-only concept text create/edit uses the same centered modal treatment as language forms.
+- Concept image handling remains on the concept form, where the existing image preview and upload section is still the better fit.
+- Clicking the transparent backdrop outside the form or confirmation dialog closes it.

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 
+import { ModalPortal } from '../../../components/common/ModalPortal'
 import { toConceptKey, toConceptSlug } from '../utils/conceptSlug'
 import type {
   Concept,
@@ -239,15 +240,26 @@ export function ConceptForm({ concept, fieldErrors, saving, onCancel, onSubmit }
   }
 
   return (
-    <div className="fixed inset-0 z-40 overflow-y-auto bg-cocoa-ink/55 p-3 md:p-4">
-      <div className="mx-auto my-2 w-full max-w-5xl rounded-2xl border border-sand-100 bg-cream-50 p-5 shadow-card md:my-0 md:p-7">
+    <ModalPortal>
+    <div
+      className="fixed inset-0 z-40 overflow-y-auto bg-cocoa-ink/55 p-3 md:p-4"
+      role="presentation"
+      onClick={onCancel}
+    >
+      <div
+        className="mx-auto my-2 w-full max-w-5xl rounded-2xl border border-sand-100 bg-cream-50 p-5 shadow-card md:my-0 md:p-7"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="concept-form-title"
+        onClick={(event) => event.stopPropagation()}
+      >
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-3">
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-forest-accent/10 text-forest-700 ring-1 ring-forest-accent/10">
               <BookIcon />
             </span>
             <div>
-              <h2 className="font-serif text-3xl font-bold leading-tight text-cocoa-800">{title}</h2>
+              <h2 id="concept-form-title" className="font-serif text-3xl font-bold leading-tight text-cocoa-800">{title}</h2>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-forest-700">
                 The key is a stable internal identifier used for imports and content organization.
                 Avoid changing it after translations or lessons are created.
@@ -492,5 +504,6 @@ export function ConceptForm({ concept, fieldErrors, saving, onCancel, onSubmit }
         </form>
       </div>
     </div>
+    </ModalPortal>
   )
 }

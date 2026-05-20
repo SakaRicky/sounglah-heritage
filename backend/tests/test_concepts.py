@@ -242,6 +242,26 @@ def test_concept_image_upload_requires_admin_authentication():
     }
 
 
+def test_concept_image_upload_allows_cors_preflight_without_authentication():
+    app = create_app(testing=True)
+    client = app.test_client()
+
+    with app.app_context():
+        concept_id = Concept.query.filter_by(key="greeting").first().id
+
+    response = client.options(
+        f"/api/admin/concepts/{concept_id}/image",
+        headers={
+            "Origin": "http://localhost:5173",
+            "Access-Control-Request-Method": "POST",
+            "Access-Control-Request-Headers": "authorization",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.headers["Access-Control-Allow-Origin"] == "http://localhost:5173"
+
+
 def test_concept_image_upload_rejects_invalid_file_type():
     app = create_app(testing=True)
     client = app.test_client()

@@ -23,3 +23,9 @@ Languages are foundational. Concepts, texts, lessons, and lesson items will depe
 - Admin can edit a language.
 - Admin can disable or delete a language depending on chosen backend behavior.
 - Backend and frontend API contracts are documented.
+
+## Current UI Notes
+
+- The language create/edit form is a centered modal with grouped language identity, system configuration, and notes sections.
+- Clicking the transparent backdrop outside the form closes the modal.
+- The centered layout is preferred for this form because the language fields benefit from two- and three-column scanning; a side drawer is better reserved for short quick-edit flows.
