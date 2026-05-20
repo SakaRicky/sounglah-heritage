@@ -1,0 +1,1010 @@
+﻿concept_text_id,concept_key,language_code,text,text_type,is_primary,source_file,source_sheet,source_row,status,notes
+ct_00001,what_s_happening,en,What's happening?,phrase,True,simple-eng-med.xlsx,Sheet1,3,auto_extracted_needs_review,English source text.
+ct_00002,what_s_happening,med,A côb mbè ke?,phrase,False,simple-eng-med.xlsx,Sheet1,3,needs_native_review,Médumba translation candidate from source file.
+ct_00003,everyone,en,Everyone,word,True,simple-eng-med.xlsx,Sheet1,5,auto_extracted_needs_review,English source text.
+ct_00004,everyone,med,Njoñ benntùn fa,phrase,False,simple-eng-med.xlsx,Sheet1,5,needs_native_review,Médumba translation candidate from source file.
+ct_00005,remove_your_hand,en,Remove your hand,phrase,True,simple-eng-med.xlsx,Sheet1,8,auto_extracted_needs_review,English source text.
+ct_00006,remove_your_hand,med,Le' bu u,phrase,False,simple-eng-med.xlsx,Sheet1,8,needs_native_review,Médumba translation candidate from source file.
+ct_00007,play,en,Play,word,True,simple-eng-med.xlsx,Sheet1,29,auto_extracted_needs_review,English source text.
+ct_00008,play,med,Siañe,word,False,simple-eng-med.xlsx,Sheet1,29,needs_native_review,Médumba translation candidate from source file.
+ct_00009,current_time,en,Current time,phrase,True,simple-eng-med.xlsx,Sheet1,30,auto_extracted_needs_review,English source text.
+ct_00010,current_time,med,Ngelañ ndônni,phrase,False,simple-eng-med.xlsx,Sheet1,30,needs_native_review,Médumba translation candidate from source file.
+ct_00011,loaded,en,Loaded:,word,True,simple-eng-med.xlsx,Sheet1,31,auto_extracted_needs_review,English source text.
+ct_00012,loaded,med,A ku’u:,phrase,False,simple-eng-med.xlsx,Sheet1,31,needs_native_review,Médumba translation candidate from source file.
+ct_00013,progress,en,Progress:,word,True,simple-eng-med.xlsx,Sheet1,32,auto_extracted_needs_review,English source text.
+ct_00014,progress,med,Njoñ:,word,False,simple-eng-med.xlsx,Sheet1,32,needs_native_review,Médumba translation candidate from source file.
+ct_00015,mute,en,Mute,word,True,simple-eng-med.xlsx,Sheet1,33,auto_extracted_needs_review,English source text.
+ct_00016,mute,med,Ne lok nze i,phrase,False,simple-eng-med.xlsx,Sheet1,33,needs_native_review,Médumba translation candidate from source file.
+ct_00017,children_should_obey_their_parents,en,Children should obey their parents.,phrase,True,simple-eng-med.xlsx,Sheet1,153,auto_extracted_needs_review,English source text.
+ct_00018,children_should_obey_their_parents,med,Bônkeʼ ghù ne njuʼ ntshu tà tshob mba mà tshobe.,phrase,False,simple-eng-med.xlsx,Sheet1,153,needs_native_review,Médumba translation candidate from source file.
+ct_00019,do_what_is_good,en,Do what is good.,phrase,True,simple-eng-med.xlsx,Sheet1,169,auto_extracted_needs_review,English source text.
+ct_00020,do_what_is_good,med,Ghù numebwô.,phrase,False,simple-eng-med.xlsx,Sheet1,169,needs_native_review,Médumba translation candidate from source file.
+ct_00021,be_honest,en,Be honest.,phrase,True,simple-eng-med.xlsx,Sheet1,172,auto_extracted_needs_review,English source text.
+ct_00022,be_honest,med,Be mèn nenùne.,phrase,False,simple-eng-med.xlsx,Sheet1,172,needs_native_review,Médumba translation candidate from source file.
+ct_00023,show_love,en,Show love.,phrase,True,simple-eng-med.xlsx,Sheet1,176,auto_extracted_needs_review,English source text.
+ct_00024,show_love,med,Kô tsemoʼ benntùn.,phrase,False,simple-eng-med.xlsx,Sheet1,176,needs_native_review,Médumba translation candidate from source file.
+ct_00025,shut_up_don_t_say_that,en,Shut up don’t say that,phrase,True,simple-eng-med.xlsx,Sheet1,221,auto_extracted_needs_review,English source text.
+ct_00026,shut_up_don_t_say_that,med,"Mùm ntshu o, kà tshob ndùlà",phrase,False,simple-eng-med.xlsx,Sheet1,221,needs_native_review,Médumba translation candidate from source file.
+ct_00027,pull_that_rope_from_there,en,Pull that rope from there,phrase,True,simple-eng-med.xlsx,Sheet1,222,auto_extracted_needs_review,English source text.
+ct_00028,pull_that_rope_from_there,med,To'de nesoñ nku là à mà bwe.,phrase,False,simple-eng-med.xlsx,Sheet1,222,needs_native_review,Médumba translation candidate from source file.
+ct_00029,let_s_go_to_the_shop,en,Let’s go to the shop,phrase,True,simple-eng-med.xlsx,Sheet1,224,auto_extracted_needs_review,English source text.
+ct_00030,let_s_go_to_the_shop,med,Bag bin nèn tàn,phrase,False,simple-eng-med.xlsx,Sheet1,224,needs_native_review,Médumba translation candidate from source file.
+ct_00031,let_s_go_to_the_shop,en,Let’s go to the shop,phrase,True,simple-eng-med.xlsx,Sheet1,225,auto_extracted_needs_review,English source text.
+ct_00032,let_s_go_to_the_shop,med,Bag wù nèn ta ntàn,phrase,False,simple-eng-med.xlsx,Sheet1,225,needs_native_review,Médumba translation candidate from source file.
+ct_00033,let_s_go_to_the_shop,en,Let’s go to the shop,phrase,True,simple-eng-med.xlsx,Sheet1,226,auto_extracted_needs_review,English source text.
+ct_00034,let_s_go_to_the_shop,med,Bag bin nèn ta ntàn,phrase,False,simple-eng-med.xlsx,Sheet1,226,needs_native_review,Médumba translation candidate from source file.
+ct_00035,have_a_seat_please,en,Have a seat please,phrase,True,simple-eng-med.xlsx,Sheet1,227,auto_extracted_needs_review,English source text.
+ct_00036,have_a_seat_please,med,Tswe nsi netsho'o,phrase,False,simple-eng-med.xlsx,Sheet1,227,needs_native_review,Médumba translation candidate from source file.
+ct_00037,a_little_bit,en,A little bit,phrase,True,simple-eng-med.xlsx,Sheet1,228,auto_extracted_needs_review,English source text.
+ct_00038,a_little_bit,med,Metsili,word,False,simple-eng-med.xlsx,Sheet1,228,needs_native_review,Médumba translation candidate from source file.
+ct_00039,a_lot,en,A lot,phrase,True,simple-eng-med.xlsx,Sheet1,229,auto_extracted_needs_review,English source text.
+ct_00040,a_lot,med,Yàme,word,False,simple-eng-med.xlsx,Sheet1,229,needs_native_review,Médumba translation candidate from source file.
+ct_00041,it_is_too_much,en,It is too much,phrase,True,simple-eng-med.xlsx,Sheet1,230,auto_extracted_needs_review,English source text.
+ct_00042,it_is_too_much,med,A gha' mbu,phrase,False,simple-eng-med.xlsx,Sheet1,230,needs_native_review,Médumba translation candidate from source file.
+ct_00043,it_is_too_much,en,It is too much,phrase,True,simple-eng-med.xlsx,Sheet1,231,auto_extracted_needs_review,English source text.
+ct_00044,it_is_too_much,med,A ya' nka',phrase,False,simple-eng-med.xlsx,Sheet1,231,needs_native_review,Médumba translation candidate from source file.
+ct_00045,it_is_too_much,en,It is too much,phrase,True,simple-eng-med.xlsx,Sheet1,232,auto_extracted_needs_review,English source text.
+ct_00046,it_is_too_much,med,A yàm,phrase,False,simple-eng-med.xlsx,Sheet1,232,needs_native_review,Médumba translation candidate from source file.
+ct_00047,tell_him,en,Tell him,phrase,True,simple-eng-med.xlsx,Sheet1,233,auto_extracted_needs_review,English source text.
+ct_00048,tell_him,med,Tshob yi,phrase,False,simple-eng-med.xlsx,Sheet1,233,needs_native_review,Médumba translation candidate from source file.
+ct_00049,kitchen,en,Kitchen,word,True,simple-eng-med.xlsx,Sheet1,234,auto_extracted_needs_review,English source text.
+ct_00050,kitchen,med,Kisim,word,False,simple-eng-med.xlsx,Sheet1,234,needs_native_review,Médumba translation candidate from source file.
+ct_00051,well_done,en,Well done,phrase,True,simple-eng-med.xlsx,Sheet1,235,auto_extracted_needs_review,English source text.
+ct_00052,well_done,med,A bwô,phrase,False,simple-eng-med.xlsx,Sheet1,235,needs_native_review,Médumba translation candidate from source file.
+ct_00053,well_done,en,Well done,phrase,True,simple-eng-med.xlsx,Sheet1,236,auto_extracted_needs_review,English source text.
+ct_00054,well_done,med,O ghù a bwô,phrase,False,simple-eng-med.xlsx,Sheet1,236,needs_native_review,Médumba translation candidate from source file.
+ct_00055,well_done,en,Well done,phrase,True,simple-eng-med.xlsx,Sheet1,237,auto_extracted_needs_review,English source text.
+ct_00056,well_done,med,A be mebwô,phrase,False,simple-eng-med.xlsx,Sheet1,237,needs_native_review,Médumba translation candidate from source file.
+ct_00057,my_house_is_far,en,My house is far,phrase,True,simple-eng-med.xlsx,Sheet1,239,auto_extracted_needs_review,English source text.
+ct_00058,my_house_is_far,med,Yàm ba' be ngùanesa,phrase,False,simple-eng-med.xlsx,Sheet1,239,needs_native_review,Médumba translation candidate from source file.
+ct_00059,my_house_is_far,en,My house is far,phrase,True,simple-eng-med.xlsx,Sheet1,240,auto_extracted_needs_review,English source text.
+ct_00060,my_house_is_far,med,Yàm ba' sage,phrase,False,simple-eng-med.xlsx,Sheet1,240,needs_native_review,Médumba translation candidate from source file.
+ct_00061,let_s_go_to_the_hospital,en,Let’s go to the hospital,phrase,True,simple-eng-med.xlsx,Sheet1,241,auto_extracted_needs_review,English source text.
+ct_00062,let_s_go_to_the_hospital,med,Bag wù nèn ndàtshwén,phrase,False,simple-eng-med.xlsx,Sheet1,241,needs_native_review,Médumba translation candidate from source file.
+ct_00063,let_s_go_to_the_hospital,en,Let’s go to the hospital,phrase,True,simple-eng-med.xlsx,Sheet1,242,auto_extracted_needs_review,English source text.
+ct_00064,let_s_go_to_the_hospital,med,Bag bin nèn ndàtshwén,phrase,False,simple-eng-med.xlsx,Sheet1,242,needs_native_review,Médumba translation candidate from source file.
+ct_00065,the_sun_is_rising,en,The sun is rising,phrase,True,simple-eng-med.xlsx,Sheet1,249,auto_extracted_needs_review,English source text.
+ct_00066,the_sun_is_rising,med,Nyàm Tshwèt ntume,phrase,False,simple-eng-med.xlsx,Sheet1,249,needs_native_review,Médumba translation candidate from source file.
+ct_00067,the_sun_has_already_set,en,The sun has already set,phrase,True,simple-eng-med.xlsx,Sheet1,250,auto_extracted_needs_review,English source text.
+ct_00068,the_sun_has_already_set,med,Nyàm yà bi,phrase,False,simple-eng-med.xlsx,Sheet1,250,needs_native_review,Médumba translation candidate from source file.
+ct_00069,those_people_talk_very_fast,en,Those people talk very fast,phrase,True,simple-eng-med.xlsx,Sheet1,254,auto_extracted_needs_review,English source text.
+ct_00070,those_people_talk_very_fast,med,Tshen benntùn nà num ntshobte njoñ léʼ fa,phrase,False,simple-eng-med.xlsx,Sheet1,254,needs_native_review,Médumba translation candidate from source file.
+ct_00071,let_s_go_home_it_s_getting_late,en,Let's go home it's getting late,phrase,True,simple-eng-med.xlsx,Sheet1,256,auto_extracted_needs_review,English source text.
+ct_00072,let_s_go_home_it_s_getting_late,med,"Bag bin bène, njù yà sèn.",phrase,False,simple-eng-med.xlsx,Sheet1,256,needs_native_review,Médumba translation candidate from source file.
+ct_00073,let_s_go_and_show_the_house,en,Let's go and show the house,phrase,True,simple-eng-med.xlsx,Sheet1,257,auto_extracted_needs_review,English source text.
+ct_00074,let_s_go_and_show_the_house,med,Bag bin nèn la'de ba',phrase,False,simple-eng-med.xlsx,Sheet1,257,needs_native_review,Médumba translation candidate from source file.
+ct_00075,it_is_small,en,It is small,phrase,True,simple-eng-med.xlsx,Sheet1,258,auto_extracted_needs_review,English source text.
+ct_00076,it_is_small,med,A kag neshu,phrase,False,simple-eng-med.xlsx,Sheet1,258,needs_native_review,Médumba translation candidate from source file.
+ct_00077,that_rope_is_too_long,en,That rope is too long,phrase,True,simple-eng-med.xlsx,Sheet1,259,auto_extracted_needs_review,English source text.
+ct_00078,that_rope_is_too_long,med,Nkù là sag neshu,phrase,False,simple-eng-med.xlsx,Sheet1,259,needs_native_review,Médumba translation candidate from source file.
+ct_00079,mother,en,mother,word,True,simple-eng-med.xlsx,Sheet1,260,auto_extracted_needs_review,English source text.
+ct_00080,mother,med,mà,word,False,simple-eng-med.xlsx,Sheet1,260,needs_native_review,Médumba translation candidate from source file.
+ct_00081,my_mother,en,My mother,phrase,True,simple-eng-med.xlsx,Sheet1,261,auto_extracted_needs_review,English source text.
+ct_00082,my_mother,med,mà a,phrase,False,simple-eng-med.xlsx,Sheet1,261,needs_native_review,Médumba translation candidate from source file.
+ct_00083,why,en,Why,word,True,simple-eng-med.xlsx,Sheet1,264,auto_extracted_needs_review,English source text.
+ct_00084,why,med,Numke,word,False,simple-eng-med.xlsx,Sheet1,264,needs_native_review,Médumba translation candidate from source file.
+ct_00085,because,en,Because,word,True,simple-eng-med.xlsx,Sheet1,265,auto_extracted_needs_review,English source text.
+ct_00086,because,med,Nummbe,word,False,simple-eng-med.xlsx,Sheet1,265,needs_native_review,Médumba translation candidate from source file.
+ct_00087,head,en,Head,word,True,simple-eng-med.xlsx,Sheet1,269,auto_extracted_needs_review,English source text.
+ct_00088,head,med,Tu,word,False,simple-eng-med.xlsx,Sheet1,269,needs_native_review,Médumba translation candidate from source file.
+ct_00089,ears,en,Ears,word,True,simple-eng-med.xlsx,Sheet1,270,auto_extracted_needs_review,English source text.
+ct_00090,ears,med,Ntoñ,word,False,simple-eng-med.xlsx,Sheet1,270,needs_native_review,Médumba translation candidate from source file.
+ct_00091,the_eyes,en,The eyes,phrase,True,simple-eng-med.xlsx,Sheet1,271,auto_extracted_needs_review,English source text.
+ct_00092,the_eyes,med,Miag,word,False,simple-eng-med.xlsx,Sheet1,271,needs_native_review,Médumba translation candidate from source file.
+ct_00093,hand,en,Hand,word,True,simple-eng-med.xlsx,Sheet1,272,auto_extracted_needs_review,English source text.
+ct_00094,hand,med,Bu,word,False,simple-eng-med.xlsx,Sheet1,272,needs_native_review,Médumba translation candidate from source file.
+ct_00095,mouth,en,MOUTH,word,True,simple-eng-med.xlsx,Sheet1,273,auto_extracted_needs_review,English source text.
+ct_00096,mouth,med,NTSHU,word,False,simple-eng-med.xlsx,Sheet1,273,needs_native_review,Médumba translation candidate from source file.
+ct_00097,the_mouth,en,The mouth,phrase,True,simple-eng-med.xlsx,Sheet1,274,auto_extracted_needs_review,English source text.
+ct_00098,the_mouth,med,ntshu,word,False,simple-eng-med.xlsx,Sheet1,274,needs_native_review,Médumba translation candidate from source file.
+ct_00099,the_tongue,en,The tongue,phrase,True,simple-eng-med.xlsx,Sheet1,275,auto_extracted_needs_review,English source text.
+ct_00100,the_tongue,med,Lem,word,False,simple-eng-med.xlsx,Sheet1,275,needs_native_review,Médumba translation candidate from source file.
+ct_00101,the_legs,en,The legs,phrase,True,simple-eng-med.xlsx,Sheet1,276,auto_extracted_needs_review,English source text.
+ct_00102,the_legs,med,kù,word,False,simple-eng-med.xlsx,Sheet1,276,needs_native_review,Médumba translation candidate from source file.
+ct_00103,belly,en,Belly,word,True,simple-eng-med.xlsx,Sheet1,277,auto_extracted_needs_review,English source text.
+ct_00104,belly,med,Bàm,word,False,simple-eng-med.xlsx,Sheet1,277,needs_native_review,Médumba translation candidate from source file.
+ct_00105,who,en,Who,word,True,simple-eng-med.xlsx,Sheet1,278,auto_extracted_needs_review,English source text.
+ct_00106,who,med,We,word,False,simple-eng-med.xlsx,Sheet1,278,needs_native_review,Médumba translation candidate from source file.
+ct_00107,who_is_it,en,Who is it?,phrase,True,simple-eng-med.xlsx,Sheet1,279,auto_extracted_needs_review,English source text.
+ct_00108,who_is_it,med,A we?,phrase,False,simple-eng-med.xlsx,Sheet1,279,needs_native_review,Médumba translation candidate from source file.
+ct_00109,who_is_it,en,Who is it?,phrase,True,simple-eng-med.xlsx,Sheet1,280,auto_extracted_needs_review,English source text.
+ct_00110,who_is_it,med,A bʼa we?,phrase,False,simple-eng-med.xlsx,Sheet1,280,needs_native_review,Médumba translation candidate from source file.
+ct_00111,what_is_it,en,What is it?,phrase,True,simple-eng-med.xlsx,Sheet1,283,auto_extracted_needs_review,English source text.
+ct_00112,what_is_it,med,A bʼa ke?,phrase,False,simple-eng-med.xlsx,Sheet1,283,needs_native_review,Médumba translation candidate from source file.
+ct_00113,what_is_it,en,What is it?,phrase,True,simple-eng-med.xlsx,Sheet1,284,auto_extracted_needs_review,English source text.
+ct_00114,what_is_it,med,A ke?,phrase,False,simple-eng-med.xlsx,Sheet1,284,needs_native_review,Médumba translation candidate from source file.
+ct_00115,cloth,en,Cloth,word,True,simple-eng-med.xlsx,Sheet1,286,auto_extracted_needs_review,English source text.
+ct_00116,cloth,med,Nzwe,word,False,simple-eng-med.xlsx,Sheet1,286,needs_native_review,Médumba translation candidate from source file.
+ct_00117,water,en,Water,word,True,simple-eng-med.xlsx,Sheet1,287,auto_extracted_needs_review,English source text.
+ct_00118,water,med,Ntse,word,False,simple-eng-med.xlsx,Sheet1,287,needs_native_review,Médumba translation candidate from source file.
+ct_00119,drink_water,en,Drink water,phrase,True,simple-eng-med.xlsx,Sheet1,288,auto_extracted_needs_review,English source text.
+ct_00120,drink_water,med,Nu ntse,phrase,False,simple-eng-med.xlsx,Sheet1,288,needs_native_review,Médumba translation candidate from source file.
+ct_00121,a_dog,en,A dog,phrase,True,simple-eng-med.xlsx,Sheet1,289,auto_extracted_needs_review,English source text.
+ct_00122,a_dog,med,mbu,word,False,simple-eng-med.xlsx,Sheet1,289,needs_native_review,Médumba translation candidate from source file.
+ct_00123,come,en,Come,word,True,simple-eng-med.xlsx,Sheet1,290,auto_extracted_needs_review,English source text.
+ct_00124,come,med,Se',word,False,simple-eng-med.xlsx,Sheet1,290,needs_native_review,Médumba translation candidate from source file.
+ct_00125,a_snake,en,A snake,phrase,True,simple-eng-med.xlsx,Sheet1,291,auto_extracted_needs_review,English source text.
+ct_00126,a_snake,med,Nyu,word,False,simple-eng-med.xlsx,Sheet1,291,needs_native_review,Médumba translation candidate from source file.
+ct_00127,give_me,en,Give me,phrase,True,simple-eng-med.xlsx,Sheet1,292,auto_extracted_needs_review,English source text.
+ct_00128,give_me,med,Fâ me,phrase,False,simple-eng-med.xlsx,Sheet1,292,needs_native_review,Médumba translation candidate from source file.
+ct_00129,leave_from_there,en,Leave from there,phrase,True,simple-eng-med.xlsx,Sheet1,293,auto_extracted_needs_review,English source text.
+ct_00130,leave_from_there,med,Lo nza,phrase,False,simple-eng-med.xlsx,Sheet1,293,needs_native_review,Médumba translation candidate from source file.
+ct_00131,laugh,en,Laugh,word,True,simple-eng-med.xlsx,Sheet1,294,auto_extracted_needs_review,English source text.
+ct_00132,laugh,med,Zwi,word,False,simple-eng-med.xlsx,Sheet1,294,needs_native_review,Médumba translation candidate from source file.
+ct_00133,cry,en,Cry,word,True,simple-eng-med.xlsx,Sheet1,295,auto_extracted_needs_review,English source text.
+ct_00134,cry,med,Kuà'a,word,False,simple-eng-med.xlsx,Sheet1,295,needs_native_review,Médumba translation candidate from source file.
+ct_00135,the_mouse,en,The mouse,phrase,True,simple-eng-med.xlsx,Sheet1,296,auto_extracted_needs_review,English source text.
+ct_00136,the_mouse,med,Tiku,word,False,simple-eng-med.xlsx,Sheet1,296,needs_native_review,Médumba translation candidate from source file.
+ct_00137,shut_up,en,Shut up,phrase,True,simple-eng-med.xlsx,Sheet1,297,auto_extracted_needs_review,English source text.
+ct_00138,shut_up,med,Mùm ntshu o,phrase,False,simple-eng-med.xlsx,Sheet1,297,needs_native_review,Médumba translation candidate from source file.
+ct_00139,the_cat,en,The cat,phrase,True,simple-eng-med.xlsx,Sheet1,298,auto_extracted_needs_review,English source text.
+ct_00140,the_cat,med,Bù si,phrase,False,simple-eng-med.xlsx,Sheet1,298,needs_native_review,Médumba translation candidate from source file.
+ct_00141,father,en,Father,word,True,simple-eng-med.xlsx,Sheet1,299,auto_extracted_needs_review,English source text.
+ct_00142,father,med,Tà,word,False,simple-eng-med.xlsx,Sheet1,299,needs_native_review,Médumba translation candidate from source file.
+ct_00143,my_father,en,My father,phrase,True,simple-eng-med.xlsx,Sheet1,300,auto_extracted_needs_review,English source text.
+ct_00144,my_father,med,Tà a,phrase,False,simple-eng-med.xlsx,Sheet1,300,needs_native_review,Médumba translation candidate from source file.
+ct_00145,my_brother,en,My brother,phrase,True,simple-eng-med.xlsx,Sheet1,301,auto_extracted_needs_review,English source text.
+ct_00146,my_brother,med,Mfêlàm,word,False,simple-eng-med.xlsx,Sheet1,301,needs_native_review,Médumba translation candidate from source file.
+ct_00147,my_brother,en,My brother,phrase,True,simple-eng-med.xlsx,Sheet1,302,auto_extracted_needs_review,English source text.
+ct_00148,my_brother,med,Mfêlàm mzè mandum,phrase,False,simple-eng-med.xlsx,Sheet1,302,needs_native_review,Médumba translation candidate from source file.
+ct_00149,my_sister,en,My sister,phrase,True,simple-eng-med.xlsx,Sheet1,303,auto_extracted_needs_review,English source text.
+ct_00150,my_sister,med,Mfêlàm,word,False,simple-eng-med.xlsx,Sheet1,303,needs_native_review,Médumba translation candidate from source file.
+ct_00151,my_sister,en,My sister,phrase,True,simple-eng-med.xlsx,Sheet1,304,auto_extracted_needs_review,English source text.
+ct_00152,my_sister,med,Mfêlàm mzè mennzwi,phrase,False,simple-eng-med.xlsx,Sheet1,304,needs_native_review,Médumba translation candidate from source file.
+ct_00153,a_boy,en,A boy,phrase,True,simple-eng-med.xlsx,Sheet1,305,auto_extracted_needs_review,English source text.
+ct_00154,a_boy,med,Men mandum,phrase,False,simple-eng-med.xlsx,Sheet1,305,needs_native_review,Médumba translation candidate from source file.
+ct_00155,a_girl,en,A girl,phrase,True,simple-eng-med.xlsx,Sheet1,306,auto_extracted_needs_review,English source text.
+ct_00156,a_girl,med,Men mennzwi,phrase,False,simple-eng-med.xlsx,Sheet1,306,needs_native_review,Médumba translation candidate from source file.
+ct_00157,husband,en,Husband,word,True,simple-eng-med.xlsx,Sheet1,309,auto_extracted_needs_review,English source text.
+ct_00158,husband,med,Bandum,word,False,simple-eng-med.xlsx,Sheet1,309,needs_native_review,Médumba translation candidate from source file.
+ct_00159,a_woman,en,A woman,phrase,True,simple-eng-med.xlsx,Sheet1,310,auto_extracted_needs_review,English source text.
+ct_00160,a_woman,med,mènnzwi,word,False,simple-eng-med.xlsx,Sheet1,310,needs_native_review,Médumba translation candidate from source file.
+ct_00161,woman,en,Woman,word,True,simple-eng-med.xlsx,Sheet1,311,auto_extracted_needs_review,English source text.
+ct_00162,woman,med,Mènnzwi,word,False,simple-eng-med.xlsx,Sheet1,311,needs_native_review,Médumba translation candidate from source file.
+ct_00163,wife,en,Wife,word,True,simple-eng-med.xlsx,Sheet1,312,auto_extracted_needs_review,English source text.
+ct_00164,wife,med,Bènnzwi,word,False,simple-eng-med.xlsx,Sheet1,312,needs_native_review,Médumba translation candidate from source file.
+ct_00165,drink,en,Drink,word,True,simple-eng-med.xlsx,Sheet1,313,auto_extracted_needs_review,English source text.
+ct_00166,drink,med,Nu,word,False,simple-eng-med.xlsx,Sheet1,313,needs_native_review,Médumba translation candidate from source file.
+ct_00167,eat,en,Eat,word,True,simple-eng-med.xlsx,Sheet1,314,auto_extracted_needs_review,English source text.
+ct_00168,eat,med,Jù,word,False,simple-eng-med.xlsx,Sheet1,314,needs_native_review,Médumba translation candidate from source file.
+ct_00169,a_cup,en,A cup,phrase,True,simple-eng-med.xlsx,Sheet1,315,auto_extracted_needs_review,English source text.
+ct_00170,a_cup,med,cup,word,False,simple-eng-med.xlsx,Sheet1,315,needs_native_review,Médumba translation candidate from source file.
+ct_00171,a_cup,en,A cup,phrase,True,simple-eng-med.xlsx,Sheet1,316,auto_extracted_needs_review,English source text.
+ct_00172,a_cup,med,cup,word,False,simple-eng-med.xlsx,Sheet1,316,needs_native_review,Médumba translation candidate from source file.
+ct_00173,a_glass,en,A glass,phrase,True,simple-eng-med.xlsx,Sheet1,317,auto_extracted_needs_review,English source text.
+ct_00174,a_glass,med,cup,word,False,simple-eng-med.xlsx,Sheet1,317,needs_native_review,Médumba translation candidate from source file.
+ct_00175,a_glass,en,A glass,phrase,True,simple-eng-med.xlsx,Sheet1,318,auto_extracted_needs_review,English source text.
+ct_00176,a_glass,med,cup,word,False,simple-eng-med.xlsx,Sheet1,318,needs_native_review,Médumba translation candidate from source file.
+ct_00177,take,en,Take,word,True,simple-eng-med.xlsx,Sheet1,321,auto_extracted_needs_review,English source text.
+ct_00178,take,med,Ko,word,False,simple-eng-med.xlsx,Sheet1,321,needs_native_review,Médumba translation candidate from source file.
+ct_00179,throw,en,Throw,word,True,simple-eng-med.xlsx,Sheet1,323,auto_extracted_needs_review,English source text.
+ct_00180,throw,med,Ghuaʼ,word,False,simple-eng-med.xlsx,Sheet1,323,needs_native_review,Médumba translation candidate from source file.
+ct_00181,push,en,Push,word,True,simple-eng-med.xlsx,Sheet1,325,auto_extracted_needs_review,English source text.
+ct_00182,push,med,Tènde,word,False,simple-eng-med.xlsx,Sheet1,325,needs_native_review,Médumba translation candidate from source file.
+ct_00183,bring_back_to_you,en,Bring back to you,phrase,True,simple-eng-med.xlsx,Sheet1,326,auto_extracted_needs_review,English source text.
+ct_00184,bring_back_to_you,med,Se' va we,phrase,False,simple-eng-med.xlsx,Sheet1,326,needs_native_review,Médumba translation candidate from source file.
+ct_00185,come_and_get,en,Come and get,phrase,True,simple-eng-med.xlsx,Sheet1,327,auto_extracted_needs_review,English source text.
+ct_00186,come_and_get,med,Se' ko,phrase,False,simple-eng-med.xlsx,Sheet1,327,needs_native_review,Médumba translation candidate from source file.
+ct_00187,let_s_go,en,Let's go,phrase,True,simple-eng-med.xlsx,Sheet1,328,auto_extracted_needs_review,English source text.
+ct_00188,let_s_go,med,bè nene,phrase,False,simple-eng-med.xlsx,Sheet1,328,needs_native_review,Médumba translation candidate from source file.
+ct_00189,zero,en,Zero,word,True,simple-eng-med.xlsx,Sheet1,329,auto_extracted_needs_review,English source text.
+ct_00190,zero,med,Ba nban,phrase,False,simple-eng-med.xlsx,Sheet1,329,needs_native_review,Médumba translation candidate from source file.
+ct_00191,one,en,One,word,True,simple-eng-med.xlsx,Sheet1,330,auto_extracted_needs_review,English source text.
+ct_00192,one,med,Taʼ,word,False,simple-eng-med.xlsx,Sheet1,330,needs_native_review,Médumba translation candidate from source file.
+ct_00193,two,en,Two,word,True,simple-eng-med.xlsx,Sheet1,331,auto_extracted_needs_review,English source text.
+ct_00194,two,med,Boho,word,False,simple-eng-med.xlsx,Sheet1,331,needs_native_review,Médumba translation candidate from source file.
+ct_00195,three,en,Three,word,True,simple-eng-med.xlsx,Sheet1,332,auto_extracted_needs_review,English source text.
+ct_00196,three,med,Tàt,word,False,simple-eng-med.xlsx,Sheet1,332,needs_native_review,Médumba translation candidate from source file.
+ct_00197,four,en,Four,word,True,simple-eng-med.xlsx,Sheet1,333,auto_extracted_needs_review,English source text.
+ct_00198,four,med,Kuà,word,False,simple-eng-med.xlsx,Sheet1,333,needs_native_review,Médumba translation candidate from source file.
+ct_00199,five,en,Five,word,True,simple-eng-med.xlsx,Sheet1,334,auto_extracted_needs_review,English source text.
+ct_00200,five,med,Tàn,word,False,simple-eng-med.xlsx,Sheet1,334,needs_native_review,Médumba translation candidate from source file.
+ct_00201,sleep,en,Sleep,word,True,simple-eng-med.xlsx,Sheet1,335,auto_extracted_needs_review,English source text.
+ct_00202,sleep,med,Zi,word,False,simple-eng-med.xlsx,Sheet1,335,needs_native_review,Médumba translation candidate from source file.
+ct_00203,please,en,Please,word,True,simple-eng-med.xlsx,Sheet1,336,auto_extracted_needs_review,English source text.
+ct_00204,please,med,Netshoʼo,word,False,simple-eng-med.xlsx,Sheet1,336,needs_native_review,Médumba translation candidate from source file.
+ct_00205,open,en,Open,word,True,simple-eng-med.xlsx,Sheet1,339,auto_extracted_needs_review,English source text.
+ct_00206,open,med,Co'o,word,False,simple-eng-med.xlsx,Sheet1,339,needs_native_review,Médumba translation candidate from source file.
+ct_00207,the_door,en,The door,phrase,True,simple-eng-med.xlsx,Sheet1,340,auto_extracted_needs_review,English source text.
+ct_00208,the_door,med,nda,word,False,simple-eng-med.xlsx,Sheet1,340,needs_native_review,Médumba translation candidate from source file.
+ct_00209,close_the_door,en,Close the door,phrase,True,simple-eng-med.xlsx,Sheet1,341,auto_extracted_needs_review,English source text.
+ct_00210,close_the_door,med,Fu' nzè nda,phrase,False,simple-eng-med.xlsx,Sheet1,341,needs_native_review,Médumba translation candidate from source file.
+ct_00211,open_the_door,en,Open the door,phrase,True,simple-eng-med.xlsx,Sheet1,342,auto_extracted_needs_review,English source text.
+ct_00212,open_the_door,med,Co' nzè nda,phrase,False,simple-eng-med.xlsx,Sheet1,342,needs_native_review,Médumba translation candidate from source file.
+ct_00213,have_a_seat,en,Have a seat,phrase,True,simple-eng-med.xlsx,Sheet1,343,auto_extracted_needs_review,English source text.
+ct_00214,have_a_seat,med,Tswe nsi,phrase,False,simple-eng-med.xlsx,Sheet1,343,needs_native_review,Médumba translation candidate from source file.
+ct_00215,get_down,en,Get down,phrase,True,simple-eng-med.xlsx,Sheet1,344,auto_extracted_needs_review,English source text.
+ct_00216,get_down,med,Swe'e,word,False,simple-eng-med.xlsx,Sheet1,344,needs_native_review,Médumba translation candidate from source file.
+ct_00217,go_up,en,Go up,phrase,True,simple-eng-med.xlsx,Sheet1,345,auto_extracted_needs_review,English source text.
+ct_00218,go_up,med,ko'o,word,False,simple-eng-med.xlsx,Sheet1,345,needs_native_review,Médumba translation candidate from source file.
+ct_00219,do_you_hear,en,Do you hear?,phrase,True,simple-eng-med.xlsx,Sheet1,346,auto_extracted_needs_review,English source text.
+ct_00220,do_you_hear,med,O ju à?,phrase,False,simple-eng-med.xlsx,Sheet1,346,needs_native_review,Médumba translation candidate from source file.
+ct_00221,i,en,I,word,True,simple-eng-med.xlsx,Sheet1,347,auto_extracted_needs_review,English source text.
+ct_00222,i,med,Mé,word,False,simple-eng-med.xlsx,Sheet1,347,needs_native_review,Médumba translation candidate from source file.
+ct_00223,i,en,I,word,True,simple-eng-med.xlsx,Sheet1,348,auto_extracted_needs_review,English source text.
+ct_00224,i,med,Me,word,False,simple-eng-med.xlsx,Sheet1,348,needs_native_review,Médumba translation candidate from source file.
+ct_00225,you,en,You,word,True,simple-eng-med.xlsx,Sheet1,349,auto_extracted_needs_review,English source text.
+ct_00226,you,med,O,word,False,simple-eng-med.xlsx,Sheet1,349,needs_native_review,Médumba translation candidate from source file.
+ct_00227,he,en,He,word,True,simple-eng-med.xlsx,Sheet1,350,auto_extracted_needs_review,English source text.
+ct_00228,he,med,A,word,False,simple-eng-med.xlsx,Sheet1,350,needs_native_review,Médumba translation candidate from source file.
+ct_00229,she,en,She,word,True,simple-eng-med.xlsx,Sheet1,351,auto_extracted_needs_review,English source text.
+ct_00230,she,med,A,word,False,simple-eng-med.xlsx,Sheet1,351,needs_native_review,Médumba translation candidate from source file.
+ct_00231,we,en,We,word,True,simple-eng-med.xlsx,Sheet1,352,auto_extracted_needs_review,English source text.
+ct_00232,we,med,Bag,word,False,simple-eng-med.xlsx,Sheet1,352,needs_native_review,Médumba translation candidate from source file.
+ct_00233,you,en,You,word,True,simple-eng-med.xlsx,Sheet1,353,auto_extracted_needs_review,English source text.
+ct_00234,you,med,Bin,word,False,simple-eng-med.xlsx,Sheet1,353,needs_native_review,Médumba translation candidate from source file.
+ct_00235,they,en,They,word,True,simple-eng-med.xlsx,Sheet1,354,auto_extracted_needs_review,English source text.
+ct_00236,they,med,Bo,word,False,simple-eng-med.xlsx,Sheet1,354,needs_native_review,Médumba translation candidate from source file.
+ct_00237,i_forgot,en,I forgot,phrase,True,simple-eng-med.xlsx,Sheet1,355,auto_extracted_needs_review,English source text.
+ct_00238,i_forgot,med,Me lagde,phrase,False,simple-eng-med.xlsx,Sheet1,355,needs_native_review,Médumba translation candidate from source file.
+ct_00239,for_whom,en,For whom,phrase,True,simple-eng-med.xlsx,Sheet1,356,auto_extracted_needs_review,English source text.
+ct_00240,for_whom,med,Ze we?,phrase,False,simple-eng-med.xlsx,Sheet1,356,needs_native_review,Médumba translation candidate from source file.
+ct_00241,who_is_it_for,en,Who is it for?,phrase,True,simple-eng-med.xlsx,Sheet1,357,auto_extracted_needs_review,English source text.
+ct_00242,who_is_it_for,med,A ze we?,phrase,False,simple-eng-med.xlsx,Sheet1,357,needs_native_review,Médumba translation candidate from source file.
+ct_00243,who_is_it_for,en,Who is it for?,phrase,True,simple-eng-med.xlsx,Sheet1,358,auto_extracted_needs_review,English source text.
+ct_00244,who_is_it_for,med,A bʼa ze we?,phrase,False,simple-eng-med.xlsx,Sheet1,358,needs_native_review,Médumba translation candidate from source file.
+ct_00245,it_s_mine,en,It's mine,phrase,True,simple-eng-med.xlsx,Sheet1,359,auto_extracted_needs_review,English source text.
+ct_00246,it_s_mine,med,A yam,phrase,False,simple-eng-med.xlsx,Sheet1,359,needs_native_review,Médumba translation candidate from source file.
+ct_00247,it_s_mine,en,It's mine,phrase,True,simple-eng-med.xlsx,Sheet1,360,auto_extracted_needs_review,English source text.
+ct_00248,it_s_mine,med,A bʼa yam,phrase,False,simple-eng-med.xlsx,Sheet1,360,needs_native_review,Médumba translation candidate from source file.
+ct_00249,it_s_yours,en,It's yours,phrase,True,simple-eng-med.xlsx,Sheet1,361,auto_extracted_needs_review,English source text.
+ct_00250,it_s_yours,med,A yu,phrase,False,simple-eng-med.xlsx,Sheet1,361,needs_native_review,Médumba translation candidate from source file.
+ct_00251,it_s_yours,en,It's yours,phrase,True,simple-eng-med.xlsx,Sheet1,362,auto_extracted_needs_review,English source text.
+ct_00252,it_s_yours,med,A bʼa yu,phrase,False,simple-eng-med.xlsx,Sheet1,362,needs_native_review,Médumba translation candidate from source file.
+ct_00253,it_s_his,en,It's his,phrase,True,simple-eng-med.xlsx,Sheet1,363,auto_extracted_needs_review,English source text.
+ct_00254,it_s_his,med,A ze,phrase,False,simple-eng-med.xlsx,Sheet1,363,needs_native_review,Médumba translation candidate from source file.
+ct_00255,it_s_his,en,It's his,phrase,True,simple-eng-med.xlsx,Sheet1,364,auto_extracted_needs_review,English source text.
+ct_00256,it_s_his,med,A bʼa ze,phrase,False,simple-eng-med.xlsx,Sheet1,364,needs_native_review,Médumba translation candidate from source file.
+ct_00257,it_s_ours,en,It's ours,phrase,True,simple-eng-med.xlsx,Sheet1,365,auto_extracted_needs_review,English source text.
+ct_00258,it_s_ours,med,A yag,phrase,False,simple-eng-med.xlsx,Sheet1,365,needs_native_review,Médumba translation candidate from source file.
+ct_00259,it_s_ours,en,It's ours,phrase,True,simple-eng-med.xlsx,Sheet1,366,auto_extracted_needs_review,English source text.
+ct_00260,it_s_ours,med,A bʼa yag,phrase,False,simple-eng-med.xlsx,Sheet1,366,needs_native_review,Médumba translation candidate from source file.
+ct_00261,it_s_yours,en,It's yours,phrase,True,simple-eng-med.xlsx,Sheet1,367,auto_extracted_needs_review,English source text.
+ct_00262,it_s_yours,med,A zin,phrase,False,simple-eng-med.xlsx,Sheet1,367,needs_native_review,Médumba translation candidate from source file.
+ct_00263,it_s_yours,en,It's yours,phrase,True,simple-eng-med.xlsx,Sheet1,368,auto_extracted_needs_review,English source text.
+ct_00264,it_s_yours,med,A bʼa zin,phrase,False,simple-eng-med.xlsx,Sheet1,368,needs_native_review,Médumba translation candidate from source file.
+ct_00265,it_s_theirs,en,It's theirs,phrase,True,simple-eng-med.xlsx,Sheet1,369,auto_extracted_needs_review,English source text.
+ct_00266,it_s_theirs,med,A yub,phrase,False,simple-eng-med.xlsx,Sheet1,369,needs_native_review,Médumba translation candidate from source file.
+ct_00267,it_s_theirs,en,It's theirs,phrase,True,simple-eng-med.xlsx,Sheet1,370,auto_extracted_needs_review,English source text.
+ct_00268,it_s_theirs,med,A bʼa yub,phrase,False,simple-eng-med.xlsx,Sheet1,370,needs_native_review,Médumba translation candidate from source file.
+ct_00269,it_is_true,en,It is true,phrase,True,simple-eng-med.xlsx,Sheet1,375,auto_extracted_needs_review,English source text.
+ct_00270,it_is_true,med,A nenùn,phrase,False,simple-eng-med.xlsx,Sheet1,375,needs_native_review,Médumba translation candidate from source file.
+ct_00271,it_is_true,en,It is true,phrase,True,simple-eng-med.xlsx,Sheet1,376,auto_extracted_needs_review,English source text.
+ct_00272,it_is_true,med,A bèn mbʼà nenùn,phrase,False,simple-eng-med.xlsx,Sheet1,376,needs_native_review,Médumba translation candidate from source file.
+ct_00273,it_is_not_true,en,It is not true,phrase,True,simple-eng-med.xlsx,Sheet1,377,auto_extracted_needs_review,English source text.
+ct_00274,it_is_not_true,med,A ke nenùn,phrase,False,simple-eng-med.xlsx,Sheet1,377,needs_native_review,Médumba translation candidate from source file.
+ct_00275,it_is_not_true,en,It is not true,phrase,True,simple-eng-med.xlsx,Sheet1,378,auto_extracted_needs_review,English source text.
+ct_00276,it_is_not_true,med,A keʼ bʼà nenùn,phrase,False,simple-eng-med.xlsx,Sheet1,378,needs_native_review,Médumba translation candidate from source file.
+ct_00277,it_is_not_true,en,It is not true,phrase,True,simple-eng-med.xlsx,Sheet1,379,auto_extracted_needs_review,English source text.
+ct_00278,it_is_not_true,med,A bʼa tatte,phrase,False,simple-eng-med.xlsx,Sheet1,379,needs_native_review,Médumba translation candidate from source file.
+ct_00279,it_is_a_lie,en,It is a lie,phrase,True,simple-eng-med.xlsx,Sheet1,380,auto_extracted_needs_review,English source text.
+ct_00280,it_is_a_lie,med,A bʼa tatte,phrase,False,simple-eng-med.xlsx,Sheet1,380,needs_native_review,Médumba translation candidate from source file.
+ct_00281,please_mother,en,Please mother,phrase,True,simple-eng-med.xlsx,Sheet1,381,auto_extracted_needs_review,English source text.
+ct_00282,please_mother,med,Netshoʼo mà,phrase,False,simple-eng-med.xlsx,Sheet1,381,needs_native_review,Médumba translation candidate from source file.
+ct_00283,a_little,en,A little,phrase,True,simple-eng-med.xlsx,Sheet1,382,auto_extracted_needs_review,English source text.
+ct_00284,a_little,med,Metsit,word,False,simple-eng-med.xlsx,Sheet1,382,needs_native_review,Médumba translation candidate from source file.
+ct_00285,a_lot,en,A lot,phrase,True,simple-eng-med.xlsx,Sheet1,383,auto_extracted_needs_review,English source text.
+ct_00286,a_lot,med,Neshu,word,False,simple-eng-med.xlsx,Sheet1,383,needs_native_review,Médumba translation candidate from source file.
+ct_00287,it_is_much,en,It is much,phrase,True,simple-eng-med.xlsx,Sheet1,384,auto_extracted_needs_review,English source text.
+ct_00288,it_is_much,med,A ya' nka',phrase,False,simple-eng-med.xlsx,Sheet1,384,needs_native_review,Médumba translation candidate from source file.
+ct_00289,small,en,Small,word,True,simple-eng-med.xlsx,Sheet1,385,auto_extracted_needs_review,English source text.
+ct_00290,small,med,Kag,word,False,simple-eng-med.xlsx,Sheet1,385,needs_native_review,Médumba translation candidate from source file.
+ct_00291,it_is_small,en,It is small,phrase,True,simple-eng-med.xlsx,Sheet1,386,auto_extracted_needs_review,English source text.
+ct_00292,it_is_small,med,A kag,phrase,False,simple-eng-med.xlsx,Sheet1,386,needs_native_review,Médumba translation candidate from source file.
+ct_00293,to_hurt,en,To hurt,phrase,True,simple-eng-med.xlsx,Sheet1,387,auto_extracted_needs_review,English source text.
+ct_00294,to_hurt,med,Ya,word,False,simple-eng-med.xlsx,Sheet1,387,needs_native_review,Médumba translation candidate from source file.
+ct_00295,it_hurts,en,It hurts,phrase,True,simple-eng-med.xlsx,Sheet1,388,auto_extracted_needs_review,English source text.
+ct_00296,it_hurts,med,A tshwèt nja,phrase,False,simple-eng-med.xlsx,Sheet1,388,needs_native_review,Médumba translation candidate from source file.
+ct_00297,please_my_brother,en,Please my brother,phrase,True,simple-eng-med.xlsx,Sheet1,389,auto_extracted_needs_review,English source text.
+ct_00298,please_my_brother,med,Netshoʼo mfelàm,phrase,False,simple-eng-med.xlsx,Sheet1,389,needs_native_review,Médumba translation candidate from source file.
+ct_00299,please_my_sister,en,Please my sister,phrase,True,simple-eng-med.xlsx,Sheet1,390,auto_extracted_needs_review,English source text.
+ct_00300,please_my_sister,med,Netshoʼo mfelàm,phrase,False,simple-eng-med.xlsx,Sheet1,390,needs_native_review,Médumba translation candidate from source file.
+ct_00301,that_s_good,en,That's good,phrase,True,simple-eng-med.xlsx,Sheet1,391,auto_extracted_needs_review,English source text.
+ct_00302,that_s_good,med,A bwô,phrase,False,simple-eng-med.xlsx,Sheet1,391,needs_native_review,Médumba translation candidate from source file.
+ct_00303,to_smell,en,To smell,phrase,True,simple-eng-med.xlsx,Sheet1,393,auto_extracted_needs_review,English source text.
+ct_00304,to_smell,med,Nè là me,phrase,False,simple-eng-med.xlsx,Sheet1,393,needs_native_review,Médumba translation candidate from source file.
+ct_00305,talk,en,Talk,word,True,simple-eng-med.xlsx,Sheet1,398,auto_extracted_needs_review,English source text.
+ct_00306,talk,med,Ntshobe,word,False,simple-eng-med.xlsx,Sheet1,398,needs_native_review,Médumba translation candidate from source file.
+ct_00307,listen,en,Listen,word,True,simple-eng-med.xlsx,Sheet1,399,auto_extracted_needs_review,English source text.
+ct_00308,listen,med,Ju',word,False,simple-eng-med.xlsx,Sheet1,399,needs_native_review,Médumba translation candidate from source file.
+ct_00309,tell_me,en,Tell me,phrase,True,simple-eng-med.xlsx,Sheet1,400,auto_extracted_needs_review,English source text.
+ct_00310,tell_me,med,Tshob me,phrase,False,simple-eng-med.xlsx,Sheet1,400,needs_native_review,Médumba translation candidate from source file.
+ct_00311,don_t_tell_him,en,Don't tell him,phrase,True,simple-eng-med.xlsx,Sheet1,401,auto_extracted_needs_review,English source text.
+ct_00312,don_t_tell_him,med,Ka Tshob yi,phrase,False,simple-eng-med.xlsx,Sheet1,401,needs_native_review,Médumba translation candidate from source file.
+ct_00313,don_t_listen,en,Don't listen,phrase,True,simple-eng-med.xlsx,Sheet1,402,auto_extracted_needs_review,English source text.
+ct_00314,don_t_listen,med,Ka ju,phrase,False,simple-eng-med.xlsx,Sheet1,402,needs_native_review,Médumba translation candidate from source file.
+ct_00315,don_t_hear,en,Don't hear,phrase,True,simple-eng-med.xlsx,Sheet1,403,auto_extracted_needs_review,English source text.
+ct_00316,don_t_hear,med,Ka ju,phrase,False,simple-eng-med.xlsx,Sheet1,403,needs_native_review,Médumba translation candidate from source file.
+ct_00317,listen_to_me,en,Listen to me,phrase,True,simple-eng-med.xlsx,Sheet1,404,auto_extracted_needs_review,English source text.
+ct_00318,listen_to_me,med,Ju' am,phrase,False,simple-eng-med.xlsx,Sheet1,404,needs_native_review,Médumba translation candidate from source file.
+ct_00319,be_upset,en,Be upset,phrase,True,simple-eng-med.xlsx,Sheet1,405,auto_extracted_needs_review,English source text.
+ct_00320,be_upset,med,Yantu,word,False,simple-eng-med.xlsx,Sheet1,405,needs_native_review,Médumba translation candidate from source file.
+ct_00321,be_mad,en,Be mad,phrase,True,simple-eng-med.xlsx,Sheet1,406,auto_extracted_needs_review,English source text.
+ct_00322,be_mad,med,Yantu,word,False,simple-eng-med.xlsx,Sheet1,406,needs_native_review,Médumba translation candidate from source file.
+ct_00323,get_upset,en,Get upset,phrase,True,simple-eng-med.xlsx,Sheet1,407,auto_extracted_needs_review,English source text.
+ct_00324,get_upset,med,Yantu,word,False,simple-eng-med.xlsx,Sheet1,407,needs_native_review,Médumba translation candidate from source file.
+ct_00325,get_mad,en,Get mad,phrase,True,simple-eng-med.xlsx,Sheet1,408,auto_extracted_needs_review,English source text.
+ct_00326,get_mad,med,Yantu,word,False,simple-eng-med.xlsx,Sheet1,408,needs_native_review,Médumba translation candidate from source file.
+ct_00327,be_happy,en,Be happy,phrase,True,simple-eng-med.xlsx,Sheet1,409,auto_extracted_needs_review,English source text.
+ct_00328,be_happy,med,Tsiañde,word,False,simple-eng-med.xlsx,Sheet1,409,needs_native_review,Médumba translation candidate from source file.
+ct_00329,i_am_happy,en,I am happy,phrase,True,simple-eng-med.xlsx,Sheet1,410,auto_extracted_needs_review,English source text.
+ct_00330,i_am_happy,med,Nu bwo am,phrase,False,simple-eng-med.xlsx,Sheet1,410,needs_native_review,Médumba translation candidate from source file.
+ct_00331,i_am_happy,en,I am happy,phrase,True,simple-eng-med.xlsx,Sheet1,411,auto_extracted_needs_review,English source text.
+ct_00332,i_am_happy,med,Me Tsiañde,phrase,False,simple-eng-med.xlsx,Sheet1,411,needs_native_review,Médumba translation candidate from source file.
+ct_00333,to_do,en,To do,phrase,True,simple-eng-med.xlsx,Sheet1,412,auto_extracted_needs_review,English source text.
+ct_00334,to_do,med,Ghu,word,False,simple-eng-med.xlsx,Sheet1,412,needs_native_review,Médumba translation candidate from source file.
+ct_00335,what_are_you_doing,en,What are you doing?,phrase,True,simple-eng-med.xlsx,Sheet1,413,auto_extracted_needs_review,English source text.
+ct_00336,what_are_you_doing,med,O ghù a ke?,phrase,False,simple-eng-med.xlsx,Sheet1,413,needs_native_review,Médumba translation candidate from source file.
+ct_00337,i_know,en,I know,phrase,True,simple-eng-med.xlsx,Sheet1,414,auto_extracted_needs_review,English source text.
+ct_00338,i_know,med,Me lèn,phrase,False,simple-eng-med.xlsx,Sheet1,414,needs_native_review,Médumba translation candidate from source file.
+ct_00339,i_don_t_know,en,I don't know,phrase,True,simple-eng-med.xlsx,Sheet1,415,auto_extracted_needs_review,English source text.
+ct_00340,i_don_t_know,med,Me ke' lèn,phrase,False,simple-eng-med.xlsx,Sheet1,415,needs_native_review,Médumba translation candidate from source file.
+ct_00341,help_me_please,en,Help me please,phrase,True,simple-eng-med.xlsx,Sheet1,416,auto_extracted_needs_review,English source text.
+ct_00342,help_me_please,med,Ywi mtè am Netshoʼo,phrase,False,simple-eng-med.xlsx,Sheet1,416,needs_native_review,Médumba translation candidate from source file.
+ct_00343,give_mine,en,Give mine,phrase,True,simple-eng-med.xlsx,Sheet1,417,auto_extracted_needs_review,English source text.
+ct_00344,give_mine,med,Fa yam,phrase,False,simple-eng-med.xlsx,Sheet1,417,needs_native_review,Médumba translation candidate from source file.
+ct_00345,please_give_mine,en,Please give mine,phrase,True,simple-eng-med.xlsx,Sheet1,418,auto_extracted_needs_review,English source text.
+ct_00346,please_give_mine,med,Netshoʼo fa yam,phrase,False,simple-eng-med.xlsx,Sheet1,418,needs_native_review,Médumba translation candidate from source file.
+ct_00347,here_it_is,en,Here it is,phrase,True,simple-eng-med.xlsx,Sheet1,421,auto_extracted_needs_review,English source text.
+ct_00348,here_it_is,med,A li,phrase,False,simple-eng-med.xlsx,Sheet1,421,needs_native_review,Médumba translation candidate from source file.
+ct_00349,here_it_is_beside_you,en,Here it is beside you,phrase,True,simple-eng-med.xlsx,Sheet1,422,auto_extracted_needs_review,English source text.
+ct_00350,here_it_is_beside_you,med,A la,phrase,False,simple-eng-med.xlsx,Sheet1,422,needs_native_review,Médumba translation candidate from source file.
+ct_00351,here_it_is_away_from_you,en,Here it is away from you,phrase,True,simple-eng-med.xlsx,Sheet1,423,auto_extracted_needs_review,English source text.
+ct_00352,here_it_is_away_from_you,med,A din,phrase,False,simple-eng-med.xlsx,Sheet1,423,needs_native_review,Médumba translation candidate from source file.
+ct_00353,i_am_tired,en,I am tired,phrase,True,simple-eng-med.xlsx,Sheet1,424,auto_extracted_needs_review,English source text.
+ct_00354,i_am_tired,med,Me bod,phrase,False,simple-eng-med.xlsx,Sheet1,424,needs_native_review,Médumba translation candidate from source file.
+ct_00355,i_am_eating,en,I am eating,phrase,True,simple-eng-med.xlsx,Sheet1,425,auto_extracted_needs_review,English source text.
+ct_00356,i_am_eating,med,Mé ju â ju,phrase,False,simple-eng-med.xlsx,Sheet1,425,needs_native_review,Médumba translation candidate from source file.
+ct_00357,where_are_you,en,Where are you?,phrase,True,simple-eng-med.xlsx,Sheet1,426,auto_extracted_needs_review,English source text.
+ct_00358,where_are_you,med,O bʼa ya?,phrase,False,simple-eng-med.xlsx,Sheet1,426,needs_native_review,Médumba translation candidate from source file.
+ct_00359,i_am_in_the_room,en,I am in the room,phrase,True,simple-eng-med.xlsx,Sheet1,427,auto_extracted_needs_review,English source text.
+ct_00360,i_am_in_the_room,med,Me bʼa to' nda,phrase,False,simple-eng-med.xlsx,Sheet1,427,needs_native_review,Médumba translation candidate from source file.
+ct_00361,i_am_in_the_kitchen,en,I am in the kitchen,phrase,True,simple-eng-med.xlsx,Sheet1,428,auto_extracted_needs_review,English source text.
+ct_00362,i_am_in_the_kitchen,med,Me bʼa fe 'mbwoge,phrase,False,simple-eng-med.xlsx,Sheet1,428,needs_native_review,Médumba translation candidate from source file.
+ct_00363,here_he_is,en,Here he is,phrase,True,simple-eng-med.xlsx,Sheet1,429,auto_extracted_needs_review,English source text.
+ct_00364,here_he_is,med,A be nsi la,phrase,False,simple-eng-med.xlsx,Sheet1,429,needs_native_review,Médumba translation candidate from source file.
+ct_00365,here_he_is,en,Here he is,phrase,True,simple-eng-med.xlsx,Sheet1,430,auto_extracted_needs_review,English source text.
+ct_00366,here_he_is,med,A la nsi,phrase,False,simple-eng-med.xlsx,Sheet1,430,needs_native_review,Médumba translation candidate from source file.
+ct_00367,here_i_am,en,Here I am,phrase,True,simple-eng-med.xlsx,Sheet1,431,auto_extracted_needs_review,English source text.
+ct_00368,here_i_am,med,Mè be nsi la,phrase,False,simple-eng-med.xlsx,Sheet1,431,needs_native_review,Médumba translation candidate from source file.
+ct_00369,you_are_not_here,en,You are not here,phrase,True,simple-eng-med.xlsx,Sheet1,432,auto_extracted_needs_review,English source text.
+ct_00370,you_are_not_here,med,O kê' be nsi,phrase,False,simple-eng-med.xlsx,Sheet1,432,needs_native_review,Médumba translation candidate from source file.
+ct_00371,she_is_not_there,en,She is not there,phrase,True,simple-eng-med.xlsx,Sheet1,433,auto_extracted_needs_review,English source text.
+ct_00372,she_is_not_there,med,A kê' be nsi,phrase,False,simple-eng-med.xlsx,Sheet1,433,needs_native_review,Médumba translation candidate from source file.
+ct_00373,you_are_laughing,en,You are laughing,phrase,True,simple-eng-med.xlsx,Sheet1,434,auto_extracted_needs_review,English source text.
+ct_00374,you_are_laughing,med,O tshwèt nzwi,phrase,False,simple-eng-med.xlsx,Sheet1,434,needs_native_review,Médumba translation candidate from source file.
+ct_00375,you_are_crying,en,You are crying,phrase,True,simple-eng-med.xlsx,Sheet1,435,auto_extracted_needs_review,English source text.
+ct_00376,you_are_crying,med,O tshwèt nkuâ'a,phrase,False,simple-eng-med.xlsx,Sheet1,435,needs_native_review,Médumba translation candidate from source file.
+ct_00377,why_are_you_laughing,en,Why are you laughing?,phrase,True,simple-eng-med.xlsx,Sheet1,436,auto_extracted_needs_review,English source text.
+ct_00378,why_are_you_laughing,med,O zwi â numke?,phrase,False,simple-eng-med.xlsx,Sheet1,436,needs_native_review,Médumba translation candidate from source file.
+ct_00379,because_i_am_happy,en,Because I am happy,phrase,True,simple-eng-med.xlsx,Sheet1,437,auto_extracted_needs_review,English source text.
+ct_00380,because_i_am_happy,med,Nummbe nu bwo am Tsiañde,phrase,False,simple-eng-med.xlsx,Sheet1,437,needs_native_review,Médumba translation candidate from source file.
+ct_00381,because_i_am_happy,en,Because I am happy,phrase,True,simple-eng-med.xlsx,Sheet1,438,auto_extracted_needs_review,English source text.
+ct_00382,because_i_am_happy,med,Nummbe me Tsiañde,phrase,False,simple-eng-med.xlsx,Sheet1,438,needs_native_review,Médumba translation candidate from source file.
+ct_00383,i_don_t_know,en,I don't know,phrase,True,simple-eng-med.xlsx,Sheet1,439,auto_extracted_needs_review,English source text.
+ct_00384,i_don_t_know,med,Me ke' lèn,phrase,False,simple-eng-med.xlsx,Sheet1,439,needs_native_review,Médumba translation candidate from source file.
+ct_00385,that_s_right,en,That's right,phrase,True,simple-eng-med.xlsx,Sheet1,440,auto_extracted_needs_review,English source text.
+ct_00386,that_s_right,med,A kua' yi la,phrase,False,simple-eng-med.xlsx,Sheet1,440,needs_native_review,Médumba translation candidate from source file.
+ct_00387,exactly,en,Exactly,word,True,simple-eng-med.xlsx,Sheet1,441,auto_extracted_needs_review,English source text.
+ct_00388,exactly,med,Kua' yi la,phrase,False,simple-eng-med.xlsx,Sheet1,441,needs_native_review,Médumba translation candidate from source file.
+ct_00389,get_up,en,Get up,phrase,True,simple-eng-med.xlsx,Sheet1,442,auto_extracted_needs_review,English source text.
+ct_00390,get_up,med,Lo si,phrase,False,simple-eng-med.xlsx,Sheet1,442,needs_native_review,Médumba translation candidate from source file.
+ct_00391,thank_you,en,Thank you,phrase,True,simple-eng-med.xlsx,Sheet1,443,auto_extracted_needs_review,English source text.
+ct_00392,thank_you,med,Me labte,phrase,False,simple-eng-med.xlsx,Sheet1,443,needs_native_review,Médumba translation candidate from source file.
+ct_00393,run,en,Run,word,True,simple-eng-med.xlsx,Sheet1,444,auto_extracted_needs_review,English source text.
+ct_00394,run,med,Nkù nde,phrase,False,simple-eng-med.xlsx,Sheet1,444,needs_native_review,Médumba translation candidate from source file.
+ct_00395,jump,en,Jump,word,True,simple-eng-med.xlsx,Sheet1,445,auto_extracted_needs_review,English source text.
+ct_00396,jump,med,Ywele,word,False,simple-eng-med.xlsx,Sheet1,445,needs_native_review,Médumba translation candidate from source file.
+ct_00397,don_t_touch,en,Don't touch,phrase,True,simple-eng-med.xlsx,Sheet1,446,auto_extracted_needs_review,English source text.
+ct_00398,don_t_touch,med,Ka nkwag,phrase,False,simple-eng-med.xlsx,Sheet1,446,needs_native_review,Médumba translation candidate from source file.
+ct_00399,wake_up,en,Wake up,phrase,True,simple-eng-med.xlsx,Sheet1,447,auto_extracted_needs_review,English source text.
+ct_00400,wake_up,med,Bà me,phrase,False,simple-eng-med.xlsx,Sheet1,447,needs_native_review,Médumba translation candidate from source file.
+ct_00401,will_wake_up,en,Will wake up,phrase,True,simple-eng-med.xlsx,Sheet1,448,auto_extracted_needs_review,English source text.
+ct_00402,will_wake_up,med,Nù mi,phrase,False,simple-eng-med.xlsx,Sheet1,448,needs_native_review,Médumba translation candidate from source file.
+ct_00403,awaken_him,en,awaken him,phrase,True,simple-eng-med.xlsx,Sheet1,449,auto_extracted_needs_review,English source text.
+ct_00404,awaken_him,med,bà mi,phrase,False,simple-eng-med.xlsx,Sheet1,449,needs_native_review,Médumba translation candidate from source file.
+ct_00405,don_t_awaken_her,en,don't awaken her,phrase,True,simple-eng-med.xlsx,Sheet1,450,auto_extracted_needs_review,English source text.
+ct_00406,don_t_awaken_her,med,ka bà mi,phrase,False,simple-eng-med.xlsx,Sheet1,450,needs_native_review,Médumba translation candidate from source file.
+ct_00407,where_is_your_dad,en,Where is your Dad?,phrase,True,simple-eng-med.xlsx,Sheet1,451,auto_extracted_needs_review,English source text.
+ct_00408,where_is_your_dad,med,Tàan ya?,phrase,False,simple-eng-med.xlsx,Sheet1,451,needs_native_review,Médumba translation candidate from source file.
+ct_00409,where_is_your_father,en,Where is your father?,phrase,True,simple-eng-med.xlsx,Sheet1,452,auto_extracted_needs_review,English source text.
+ct_00410,where_is_your_father,med,Tàan ya?,phrase,False,simple-eng-med.xlsx,Sheet1,452,needs_native_review,Médumba translation candidate from source file.
+ct_00411,i_don_t_have,en,I don't have,phrase,True,simple-eng-med.xlsx,Sheet1,458,auto_extracted_needs_review,English source text.
+ct_00412,i_don_t_have,med,Me ke’ ghù,phrase,False,simple-eng-med.xlsx,Sheet1,458,needs_native_review,Médumba translation candidate from source file.
+ct_00413,i_don_t_have_money,en,I don't have money,phrase,True,simple-eng-med.xlsx,Sheet1,459,auto_extracted_needs_review,English source text.
+ct_00414,i_don_t_have_money,med,Me ke’ ghù nkàb.,phrase,False,simple-eng-med.xlsx,Sheet1,459,needs_native_review,Médumba translation candidate from source file.
+ct_00415,walk,en,Walk,word,True,simple-eng-med.xlsx,Sheet1,461,auto_extracted_needs_review,English source text.
+ct_00416,walk,med,Zin,word,False,simple-eng-med.xlsx,Sheet1,461,needs_native_review,Médumba translation candidate from source file.
+ct_00417,welcome,en,Welcome,word,True,simple-eng-med.xlsx,Sheet1,462,auto_extracted_needs_review,English source text.
+ct_00418,welcome,med,Seʼ mebwô,phrase,False,simple-eng-med.xlsx,Sheet1,462,needs_native_review,Médumba translation candidate from source file.
+ct_00419,you_are_welcome,en,You are welcome,phrase,True,simple-eng-med.xlsx,Sheet1,463,auto_extracted_needs_review,English source text.
+ct_00420,you_are_welcome,med,Seʼ mebwô,phrase,False,simple-eng-med.xlsx,Sheet1,463,needs_native_review,Médumba translation candidate from source file.
+ct_00421,don_t_walk,en,Don't walk,phrase,True,simple-eng-med.xlsx,Sheet1,465,auto_extracted_needs_review,English source text.
+ct_00422,don_t_walk,med,Ka zin,phrase,False,simple-eng-med.xlsx,Sheet1,465,needs_native_review,Médumba translation candidate from source file.
+ct_00423,don_t_sit,en,Don't sit,phrase,True,simple-eng-med.xlsx,Sheet1,466,auto_extracted_needs_review,English source text.
+ct_00424,don_t_sit,med,Ka tswe nsi,phrase,False,simple-eng-med.xlsx,Sheet1,466,needs_native_review,Médumba translation candidate from source file.
+ct_00425,don_t_get_up,en,Don't get up,phrase,True,simple-eng-med.xlsx,Sheet1,467,auto_extracted_needs_review,English source text.
+ct_00426,don_t_get_up,med,Ka lo si,phrase,False,simple-eng-med.xlsx,Sheet1,467,needs_native_review,Médumba translation candidate from source file.
+ct_00427,don_t_say,en,Don't say,phrase,True,simple-eng-med.xlsx,Sheet1,468,auto_extracted_needs_review,English source text.
+ct_00428,don_t_say,med,Ka cob,phrase,False,simple-eng-med.xlsx,Sheet1,468,needs_native_review,Médumba translation candidate from source file.
+ct_00429,don_t_tell_him,en,Don't tell him,phrase,True,simple-eng-med.xlsx,Sheet1,469,auto_extracted_needs_review,English source text.
+ct_00430,don_t_tell_him,med,Ka côb yi,phrase,False,simple-eng-med.xlsx,Sheet1,469,needs_native_review,Médumba translation candidate from source file.
+ct_00431,wash_yourself,en,Wash yourself,phrase,True,simple-eng-med.xlsx,Sheet1,470,auto_extracted_needs_review,English source text.
+ct_00432,wash_yourself,med,Sôg wu,phrase,False,simple-eng-med.xlsx,Sheet1,470,needs_native_review,Médumba translation candidate from source file.
+ct_00433,go_wash_yourself,en,Go wash yourself,phrase,True,simple-eng-med.xlsx,Sheet1,471,auto_extracted_needs_review,English source text.
+ct_00434,go_wash_yourself,med,Nesôg wûl u,phrase,False,simple-eng-med.xlsx,Sheet1,471,needs_native_review,Médumba translation candidate from source file.
+ct_00435,you_washed_yourself,en,you washed yourself,phrase,True,simple-eng-med.xlsx,Sheet1,472,auto_extracted_needs_review,English source text.
+ct_00436,you_washed_yourself,med,O sôg wûl u,phrase,False,simple-eng-med.xlsx,Sheet1,472,needs_native_review,Médumba translation candidate from source file.
+ct_00437,brushing_your_teeth,en,Brushing your teeth,phrase,True,simple-eng-med.xlsx,Sheet1,473,auto_extracted_needs_review,English source text.
+ct_00438,brushing_your_teeth,med,Nè cu ' ncù,phrase,False,simple-eng-med.xlsx,Sheet1,473,needs_native_review,Médumba translation candidate from source file.
+ct_00439,go_brush_your_teeth,en,Go brush your teeth,phrase,True,simple-eng-med.xlsx,Sheet1,474,auto_extracted_needs_review,English source text.
+ct_00440,go_brush_your_teeth,med,Nèn ncû' ncù u,phrase,False,simple-eng-med.xlsx,Sheet1,474,needs_native_review,Médumba translation candidate from source file.
+ct_00441,i_will_eat,en,I will eat,phrase,True,simple-eng-med.xlsx,Sheet1,476,auto_extracted_needs_review,English source text.
+ct_00442,i_will_eat,med,Mè à ju ju,phrase,False,simple-eng-med.xlsx,Sheet1,476,needs_native_review,Médumba translation candidate from source file.
+ct_00443,have_you_eaten,en,Have you eaten?,phrase,True,simple-eng-med.xlsx,Sheet1,477,auto_extracted_needs_review,English source text.
+ct_00444,have_you_eaten,med,O ya njù tshañ yi?,phrase,False,simple-eng-med.xlsx,Sheet1,477,needs_native_review,Médumba translation candidate from source file.
+ct_00445,have_you_eaten,en,Have you eaten?,phrase,True,simple-eng-med.xlsx,Sheet1,478,auto_extracted_needs_review,English source text.
+ct_00446,have_you_eaten,med,O njù tshañ yi?,phrase,False,simple-eng-med.xlsx,Sheet1,478,needs_native_review,Médumba translation candidate from source file.
+ct_00447,i_will_drink_water,en,I will drink water,phrase,True,simple-eng-med.xlsx,Sheet1,479,auto_extracted_needs_review,English source text.
+ct_00448,i_will_drink_water,med,Mè à nu ntse,phrase,False,simple-eng-med.xlsx,Sheet1,479,needs_native_review,Médumba translation candidate from source file.
+ct_00449,here,en,Here,word,True,simple-eng-med.xlsx,Sheet1,480,auto_extracted_needs_review,English source text.
+ct_00450,here,med,Zenni,word,False,simple-eng-med.xlsx,Sheet1,480,needs_native_review,Médumba translation candidate from source file.
+ct_00451,here,en,Here,word,True,simple-eng-med.xlsx,Sheet1,481,auto_extracted_needs_review,English source text.
+ct_00452,here,med,Nzi,word,False,simple-eng-med.xlsx,Sheet1,481,needs_native_review,Médumba translation candidate from source file.
+ct_00453,there_near_you,en,There near you,phrase,True,simple-eng-med.xlsx,Sheet1,482,auto_extracted_needs_review,English source text.
+ct_00454,there_near_you,med,Zenna,word,False,simple-eng-med.xlsx,Sheet1,482,needs_native_review,Médumba translation candidate from source file.
+ct_00455,there_near_you,en,There near you,phrase,True,simple-eng-med.xlsx,Sheet1,483,auto_extracted_needs_review,English source text.
+ct_00456,there_near_you,med,Nza,word,False,simple-eng-med.xlsx,Sheet1,483,needs_native_review,Médumba translation candidate from source file.
+ct_00457,there_away_from_you_and_me,en,There away from you and me,phrase,True,simple-eng-med.xlsx,Sheet1,484,auto_extracted_needs_review,English source text.
+ct_00458,there_away_from_you_and_me,med,Zendin,word,False,simple-eng-med.xlsx,Sheet1,484,needs_native_review,Médumba translation candidate from source file.
+ct_00459,come_here,en,Come here,phrase,True,simple-eng-med.xlsx,Sheet1,485,auto_extracted_needs_review,English source text.
+ct_00460,come_here,med,Se' nzi,phrase,False,simple-eng-med.xlsx,Sheet1,485,needs_native_review,Médumba translation candidate from source file.
+ct_00461,come_here,en,Come here,phrase,True,simple-eng-med.xlsx,Sheet1,486,auto_extracted_needs_review,English source text.
+ct_00462,come_here,med,Se' zenni,phrase,False,simple-eng-med.xlsx,Sheet1,486,needs_native_review,Médumba translation candidate from source file.
+ct_00463,leave_from_there,en,Leave from there,phrase,True,simple-eng-med.xlsx,Sheet1,487,auto_extracted_needs_review,English source text.
+ct_00464,leave_from_there,med,Lo zenna,phrase,False,simple-eng-med.xlsx,Sheet1,487,needs_native_review,Médumba translation candidate from source file.
+ct_00465,go_there,en,Go there,phrase,True,simple-eng-med.xlsx,Sheet1,488,auto_extracted_needs_review,English source text.
+ct_00466,go_there,med,Nèn madin,phrase,False,simple-eng-med.xlsx,Sheet1,488,needs_native_review,Médumba translation candidate from source file.
+ct_00467,stand,en,Stand,word,True,simple-eng-med.xlsx,Sheet1,489,auto_extracted_needs_review,English source text.
+ct_00468,stand,med,Tsin tu,phrase,False,simple-eng-med.xlsx,Sheet1,489,needs_native_review,Médumba translation candidate from source file.
+ct_00469,lie_down,en,Lie down,phrase,True,simple-eng-med.xlsx,Sheet1,490,auto_extracted_needs_review,English source text.
+ct_00470,lie_down,med,Nô nsi,phrase,False,simple-eng-med.xlsx,Sheet1,490,needs_native_review,Médumba translation candidate from source file.
+ct_00471,the_chest,en,The chest,phrase,True,simple-eng-med.xlsx,Sheet1,491,auto_extracted_needs_review,English source text.
+ct_00472,the_chest,med,Ndântu,word,False,simple-eng-med.xlsx,Sheet1,491,needs_native_review,Médumba translation candidate from source file.
+ct_00473,meat,en,Meat,word,True,simple-eng-med.xlsx,Sheet1,492,auto_extracted_needs_review,English source text.
+ct_00474,meat,med,Mbàb,word,False,simple-eng-med.xlsx,Sheet1,492,needs_native_review,Médumba translation candidate from source file.
+ct_00475,eat_meat,en,Eat meat,phrase,True,simple-eng-med.xlsx,Sheet1,493,auto_extracted_needs_review,English source text.
+ct_00476,eat_meat,med,Fed mbàb,phrase,False,simple-eng-med.xlsx,Sheet1,493,needs_native_review,Médumba translation candidate from source file.
+ct_00477,plantain,en,Plantain,word,True,simple-eng-med.xlsx,Sheet1,494,auto_extracted_needs_review,English source text.
+ct_00478,plantain,med,Kè lo,phrase,False,simple-eng-med.xlsx,Sheet1,494,needs_native_review,Médumba translation candidate from source file.
+ct_00479,to_love,en,To love,phrase,True,simple-eng-med.xlsx,Sheet1,495,auto_extracted_needs_review,English source text.
+ct_00480,to_love,med,Nè kô,phrase,False,simple-eng-med.xlsx,Sheet1,495,needs_native_review,Médumba translation candidate from source file.
+ct_00481,love,en,Love,word,True,simple-eng-med.xlsx,Sheet1,496,auto_extracted_needs_review,English source text.
+ct_00482,love,med,Nkôni,word,False,simple-eng-med.xlsx,Sheet1,496,needs_native_review,Médumba translation candidate from source file.
+ct_00483,i_love_you,en,I love you,phrase,True,simple-eng-med.xlsx,Sheet1,497,auto_extracted_needs_review,English source text.
+ct_00484,i_love_you,med,Mè kô o,phrase,False,simple-eng-med.xlsx,Sheet1,497,needs_native_review,Médumba translation candidate from source file.
+ct_00485,don_t_forget,en,Don't forget,phrase,True,simple-eng-med.xlsx,Sheet1,501,auto_extracted_needs_review,English source text.
+ct_00486,don_t_forget,med,Kâ ndagde,phrase,False,simple-eng-med.xlsx,Sheet1,501,needs_native_review,Médumba translation candidate from source file.
+ct_00487,in_the_name_of_the_father,en,In the name of the father,phrase,True,simple-eng-med.xlsx,Sheet1,505,auto_extracted_needs_review,English source text.
+ct_00488,in_the_name_of_the_father,med,Num lén tà,phrase,False,simple-eng-med.xlsx,Sheet1,505,needs_native_review,Médumba translation candidate from source file.
+ct_00489,the_child,en,The child,phrase,True,simple-eng-med.xlsx,Sheet1,506,auto_extracted_needs_review,English source text.
+ct_00490,the_child,med,Men,word,False,simple-eng-med.xlsx,Sheet1,506,needs_native_review,Médumba translation candidate from source file.
+ct_00491,give_him,en,Give him,phrase,True,simple-eng-med.xlsx,Sheet1,507,auto_extracted_needs_review,English source text.
+ct_00492,give_him,med,Fâ yi,phrase,False,simple-eng-med.xlsx,Sheet1,507,needs_native_review,Médumba translation candidate from source file.
+ct_00493,give_to_your_brother,en,Give to your brother,phrase,True,simple-eng-med.xlsx,Sheet1,508,auto_extracted_needs_review,English source text.
+ct_00494,give_to_your_brother,med,Fâ mfêl o,phrase,False,simple-eng-med.xlsx,Sheet1,508,needs_native_review,Médumba translation candidate from source file.
+ct_00495,to_me,en,To me,phrase,True,simple-eng-med.xlsx,Sheet1,509,auto_extracted_needs_review,English source text.
+ct_00496,to_me,med,Mè,word,False,simple-eng-med.xlsx,Sheet1,509,needs_native_review,Médumba translation candidate from source file.
+ct_00497,to_you,en,To you,phrase,True,simple-eng-med.xlsx,Sheet1,510,auto_extracted_needs_review,English source text.
+ct_00498,to_you,med,Wù,word,False,simple-eng-med.xlsx,Sheet1,510,needs_native_review,Médumba translation candidate from source file.
+ct_00499,to_him,en,To him,phrase,True,simple-eng-med.xlsx,Sheet1,511,auto_extracted_needs_review,English source text.
+ct_00500,to_him,med,Yi,word,False,simple-eng-med.xlsx,Sheet1,511,needs_native_review,Médumba translation candidate from source file.
+ct_00501,to_us,en,To us,phrase,True,simple-eng-med.xlsx,Sheet1,512,auto_extracted_needs_review,English source text.
+ct_00502,to_us,med,Bag,word,False,simple-eng-med.xlsx,Sheet1,512,needs_native_review,Médumba translation candidate from source file.
+ct_00503,to_you,en,To you,phrase,True,simple-eng-med.xlsx,Sheet1,513,auto_extracted_needs_review,English source text.
+ct_00504,to_you,med,Bin,word,False,simple-eng-med.xlsx,Sheet1,513,needs_native_review,Médumba translation candidate from source file.
+ct_00505,to_them,en,To them,phrase,True,simple-eng-med.xlsx,Sheet1,514,auto_extracted_needs_review,English source text.
+ct_00506,to_them,med,Bo,word,False,simple-eng-med.xlsx,Sheet1,514,needs_native_review,Médumba translation candidate from source file.
+ct_00507,who_is_this,en,Who is this?,phrase,True,simple-eng-med.xlsx,Sheet1,515,auto_extracted_needs_review,English source text.
+ct_00508,who_is_this,med,A we li,phrase,False,simple-eng-med.xlsx,Sheet1,515,needs_native_review,Médumba translation candidate from source file.
+ct_00509,to_write,en,To write,phrase,True,simple-eng-med.xlsx,Sheet1,516,auto_extracted_needs_review,English source text.
+ct_00510,to_write,med,Ne ki,phrase,False,simple-eng-med.xlsx,Sheet1,516,needs_native_review,Médumba translation candidate from source file.
+ct_00511,write,en,Write,word,True,simple-eng-med.xlsx,Sheet1,517,auto_extracted_needs_review,English source text.
+ct_00512,write,med,Ki,word,False,simple-eng-med.xlsx,Sheet1,517,needs_native_review,Médumba translation candidate from source file.
+ct_00513,read,en,Read,word,True,simple-eng-med.xlsx,Sheet1,518,auto_extracted_needs_review,English source text.
+ct_00514,read,med,Sianje,word,False,simple-eng-med.xlsx,Sheet1,518,needs_native_review,Médumba translation candidate from source file.
+ct_00515,to_sing,en,To sing,phrase,True,simple-eng-med.xlsx,Sheet1,519,auto_extracted_needs_review,English source text.
+ct_00516,to_sing,med,Nè yob,phrase,False,simple-eng-med.xlsx,Sheet1,519,needs_native_review,Médumba translation candidate from source file.
+ct_00517,i_feel_sorry_for_you,en,I feel sorry for you,phrase,True,simple-eng-med.xlsx,Sheet1,521,auto_extracted_needs_review,English source text.
+ct_00518,i_feel_sorry_for_you,med,Mbam mba,phrase,False,simple-eng-med.xlsx,Sheet1,521,needs_native_review,Médumba translation candidate from source file.
+ct_00519,my_belly_hurts,en,My belly hurts,phrase,True,simple-eng-med.xlsx,Sheet1,526,auto_extracted_needs_review,English source text.
+ct_00520,my_belly_hurts,med,Bàm sam tshwèt nja,phrase,False,simple-eng-med.xlsx,Sheet1,526,needs_native_review,Médumba translation candidate from source file.
+ct_00521,searching,en,searching,word,True,simple-eng-med.xlsx,Sheet1,527,auto_extracted_needs_review,English source text.
+ct_00522,searching,med,Nè diag,phrase,False,simple-eng-med.xlsx,Sheet1,527,needs_native_review,Médumba translation candidate from source file.
+ct_00523,search,en,search,word,True,simple-eng-med.xlsx,Sheet1,528,auto_extracted_needs_review,English source text.
+ct_00524,search,med,Diag,word,False,simple-eng-med.xlsx,Sheet1,528,needs_native_review,Médumba translation candidate from source file.
+ct_00525,treading_on,en,Treading on,phrase,True,simple-eng-med.xlsx,Sheet1,531,auto_extracted_needs_review,English source text.
+ct_00526,treading_on,med,Nè nyà ne,phrase,False,simple-eng-med.xlsx,Sheet1,531,needs_native_review,Médumba translation candidate from source file.
+ct_00527,don_t_tread_on,en,Don't tread on,phrase,True,simple-eng-med.xlsx,Sheet1,532,auto_extracted_needs_review,English source text.
+ct_00528,don_t_tread_on,med,Kâ nyà n,phrase,False,simple-eng-med.xlsx,Sheet1,532,needs_native_review,Médumba translation candidate from source file.
+ct_00529,i_am_going_to_hit_you,en,I am going to hit you,phrase,True,simple-eng-med.xlsx,Sheet1,534,auto_extracted_needs_review,English source text.
+ct_00530,i_am_going_to_hit_you,med,Mè à ' là bo,phrase,False,simple-eng-med.xlsx,Sheet1,534,needs_native_review,Médumba translation candidate from source file.
+ct_00531,don_t_hit_her,en,Don't hit her,phrase,True,simple-eng-med.xlsx,Sheet1,535,auto_extracted_needs_review,English source text.
+ct_00532,don_t_hit_her,med,kâ là bi,phrase,False,simple-eng-med.xlsx,Sheet1,535,needs_native_review,Médumba translation candidate from source file.
+ct_00533,here_i_am,en,Here I am,phrase,True,simple-eng-med.xlsx,Sheet1,539,auto_extracted_needs_review,English source text.
+ct_00534,here_i_am,med,Me li,phrase,False,simple-eng-med.xlsx,Sheet1,539,needs_native_review,Médumba translation candidate from source file.
+ct_00535,there_he_is_near_you,en,There he is near you,phrase,True,simple-eng-med.xlsx,Sheet1,540,auto_extracted_needs_review,English source text.
+ct_00536,there_he_is_near_you,med,A la,phrase,False,simple-eng-med.xlsx,Sheet1,540,needs_native_review,Médumba translation candidate from source file.
+ct_00537,here_he_is,en,Here he is,phrase,True,simple-eng-med.xlsx,Sheet1,542,auto_extracted_needs_review,English source text.
+ct_00538,here_he_is,med,A li,phrase,False,simple-eng-med.xlsx,Sheet1,542,needs_native_review,Médumba translation candidate from source file.
+ct_00539,it_is_enough,en,It is enough,phrase,True,simple-eng-med.xlsx,Sheet1,547,auto_extracted_needs_review,English source text.
+ct_00540,it_is_enough,med,À ku'u,phrase,False,simple-eng-med.xlsx,Sheet1,547,needs_native_review,Médumba translation candidate from source file.
+ct_00541,it_is_not_enough,en,It is not enough,phrase,True,simple-eng-med.xlsx,Sheet1,548,auto_extracted_needs_review,English source text.
+ct_00542,it_is_not_enough,med,A kag,phrase,False,simple-eng-med.xlsx,Sheet1,548,needs_native_review,Médumba translation candidate from source file.
+ct_00543,too_much,en,Too much,phrase,True,simple-eng-med.xlsx,Sheet1,549,auto_extracted_needs_review,English source text.
+ct_00544,too_much,med,Ta',word,False,simple-eng-med.xlsx,Sheet1,549,needs_native_review,Médumba translation candidate from source file.
+ct_00545,so_much,en,So much,phrase,True,simple-eng-med.xlsx,Sheet1,550,auto_extracted_needs_review,English source text.
+ct_00546,so_much,med,Ta',word,False,simple-eng-med.xlsx,Sheet1,550,needs_native_review,Médumba translation candidate from source file.
+ct_00547,six,en,Six,word,True,simple-eng-med.xlsx,Sheet1,551,auto_extracted_needs_review,English source text.
+ct_00548,six,med,Ntoge,word,False,simple-eng-med.xlsx,Sheet1,551,needs_native_review,Médumba translation candidate from source file.
+ct_00549,seven,en,Seven,word,True,simple-eng-med.xlsx,Sheet1,552,auto_extracted_needs_review,English source text.
+ct_00550,seven,med,Sammbaha,word,False,simple-eng-med.xlsx,Sheet1,552,needs_native_review,Médumba translation candidate from source file.
+ct_00551,nine,en,Nine,word,True,simple-eng-med.xlsx,Sheet1,553,auto_extracted_needs_review,English source text.
+ct_00552,nine,med,Bwè'e,word,False,simple-eng-med.xlsx,Sheet1,553,needs_native_review,Médumba translation candidate from source file.
+ct_00553,ten,en,Ten,word,True,simple-eng-med.xlsx,Sheet1,554,auto_extracted_needs_review,English source text.
+ct_00554,ten,med,Gham,word,False,simple-eng-med.xlsx,Sheet1,554,needs_native_review,Médumba translation candidate from source file.
+ct_00555,search_for_your_shoes,en,Search for your shoes,phrase,True,simple-eng-med.xlsx,Sheet1,556,auto_extracted_needs_review,English source text.
+ct_00556,search_for_your_shoes,med,Diag nketo'o mi,phrase,False,simple-eng-med.xlsx,Sheet1,556,needs_native_review,Médumba translation candidate from source file.
+ct_00557,bring,en,Bring,word,True,simple-eng-med.xlsx,Sheet1,557,auto_extracted_needs_review,English source text.
+ct_00558,bring,med,Se' yi,phrase,False,simple-eng-med.xlsx,Sheet1,557,needs_native_review,Médumba translation candidate from source file.
+ct_00559,go_with_this,en,Go with this,phrase,True,simple-eng-med.xlsx,Sheet1,558,auto_extracted_needs_review,English source text.
+ct_00560,go_with_this,med,Nèn yi,phrase,False,simple-eng-med.xlsx,Sheet1,558,needs_native_review,Médumba translation candidate from source file.
+ct_00561,do_it_again,en,Do it again,phrase,True,simple-eng-med.xlsx,Sheet1,559,auto_extracted_needs_review,English source text.
+ct_00562,do_it_again,med,Ben ghù,phrase,False,simple-eng-med.xlsx,Sheet1,559,needs_native_review,Médumba translation candidate from source file.
+ct_00563,don_t_do_it_again,en,Don't do it again,phrase,True,simple-eng-med.xlsx,Sheet1,560,auto_extracted_needs_review,English source text.
+ct_00564,don_t_do_it_again,med,ka ben ghù,phrase,False,simple-eng-med.xlsx,Sheet1,560,needs_native_review,Médumba translation candidate from source file.
+ct_00565,hear,en,hear,word,True,simple-eng-med.xlsx,Sheet1,561,auto_extracted_needs_review,English source text.
+ct_00566,hear,med,ju',word,False,simple-eng-med.xlsx,Sheet1,561,needs_native_review,Médumba translation candidate from source file.
+ct_00567,i_have_heard,en,I have heard,phrase,True,simple-eng-med.xlsx,Sheet1,562,auto_extracted_needs_review,English source text.
+ct_00568,i_have_heard,med,Me ju',phrase,False,simple-eng-med.xlsx,Sheet1,562,needs_native_review,Médumba translation candidate from source file.
+ct_00569,thank_you,en,Thank you,phrase,True,simple-eng-med.xlsx,Sheet1,563,auto_extracted_needs_review,English source text.
+ct_00570,thank_you,med,Me bam,phrase,False,simple-eng-med.xlsx,Sheet1,563,needs_native_review,Médumba translation candidate from source file.
+ct_00571,go_up,en,Go up,phrase,True,simple-eng-med.xlsx,Sheet1,565,auto_extracted_needs_review,English source text.
+ct_00572,go_up,med,Ko'o,word,False,simple-eng-med.xlsx,Sheet1,565,needs_native_review,Médumba translation candidate from source file.
+ct_00573,the_spoon,en,The spoon,phrase,True,simple-eng-med.xlsx,Sheet1,566,auto_extracted_needs_review,English source text.
+ct_00574,the_spoon,med,Du',word,False,simple-eng-med.xlsx,Sheet1,566,needs_native_review,Médumba translation candidate from source file.
+ct_00575,the_plate,en,The plate,phrase,True,simple-eng-med.xlsx,Sheet1,567,auto_extracted_needs_review,English source text.
+ct_00576,the_plate,med,Ka,word,False,simple-eng-med.xlsx,Sheet1,567,needs_native_review,Médumba translation candidate from source file.
+ct_00577,the_door,en,The door,phrase,True,simple-eng-med.xlsx,Sheet1,568,auto_extracted_needs_review,English source text.
+ct_00578,the_door,med,Nzè nda,phrase,False,simple-eng-med.xlsx,Sheet1,568,needs_native_review,Médumba translation candidate from source file.
+ct_00579,the_living_room,en,The living room,phrase,True,simple-eng-med.xlsx,Sheet1,569,auto_extracted_needs_review,English source text.
+ct_00580,the_living_room,med,Tô' mo,phrase,False,simple-eng-med.xlsx,Sheet1,569,needs_native_review,Médumba translation candidate from source file.
+ct_00581,the_kitchen,en,The kitchen,phrase,True,simple-eng-med.xlsx,Sheet1,570,auto_extracted_needs_review,English source text.
+ct_00582,the_kitchen,med,Fe ' mbwoge,phrase,False,simple-eng-med.xlsx,Sheet1,570,needs_native_review,Médumba translation candidate from source file.
+ct_00583,hello,en,Hello,word,True,simple-eng-med.xlsx,Sheet1,574,auto_extracted_needs_review,English source text.
+ct_00584,hello,med,O zi à,phrase,False,simple-eng-med.xlsx,Sheet1,574,needs_native_review,Médumba translation candidate from source file.
+ct_00585,good_morning,en,Good morning,phrase,True,simple-eng-med.xlsx,Sheet1,575,auto_extracted_needs_review,English source text.
+ct_00586,good_morning,med,O zi à,phrase,False,simple-eng-med.xlsx,Sheet1,575,needs_native_review,Médumba translation candidate from source file.
+ct_00587,how_are_you,en,How are you?,phrase,True,simple-eng-med.xlsx,Sheet1,576,auto_extracted_needs_review,English source text.
+ct_00588,how_are_you,med,A ndû ke?,phrase,False,simple-eng-med.xlsx,Sheet1,576,needs_native_review,Médumba translation candidate from source file.
+ct_00589,the_sauce,en,The sauce,phrase,True,simple-eng-med.xlsx,Sheet1,578,auto_extracted_needs_review,English source text.
+ct_00590,the_sauce,med,Soge,word,False,simple-eng-med.xlsx,Sheet1,578,needs_native_review,Médumba translation candidate from source file.
+ct_00591,the_sauce,en,The sauce,phrase,True,simple-eng-med.xlsx,Sheet1,579,auto_extracted_needs_review,English source text.
+ct_00592,the_sauce,med,Nya'a,word,False,simple-eng-med.xlsx,Sheet1,579,needs_native_review,Médumba translation candidate from source file.
+ct_00593,rice,en,Rice,word,True,simple-eng-med.xlsx,Sheet1,580,auto_extracted_needs_review,English source text.
+ct_00594,rice,med,Nkun,word,False,simple-eng-med.xlsx,Sheet1,580,needs_native_review,Médumba translation candidate from source file.
+ct_00595,rice,en,Rice,word,True,simple-eng-med.xlsx,Sheet1,581,auto_extracted_needs_review,English source text.
+ct_00596,rice,med,Nkûn mè kale,phrase,False,simple-eng-med.xlsx,Sheet1,581,needs_native_review,Médumba translation candidate from source file.
+ct_00597,chilli_pepper,en,Chilli pepper,phrase,True,simple-eng-med.xlsx,Sheet1,582,auto_extracted_needs_review,English source text.
+ct_00598,chilli_pepper,med,Sôg neta,phrase,False,simple-eng-med.xlsx,Sheet1,582,needs_native_review,Médumba translation candidate from source file.
+ct_00599,chilli_pepper,en,Chilli pepper,phrase,True,simple-eng-med.xlsx,Sheet1,583,auto_extracted_needs_review,English source text.
+ct_00600,chilli_pepper,med,Sà to,phrase,False,simple-eng-med.xlsx,Sheet1,583,needs_native_review,Médumba translation candidate from source file.
+ct_00601,spices,en,Spices,word,True,simple-eng-med.xlsx,Sheet1,584,auto_extracted_needs_review,English source text.
+ct_00602,spices,med,Oûsog,word,False,simple-eng-med.xlsx,Sheet1,584,needs_native_review,Médumba translation candidate from source file.
+ct_00603,the_booklet,en,The booklet,phrase,True,simple-eng-med.xlsx,Sheet1,585,auto_extracted_needs_review,English source text.
+ct_00604,the_booklet,med,Buʼ ñwaʼni,phrase,False,simple-eng-med.xlsx,Sheet1,585,needs_native_review,Médumba translation candidate from source file.
+ct_00605,the_book,en,The book,phrase,True,simple-eng-med.xlsx,Sheet1,586,auto_extracted_needs_review,English source text.
+ct_00606,the_book,med,Bu' ñwaʼni,phrase,False,simple-eng-med.xlsx,Sheet1,586,needs_native_review,Médumba translation candidate from source file.
+ct_00607,the_pen,en,The pen,phrase,True,simple-eng-med.xlsx,Sheet1,587,auto_extracted_needs_review,English source text.
+ct_00608,the_pen,med,Kud,word,False,simple-eng-med.xlsx,Sheet1,587,needs_native_review,Médumba translation candidate from source file.
+ct_00609,today,en,Today,word,True,simple-eng-med.xlsx,Sheet1,591,auto_extracted_needs_review,English source text.
+ct_00610,today,med,Sènni,word,False,simple-eng-med.xlsx,Sheet1,591,needs_native_review,Médumba translation candidate from source file.
+ct_00611,yesterday,en,Yesterday,word,True,simple-eng-med.xlsx,Sheet1,592,auto_extracted_needs_review,English source text.
+ct_00612,yesterday,med,Nkog,word,False,simple-eng-med.xlsx,Sheet1,592,needs_native_review,Médumba translation candidate from source file.
+ct_00613,tomorrow,en,Tomorrow,word,True,simple-eng-med.xlsx,Sheet1,593,auto_extracted_needs_review,English source text.
+ct_00614,tomorrow,med,ndamnjù,word,False,simple-eng-med.xlsx,Sheet1,593,needs_native_review,Médumba translation candidate from source file.
+ct_00615,morning,en,Morning,word,True,simple-eng-med.xlsx,Sheet1,594,auto_extracted_needs_review,English source text.
+ct_00616,morning,med,Nkebnjù,word,False,simple-eng-med.xlsx,Sheet1,594,needs_native_review,Médumba translation candidate from source file.
+ct_00617,evening,en,Evening,word,True,simple-eng-med.xlsx,Sheet1,595,auto_extracted_needs_review,English source text.
+ct_00618,evening,med,Mvednjù,word,False,simple-eng-med.xlsx,Sheet1,595,needs_native_review,Médumba translation candidate from source file.
+ct_00619,midday,en,Midday,word,True,simple-eng-med.xlsx,Sheet1,596,auto_extracted_needs_review,English source text.
+ct_00620,midday,med,Ngelañ,word,False,simple-eng-med.xlsx,Sheet1,596,needs_native_review,Médumba translation candidate from source file.
+ct_00621,now,en,Now,word,True,simple-eng-med.xlsx,Sheet1,597,auto_extracted_needs_review,English source text.
+ct_00622,now,med,Ndonni,word,False,simple-eng-med.xlsx,Sheet1,597,needs_native_review,Médumba translation candidate from source file.
+ct_00623,right_now,en,Right now,phrase,True,simple-eng-med.xlsx,Sheet1,598,auto_extracted_needs_review,English source text.
+ct_00624,right_now,med,Yub ndonni,phrase,False,simple-eng-med.xlsx,Sheet1,598,needs_native_review,Médumba translation candidate from source file.
+ct_00625,what_is_going_on,en,What is going on?,phrase,True,simple-eng-med.xlsx,Sheet1,601,auto_extracted_needs_review,English source text.
+ct_00626,what_is_going_on,med,A côb mbè ke?,phrase,False,simple-eng-med.xlsx,Sheet1,601,needs_native_review,Médumba translation candidate from source file.
+ct_00627,the_day,en,The day,phrase,True,simple-eng-med.xlsx,Sheet1,610,auto_extracted_needs_review,English source text.
+ct_00628,the_day,med,Le',word,False,simple-eng-med.xlsx,Sheet1,610,needs_native_review,Médumba translation candidate from source file.
+ct_00629,one_day,en,One day,phrase,True,simple-eng-med.xlsx,Sheet1,611,auto_extracted_needs_review,English source text.
+ct_00630,one_day,med,Tàʼ léʼndjù,phrase,False,simple-eng-med.xlsx,Sheet1,611,needs_native_review,Médumba translation candidate from source file.
+ct_00631,when,en,When?,word,True,simple-eng-med.xlsx,Sheet1,612,auto_extracted_needs_review,English source text.
+ct_00632,when,med,Se?,word,False,simple-eng-med.xlsx,Sheet1,612,needs_native_review,Médumba translation candidate from source file.
+ct_00633,who,en,Who?,word,True,simple-eng-med.xlsx,Sheet1,613,auto_extracted_needs_review,English source text.
+ct_00634,who,med,We?,word,False,simple-eng-med.xlsx,Sheet1,613,needs_native_review,Médumba translation candidate from source file.
+ct_00635,what,en,What?,word,True,simple-eng-med.xlsx,Sheet1,614,auto_extracted_needs_review,English source text.
+ct_00636,what,med,Ke?,word,False,simple-eng-med.xlsx,Sheet1,614,needs_native_review,Médumba translation candidate from source file.
+ct_00637,which,en,Which?,word,True,simple-eng-med.xlsx,Sheet1,615,auto_extracted_needs_review,English source text.
+ct_00638,which,med,Zile?,word,False,simple-eng-med.xlsx,Sheet1,615,needs_native_review,Médumba translation candidate from source file.
+ct_00639,where,en,Where?,word,True,simple-eng-med.xlsx,Sheet1,616,auto_extracted_needs_review,English source text.
+ct_00640,where,med,Ya?,word,False,simple-eng-med.xlsx,Sheet1,616,needs_native_review,Médumba translation candidate from source file.
+ct_00641,with_who,en,With who?,phrase,True,simple-eng-med.xlsx,Sheet1,618,auto_extracted_needs_review,English source text.
+ct_00642,with_who,med,Bô we?,phrase,False,simple-eng-med.xlsx,Sheet1,618,needs_native_review,Médumba translation candidate from source file.
+ct_00643,with_what,en,With what?,phrase,True,simple-eng-med.xlsx,Sheet1,619,auto_extracted_needs_review,English source text.
+ct_00644,with_what,med,Bô ke?,phrase,False,simple-eng-med.xlsx,Sheet1,619,needs_native_review,Médumba translation candidate from source file.
+ct_00645,breathe,en,Breathe,word,True,simple-eng-med.xlsx,Sheet1,620,auto_extracted_needs_review,English source text.
+ct_00646,breathe,med,Zwiage,word,False,simple-eng-med.xlsx,Sheet1,620,needs_native_review,Médumba translation candidate from source file.
+ct_00647,what_do_we_breathe_with,en,What do we breathe with?,phrase,True,simple-eng-med.xlsx,Sheet1,621,auto_extracted_needs_review,English source text.
+ct_00648,what_do_we_breathe_with,med,Bo ke nzwiâg a bo ke?,phrase,False,simple-eng-med.xlsx,Sheet1,621,needs_native_review,Médumba translation candidate from source file.
+ct_00649,what_do_we_talk_with,en,What do we talk with?,phrase,True,simple-eng-med.xlsx,Sheet1,622,auto_extracted_needs_review,English source text.
+ct_00650,what_do_we_talk_with,med,Bo ke ntshobe a bo ke?,phrase,False,simple-eng-med.xlsx,Sheet1,622,needs_native_review,Médumba translation candidate from source file.
+ct_00651,with_the_mouth,en,With the mouth,phrase,True,simple-eng-med.xlsx,Sheet1,623,auto_extracted_needs_review,English source text.
+ct_00652,with_the_mouth,med,Bo ntshu,phrase,False,simple-eng-med.xlsx,Sheet1,623,needs_native_review,Médumba translation candidate from source file.
+ct_00653,we_walk_with_legs,en,We walk with legs,phrase,True,simple-eng-med.xlsx,Sheet1,624,auto_extracted_needs_review,English source text.
+ct_00654,we_walk_with_legs,med,Bo ke zin â bo nkù,phrase,False,simple-eng-med.xlsx,Sheet1,624,needs_native_review,Médumba translation candidate from source file.
+ct_00655,ahead,en,Ahead,word,True,simple-eng-med.xlsx,Sheet1,625,auto_extracted_needs_review,English source text.
+ct_00656,ahead,med,Mbwè,word,False,simple-eng-med.xlsx,Sheet1,625,needs_native_review,Médumba translation candidate from source file.
+ct_00657,behind,en,Behind,word,True,simple-eng-med.xlsx,Sheet1,626,auto_extracted_needs_review,English source text.
+ct_00658,behind,med,Njam,word,False,simple-eng-med.xlsx,Sheet1,626,needs_native_review,Médumba translation candidate from source file.
+ct_00659,next_to,en,Next to,phrase,True,simple-eng-med.xlsx,Sheet1,627,auto_extracted_needs_review,English source text.
+ct_00660,next_to,med,Mban,word,False,simple-eng-med.xlsx,Sheet1,627,needs_native_review,Médumba translation candidate from source file.
+ct_00661,down,en,Down,word,True,simple-eng-med.xlsx,Sheet1,628,auto_extracted_needs_review,English source text.
+ct_00662,down,med,Matùn,word,False,simple-eng-med.xlsx,Sheet1,628,needs_native_review,Médumba translation candidate from source file.
+ct_00663,up,en,Up,word,True,simple-eng-med.xlsx,Sheet1,629,auto_extracted_needs_review,English source text.
+ct_00664,up,med,mf et u,phrase,False,simple-eng-med.xlsx,Sheet1,629,needs_native_review,Médumba translation candidate from source file.
+ct_00665,move_ahead,en,Move ahead,phrase,True,simple-eng-med.xlsx,Sheet1,630,auto_extracted_needs_review,English source text.
+ct_00666,move_ahead,med,Nèn mbwè,phrase,False,simple-eng-med.xlsx,Sheet1,630,needs_native_review,Médumba translation candidate from source file.
+ct_00667,return,en,return,word,True,simple-eng-med.xlsx,Sheet1,631,auto_extracted_needs_review,English source text.
+ct_00668,return,med,Bèn njam,phrase,False,simple-eng-med.xlsx,Sheet1,631,needs_native_review,Médumba translation candidate from source file.
+ct_00669,your_eye,en,Your eye,phrase,True,simple-eng-med.xlsx,Sheet1,637,auto_extracted_needs_review,English source text.
+ct_00670,your_eye,med,Lâg su,phrase,False,simple-eng-med.xlsx,Sheet1,637,needs_native_review,Médumba translation candidate from source file.
+ct_00671,your_eyes,en,Your eyes,phrase,True,simple-eng-med.xlsx,Sheet1,638,auto_extracted_needs_review,English source text.
+ct_00672,your_eyes,med,Miag mu,phrase,False,simple-eng-med.xlsx,Sheet1,638,needs_native_review,Médumba translation candidate from source file.
+ct_00673,close_your_eyes,en,Close your eyes,phrase,True,simple-eng-med.xlsx,Sheet1,639,auto_extracted_needs_review,English source text.
+ct_00674,close_your_eyes,med,Mum miag mu,phrase,False,simple-eng-med.xlsx,Sheet1,639,needs_native_review,Médumba translation candidate from source file.
+ct_00675,wash_your_hands,en,Wash your hands,phrase,True,simple-eng-med.xlsx,Sheet1,640,auto_extracted_needs_review,English source text.
+ct_00676,wash_your_hands,med,Sôg bu mu,phrase,False,simple-eng-med.xlsx,Sheet1,640,needs_native_review,Médumba translation candidate from source file.
+ct_00677,wash_your_hand,en,Wash your hand,phrase,True,simple-eng-med.xlsx,Sheet1,641,auto_extracted_needs_review,English source text.
+ct_00678,wash_your_hand,med,Sôg bu u,phrase,False,simple-eng-med.xlsx,Sheet1,641,needs_native_review,Médumba translation candidate from source file.
+ct_00679,have_a_rest,en,Have a rest,phrase,True,simple-eng-med.xlsx,Sheet1,642,auto_extracted_needs_review,English source text.
+ct_00680,have_a_rest,med,Fite,word,False,simple-eng-med.xlsx,Sheet1,642,needs_native_review,Médumba translation candidate from source file.
+ct_00681,water_is_finish,en,Water is finish,phrase,True,simple-eng-med.xlsx,Sheet1,644,auto_extracted_needs_review,English source text.
+ct_00682,water_is_finish,med,Ntse mi,phrase,False,simple-eng-med.xlsx,Sheet1,644,needs_native_review,Médumba translation candidate from source file.
+ct_00683,food_is_finish,en,Food is finish,phrase,True,simple-eng-med.xlsx,Sheet1,645,auto_extracted_needs_review,English source text.
+ct_00684,food_is_finish,med,Tshañ mi,phrase,False,simple-eng-med.xlsx,Sheet1,645,needs_native_review,Médumba translation candidate from source file.
+ct_00685,don_t_finish,en,Don't finish,phrase,True,simple-eng-med.xlsx,Sheet1,646,auto_extracted_needs_review,English source text.
+ct_00686,don_t_finish,med,Kâ miagde,phrase,False,simple-eng-med.xlsx,Sheet1,646,needs_native_review,Médumba translation candidate from source file.
+ct_00687,don_t_finish_food,en,Don't finish food,phrase,True,simple-eng-med.xlsx,Sheet1,647,auto_extracted_needs_review,English source text.
+ct_00688,don_t_finish_food,med,Kâ miagde tshañ,phrase,False,simple-eng-med.xlsx,Sheet1,647,needs_native_review,Médumba translation candidate from source file.
+ct_00689,don_t_finish_your_food,en,Don't finish your food,phrase,True,simple-eng-med.xlsx,Sheet1,648,auto_extracted_needs_review,English source text.
+ct_00690,don_t_finish_your_food,med,Kâ miagde tshañ su,phrase,False,simple-eng-med.xlsx,Sheet1,648,needs_native_review,Médumba translation candidate from source file.
+ct_00691,don_t_finish_your_money,en,Don't finish your money,phrase,True,simple-eng-med.xlsx,Sheet1,650,auto_extracted_needs_review,English source text.
+ct_00692,don_t_finish_your_money,med,Ka miagde nkàb u,phrase,False,simple-eng-med.xlsx,Sheet1,650,needs_native_review,Médumba translation candidate from source file.
+ct_00693,the_whole,en,The whole,phrase,True,simple-eng-med.xlsx,Sheet1,653,auto_extracted_needs_review,English source text.
+ct_00694,the_whole,med,Ntô,word,False,simple-eng-med.xlsx,Sheet1,653,needs_native_review,Médumba translation candidate from source file.
+ct_00695,learn,en,Learn,word,True,simple-eng-med.xlsx,Sheet1,654,auto_extracted_needs_review,English source text.
+ct_00696,learn,med,neziʼ,word,False,simple-eng-med.xlsx,Sheet1,654,needs_native_review,Médumba translation candidate from source file.
+ct_00697,to_sell,en,To sell,phrase,True,simple-eng-med.xlsx,Sheet1,655,auto_extracted_needs_review,English source text.
+ct_00698,to_sell,med,Nè swène,phrase,False,simple-eng-med.xlsx,Sheet1,655,needs_native_review,Médumba translation candidate from source file.
+ct_00699,to_buy,en,To buy,phrase,True,simple-eng-med.xlsx,Sheet1,656,auto_extracted_needs_review,English source text.
+ct_00700,to_buy,med,Nè jun,phrase,False,simple-eng-med.xlsx,Sheet1,656,needs_native_review,Médumba translation candidate from source file.
+ct_00701,don_t_buy,en,Don't buy,phrase,True,simple-eng-med.xlsx,Sheet1,658,auto_extracted_needs_review,English source text.
+ct_00702,don_t_buy,med,Kâ jun,phrase,False,simple-eng-med.xlsx,Sheet1,658,needs_native_review,Médumba translation candidate from source file.
+ct_00703,don_t_sell,en,Don't sell,phrase,True,simple-eng-med.xlsx,Sheet1,659,auto_extracted_needs_review,English source text.
+ct_00704,don_t_sell,med,kâ swène,phrase,False,simple-eng-med.xlsx,Sheet1,659,needs_native_review,Médumba translation candidate from source file.
+ct_00705,wear_a_garment,en,Wear a garment,phrase,True,simple-eng-med.xlsx,Sheet1,661,auto_extracted_needs_review,English source text.
+ct_00706,wear_a_garment,med,Nè ma ' nzwe,phrase,False,simple-eng-med.xlsx,Sheet1,661,needs_native_review,Médumba translation candidate from source file.
+ct_00707,wear_an_outfit,en,Wear an outfit,phrase,True,simple-eng-med.xlsx,Sheet1,662,auto_extracted_needs_review,English source text.
+ct_00708,wear_an_outfit,med,Ma ' nzwe,phrase,False,simple-eng-med.xlsx,Sheet1,662,needs_native_review,Médumba translation candidate from source file.
+ct_00709,wear_your_outfit,en,Wear your outfit,phrase,True,simple-eng-med.xlsx,Sheet1,663,auto_extracted_needs_review,English source text.
+ct_00710,wear_your_outfit,med,Ma ' nzwê ù,phrase,False,simple-eng-med.xlsx,Sheet1,663,needs_native_review,Médumba translation candidate from source file.
+ct_00711,wear_the_shoes,en,Wear the shoes,phrase,True,simple-eng-med.xlsx,Sheet1,664,auto_extracted_needs_review,English source text.
+ct_00712,wear_the_shoes,med,So nketo'o,phrase,False,simple-eng-med.xlsx,Sheet1,664,needs_native_review,Médumba translation candidate from source file.
+ct_00713,wear_your_shoes,en,Wear your shoes,phrase,True,simple-eng-med.xlsx,Sheet1,665,auto_extracted_needs_review,English source text.
+ct_00714,wear_your_shoes,med,So nketo'o mu,phrase,False,simple-eng-med.xlsx,Sheet1,665,needs_native_review,Médumba translation candidate from source file.
+ct_00715,everywhere,en,Everywhere,word,True,simple-eng-med.xlsx,Sheet1,667,auto_extracted_needs_review,English source text.
+ct_00716,everywhere,med,Njoñ dùʼ fa,phrase,False,simple-eng-med.xlsx,Sheet1,667,needs_native_review,Médumba translation candidate from source file.
+ct_00717,no_where,en,No where,phrase,True,simple-eng-med.xlsx,Sheet1,668,auto_extracted_needs_review,English source text.
+ct_00718,no_where,med,Sa mdu',phrase,False,simple-eng-med.xlsx,Sheet1,668,needs_native_review,Médumba translation candidate from source file.
+ct_00719,go,en,Go,word,True,simple-eng-med.xlsx,Sheet1,670,auto_extracted_needs_review,English source text.
+ct_00720,go,med,Nèn,word,False,simple-eng-med.xlsx,Sheet1,670,needs_native_review,Médumba translation candidate from source file.
+ct_00721,go,en,Go,word,True,simple-eng-med.xlsx,Sheet1,671,auto_extracted_needs_review,English source text.
+ct_00722,go,med,shua,word,False,simple-eng-med.xlsx,Sheet1,671,needs_native_review,Médumba translation candidate from source file.
+ct_00723,it_is_hot,en,It is hot,phrase,True,simple-eng-med.xlsx,Sheet1,673,auto_extracted_needs_review,English source text.
+ct_00724,it_is_hot,med,A dumde,phrase,False,simple-eng-med.xlsx,Sheet1,673,needs_native_review,Médumba translation candidate from source file.
+ct_00725,good_night,en,Good night,phrase,True,simple-eng-med.xlsx,Sheet1,685,auto_extracted_needs_review,English source text.
+ct_00726,good_night,med,Zi mè bwo,phrase,False,simple-eng-med.xlsx,Sheet1,685,needs_native_review,Médumba translation candidate from source file.
+ct_00727,sleep_tight,en,sleep tight,phrase,True,simple-eng-med.xlsx,Sheet1,686,auto_extracted_needs_review,English source text.
+ct_00728,sleep_tight,med,Zi mè bwo,phrase,False,simple-eng-med.xlsx,Sheet1,686,needs_native_review,Médumba translation candidate from source file.
+ct_00729,i_am_hungry,en,I am hungry,phrase,True,simple-eng-med.xlsx,Sheet1,687,auto_extracted_needs_review,English source text.
+ct_00730,i_am_hungry,med,Nziku' tshwèt nja àm,phrase,False,simple-eng-med.xlsx,Sheet1,687,needs_native_review,Médumba translation candidate from source file.
+ct_00731,hunger,en,Hunger,word,True,simple-eng-med.xlsx,Sheet1,688,auto_extracted_needs_review,English source text.
+ct_00732,hunger,med,Nziku'u,word,False,simple-eng-med.xlsx,Sheet1,688,needs_native_review,Médumba translation candidate from source file.
+ct_00733,don_t_come,en,Don't come,phrase,True,simple-eng-med.xlsx,Sheet1,689,auto_extracted_needs_review,English source text.
+ct_00734,don_t_come,med,Kâ sè',phrase,False,simple-eng-med.xlsx,Sheet1,689,needs_native_review,Médumba translation candidate from source file.
+ct_00735,come_and_sit_down,en,Come and sit down,phrase,True,simple-eng-med.xlsx,Sheet1,690,auto_extracted_needs_review,English source text.
+ct_00736,come_and_sit_down,med,Sè' ntswe nsi,phrase,False,simple-eng-med.xlsx,Sheet1,690,needs_native_review,Médumba translation candidate from source file.
+ct_00737,come_and_embrace_me,en,Come and embrace me,phrase,True,simple-eng-med.xlsx,Sheet1,691,auto_extracted_needs_review,English source text.
+ct_00738,come_and_embrace_me,med,Sè' ntsiag am,phrase,False,simple-eng-med.xlsx,Sheet1,691,needs_native_review,Médumba translation candidate from source file.
+ct_00739,come_and_greet_me,en,Come and greet me,phrase,True,simple-eng-med.xlsx,Sheet1,692,auto_extracted_needs_review,English source text.
+ct_00740,come_and_greet_me,med,Sè' tsha’de am,phrase,False,simple-eng-med.xlsx,Sheet1,692,needs_native_review,Médumba translation candidate from source file.
+ct_00741,eat,en,Eat,word,True,simple-eng-med.xlsx,Sheet1,695,auto_extracted_needs_review,English source text.
+ct_00742,eat,med,Jujù,word,False,simple-eng-med.xlsx,Sheet1,695,needs_native_review,Médumba translation candidate from source file.
+ct_00743,i_love_you_so_much,en,I love you so much,phrase,True,simple-eng-med.xlsx,Sheet1,696,auto_extracted_needs_review,English source text.
+ct_00744,i_love_you_so_much,med,Me kô o ta,phrase,False,simple-eng-med.xlsx,Sheet1,696,needs_native_review,Médumba translation candidate from source file.
+ct_00745,being_sick,en,Being sick,phrase,True,simple-eng-med.xlsx,Sheet1,697,auto_extracted_needs_review,English source text.
+ct_00746,being_sick,med,Nè ngokèt,phrase,False,simple-eng-med.xlsx,Sheet1,697,needs_native_review,Médumba translation candidate from source file.
+ct_00747,i_am_sick,en,I am sick,phrase,True,simple-eng-med.xlsx,Sheet1,698,auto_extracted_needs_review,English source text.
+ct_00748,i_am_sick,med,Me tshwèt ngokèt,phrase,False,simple-eng-med.xlsx,Sheet1,698,needs_native_review,Médumba translation candidate from source file.
+ct_00749,the_child_is_sick,en,The child is sick,phrase,True,simple-eng-med.xlsx,Sheet1,699,auto_extracted_needs_review,English source text.
+ct_00750,the_child_is_sick,med,Mén tshwèt ngokèt,phrase,False,simple-eng-med.xlsx,Sheet1,699,needs_native_review,Médumba translation candidate from source file.
+ct_00751,are_you_angry,en,Are you angry?,phrase,True,simple-eng-med.xlsx,Sheet1,700,auto_extracted_needs_review,English source text.
+ct_00752,are_you_angry,med,Oyantu ke?,phrase,False,simple-eng-med.xlsx,Sheet1,700,needs_native_review,Médumba translation candidate from source file.
+ct_00753,are_you_full,en,Are you full?,phrase,True,simple-eng-med.xlsx,Sheet1,701,auto_extracted_needs_review,English source text.
+ct_00754,are_you_full,med,Oywed ke?,phrase,False,simple-eng-med.xlsx,Sheet1,701,needs_native_review,Médumba translation candidate from source file.
+ct_00755,are_you_hungry,en,Are you hungry?,phrase,True,simple-eng-med.xlsx,Sheet1,702,auto_extracted_needs_review,English source text.
+ct_00756,are_you_hungry,med,Nzikû' ya o ke?,phrase,False,simple-eng-med.xlsx,Sheet1,702,needs_native_review,Médumba translation candidate from source file.
+ct_00757,she_is_sick,en,She is sick,phrase,True,simple-eng-med.xlsx,Sheet1,703,auto_extracted_needs_review,English source text.
+ct_00758,she_is_sick,med,A tshwèt ngokèt,phrase,False,simple-eng-med.xlsx,Sheet1,703,needs_native_review,Médumba translation candidate from source file.
+ct_00759,i_am_healed,en,I am healed,phrase,True,simple-eng-med.xlsx,Sheet1,704,auto_extracted_needs_review,English source text.
+ct_00760,i_am_healed,med,Me yate,phrase,False,simple-eng-med.xlsx,Sheet1,704,needs_native_review,Médumba translation candidate from source file.
+ct_00761,it_s_raining,en,It's raining,phrase,True,simple-eng-med.xlsx,Sheet1,705,auto_extracted_needs_review,English source text.
+ct_00762,it_s_raining,med,Mbañ tshwèt ndo,phrase,False,simple-eng-med.xlsx,Sheet1,705,needs_native_review,Médumba translation candidate from source file.
+ct_00763,it_s_sunny,en,It's sunny,phrase,True,simple-eng-med.xlsx,Sheet1,706,auto_extracted_needs_review,English source text.
+ct_00764,it_s_sunny,med,Nyam tshwèt nta,phrase,False,simple-eng-med.xlsx,Sheet1,706,needs_native_review,Médumba translation candidate from source file.
+ct_00765,not_good,en,Not good,phrase,True,simple-eng-med.xlsx,Sheet1,708,auto_extracted_needs_review,English source text.
+ct_00766,not_good,med,Kè bwo,phrase,False,simple-eng-med.xlsx,Sheet1,708,needs_native_review,Médumba translation candidate from source file.
+ct_00767,it_s_not_good,en,It's not good,phrase,True,simple-eng-med.xlsx,Sheet1,709,auto_extracted_needs_review,English source text.
+ct_00768,it_s_not_good,med,A kê' bwo,phrase,False,simple-eng-med.xlsx,Sheet1,709,needs_native_review,Médumba translation candidate from source file.
+ct_00769,it_s_long,en,It's long,phrase,True,simple-eng-med.xlsx,Sheet1,712,auto_extracted_needs_review,English source text.
+ct_00770,it_s_long,med,A sàg,phrase,False,simple-eng-med.xlsx,Sheet1,712,needs_native_review,Médumba translation candidate from source file.
+ct_00771,it_s_short,en,It's short,phrase,True,simple-eng-med.xlsx,Sheet1,713,auto_extracted_needs_review,English source text.
+ct_00772,it_s_short,med,vôg,word,False,simple-eng-med.xlsx,Sheet1,713,needs_native_review,Médumba translation candidate from source file.
+ct_00773,he_is_very_short,en,He is very short,phrase,True,simple-eng-med.xlsx,Sheet1,714,auto_extracted_needs_review,English source text.
+ct_00774,he_is_very_short,med,A vôg ta',phrase,False,simple-eng-med.xlsx,Sheet1,714,needs_native_review,Médumba translation candidate from source file.
+ct_00775,he_is_very_short,en,He is very short,phrase,True,simple-eng-med.xlsx,Sheet1,715,auto_extracted_needs_review,English source text.
+ct_00776,he_is_very_short,med,A vôg neshu,phrase,False,simple-eng-med.xlsx,Sheet1,715,needs_native_review,Médumba translation candidate from source file.
+ct_00777,let_her_go,en,Let her go,phrase,True,simple-eng-med.xlsx,Sheet1,721,auto_extracted_needs_review,English source text.
+ct_00778,let_her_go,med,Fan i,phrase,False,simple-eng-med.xlsx,Sheet1,721,needs_native_review,Médumba translation candidate from source file.
+ct_00779,take_off_your_hand,en,Take off your hand,phrase,True,simple-eng-med.xlsx,Sheet1,722,auto_extracted_needs_review,English source text.
+ct_00780,take_off_your_hand,med,Le' bu u,phrase,False,simple-eng-med.xlsx,Sheet1,722,needs_native_review,Médumba translation candidate from source file.
+ct_00781,put_your_hand_here,en,Put your hand here,phrase,True,simple-eng-med.xlsx,Sheet1,723,auto_extracted_needs_review,English source text.
+ct_00782,put_your_hand_here,med,Yab bu u zenni,phrase,False,simple-eng-med.xlsx,Sheet1,723,needs_native_review,Médumba translation candidate from source file.
+ct_00783,show_your_hand,en,Show your hand,phrase,True,simple-eng-med.xlsx,Sheet1,724,auto_extracted_needs_review,English source text.
+ct_00784,show_your_hand,med,Là'te bu u,phrase,False,simple-eng-med.xlsx,Sheet1,724,needs_native_review,Médumba translation candidate from source file.
+ct_00785,stretch_your_hand,en,Stretch your hand,phrase,True,simple-eng-med.xlsx,Sheet1,725,auto_extracted_needs_review,English source text.
+ct_00786,stretch_your_hand,med,Nyi d bu u,phrase,False,simple-eng-med.xlsx,Sheet1,725,needs_native_review,Médumba translation candidate from source file.
+ct_00787,have_you_urinated,en,Have you urinated?,phrase,True,simple-eng-med.xlsx,Sheet1,726,auto_extracted_needs_review,English source text.
+ct_00788,have_you_urinated,med,O tsi ntè ke?,phrase,False,simple-eng-med.xlsx,Sheet1,726,needs_native_review,Médumba translation candidate from source file.
+ct_00789,come_and_sleep,en,Come and sleep,phrase,True,simple-eng-med.xlsx,Sheet1,729,auto_extracted_needs_review,English source text.
+ct_00790,come_and_sleep,med,Sè' nzi,phrase,False,simple-eng-med.xlsx,Sheet1,729,needs_native_review,Médumba translation candidate from source file.
+ct_00791,to_tie,en,To tie,phrase,True,simple-eng-med.xlsx,Sheet1,730,auto_extracted_needs_review,English source text.
+ct_00792,to_tie,med,Nè tàne,phrase,False,simple-eng-med.xlsx,Sheet1,730,needs_native_review,Médumba translation candidate from source file.
+ct_00793,tie,en,Tie,word,True,simple-eng-med.xlsx,Sheet1,731,auto_extracted_needs_review,English source text.
+ct_00794,tie,med,Tàne,word,False,simple-eng-med.xlsx,Sheet1,731,needs_native_review,Médumba translation candidate from source file.
+ct_00795,tie_that,en,Tie that,phrase,True,simple-eng-med.xlsx,Sheet1,732,auto_extracted_needs_review,English source text.
+ct_00796,tie_that,med,Kut ju là,phrase,False,simple-eng-med.xlsx,Sheet1,732,needs_native_review,Médumba translation candidate from source file.
+ct_00797,it_is_already_daylight,en,It is already daylight,phrase,True,simple-eng-med.xlsx,Sheet1,737,auto_extracted_needs_review,English source text.
+ct_00798,it_is_already_daylight,med,Njù yà làn,phrase,False,simple-eng-med.xlsx,Sheet1,737,needs_native_review,Médumba translation candidate from source file.
+ct_00799,it_is_daylight,en,It is daylight,phrase,True,simple-eng-med.xlsx,Sheet1,738,auto_extracted_needs_review,English source text.
+ct_00800,it_is_daylight,med,Njù làn,phrase,False,simple-eng-med.xlsx,Sheet1,738,needs_native_review,Médumba translation candidate from source file.
+ct_00801,the_night,en,The night,phrase,True,simple-eng-med.xlsx,Sheet1,739,auto_extracted_needs_review,English source text.
+ct_00802,the_night,med,Tèttswe’,word,False,simple-eng-med.xlsx,Sheet1,739,needs_native_review,Médumba translation candidate from source file.
+ct_00803,the_sun,en,The sun,phrase,True,simple-eng-med.xlsx,Sheet1,740,auto_extracted_needs_review,English source text.
+ct_00804,the_sun,med,Nyam,word,False,simple-eng-med.xlsx,Sheet1,740,needs_native_review,Médumba translation candidate from source file.
+ct_00805,the_rain,en,The rain,phrase,True,simple-eng-med.xlsx,Sheet1,741,auto_extracted_needs_review,English source text.
+ct_00806,the_rain,med,Mbañ,word,False,simple-eng-med.xlsx,Sheet1,741,needs_native_review,Médumba translation candidate from source file.
+ct_00807,it_is_hot,en,It is hot,phrase,True,simple-eng-med.xlsx,Sheet1,742,auto_extracted_needs_review,English source text.
+ct_00808,it_is_hot,med,A dumde,phrase,False,simple-eng-med.xlsx,Sheet1,742,needs_native_review,Médumba translation candidate from source file.
+ct_00809,it_is_cold,en,It is cold,phrase,True,simple-eng-med.xlsx,Sheet1,743,auto_extracted_needs_review,English source text.
+ct_00810,it_is_cold,med,A fi,phrase,False,simple-eng-med.xlsx,Sheet1,743,needs_native_review,Médumba translation candidate from source file.
+ct_00811,go_and_sleep,en,Go and sleep,phrase,True,simple-eng-med.xlsx,Sheet1,744,auto_extracted_needs_review,English source text.
+ct_00812,go_and_sleep,med,Nèn nzi,phrase,False,simple-eng-med.xlsx,Sheet1,744,needs_native_review,Médumba translation candidate from source file.
+ct_00813,don_t_do_like_that,en,Don't do like that,phrase,True,simple-eng-med.xlsx,Sheet1,745,auto_extracted_needs_review,English source text.
+ct_00814,don_t_do_like_that,med,Kâ ghù ndulâ,phrase,False,simple-eng-med.xlsx,Sheet1,745,needs_native_review,Médumba translation candidate from source file.
+ct_00815,do_like_this,en,Do like this,phrase,True,simple-eng-med.xlsx,Sheet1,746,auto_extracted_needs_review,English source text.
+ct_00816,do_like_this,med,Ghù ndû,phrase,False,simple-eng-med.xlsx,Sheet1,746,needs_native_review,Médumba translation candidate from source file.
+ct_00817,do_like_that,en,Do like that,phrase,True,simple-eng-med.xlsx,Sheet1,747,auto_extracted_needs_review,English source text.
+ct_00818,do_like_that,med,Ghù ndulâ,phrase,False,simple-eng-med.xlsx,Sheet1,747,needs_native_review,Médumba translation candidate from source file.
+ct_00819,let_s_go_and_sleep,en,Let's go and sleep,phrase,True,simple-eng-med.xlsx,Sheet1,748,auto_extracted_needs_review,English source text.
+ct_00820,let_s_go_and_sleep,med,Bè nèn nzi,phrase,False,simple-eng-med.xlsx,Sheet1,748,needs_native_review,Médumba translation candidate from source file.
+ct_00821,that_what,en,That what?,phrase,True,simple-eng-med.xlsx,Sheet1,749,auto_extracted_needs_review,English source text.
+ct_00822,that_what,med,ke di?,phrase,False,simple-eng-med.xlsx,Sheet1,749,needs_native_review,Médumba translation candidate from source file.
+ct_00823,what_are_you_saying,en,What are you saying?,phrase,True,simple-eng-med.xlsx,Sheet1,750,auto_extracted_needs_review,English source text.
+ct_00824,what_are_you_saying,med,O mbè ke di?,phrase,False,simple-eng-med.xlsx,Sheet1,750,needs_native_review,Médumba translation candidate from source file.
+ct_00825,what_do_you_say,en,What do you say?,phrase,True,simple-eng-med.xlsx,Sheet1,751,auto_extracted_needs_review,English source text.
+ct_00826,what_do_you_say,med,O mbè ke di?,phrase,False,simple-eng-med.xlsx,Sheet1,751,needs_native_review,Médumba translation candidate from source file.
+ct_00827,repeat_please,en,"Repeat, please",phrase,True,simple-eng-med.xlsx,Sheet1,753,auto_extracted_needs_review,English source text.
+ct_00828,repeat_please,med,"Bwogte, Netshoʼo",phrase,False,simple-eng-med.xlsx,Sheet1,753,needs_native_review,Médumba translation candidate from source file.
+ct_00829,pick_it_up,en,Pick it up,phrase,True,simple-eng-med.xlsx,Sheet1,754,auto_extracted_needs_review,English source text.
+ct_00830,pick_it_up,med,Ju ag yila,phrase,False,simple-eng-med.xlsx,Sheet1,754,needs_native_review,Médumba translation candidate from source file.
+ct_00831,pick_it,en,Pick it,phrase,True,simple-eng-med.xlsx,Sheet1,755,auto_extracted_needs_review,English source text.
+ct_00832,pick_it,med,Juage,word,False,simple-eng-med.xlsx,Sheet1,755,needs_native_review,Médumba translation candidate from source file.
+ct_00833,it_is_enough_like_that,en,It is enough like that,phrase,True,simple-eng-med.xlsx,Sheet1,756,auto_extracted_needs_review,English source text.
+ct_00834,it_is_enough_like_that,med,A kù ' ndulâ,phrase,False,simple-eng-med.xlsx,Sheet1,756,needs_native_review,Médumba translation candidate from source file.
+ct_00835,come,en,Come,word,True,simple-eng-med.xlsx,Sheet1,758,auto_extracted_needs_review,English source text.
+ct_00836,come,med,Sè',word,False,simple-eng-med.xlsx,Sheet1,758,needs_native_review,Médumba translation candidate from source file.
+ct_00837,come_and_take,en,Come and take,phrase,True,simple-eng-med.xlsx,Sheet1,759,auto_extracted_needs_review,English source text.
+ct_00838,come_and_take,med,Sè' ko,phrase,False,simple-eng-med.xlsx,Sheet1,759,needs_native_review,Médumba translation candidate from source file.
+ct_00839,come_and_embrace_me,en,Come and embrace me,phrase,True,simple-eng-med.xlsx,Sheet1,760,auto_extracted_needs_review,English source text.
+ct_00840,come_and_embrace_me,med,Sè' ntsiag am,phrase,False,simple-eng-med.xlsx,Sheet1,760,needs_native_review,Médumba translation candidate from source file.
+ct_00841,welcome,en,Welcome,word,True,simple-eng-med.xlsx,Sheet1,761,auto_extracted_needs_review,English source text.
+ct_00842,welcome,med,Seʼ mebwô,phrase,False,simple-eng-med.xlsx,Sheet1,761,needs_native_review,Médumba translation candidate from source file.
+ct_00843,grammar,en,Grammar,word,True,simple-eng-med.xlsx,Sheet1,762,auto_extracted_needs_review,English source text.
+ct_00844,grammar,med,Ka ncobe,phrase,False,simple-eng-med.xlsx,Sheet1,762,needs_native_review,Médumba translation candidate from source file.
+ct_00845,the_dog_eats_meat,en,The dog eats meat,phrase,True,simple-eng-med.xlsx,Sheet1,763,auto_extracted_needs_review,English source text.
+ct_00846,the_dog_eats_meat,med,Mbù num mfèt mbàb,phrase,False,simple-eng-med.xlsx,Sheet1,763,needs_native_review,Médumba translation candidate from source file.
+ct_00847,the_dog_is_eating_meat,en,The dog is eating meat,phrase,True,simple-eng-med.xlsx,Sheet1,764,auto_extracted_needs_review,English source text.
+ct_00848,the_dog_is_eating_meat,med,Mbù tshwèt mfèt mbàb,phrase,False,simple-eng-med.xlsx,Sheet1,764,needs_native_review,Médumba translation candidate from source file.
+ct_00849,the_dog_ate_meat,en,The dog ate meat,phrase,True,simple-eng-med.xlsx,Sheet1,765,auto_extracted_needs_review,English source text.
+ct_00850,the_dog_ate_meat,med,Mbù fèt mbàb,phrase,False,simple-eng-med.xlsx,Sheet1,765,needs_native_review,Médumba translation candidate from source file.
+ct_00851,the_dog_ate_meat_yesterday,en,The dog ate meat yesterday,phrase,True,simple-eng-med.xlsx,Sheet1,766,auto_extracted_needs_review,English source text.
+ct_00852,the_dog_ate_meat_yesterday,med,Mbù fèt mbàb nkog,phrase,False,simple-eng-med.xlsx,Sheet1,766,needs_native_review,Médumba translation candidate from source file.
+ct_00853,the_dog_ate_meat_everyday,en,The dog ate meat everyday,phrase,True,simple-eng-med.xlsx,Sheet1,768,auto_extracted_needs_review,English source text.
+ct_00854,the_dog_ate_meat_everyday,med,Mbù nâ' ke mfèt mbàb njo,phrase,False,simple-eng-med.xlsx,Sheet1,768,needs_native_review,Médumba translation candidate from source file.
+ct_00855,the_dog_will_eat_meat,en,The dog will eat meat,phrase,True,simple-eng-med.xlsx,Sheet1,769,auto_extracted_needs_review,English source text.
+ct_00856,the_dog_will_eat_meat,med,Mbù à' mfèt mbàb,phrase,False,simple-eng-med.xlsx,Sheet1,769,needs_native_review,Médumba translation candidate from source file.
+ct_00857,next_time,en,Next time,phrase,True,simple-eng-med.xlsx,Sheet1,770,auto_extracted_needs_review,English source text.
+ct_00858,next_time,med,Be tù' mo' lé'njù ou lé',phrase,False,simple-eng-med.xlsx,Sheet1,770,needs_native_review,Médumba translation candidate from source file.
+ct_00859,friday,en,Friday,word,True,simple-eng-med.xlsx,Sheet1,774,auto_extracted_needs_review,English source text.
+ct_00860,friday,med,Fradé,word,False,simple-eng-med.xlsx,Sheet1,774,needs_native_review,Médumba translation candidate from source file.
+ct_00861,ui_skip_to_content,en,Skip to content,phrase,True,eng-med_processing.xlsx,Sheet1,2,auto_extracted_needs_review,UI English label.
+ct_00862,ui_skip_to_content,med,Tsho ntùm tshu,phrase,False,eng-med_processing.xlsx,Sheet1,2,needs_native_review,UI Médumba label candidate.
+ct_00863,ui_change_site_language,en,Change site language,phrase,True,eng-med_processing.xlsx,Sheet1,3,auto_extracted_needs_review,UI English label.
+ct_00864,ui_change_site_language,med,Bade ntshob yen du' li num koñnkùn,phrase,False,eng-med_processing.xlsx,Sheet1,3,needs_native_review,UI Médumba label candidate.
+ct_00865,ui_close,en,CLOSE,word,True,eng-med_processing.xlsx,Sheet1,4,auto_extracted_needs_review,UI English label.
+ct_00866,ui_close,med,LOGE,word,False,eng-med_processing.xlsx,Sheet1,4,needs_native_review,UI Médumba label candidate.
+ct_00867,ui_log_in,en,Log In,phrase,True,eng-med_processing.xlsx,Sheet1,5,auto_extracted_needs_review,UI English label.
+ct_00868,ui_log_in,med,Tsho ntùm bwe,phrase,False,eng-med_processing.xlsx,Sheet1,5,needs_native_review,UI Médumba label candidate.
+ct_00869,ui_search,en,Search,word,True,eng-med_processing.xlsx,Sheet1,6,auto_extracted_needs_review,UI English label.
+ct_00870,ui_search,med,Diag,word,False,eng-med_processing.xlsx,Sheet1,6,needs_native_review,UI Médumba label candidate.
+ct_00871,ui_show_menu,en,Show Menu,phrase,True,eng-med_processing.xlsx,Sheet1,7,auto_extracted_needs_review,UI English label.
+ct_00872,ui_show_menu,med,La’de Tunu,phrase,False,eng-med_processing.xlsx,Sheet1,7,needs_native_review,UI Médumba label candidate.
+ct_00873,ui_home,en,Home,word,True,eng-med_processing.xlsx,Sheet1,8,auto_extracted_needs_review,UI English label.
+ct_00874,ui_home,med,Netoʼde,word,False,eng-med_processing.xlsx,Sheet1,8,needs_native_review,UI Médumba label candidate.
+ct_00875,ui_children,en,Children,word,True,eng-med_processing.xlsx,Sheet1,13,auto_extracted_needs_review,UI English label.
+ct_00876,ui_children,med,Bônkeʼ,word,False,eng-med_processing.xlsx,Sheet1,13,needs_native_review,UI Médumba label candidate.
+ct_00877,ui_library,en,Library,word,True,eng-med_processing.xlsx,Sheet1,14,auto_extracted_needs_review,UI English label.
+ct_00878,ui_library,med,Feʼ Ñwaʼni,phrase,False,eng-med_processing.xlsx,Sheet1,14,needs_native_review,UI Médumba label candidate.
+ct_00879,ui_show_more,en,Show more,phrase,True,eng-med_processing.xlsx,Sheet1,15,auto_extracted_needs_review,UI English label.
+ct_00880,ui_show_more,med,Yen njoñ i fa,phrase,False,eng-med_processing.xlsx,Sheet1,15,needs_native_review,UI Médumba label candidate.
+ct_00881,ui_music,en,Music,word,True,eng-med_processing.xlsx,Sheet1,21,auto_extracted_needs_review,UI English label.
+ct_00882,ui_music,med,Kwi,word,False,eng-med_processing.xlsx,Sheet1,21,needs_native_review,UI Médumba label candidate.
+ct_00883,ui_videos,en,Videos,word,True,eng-med_processing.xlsx,Sheet1,24,auto_extracted_needs_review,UI English label.
+ct_00884,ui_videos,med,Laʼde netshañ,phrase,False,eng-med_processing.xlsx,Sheet1,24,needs_native_review,UI Médumba label candidate.
+ct_00885,ui_newsroom,en,Newsroom,word,True,eng-med_processing.xlsx,Sheet1,27,auto_extracted_needs_review,UI English label.
+ct_00886,ui_newsroom,med,Ndà Nkùn,phrase,False,eng-med_processing.xlsx,Sheet1,27,needs_native_review,UI Médumba label candidate.
+ct_00887,ui_about_us,en,About Us,phrase,True,eng-med_processing.xlsx,Sheet1,29,auto_extracted_needs_review,UI English label.
+ct_00888,ui_about_us,med,Mfà Num Bag,phrase,False,eng-med_processing.xlsx,Sheet1,29,needs_native_review,UI Médumba label candidate.
+ct_00889,ui_frequently_asked_questions,en,Frequently Asked Questions,phrase,True,eng-med_processing.xlsx,Sheet1,31,auto_extracted_needs_review,UI English label.
+ct_00890,ui_frequently_asked_questions,med,Bètte bo yôg o,phrase,False,eng-med_processing.xlsx,Sheet1,31,needs_native_review,UI Médumba label candidate.
+ct_00891,ui_log_in,en,Log In,phrase,True,eng-med_processing.xlsx,Sheet1,36,auto_extracted_needs_review,UI English label.
+ct_00892,ui_log_in,med,Tsho Ntùm Bwe,phrase,False,eng-med_processing.xlsx,Sheet1,36,needs_native_review,UI Médumba label candidate.
+ct_00893,ui_close,en,Close,word,True,eng-med_processing.xlsx,Sheet1,37,auto_extracted_needs_review,UI English label.
+ct_00894,ui_close,med,Loge,word,False,eng-med_processing.xlsx,Sheet1,37,needs_native_review,UI Médumba label candidate.
+ct_00895,ui_log_in,en,Log In,phrase,True,eng-med_processing.xlsx,Sheet1,40,auto_extracted_needs_review,UI English label.
+ct_00896,ui_log_in,med,Tsho ntùm bwe,phrase,False,eng-med_processing.xlsx,Sheet1,40,needs_native_review,UI Médumba label candidate.
+ct_00897,ui_search,en,Search,word,True,eng-med_processing.xlsx,Sheet1,41,auto_extracted_needs_review,UI English label.
+ct_00898,ui_search,med,Nédiàge,word,False,eng-med_processing.xlsx,Sheet1,41,needs_native_review,UI Médumba label candidate.
+ct_00899,ui_children,en,Children,word,True,eng-med_processing.xlsx,Sheet1,43,auto_extracted_needs_review,UI English label.
+ct_00900,ui_children,med,Bônkeʼ,word,False,eng-med_processing.xlsx,Sheet1,43,needs_native_review,UI Médumba label candidate.
+ct_00901,ui_your_contact_information,en,Your contact information,phrase,True,eng-med_processing.xlsx,Sheet1,61,auto_extracted_needs_review,UI English label.
+ct_00902,ui_your_contact_information,med,Tshob bag fa num ou,phrase,False,eng-med_processing.xlsx,Sheet1,61,needs_native_review,UI Médumba label candidate.
+ct_00903,ui_first_name,en,First name,phrase,True,eng-med_processing.xlsx,Sheet1,62,auto_extracted_needs_review,UI English label.
+ct_00904,ui_first_name,med,Len là’,phrase,False,eng-med_processing.xlsx,Sheet1,62,needs_native_review,UI Médumba label candidate.
+ct_00905,ui_last_name,en,Last Name,phrase,True,eng-med_processing.xlsx,Sheet1,63,auto_extracted_needs_review,UI English label.
+ct_00906,ui_last_name,med,Lèn mekale,phrase,False,eng-med_processing.xlsx,Sheet1,63,needs_native_review,UI Médumba label candidate.
+ct_00907,ui_gender,en,Gender,word,True,eng-med_processing.xlsx,Sheet1,64,auto_extracted_needs_review,UI English label.
+ct_00908,ui_gender,med,Lèn mèn,phrase,False,eng-med_processing.xlsx,Sheet1,64,needs_native_review,UI Médumba label candidate.
+ct_00909,ui_male,en,male,word,True,eng-med_processing.xlsx,Sheet1,65,auto_extracted_needs_review,UI English label.
+ct_00910,ui_male,med,mandum,word,False,eng-med_processing.xlsx,Sheet1,65,needs_native_review,UI Médumba label candidate.
+ct_00911,ui_female,en,female,word,True,eng-med_processing.xlsx,Sheet1,66,auto_extracted_needs_review,UI English label.
+ct_00912,ui_female,med,menzwi,word,False,eng-med_processing.xlsx,Sheet1,66,needs_native_review,UI Médumba label candidate.
+ct_00913,ui_prefered_language,en,Prefered language,phrase,True,eng-med_processing.xlsx,Sheet1,67,auto_extracted_needs_review,UI English label.
+ct_00914,ui_prefered_language,med,Ntshob ze ou kô là,phrase,False,eng-med_processing.xlsx,Sheet1,67,needs_native_review,UI Médumba label candidate.
+ct_00915,ui_country,en,Country,word,True,eng-med_processing.xlsx,Sheet1,68,auto_extracted_needs_review,UI English label.
+ct_00916,ui_country,med,Ngô,word,False,eng-med_processing.xlsx,Sheet1,68,needs_native_review,UI Médumba label candidate.
+ct_00917,ui_address_line_1,en,Address line 1,phrase,True,eng-med_processing.xlsx,Sheet1,69,auto_extracted_needs_review,UI English label.
+ct_00918,ui_address_line_1,med,Tshâg du’ num bag i 1,phrase,False,eng-med_processing.xlsx,Sheet1,69,needs_native_review,UI Médumba label candidate.
+ct_00919,ui_optional,en,Optional,word,True,eng-med_processing.xlsx,Sheet1,70,auto_extracted_needs_review,UI English label.
+ct_00920,ui_optional,med,Ne tshou’ yu tu woud,phrase,False,eng-med_processing.xlsx,Sheet1,70,needs_native_review,UI Médumba label candidate.
+ct_00921,ui_town,en,Town,word,True,eng-med_processing.xlsx,Sheet1,71,auto_extracted_needs_review,UI English label.
+ct_00922,ui_town,med,Tûso,word,False,eng-med_processing.xlsx,Sheet1,71,needs_native_review,UI Médumba label candidate.
+ct_00923,ui_province,en,Province,word,True,eng-med_processing.xlsx,Sheet1,72,auto_extracted_needs_review,UI English label.
+ct_00924,ui_province,med,Tan ngô,phrase,False,eng-med_processing.xlsx,Sheet1,72,needs_native_review,UI Médumba label candidate.
+ct_00925,ui_postal_code,en,Postal code,phrase,True,eng-med_processing.xlsx,Sheet1,73,auto_extracted_needs_review,UI English label.
+ct_00926,ui_postal_code,med,Keki tou’ nwa’ni,phrase,False,eng-med_processing.xlsx,Sheet1,73,needs_native_review,UI Médumba label candidate.
+ct_00927,ui_telephone,en,Telephone,word,True,eng-med_processing.xlsx,Sheet1,74,auto_extracted_needs_review,UI English label.
+ct_00928,ui_telephone,med,Keki kap,phrase,False,eng-med_processing.xlsx,Sheet1,74,needs_native_review,UI Médumba label candidate.
+ct_00929,ui_best_time_to_contact_you,en,Best time to contact you,phrase,True,eng-med_processing.xlsx,Sheet1,75,auto_extracted_needs_review,UI English label.
+ct_00930,ui_best_time_to_contact_you,med,Bwô ngelan num ne tsian ou,phrase,False,eng-med_processing.xlsx,Sheet1,75,needs_native_review,UI Médumba label candidate.
+ct_00931,ui_please_contact_me,en,Please contact me,phrase,True,eng-med_processing.xlsx,Sheet1,76,auto_extracted_needs_review,UI English label.
+ct_00932,ui_please_contact_me,med,Netshou'ou bin tsian am,phrase,False,eng-med_processing.xlsx,Sheet1,76,needs_native_review,UI Médumba label candidate.
+ct_00933,ui_close,en,Close,word,True,eng-med_processing.xlsx,Sheet1,331,auto_extracted_needs_review,UI English label.
+ct_00934,ui_close,med,Loge,word,False,eng-med_processing.xlsx,Sheet1,331,needs_native_review,UI Médumba label candidate.
+ct_00935,young_man_and_lion,en,The young man and the lion,phrase,True,frabcaise_3.xlsx,,,manual_extraction_needs_review,Story title
+ct_00936,young_man_and_lion,fr,Le jeune homme et le lion,phrase,False,frabcaise_3.xlsx,,,manual_extraction_needs_review,Story title
+ct_00937,young_man_and_lion,med,Ta’ nguan nshum bo ngwayit,phrase,False,frabcaise_3.xlsx,,,needs_native_review,Story title
+ct_00938,young_man,en,young man,phrase,True,frabcaise_3.xlsx,,,manual_extraction_needs_review,Story vocabulary from Le jeune homme et le lion
+ct_00939,young_man,fr,jeune homme,phrase,False,frabcaise_3.xlsx,,,manual_extraction_needs_review,Story vocabulary from Le jeune homme et le lion
+ct_00940,young_man,med,ta’ nguan nshum,phrase,False,frabcaise_3.xlsx,,,needs_native_review,Story vocabulary from Le jeune homme et le lion
+ct_00941,lion,en,lion,word,True,frabcaise_3.xlsx,,,manual_extraction_needs_review,Story vocabulary
+ct_00942,lion,fr,lion,word,False,frabcaise_3.xlsx,,,manual_extraction_needs_review,Story vocabulary
+ct_00943,lion,med,ngwayit,word,False,frabcaise_3.xlsx,,,needs_native_review,Story vocabulary
+ct_00944,lioness,en,lioness,word,True,frabcaise_3.xlsx,,,manual_extraction_needs_review,Needs reviewer check
+ct_00945,lioness,fr,lionne,word,False,frabcaise_3.xlsx,,,manual_extraction_needs_review,Needs reviewer check
+ct_00946,lioness,med,ngwayit ze mènnzwi,phrase,False,frabcaise_3.xlsx,,,needs_native_review,Needs reviewer check
+ct_00947,village,en,village,word,True,frabcaise_3.xlsx,,,manual_extraction_needs_review,Story vocabulary
+ct_00948,village,fr,village,word,False,frabcaise_3.xlsx,,,manual_extraction_needs_review,Story vocabulary
+ct_00949,village,med,tañla’,word,False,frabcaise_3.xlsx,,,needs_native_review,Story vocabulary
+ct_00950,city,en,city,word,True,frabcaise_3.xlsx,,,manual_extraction_needs_review,Story vocabulary
+ct_00951,city,fr,ville,word,False,frabcaise_3.xlsx,,,manual_extraction_needs_review,Story vocabulary
+ct_00952,city,med,tùsô,word,False,frabcaise_3.xlsx,,,needs_native_review,Story vocabulary
+ct_00953,forest,en,forest,word,True,frabcaise_3.xlsx,,,manual_extraction_needs_review,Variant seen in story context
+ct_00954,forest,fr,forêt,word,False,frabcaise_3.xlsx,,,manual_extraction_needs_review,Variant seen in story context
+ct_00955,forest,med,fèn / mfèn,phrase,False,frabcaise_3.xlsx,,,needs_native_review,Variant seen in story context
+ct_00956,animal,en,animal,word,True,frabcaise_3.xlsx,,,manual_extraction_needs_review,Story vocabulary
+ct_00957,animal,fr,animal,word,False,frabcaise_3.xlsx,,,manual_extraction_needs_review,Story vocabulary
+ct_00958,animal,med,nyàm,word,False,frabcaise_3.xlsx,,,needs_native_review,Story vocabulary
+ct_00959,wife,en,wife,word,True,frabcaise_3.xlsx,,,manual_extraction_needs_review,Context-sensitive; review
+ct_00960,wife,fr,femme / épouse,phrase,False,frabcaise_3.xlsx,,,manual_extraction_needs_review,Context-sensitive; review
+ct_00961,wife,med,mènnzwi / nzwi,phrase,False,frabcaise_3.xlsx,,,needs_native_review,Context-sensitive; review
+ct_00962,child,en,child,word,True,frabcaise_3.xlsx,,,manual_extraction_needs_review,Story vocabulary
+ct_00963,child,fr,enfant,word,False,frabcaise_3.xlsx,,,manual_extraction_needs_review,Story vocabulary
+ct_00964,child,med,mèn,word,False,frabcaise_3.xlsx,,,needs_native_review,Story vocabulary
+ct_00965,jackal,en,jackal,word,True,frabcaise_3.xlsx,,,manual_extraction_needs_review,Story vocabulary
+ct_00966,jackal,fr,chacal,word,False,frabcaise_3.xlsx,,,manual_extraction_needs_review,Story vocabulary
+ct_00967,jackal,med,mbù tshwèt,phrase,False,frabcaise_3.xlsx,,,needs_native_review,Story vocabulary
+ct_00968,hyena,en,hyena,word,True,frabcaise_3.xlsx,,,manual_extraction_needs_review,Story vocabulary
+ct_00969,hyena,fr,hyène,word,False,frabcaise_3.xlsx,,,manual_extraction_needs_review,Story vocabulary
+ct_00970,hyena,med,mbù,word,False,frabcaise_3.xlsx,,,needs_native_review,Story vocabulary
+ct_00971,tiger,en,tiger,word,True,frabcaise_3.xlsx,,,manual_extraction_needs_review,Story/proverb vocabulary
+ct_00972,tiger,fr,tigre,word,False,frabcaise_3.xlsx,,,manual_extraction_needs_review,Story/proverb vocabulary
+ct_00973,tiger,med,busi tshwèt,phrase,False,frabcaise_3.xlsx,,,needs_native_review,Story/proverb vocabulary
+ct_00974,what_is_it_story,en,What is it?,phrase,True,frabcaise_3.xlsx,,,manual_extraction_needs_review,Dialogue phrase from story
+ct_00975,what_is_it_story,fr,C’est quoi ?,phrase,False,frabcaise_3.xlsx,,,manual_extraction_needs_review,Dialogue phrase from story
+ct_00976,what_is_it_story,med,k’a b’a ke?,phrase,False,frabcaise_3.xlsx,,,needs_native_review,Dialogue phrase from story
+ct_00977,is_this_a_lion,en,Is this a lion?,phrase,True,frabcaise_3.xlsx,,,manual_extraction_needs_review,Dialogue phrase from story
+ct_00978,is_this_a_lion,fr,C’est ça un lion ?,phrase,False,frabcaise_3.xlsx,,,manual_extraction_needs_review,Dialogue phrase from story
+ct_00979,is_this_a_lion,med,A b’a ngwayit li ké?,phrase,False,frabcaise_3.xlsx,,,needs_native_review,Dialogue phrase from story
+ct_00980,it_is_not_a_lion,en,It is not a lion,phrase,True,frabcaise_3.xlsx,,,manual_extraction_needs_review,Dialogue phrase from story
+ct_00981,it_is_not_a_lion,fr,Ce n’est pas un lion,phrase,False,frabcaise_3.xlsx,,,manual_extraction_needs_review,Dialogue phrase from story
+ct_00982,it_is_not_a_lion,med,a ke’ b’a ngwayit là,phrase,False,frabcaise_3.xlsx,,,needs_native_review,Dialogue phrase from story
+ct_00983,give_me_your_hand_story,en,Give me your hand,phrase,True,frabcaise_3.xlsx,,,manual_extraction_needs_review,Dialogue phrase from story
+ct_00984,give_me_your_hand_story,fr,Donne-moi la main,phrase,False,frabcaise_3.xlsx,,,manual_extraction_needs_review,Dialogue phrase from story
+ct_00985,give_me_your_hand_story,med,Fà bu o me,phrase,False,frabcaise_3.xlsx,,,needs_native_review,Dialogue phrase from story
+ct_00986,are_you_going_to_run,en,Are you going to run?,phrase,True,frabcaise_3.xlsx,,,manual_extraction_needs_review,Dialogue phrase from story
+ct_00987,are_you_going_to_run,fr,Tu vas fuir ?,phrase,False,frabcaise_3.xlsx,,,manual_extraction_needs_review,Dialogue phrase from story
+ct_00988,are_you_going_to_run,med,oa’ kù ké?,phrase,False,frabcaise_3.xlsx,,,needs_native_review,Dialogue phrase from story
+ct_00989,promise,en,promise,word,True,Anta et Mamadou (1).docx,,,manual_extraction_needs_review,Extracted from Anta/Mamadou story; review
+ct_00990,promise,fr,promesse,word,False,Anta et Mamadou (1).docx,,,manual_extraction_needs_review,Extracted from Anta/Mamadou story; review
+ct_00991,promise,med,nka’ni,word,False,Anta et Mamadou (1).docx,,,needs_native_review,Extracted from Anta/Mamadou story; review
+ct_00992,truth,en,truth,word,True,Anta et Mamadou (1).docx,,,manual_extraction_needs_review,Extracted from Anta/Mamadou story; review
+ct_00993,truth,fr,vérité,word,False,Anta et Mamadou (1).docx,,,manual_extraction_needs_review,Extracted from Anta/Mamadou story; review
+ct_00994,truth,med,nenùne,word,False,Anta et Mamadou (1).docx,,,needs_native_review,Extracted from Anta/Mamadou story; review
+ct_00995,lie,en,lie,word,True,Anta et Mamadou (1).docx,,,manual_extraction_needs_review,Extracted from Anta/Mamadou story; review
+ct_00996,lie,fr,mensonge,word,False,Anta et Mamadou (1).docx,,,manual_extraction_needs_review,Extracted from Anta/Mamadou story; review
+ct_00997,lie,med,tatte,word,False,Anta et Mamadou (1).docx,,,needs_native_review,Extracted from Anta/Mamadou story; review
+ct_00998,secret,en,secret,word,True,Anta et Mamadou (1).docx,,,manual_extraction_needs_review,Extracted from Anta/Mamadou story; review
+ct_00999,secret,fr,secret,word,False,Anta et Mamadou (1).docx,,,manual_extraction_needs_review,Extracted from Anta/Mamadou story; review
+ct_01000,secret,med,ntùm tsham,phrase,False,Anta et Mamadou (1).docx,,,needs_native_review,Extracted from Anta/Mamadou story; review
+ct_01001,friend,en,friend,word,True,Anta et Mamadou (1).docx,,,manual_extraction_needs_review,Extracted from story; review
+ct_01002,friend,fr,ami / camarade,phrase,False,Anta et Mamadou (1).docx,,,manual_extraction_needs_review,Extracted from story; review
+ct_01003,friend,med,nshun,word,False,Anta et Mamadou (1).docx,,,needs_native_review,Extracted from story; review
+ct_01004,school_story,en,school,word,True,Anta et Mamadou (1).docx,,,manual_extraction_needs_review,Context may also mean book/writing; review
+ct_01005,school_story,fr,école,word,False,Anta et Mamadou (1).docx,,,manual_extraction_needs_review,Context may also mean book/writing; review
+ct_01006,school_story,med,ñwa’ni,word,False,Anta et Mamadou (1).docx,,,needs_native_review,Context may also mean book/writing; review
+ct_01007,help_request_title,en,Who can help me?,phrase,True,Francais_2 traduit (1).docx,,,manual_extraction_needs_review,Story title phrase; review
+ct_01008,help_request_title,fr,Qui peut m'aider ?,phrase,False,Francais_2 traduit (1).docx,,,manual_extraction_needs_review,Story title phrase; review
+ct_01009,help_request_title,med,wù ze b’a ywimd’àm,phrase,False,Francais_2 traduit (1).docx,,,needs_native_review,Story title phrase; review

@@ -1,0 +1,38 @@
+﻿English,Medumba,category,difficulty,source_file,source_sheet,source_row,notes
+Skip to content,Tsho ntùm tshu,app_ui,ui,eng-med_processing.xlsx,Sheet1,2,Useful for UI localization/admin labels; not a learning lesson by default.
+Change site language,Bade ntshob yen du' li num koñnkùn,app_ui,ui,eng-med_processing.xlsx,Sheet1,3,Useful for UI localization/admin labels; not a learning lesson by default.
+CLOSE,LOGE,app_ui,ui,eng-med_processing.xlsx,Sheet1,4,Useful for UI localization/admin labels; not a learning lesson by default.
+Log In,Tsho ntùm bwe,app_ui,ui,eng-med_processing.xlsx,Sheet1,5,Useful for UI localization/admin labels; not a learning lesson by default.
+Search,Diag,app_ui,ui,eng-med_processing.xlsx,Sheet1,6,Useful for UI localization/admin labels; not a learning lesson by default.
+Show Menu,La’de Tunu,app_ui,ui,eng-med_processing.xlsx,Sheet1,7,Useful for UI localization/admin labels; not a learning lesson by default.
+Home,Netoʼde,app_ui,ui,eng-med_processing.xlsx,Sheet1,8,Useful for UI localization/admin labels; not a learning lesson by default.
+Children,Bônkeʼ,app_ui,ui,eng-med_processing.xlsx,Sheet1,13,Useful for UI localization/admin labels; not a learning lesson by default.
+Library,Feʼ Ñwaʼni,app_ui,ui,eng-med_processing.xlsx,Sheet1,14,Useful for UI localization/admin labels; not a learning lesson by default.
+Show more,Yen njoñ i fa,app_ui,ui,eng-med_processing.xlsx,Sheet1,15,Useful for UI localization/admin labels; not a learning lesson by default.
+Music,Kwi,app_ui,ui,eng-med_processing.xlsx,Sheet1,21,Useful for UI localization/admin labels; not a learning lesson by default.
+Videos,Laʼde netshañ,app_ui,ui,eng-med_processing.xlsx,Sheet1,24,Useful for UI localization/admin labels; not a learning lesson by default.
+Newsroom,Ndà Nkùn,app_ui,ui,eng-med_processing.xlsx,Sheet1,27,Useful for UI localization/admin labels; not a learning lesson by default.
+About Us,Mfà Num Bag,app_ui,ui,eng-med_processing.xlsx,Sheet1,29,Useful for UI localization/admin labels; not a learning lesson by default.
+Frequently Asked Questions,Bètte bo yôg o,app_ui,ui,eng-med_processing.xlsx,Sheet1,31,Useful for UI localization/admin labels; not a learning lesson by default.
+Log In,Tsho Ntùm Bwe,app_ui,ui,eng-med_processing.xlsx,Sheet1,36,Useful for UI localization/admin labels; not a learning lesson by default.
+Close,Loge,app_ui,ui,eng-med_processing.xlsx,Sheet1,37,Useful for UI localization/admin labels; not a learning lesson by default.
+Log In,Tsho ntùm bwe,app_ui,ui,eng-med_processing.xlsx,Sheet1,40,Useful for UI localization/admin labels; not a learning lesson by default.
+Search,Nédiàge,app_ui,ui,eng-med_processing.xlsx,Sheet1,41,Useful for UI localization/admin labels; not a learning lesson by default.
+Children,Bônkeʼ,app_ui,ui,eng-med_processing.xlsx,Sheet1,43,Useful for UI localization/admin labels; not a learning lesson by default.
+Your contact information,Tshob bag fa num ou,app_ui,ui,eng-med_processing.xlsx,Sheet1,61,Useful for UI localization/admin labels; not a learning lesson by default.
+First name,Len là’,app_ui,ui,eng-med_processing.xlsx,Sheet1,62,Useful for UI localization/admin labels; not a learning lesson by default.
+Last Name,Lèn mekale,app_ui,ui,eng-med_processing.xlsx,Sheet1,63,Useful for UI localization/admin labels; not a learning lesson by default.
+Gender,Lèn mèn,app_ui,ui,eng-med_processing.xlsx,Sheet1,64,Useful for UI localization/admin labels; not a learning lesson by default.
+male,mandum,app_ui,ui,eng-med_processing.xlsx,Sheet1,65,Useful for UI localization/admin labels; not a learning lesson by default.
+female,menzwi,app_ui,ui,eng-med_processing.xlsx,Sheet1,66,Useful for UI localization/admin labels; not a learning lesson by default.
+Prefered language,Ntshob ze ou kô là,app_ui,ui,eng-med_processing.xlsx,Sheet1,67,Useful for UI localization/admin labels; not a learning lesson by default.
+Country,Ngô,app_ui,ui,eng-med_processing.xlsx,Sheet1,68,Useful for UI localization/admin labels; not a learning lesson by default.
+Address line 1,Tshâg du’ num bag i 1,app_ui,ui,eng-med_processing.xlsx,Sheet1,69,Useful for UI localization/admin labels; not a learning lesson by default.
+Optional,Ne tshou’ yu tu woud,app_ui,ui,eng-med_processing.xlsx,Sheet1,70,Useful for UI localization/admin labels; not a learning lesson by default.
+Town,Tûso,app_ui,ui,eng-med_processing.xlsx,Sheet1,71,Useful for UI localization/admin labels; not a learning lesson by default.
+Province,Tan ngô,app_ui,ui,eng-med_processing.xlsx,Sheet1,72,Useful for UI localization/admin labels; not a learning lesson by default.
+Postal code,Keki tou’ nwa’ni,app_ui,ui,eng-med_processing.xlsx,Sheet1,73,Useful for UI localization/admin labels; not a learning lesson by default.
+Telephone,Keki kap,app_ui,ui,eng-med_processing.xlsx,Sheet1,74,Useful for UI localization/admin labels; not a learning lesson by default.
+Best time to contact you,Bwô ngelan num ne tsian ou,app_ui,ui,eng-med_processing.xlsx,Sheet1,75,Useful for UI localization/admin labels; not a learning lesson by default.
+Please contact me,Netshou'ou bin tsian am,app_ui,ui,eng-med_processing.xlsx,Sheet1,76,Useful for UI localization/admin labels; not a learning lesson by default.
+Close,Loge,app_ui,ui,eng-med_processing.xlsx,Sheet1,331,Useful for UI localization/admin labels; not a learning lesson by default.

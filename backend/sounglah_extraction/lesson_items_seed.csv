@@ -1,0 +1,267 @@
+﻿lesson_item_id,lesson_key,order_index,item_type,concept_key,prompt_language,answer_language,prompt_text,source_files,status,notes
+li_00001,greetings_01,1,vocabulary_card,good_morning,en,med,Good morning,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00002,greetings_01,2,vocabulary_card,good_night,en,med,Good night,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00003,greetings_01,3,vocabulary_card,hello,en,med,Hello,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00004,greetings_01,4,vocabulary_card,how_are_you,en,med,How are you?,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00005,greetings_01,5,vocabulary_card,please,en,med,Please,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00006,greetings_01,6,vocabulary_card,sleep_tight,en,med,sleep tight,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00007,greetings_01,7,vocabulary_card,thank_you,en,med,Thank you,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00008,greetings_01,8,vocabulary_card,welcome,en,med,Welcome,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00009,greetings_01,9,vocabulary_card,well_done,en,med,Well done,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00010,greetings_01,10,vocabulary_card,you_are_welcome,en,med,You are welcome,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00011,family_01,1,vocabulary_card,a_boy,en,med,A boy,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00012,family_01,2,vocabulary_card,a_girl,en,med,A girl,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00013,family_01,3,vocabulary_card,a_woman,en,med,A woman,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00014,family_01,4,vocabulary_card,child,en,med,child,frabcaise_3.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00015,family_01,5,vocabulary_card,children_should_obey_their_parents,en,med,Children should obey their parents.,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00016,family_01,6,vocabulary_card,father,en,med,Father,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00017,family_01,7,vocabulary_card,friend,en,med,friend,Anta et Mamadou (1).docx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00018,family_01,8,vocabulary_card,give_to_your_brother,en,med,Give to your brother,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00019,family_01,9,vocabulary_card,husband,en,med,Husband,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00020,family_01,10,vocabulary_card,in_the_name_of_the_father,en,med,In the name of the father,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00021,family_01,11,vocabulary_card,mother,en,med,mother,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00022,family_01,12,vocabulary_card,my_brother,en,med,My brother,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00023,family_01,13,vocabulary_card,my_father,en,med,My father,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00024,family_01,14,vocabulary_card,my_mother,en,med,My mother,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00025,family_01,15,vocabulary_card,my_sister,en,med,My sister,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00026,family_01,16,vocabulary_card,please_mother,en,med,Please mother,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00027,family_01,17,vocabulary_card,please_my_brother,en,med,Please my brother,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00028,family_01,18,vocabulary_card,please_my_sister,en,med,Please my sister,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00029,family_01,19,vocabulary_card,the_child,en,med,The child,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00030,family_01,20,vocabulary_card,the_child_is_sick,en,med,The child is sick,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00031,family_01,21,vocabulary_card,where_is_your_dad,en,med,Where is your Dad?,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00032,family_01,22,vocabulary_card,where_is_your_father,en,med,Where is your father?,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00033,family_01,23,vocabulary_card,wife,en,med,Wife,simple-eng-med.xlsx; frabcaise_3.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00034,family_01,24,vocabulary_card,woman,en,med,Woman,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00035,family_01,25,vocabulary_card,young_man,en,med,young man,frabcaise_3.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00036,body_01,1,vocabulary_card,ahead,en,med,Ahead,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00037,body_01,2,vocabulary_card,belly,en,med,Belly,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00038,body_01,3,vocabulary_card,close_your_eyes,en,med,Close your eyes,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00039,body_01,4,vocabulary_card,do_you_hear,en,med,Do you hear?,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00040,body_01,5,vocabulary_card,don_t_hear,en,med,Don't hear,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00041,body_01,6,vocabulary_card,ears,en,med,Ears,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00042,body_01,7,vocabulary_card,hand,en,med,Hand,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00043,body_01,8,vocabulary_card,head,en,med,Head,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00044,body_01,9,vocabulary_card,hear,en,med,hear,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00045,body_01,10,vocabulary_card,i_have_heard,en,med,I have heard,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00046,body_01,11,vocabulary_card,learn,en,med,Learn,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00047,body_01,12,vocabulary_card,mouth,en,med,MOUTH,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00048,body_01,13,vocabulary_card,move_ahead,en,med,Move ahead,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00049,body_01,14,vocabulary_card,my_belly_hurts,en,med,My belly hurts,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00050,body_01,15,vocabulary_card,put_your_hand_here,en,med,Put your hand here,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00051,body_01,16,vocabulary_card,remove_your_hand,en,med,Remove your hand,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00052,body_01,17,vocabulary_card,search,en,med,search,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00053,body_01,18,vocabulary_card,search_for_your_shoes,en,med,Search for your shoes,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00054,body_01,19,vocabulary_card,searching,en,med,searching,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00055,body_01,20,vocabulary_card,show_your_hand,en,med,Show your hand,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00056,body_01,21,vocabulary_card,stretch_your_hand,en,med,Stretch your hand,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00057,body_01,22,vocabulary_card,take_off_your_hand,en,med,Take off your hand,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00058,body_01,23,vocabulary_card,the_chest,en,med,The chest,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00059,body_01,24,vocabulary_card,the_eyes,en,med,The eyes,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00060,body_01,25,vocabulary_card,the_legs,en,med,The legs,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00061,food_drink_01,1,vocabulary_card,are_you_hungry,en,med,Are you hungry?,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00062,food_drink_01,2,vocabulary_card,breathe,en,med,Breathe,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00063,food_drink_01,3,vocabulary_card,chilli_pepper,en,med,Chilli pepper,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00064,food_drink_01,4,vocabulary_card,don_t_finish_food,en,med,Don't finish food,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00065,food_drink_01,5,vocabulary_card,don_t_finish_your_food,en,med,Don't finish your food,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00066,food_drink_01,6,vocabulary_card,drink,en,med,Drink,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00067,food_drink_01,7,vocabulary_card,drink_water,en,med,Drink water,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00068,food_drink_01,8,vocabulary_card,eat,en,med,Eat,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00069,food_drink_01,9,vocabulary_card,eat_meat,en,med,Eat meat,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00070,food_drink_01,10,vocabulary_card,food_is_finish,en,med,Food is finish,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00071,food_drink_01,11,vocabulary_card,have_a_seat,en,med,Have a seat,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00072,food_drink_01,12,vocabulary_card,have_a_seat_please,en,med,Have a seat please,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00073,food_drink_01,13,vocabulary_card,have_you_eaten,en,med,Have you eaten?,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00074,food_drink_01,14,vocabulary_card,hunger,en,med,Hunger,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00075,food_drink_01,15,vocabulary_card,i_am_eating,en,med,I am eating,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00076,food_drink_01,16,vocabulary_card,i_am_hungry,en,med,I am hungry,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00077,food_drink_01,17,vocabulary_card,i_will_drink_water,en,med,I will drink water,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00078,food_drink_01,18,vocabulary_card,i_will_eat,en,med,I will eat,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00079,food_drink_01,19,vocabulary_card,meat,en,med,Meat,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00080,food_drink_01,20,vocabulary_card,plantain,en,med,Plantain,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00081,food_drink_01,21,vocabulary_card,repeat_please,en,med,"Repeat, please",simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00082,food_drink_01,22,vocabulary_card,rice,en,med,Rice,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00083,food_drink_01,23,vocabulary_card,spices,en,med,Spices,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00084,food_drink_01,24,vocabulary_card,the_dog_ate_meat,en,med,The dog ate meat,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00085,food_drink_01,25,vocabulary_card,the_dog_ate_meat_everyday,en,med,The dog ate meat everyday,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00086,home_01,1,vocabulary_card,a_cup,en,med,A cup,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00087,home_01,2,vocabulary_card,a_glass,en,med,A glass,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00088,home_01,3,vocabulary_card,close_the_door,en,med,Close the door,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00089,home_01,4,vocabulary_card,i_am_in_the_kitchen,en,med,I am in the kitchen,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00090,home_01,5,vocabulary_card,i_am_in_the_room,en,med,I am in the room,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00091,home_01,6,vocabulary_card,kitchen,en,med,Kitchen,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00092,home_01,7,vocabulary_card,let_s_go_and_show_the_house,en,med,Let's go and show the house,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00093,home_01,8,vocabulary_card,let_s_go_home_it_s_getting_late,en,med,Let's go home it's getting late,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00094,home_01,9,vocabulary_card,my_house_is_far,en,med,My house is far,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00095,home_01,10,vocabulary_card,open_the_door,en,med,Open the door,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00096,home_01,11,vocabulary_card,the_door,en,med,The door,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00097,home_01,12,vocabulary_card,the_kitchen,en,med,The kitchen,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00098,home_01,13,vocabulary_card,the_living_room,en,med,The living room,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00099,home_01,14,vocabulary_card,the_plate,en,med,The plate,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00100,home_01,15,vocabulary_card,the_spoon,en,med,The spoon,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00101,actions_01,1,vocabulary_card,awaken_him,en,med,awaken him,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00102,actions_01,2,vocabulary_card,bring,en,med,Bring,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00103,actions_01,3,vocabulary_card,bring_back_to_you,en,med,Bring back to you,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00104,actions_01,4,vocabulary_card,come,en,med,Come,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00105,actions_01,5,vocabulary_card,come_and_embrace_me,en,med,Come and embrace me,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00106,actions_01,6,vocabulary_card,come_and_get,en,med,Come and get,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00107,actions_01,7,vocabulary_card,come_and_greet_me,en,med,Come and greet me,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00108,actions_01,8,vocabulary_card,come_and_sleep,en,med,Come and sleep,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00109,actions_01,9,vocabulary_card,come_and_take,en,med,Come and take,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00110,actions_01,10,vocabulary_card,do_it_again,en,med,Do it again,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00111,actions_01,11,vocabulary_card,do_like_that,en,med,Do like that,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00112,actions_01,12,vocabulary_card,do_like_this,en,med,Do like this,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00113,actions_01,13,vocabulary_card,don_t_awaken_her,en,med,don't awaken her,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00114,actions_01,14,vocabulary_card,don_t_buy,en,med,Don't buy,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00115,actions_01,15,vocabulary_card,don_t_come,en,med,Don't come,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00116,actions_01,16,vocabulary_card,don_t_do_it_again,en,med,Don't do it again,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00117,actions_01,17,vocabulary_card,don_t_do_like_that,en,med,Don't do like that,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00118,actions_01,18,vocabulary_card,don_t_finish,en,med,Don't finish,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00119,actions_01,19,vocabulary_card,don_t_finish_your_money,en,med,Don't finish your money,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00120,actions_01,20,vocabulary_card,don_t_hit_her,en,med,Don't hit her,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00121,actions_01,21,vocabulary_card,don_t_sell,en,med,Don't sell,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00122,actions_01,22,vocabulary_card,don_t_sit,en,med,Don't sit,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00123,actions_01,23,vocabulary_card,don_t_touch,en,med,Don't touch,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00124,actions_01,24,vocabulary_card,don_t_walk,en,med,Don't walk,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00125,actions_01,25,vocabulary_card,give_him,en,med,Give him,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00126,questions_01,1,vocabulary_card,are_you_angry,en,med,Are you angry?,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00127,questions_01,2,vocabulary_card,are_you_full,en,med,Are you full?,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00128,questions_01,3,vocabulary_card,are_you_going_to_run,en,med,Are you going to run?,frabcaise_3.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00129,questions_01,4,vocabulary_card,because,en,med,Because,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00130,questions_01,5,vocabulary_card,because_i_am_happy,en,med,Because I am happy,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00131,questions_01,6,vocabulary_card,do_what_is_good,en,med,Do what is good.,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00132,questions_01,7,vocabulary_card,everywhere,en,med,Everywhere,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00133,questions_01,8,vocabulary_card,for_whom,en,med,For whom,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00134,questions_01,9,vocabulary_card,have_you_urinated,en,med,Have you urinated?,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00135,questions_01,10,vocabulary_card,help_request_title,en,med,Who can help me?,Francais_2 traduit (1).docx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00136,questions_01,11,vocabulary_card,is_this_a_lion,en,med,Is this a lion?,frabcaise_3.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00137,questions_01,12,vocabulary_card,it_is_not_a_lion,en,med,It is not a lion,frabcaise_3.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00138,questions_01,13,vocabulary_card,no_where,en,med,No where,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00139,questions_01,14,vocabulary_card,that_what,en,med,That what?,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00140,questions_01,15,vocabulary_card,the_whole,en,med,The whole,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00141,questions_01,16,vocabulary_card,what,en,med,What?,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00142,questions_01,17,vocabulary_card,what_are_you_doing,en,med,What are you doing?,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00143,questions_01,18,vocabulary_card,what_are_you_saying,en,med,What are you saying?,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00144,questions_01,19,vocabulary_card,what_do_we_talk_with,en,med,What do we talk with?,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00145,questions_01,20,vocabulary_card,what_do_you_say,en,med,What do you say?,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00146,questions_01,21,vocabulary_card,what_is_going_on,en,med,What is going on?,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00147,questions_01,22,vocabulary_card,what_is_it,en,med,What is it?,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00148,questions_01,23,vocabulary_card,what_is_it_story,en,med,What is it?,frabcaise_3.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00149,questions_01,24,vocabulary_card,when,en,med,When?,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00150,questions_01,25,vocabulary_card,where,en,med,Where?,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00151,animals_01,1,vocabulary_card,a_dog,en,med,A dog,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00152,animals_01,2,vocabulary_card,a_snake,en,med,A snake,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00153,animals_01,3,vocabulary_card,animal,en,med,animal,frabcaise_3.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00154,animals_01,4,vocabulary_card,hyena,en,med,hyena,frabcaise_3.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00155,animals_01,5,vocabulary_card,jackal,en,med,jackal,frabcaise_3.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00156,animals_01,6,vocabulary_card,lion,en,med,lion,frabcaise_3.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00157,animals_01,7,vocabulary_card,lioness,en,med,lioness,frabcaise_3.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00158,animals_01,8,vocabulary_card,the_cat,en,med,The cat,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00159,animals_01,9,vocabulary_card,the_mouse,en,med,The mouse,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00160,animals_01,10,vocabulary_card,tiger,en,med,tiger,frabcaise_3.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00161,numbers_01,1,vocabulary_card,five,en,med,Five,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00162,numbers_01,2,vocabulary_card,four,en,med,Four,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00163,numbers_01,3,vocabulary_card,nine,en,med,Nine,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00164,numbers_01,4,vocabulary_card,one,en,med,One,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00165,numbers_01,5,vocabulary_card,seven,en,med,Seven,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00166,numbers_01,6,vocabulary_card,six,en,med,Six,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00167,numbers_01,7,vocabulary_card,ten,en,med,Ten,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00168,numbers_01,8,vocabulary_card,three,en,med,Three,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00169,numbers_01,9,vocabulary_card,two,en,med,Two,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00170,numbers_01,10,vocabulary_card,zero,en,med,Zero,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00171,time_weather_01,1,vocabulary_card,current_time,en,med,Current time,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00172,time_weather_01,2,vocabulary_card,evening,en,med,Evening,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00173,time_weather_01,3,vocabulary_card,friday,en,med,Friday,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00174,time_weather_01,4,vocabulary_card,i_don_t_know,en,med,I don't know,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00175,time_weather_01,5,vocabulary_card,i_know,en,med,I know,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00176,time_weather_01,6,vocabulary_card,it_is_daylight,en,med,It is daylight,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00177,time_weather_01,7,vocabulary_card,midday,en,med,Midday,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00178,time_weather_01,8,vocabulary_card,morning,en,med,Morning,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00179,time_weather_01,9,vocabulary_card,next_time,en,med,Next time,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00180,time_weather_01,10,vocabulary_card,now,en,med,Now,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00181,time_weather_01,11,vocabulary_card,one_day,en,med,One day,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00182,time_weather_01,12,vocabulary_card,right_now,en,med,Right now,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00183,time_weather_01,13,vocabulary_card,the_day,en,med,The day,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00184,time_weather_01,14,vocabulary_card,the_night,en,med,The night,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00185,time_weather_01,15,vocabulary_card,today,en,med,Today,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00186,time_weather_01,16,vocabulary_card,tomorrow,en,med,Tomorrow,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00187,time_weather_01,17,vocabulary_card,yesterday,en,med,Yesterday,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00188,time_weather_01,18,vocabulary_card,it_is_cold,en,med,It is cold,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00189,time_weather_01,19,vocabulary_card,it_is_hot,en,med,It is hot,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00190,time_weather_01,20,vocabulary_card,it_s_raining,en,med,It's raining,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00191,time_weather_01,21,vocabulary_card,it_s_sunny,en,med,It's sunny,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00192,time_weather_01,22,vocabulary_card,the_rain,en,med,The rain,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00193,time_weather_01,23,vocabulary_card,the_sun,en,med,The sun,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00194,time_weather_01,24,vocabulary_card,the_sun_is_rising,en,med,The sun is rising,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00195,health_hygiene_01,1,vocabulary_card,being_sick,en,med,Being sick,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00196,health_hygiene_01,2,vocabulary_card,brushing_your_teeth,en,med,Brushing your teeth,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00197,health_hygiene_01,3,vocabulary_card,go_brush_your_teeth,en,med,Go brush your teeth,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00198,health_hygiene_01,4,vocabulary_card,go_wash_yourself,en,med,Go wash yourself,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00199,health_hygiene_01,5,vocabulary_card,have_a_rest,en,med,Have a rest,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00200,health_hygiene_01,6,vocabulary_card,i_am_healed,en,med,I am healed,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00201,health_hygiene_01,7,vocabulary_card,i_am_sick,en,med,I am sick,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00202,health_hygiene_01,8,vocabulary_card,i_am_tired,en,med,I am tired,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00203,health_hygiene_01,9,vocabulary_card,it_hurts,en,med,It hurts,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00204,health_hygiene_01,10,vocabulary_card,she_is_sick,en,med,She is sick,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00205,health_hygiene_01,11,vocabulary_card,wash_yourself,en,med,Wash yourself,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00206,health_hygiene_01,12,vocabulary_card,you_washed_yourself,en,med,you washed yourself,simple-eng-med.xlsx,draft_needs_review,Generated from concept seed. Add audio/image later.
+li_00207,story_young_man_lion,1,story_segment,,fr,med,Le jeune homme et le lion.,frabcaise_3.xlsx,needs_review,Story segment reference: ss_00001
+li_00208,story_young_man_lion,2,story_segment,,fr,med,Il était une fois un jeune citadin qui n’avait jamais quitté sa ville.,frabcaise_3.xlsx,needs_review,Story segment reference: ss_00002
+li_00209,story_young_man_lion,3,story_segment,,fr,med,"Il décida un jour de visiter le village de ses ancêtres, un petit village perdu dans la campagne, situé près d’une grande forêt.",frabcaise_3.xlsx,needs_review,Story segment reference: ss_00003
+li_00210,story_young_man_lion,4,story_segment,,fr,med,"Dans cette forêt, il y avait beaucoup d’animaux sauvages et surtout des lions.",frabcaise_3.xlsx,needs_review,Story segment reference: ss_00004
+li_00211,story_young_man_lion,5,story_segment,,fr,med,"Le jeune homme n’avait jamais vu de lion ni à la télévision, ni en photos.",frabcaise_3.xlsx,needs_review,Story segment reference: ss_00005
+li_00212,story_young_man_lion,6,story_segment,,fr,med,Il faut dire que ces produits de la modernité n’étaient pas connus dans ces temps-là chez nous.,frabcaise_3.xlsx,needs_review,Story segment reference: ss_00006
+li_00213,story_young_man_lion,7,story_segment,,fr,med,"Les gens de ce village n’allaient jamais dans la forêt, à cause des lions.",frabcaise_3.xlsx,needs_review,Story segment reference: ss_00007
+li_00214,story_young_man_lion,8,story_segment,,fr,med,"On raconte même que, quand les lions rugissaient dans la forêt, les portes des maisons claquaient, les canaris et les marmites se renversaient et tous les gens se terraient dans leur maison.",frabcaise_3.xlsx,needs_review,Story segment reference: ss_00008
+li_00215,story_young_man_lion,9,story_segment,,fr,med,"Un beau matin, donc, le jeune citadin qui s’appelait Demba débarqua dans le village de ses ancêtres et fait vite connaissance avec tout le monde, et surtout avec Fatou, une belle jeune fille qui était une de ses cousines lointaines.",frabcaise_3.xlsx,needs_review,Story segment reference: ss_00009
+li_00216,story_young_man_lion,10,story_segment,,fr,med,"Les fiançailles ne durèrent pas longtemps, car ils décidèrent de se marier. Après quelques jours de noces, Demba retourna en ville.",frabcaise_3.xlsx,needs_review,Story segment reference: ss_00010
+li_00217,story_young_man_lion,11,story_segment,,fr,med,"Une année plus tard, il décida de retourner au village pour s’y installer définitivement avec Fatou et leur enfant.",frabcaise_3.xlsx,needs_review,Story segment reference: ss_00011
+li_00218,story_young_man_lion,12,story_segment,,fr,med,"Pour marquer sa venue et montrer sa bravoure, il proposa à sa femme une promenade dans la forêt. Cette dernière, surprise, lui dit :",frabcaise_3.xlsx,needs_review,Story segment reference: ss_00012
+li_00219,story_young_man_lion,13,story_segment,,fr,med,"- Mais tu es fou, tu veux que les lions nous dévorent tous les deux !",frabcaise_3.xlsx,needs_review,Story segment reference: ss_00013
+li_00220,story_young_man_lion,14,story_segment,,fr,med,"- Tu vas voir que moi je suis un homme, je ne suis pas comme les poltrons de chez vous.",frabcaise_3.xlsx,needs_review,Story segment reference: ss_00014
+li_00221,story_young_man_lion,15,story_segment,,fr,med,Suis-moi et amène avec toi notre fils ! dit Demba.,frabcaise_3.xlsx,needs_review,Story segment reference: ss_00015
+li_00222,story_anta_mamadou,1,story_segment,,fr,med,"Un jeune homme du nom de Mamadou, qui voulait apprendre à lire et à écrire, partit un jour à la recherche d'une école. Il quitta sa province pour se rendre dans la région du Kayor, au Sénégal.",Anta et Mamadou (1).docx,needs_review,Story segment reference: ss_00088
+li_00223,story_anta_mamadou,2,story_segment,,fr,med,"Là vivait un savant qui enseignait aux enfants. Mamadou resta auprès de son maître aussi longtemps que nécessaire. Quand il sut lire et écrire parfaitement, il décida de rentrer chez lui.",Anta et Mamadou (1).docx,needs_review,Story segment reference: ss_00089
+li_00224,story_anta_mamadou,3,story_segment,,fr,med,"Le jour de son départ, un camarade de classe, qui appartenait à l'espèce des génies, lui dit : Nous sommes amis. Puisque tu t'en retournes chez toi, je vais te charger d'un message pour mes parents et je te transporterai dans ton village à ",Anta et Mamadou (1).docx,needs_review,Story segment reference: ss_00090
+li_00225,story_anta_mamadou,4,story_segment,,fr,med,"Tu ne sais pas qui je suis, mais moi je te connais bien, car nous sommes nés au même endroit.",Anta et Mamadou (1).docx,needs_review,Story segment reference: ss_00091
+li_00226,story_anta_mamadou,5,story_segment,,fr,med,"Nous autres, les génies, nous vous reconnaissons très bien mais vous, les humains, vous ne pouvez pas nous apercevoir. Quand tu seras chez toi, mets à ton doigt cette bague d'argent, et tu pourras voir les génies et leurs villages.",Anta et Mamadou (1).docx,needs_review,Story segment reference: ss_00092
+li_00227,story_anta_mamadou,6,story_segment,,fr,med,"Si tu l'ôtes ou si tu la perds, tout disparaîtra de nouveau. Le génie demanda ensuite à Mamadou de s'asseoir sur son tapis et de fermer les yeux. À peine Mamadou avait-il obéi qu'il se retrouva, comme par magie, dans son village.",Anta et Mamadou (1).docx,needs_review,Story segment reference: ss_00093
+li_00228,story_anta_mamadou,7,story_segment,,fr,med,"Le lendemain matin, Mamadou passa la bague à son doigt. Il aperçut alors tous les génies et leurs villages. Il alla rendre visite à la famille de son camarade.",Anta et Mamadou (1).docx,needs_review,Story segment reference: ss_00094
+li_00229,story_anta_mamadou,8,story_segment,,fr,med,"Le génie, votre parent, vous envoie le bonjour, leur dit-il. Et où est-il, notre cher enfant ? lui demanda-t-on.",Anta et Mamadou (1).docx,needs_review,Story segment reference: ss_00095
+li_00230,story_anta_mamadou,9,story_segment,,fr,med,"Je l'ai laissé dans un village du Kayor. Il continue de fréquenter l'école. Ah, s'écrièrent les parents, notre brave petit se conduit bien!",Anta et Mamadou (1).docx,needs_review,Story segment reference: ss_00096
+li_00231,story_anta_mamadou,10,story_segment,,fr,med,"Et toi, Mamadou, il faut que tu t'en retournes chez toi, mais, chaque fois que tu auras du temps libre, ne manque pas de venir nous voir.",Anta et Mamadou (1).docx,needs_review,Story segment reference: ss_00097
+li_00232,story_anta_mamadou,11,story_segment,,fr,med,"Mamadou s'en retourna chez ses parents, mais, chaque fois qu'il en avait l'occasion, il rendait de longues visites aux génies. C'est qu'il avait vu la sœur de son camarade, Anta, une jolie demoiselle, et qu'il désirait l'épouser.",Anta et Mamadou (1).docx,needs_review,Story segment reference: ss_00098
+li_00233,story_anta_mamadou,12,story_segment,,fr,med,"Lorsqu'il lui fit sa déclaration, Anta répondit : « Je ne demande pas mieux ! Pourtant, j'hésite à me marier avec un être humain… Vous êtes si coléreux! Et si bavards ! Et vous mentez si facilement ! Chez nous, il n'en va pas de même : jama",Anta et Mamadou (1).docx,needs_review,Story segment reference: ss_00099
+li_00234,story_anta_mamadou,13,story_segment,,fr,med,Mamadou protesta :,Anta et Mamadou (1).docx,needs_review,Story segment reference: ss_00100
+li_00235,story_anta_mamadou,14,story_segment,,fr,med,"Quand nous serons mariés, tu verras que, moi non plus, je ne m'emporte pas et que jamais je ne mens !",Anta et Mamadou (1).docx,needs_review,Story segment reference: ss_00101
+li_00236,story_anta_mamadou,15,story_segment,,fr,med,"— S'il en est ainsi, le mariage est conclu ! Je t'accepte pour mari. Mais je te défends de révéler à quiconque que tu as épousé une femme de l'espèce des génies !",Anta et Mamadou (1).docx,needs_review,Story segment reference: ss_00102
+li_00237,story_who_can_help_me,1,story_segment,,fr,med,Qui peut m'aider à mettre cette charge sur ma tête ? wù ze b’a ywimd’àm nete lèt lé num tu àm à?,Francais_2 traduit (1).docx,needs_manual_alignment,Story segment reference: ss_00135
+li_00238,story_who_can_help_me,2,story_segment,,fr,med,"Il était une fois une femme enceinte qui était allée chercher du bois sec. A na’ mbe ta’ lé’, ta’ mènnzwi jùm nèn diag ntshwèn z’a jum nà.",Francais_2 traduit (1).docx,needs_manual_alignment,Story segment reference: ss_00136
+li_00239,story_who_can_help_me,3,story_segment,,fr,med,"Lorsqu'elle eut rassemblé la quantité voulue, elle n'eut personne pour l'aider à poser la charge sur sa tête. Ngelañ z’a miagde netswétte njoñ z’a ku’ num i là, sàm mèn ke be z’a ywimd’é nete num tu i là.",Francais_2 traduit (1).docx,needs_manual_alignment,Story segment reference: ss_00137
+li_00240,story_who_can_help_me,4,story_segment,,fr,med,Alors elle appela Ndùlà a tshob ndù :,Francais_2 traduit (1).docx,needs_manual_alignment,Story segment reference: ss_00138
+li_00241,story_who_can_help_me,5,story_segment,,fr,med,"- Quelle créature de la forêt, pourrait m'aider à mettre cette charge sur ma tête ? Zit nyàm tô fèn li ze b’a ywimd’àm nete let li num tu àm à?",Francais_2 traduit (1).docx,needs_manual_alignment,Story segment reference: ss_00139
+li_00242,story_who_can_help_me,6,story_segment,,fr,med,Le margouillat se présenta. La femme lui dit : Nko’ bolibagbag se’. Mènnzwi tshob yi ndù :,Francais_2 traduit (1).docx,needs_manual_alignment,Story segment reference: ss_00140
+li_00243,story_who_can_help_me,7,story_segment,,fr,med,"- Ôte-toi de là, tu ne peux pas ! Lo mve làà, b’o ke kele!",Francais_2 traduit (1).docx,needs_manual_alignment,Story segment reference: ss_00141
+li_00244,story_who_can_help_me,8,story_segment,,fr,med,- Quelle créature de la forêt pourrait m'aider à mettre cette charge sur ma tête ? répéta-t-elle. A bèn mbètte ndù : Zit nyàm tô fèn li ze b’a ywimd’àm nete let li num tu àm à?,Francais_2 traduit (1).docx,needs_manual_alignment,Story segment reference: ss_00142
+li_00245,story_who_can_help_me,9,story_segment,,fr,med,Le lézard vint. Elle lui dit : Meto’ bolibagbag se’. A tshob yi ndù :,Francais_2 traduit (1).docx,needs_manual_alignment,Story segment reference: ss_00143
+li_00246,story_who_can_help_me,10,story_segment,,fr,med,"- Ôte-toi de là, tu ne peux pas! Lo mve làà, b’o ke kele.",Francais_2 traduit (1).docx,needs_manual_alignment,Story segment reference: ss_00144
+li_00247,story_who_can_help_me,11,story_segment,,fr,med,- Quelle créature de la forêt pourrait m'aider à mettre cette charge sur ma tête ? dit-elle encore. . A bèn ntshob ndù : Zit nyàm tô fèn li ze b’a ywimd’àm nete let li num tu àm à?,Francais_2 traduit (1).docx,needs_manual_alignment,Story segment reference: ss_00145
+li_00248,story_who_can_help_me,12,story_segment,,fr,med,"Le lion vint. Elle lui dit : Ngwayit se’, a tshob yi ndù :",Francais_2 traduit (1).docx,needs_manual_alignment,Story segment reference: ss_00146
+li_00249,story_who_can_help_me,13,story_segment,,fr,med,"- Toi, tu en es capable. Wù, b’o ket.",Francais_2 traduit (1).docx,needs_manual_alignment,Story segment reference: ss_00147
+li_00250,story_who_can_help_me,14,story_segment,,fr,med,"- Si je t'aide, que me donneras-tu en retour ? demanda le lion. Ngwayit bètt’é ndù : me ywimd’o mb’oa’ fà à ke me à?",Francais_2 traduit (1).docx,needs_manual_alignment,Story segment reference: ss_00148
+li_00251,story_who_can_help_me,15,story_segment,,fr,med,"- Ce que je porte dans mon ventre, répondit-elle. A bùnde ndù : ju z’a be bam sam nà.",Francais_2 traduit (1).docx,needs_manual_alignment,Story segment reference: ss_00149
+li_00252,culture_proverbs_01,1,story_segment,,fr,med,"Le sixième petit matin de la création, Papa Bondieu, accoudé au balcon du ciel, considérerait avec une certaine satisfaction les étoiles, innombrables loupiotes qui s'éteignent au lever du jour.",frabcaise_3.xlsx,needs_review,Story segment reference: ss_00049
+li_00253,culture_proverbs_01,2,story_segment,,fr,med,"Papa Bondieu trouvait que tout cela était bon. Il baissa les yeux et admira les océans, les fleuves, les lacs qui regorgent de bêtes à écailles, de dauphins et autres mammifères colossaux et microscopiques.",frabcaise_3.xlsx,needs_review,Story segment reference: ss_00050
+li_00254,culture_proverbs_01,3,story_segment,,fr,med,"Il admira de même, la terre toute égaillée de bêtes à cornes, de bêtes à poils gigantesques et minuscules. Il s'émerveilla de voir, dans les airs, quantité de bêtes à plumes de tout poil.",frabcaise_3.xlsx,needs_review,Story segment reference: ss_00051
+li_00255,culture_proverbs_01,4,story_segment,,fr,med,Papa Bondieu trouvait que tout cela était bon.,frabcaise_3.xlsx,needs_review,Story segment reference: ss_00052
+li_00256,culture_proverbs_01,5,story_segment,,fr,med,"Il décida alors de créer l'humanité. Il prit de l'argile et ft trois boules, deux petites pour deux têtes et une grosse pour un ventre. Avec un long boudin, il ft quatre bras et quatre jambes. Il rassembla le tout auquel il donna deux sexes",frabcaise_3.xlsx,needs_review,Story segment reference: ss_00053
+li_00257,culture_proverbs_01,6,story_segment,,fr,med,"L'humanité fraîchement créée se mit à rouler à grand fracas, s'appuyant tantôt sur les mains tantôt sur les pieds. Papa Bondieu arrivait à supporter ce vacarme car il avait une grande capacité de concentration, mais la vitesse avec laquelle",frabcaise_3.xlsx,needs_review,Story segment reference: ss_00054
+li_00258,culture_proverbs_01,7,story_segment,,fr,med,"Papa Bondieu ne fit ni une ni deux : il dégaina sa machette et..... raaaa, coupa son œuvre en deux moitiés.",frabcaise_3.xlsx,needs_review,Story segment reference: ss_00055
+li_00259,culture_proverbs_01,8,story_segment,,fr,med,"Pour la première fois, l'humanité divisée en mâle et femelle se retrouva debout sur ses pieds, et se mit aussitôt à courir, courir, courir. Où va-t-elle et, grand dieu, que cherche-t- elle ?",frabcaise_3.xlsx,needs_review,Story segment reference: ss_00056
+li_00260,culture_proverbs_01,9,story_segment,,fr,med,Chacun cherche la moitié qu'on lui a enlevée. Beaucoup la cherchent encore. Il y a tant de monde sur terre que ce n'est pas chose facile de tomber sur la bonne moitié.,frabcaise_3.xlsx,needs_review,Story segment reference: ss_00057
+li_00261,culture_proverbs_01,10,story_segment,,fr,med,"Quand on se trompe, c'est la déveine, mais quand on la trouve, c'est le bonheur.",frabcaise_3.xlsx,needs_review,Story segment reference: ss_00058
+li_00262,culture_proverbs_01,11,story_segment,,fr,med,Comme le dit le proverbe :,frabcaise_3.xlsx,needs_review,Story segment reference: ss_00059
+li_00263,culture_proverbs_01,12,story_segment,,fr,med,Papabondieu est le premier,frabcaise_3.xlsx,needs_review,Story segment reference: ss_00060
+li_00264,culture_proverbs_01,13,story_segment,,fr,med,"L'homme le deuxième,",frabcaise_3.xlsx,needs_review,Story segment reference: ss_00061
+li_00265,culture_proverbs_01,14,story_segment,,fr,med,Et le Lion le dernier.,frabcaise_3.xlsx,needs_review,Story segment reference: ss_00062
+li_00266,culture_proverbs_01,15,story_segment,,fr,med,"Un jour, Tigre croise l'Homme à la rivière et lui demande s'il croit que le proverbe dit la vérité.",frabcaise_3.xlsx,needs_review,Story segment reference: ss_00063
