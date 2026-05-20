@@ -28,8 +28,10 @@ type Props = {
   conceptText: ConceptText | null
   concepts: Concept[]
   languages: Language[]
+  conceptSearch: string
   fieldErrors: Record<string, string>
   saving: boolean
+  onConceptSearchChange: (value: string) => void
   onCancel: () => void
   onSubmit: (payload: CreateConceptTextPayload | UpdateConceptTextPayload) => void
 }
@@ -70,8 +72,10 @@ export function ConceptTextForm({
   conceptText,
   concepts,
   languages,
+  conceptSearch,
   fieldErrors,
   saving,
+  onConceptSearchChange,
   onCancel,
   onSubmit,
 }: Props) {
@@ -146,6 +150,12 @@ export function ConceptTextForm({
             ) : (
               <label className="block">
                 <span className="text-sm font-medium text-cocoa-body">Concept</span>
+                <input
+                  value={conceptSearch}
+                  onChange={(event) => onConceptSearchChange(event.target.value)}
+                  className="mt-1 w-full rounded-cta border border-sand-200 bg-white px-3 py-2 text-sm outline-none transition placeholder:text-cocoa-body/45 focus:border-forest-600 focus:ring-2 focus:ring-[rgba(31,90,61,0.16)]"
+                  placeholder="Find concept..."
+                />
                 <select
                   value={values.conceptId}
                   onChange={(event) => updateValue('conceptId', event.target.value)}

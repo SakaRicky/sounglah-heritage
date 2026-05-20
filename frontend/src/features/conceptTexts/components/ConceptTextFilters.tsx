@@ -9,6 +9,7 @@ export type ConceptTextSort = 'updated' | 'concept' | 'language' | 'text'
 
 type Props = {
   search: string
+  conceptSearch: string
   conceptId: string
   languageId: string
   status: ConceptTextStatus | 'all'
@@ -17,6 +18,7 @@ type Props = {
   concepts: Concept[]
   languages: Language[]
   onSearchChange: (value: string) => void
+  onConceptSearchChange: (value: string) => void
   onConceptChange: (value: string) => void
   onLanguageChange: (value: string) => void
   onStatusChange: (value: ConceptTextStatus | 'all') => void
@@ -49,6 +51,7 @@ function ChevronIcon({ open }: { open: boolean }) {
 
 export function ConceptTextFilters({
   search,
+  conceptSearch,
   conceptId,
   languageId,
   status,
@@ -57,6 +60,7 @@ export function ConceptTextFilters({
   concepts,
   languages,
   onSearchChange,
+  onConceptSearchChange,
   onConceptChange,
   onLanguageChange,
   onStatusChange,
@@ -115,6 +119,12 @@ export function ConceptTextFilters({
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             <label className="block">
               <span className="text-sm font-medium text-forest-600">Concept</span>
+              <input
+                value={conceptSearch}
+                onChange={(event) => onConceptSearchChange(event.target.value)}
+                className="mt-2 w-full rounded-xl border border-sand-200 bg-white/90 px-4 py-3 text-sm text-cocoa-800 outline-none transition placeholder:text-cocoa-body/45 hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-200"
+                placeholder="Find concept..."
+              />
               <select
                 value={conceptId}
                 onChange={(event) => onConceptChange(event.target.value)}
