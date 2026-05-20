@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useRef } from 'react'
 import type { ColumnDef } from '@tanstack/react-table'
 
 import { AdminTable } from '../../../components/admin/AdminTable'
@@ -15,7 +15,9 @@ type Props = {
   filtered: boolean
   onCreate: () => void
   onEdit: (concept: Concept) => void
+  onQuickImageSelect: (concept: Concept, file: File) => void
   onToggleStatus: (concept: Concept) => void
+  quickImageUploadingId: string | null
   page: number
   pageSize: number
   onPageChange: (page: number) => void
@@ -30,6 +32,58 @@ function ConceptMark({ title }: { title: string }) {
   )
 }
 
+function QuickImageUploadButton({
+  concept,
+  uploading,
+  onQuickImageSelect,
+}: {
+  concept: Concept
+  uploading: boolean
+  onQuickImageSelect: (concept: Concept, file: File) => void
+}) {
+  const inputRef = useRef<HTMLInputElement | null>(null)
+
+  function handleFileChange(file: File | null) {
+    if (!file) {
+      return
+    }
+
+    onQuickImageSelect(concept, file)
+
+    if (inputRef.current) {
+      inputRef.current.value = ''
+    }
+  }
+
+  return (
+    <div className="inline-flex">
+      <button
+        type="button"
+        onClick={() => inputRef.current?.click()}
+        disabled={uploading}
+        className="rounded-lg text-left transition hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-forest-200 disabled:cursor-wait disabled:opacity-60"
+        title={concept.image_url ? 'Change concept image' : 'Upload concept image'}
+      >
+        {uploading ? (
+          <span className="text-xs font-medium text-forest-700">Uploading...</span>
+        ) : (
+          <ImagePreview
+            src={concept.image_url}
+            alt={concept.image_alt_text || concept.title}
+          />
+        )}
+      </button>
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        className="hidden"
+        onChange={(event) => handleFileChange(event.target.files?.[0] ?? null)}
+      />
+    </div>
+  )
+}
+
 export function ConceptTable({
   concepts,
   loading,
@@ -37,7 +91,9 @@ export function ConceptTable({
   filtered,
   onCreate,
   onEdit,
+  onQuickImageSelect,
   onToggleStatus,
+  quickImageUploadingId,
   page,
   pageSize,
   onPageChange,
@@ -66,9 +122,15 @@ export function ConceptTable({
         meta: { cellClassName: 'py-5' },
       },
       {
-        accessorKey: 'defaultImageUrl',
+        accessorKey: 'image_url',
         header: 'Image',
-        cell: ({ row }) => <ImagePreview src={row.original.defaultImageUrl} alt={row.original.title} />,
+        cell: ({ row }) => (
+          <QuickImageUploadButton
+            concept={row.original}
+            uploading={quickImageUploadingId === row.original.id}
+            onQuickImageSelect={onQuickImageSelect}
+          />
+        ),
       },
       {
         accessorKey: 'key',
@@ -132,7 +194,7 @@ export function ConceptTable({
         },
       },
     ],
-    [onEdit, onToggleStatus],
+    [onEdit, onQuickImageSelect, onToggleStatus, quickImageUploadingId],
   )
 
   return (

@@ -1,4 +1,9 @@
+from io import BytesIO
+from unittest.mock import patch
+
 from app import create_app
+from app.extensions import db
+from app.models.concept import Concept
 
 
 def auth_headers(client):
@@ -34,6 +39,9 @@ def test_list_seeded_concepts():
     assert [concept["key"] for concept in data["data"][:3]] == ["greeting", "mother", "father"]
     assert data["data"][0]["difficultyLevel"] == "beginner"
     assert "defaultImageUrl" in data["data"][0]
+    assert "image_url" in data["data"][0]
+    assert "image_public_id" in data["data"][0]
+    assert "image_alt_text" in data["data"][0]
 
 
 def test_get_one_concept():
@@ -49,6 +57,9 @@ def test_get_one_concept():
     concept = response.get_json()["data"]
     assert concept["key"] == "thank_you"
     assert "defaultImageUrl" in concept
+    assert "image_url" in concept
+    assert "image_public_id" in concept
+    assert "image_alt_text" in concept
 
 
 def test_create_concept_normalizes_values():
@@ -210,3 +221,184 @@ def test_filter_disabled_concepts():
     data = disabled_response.get_json()
     assert data["meta"]["total"] == 1
     assert data["data"][0]["key"] == "food"
+
+
+def test_concept_image_upload_requires_admin_authentication():
+    app = create_app(testing=True)
+    client = app.test_client()
+
+    with app.app_context():
+        concept_id = Concept.query.filter_by(key="greeting").first().id
+
+    response = client.post(
+        f"/api/admin/concepts/{concept_id}/image",
+        data={"image": (BytesIO(b"image-bytes"), "greeting.png")},
+        content_type="multipart/form-data",
+    )
+
+    assert response.status_code == 401
+    assert response.get_json() == {
+        "error": {"message": "Admin authentication is required."}
+    }
+
+
+def test_concept_image_upload_rejects_invalid_file_type():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+    with app.app_context():
+        concept_id = Concept.query.filter_by(key="greeting").first().id
+
+    response = client.post(
+        f"/api/admin/concepts/{concept_id}/image",
+        headers=headers,
+        data={"image": (BytesIO(b"not-an-image"), "greeting.txt")},
+        content_type="multipart/form-data",
+    )
+
+    assert response.status_code == 400
+    assert response.get_json()["error"]["fields"]["image"] == "Image must be a JPEG, PNG, or WebP file."
+
+
+def test_concept_image_upload_saves_cloudinary_fields_and_alt_text():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+    with app.app_context():
+        concept_id = Concept.query.filter_by(key="greeting").first().id
+
+    with patch("app.routes.concept_routes.cloudinary_service.upload_concept_image") as upload_mock:
+        upload_mock.return_value = {
+            "secure_url": "https://res.cloudinary.com/demo/image/upload/greeting.jpg",
+            "public_id": "sounglah/concepts/greeting",
+        }
+        response = client.post(
+            f"/api/admin/concepts/{concept_id}/image",
+            headers=headers,
+            data={
+                "image": (BytesIO(b"image-bytes"), "greeting.jpg"),
+                "image_alt_text": "A family greeting each other",
+            },
+            content_type="multipart/form-data",
+        )
+
+    assert response.status_code == 200
+    data = response.get_json()["data"]
+    assert data["image_url"] == "https://res.cloudinary.com/demo/image/upload/greeting.jpg"
+    assert data["image_public_id"] == "sounglah/concepts/greeting"
+    assert data["image_alt_text"] == "A family greeting each other"
+    upload_mock.assert_called_once()
+
+
+def test_concept_image_upload_uses_upload_root_concepts_folder():
+    app = create_app(testing=True)
+    app.config.update(
+        {
+            "CLOUDINARY_CLOUD_NAME": "demo",
+            "CLOUDINARY_API_KEY": "key",
+            "CLOUDINARY_API_SECRET": "secret",
+            "CLOUDINARY_UPLOAD_ROOT": "sounglah/test",
+        }
+    )
+    client = app.test_client()
+    headers = auth_headers(client)
+    with app.app_context():
+        concept_id = Concept.query.filter_by(key="greeting").first().id
+
+    with patch("app.services.cloudinary_service.uploader.upload") as cloudinary_upload_mock:
+        cloudinary_upload_mock.return_value = {
+            "secure_url": "https://res.cloudinary.com/demo/image/upload/greeting.jpg",
+            "public_id": "sounglah/test/concepts/greeting",
+        }
+        response = client.post(
+            f"/api/admin/concepts/{concept_id}/image",
+            headers=headers,
+            data={"image": (BytesIO(b"image-bytes"), "greeting.jpg")},
+            content_type="multipart/form-data",
+        )
+
+    assert response.status_code == 200
+    assert cloudinary_upload_mock.call_args.kwargs["folder"] == "sounglah/test/concepts"
+
+
+def test_update_concept_image_alt_text_only():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+    with app.app_context():
+        concept = Concept.query.filter_by(key="greeting").first()
+        concept_id = concept.id
+        concept.image_url = "https://res.cloudinary.com/demo/image/upload/greeting.jpg"
+        concept.image_public_id = "sounglah/concepts/greeting"
+        db.session.commit()
+
+    response = client.patch(
+        f"/api/admin/concepts/{concept_id}/image-alt-text",
+        headers=headers,
+        json={"image_alt_text": "Grandparents greeting a child"},
+    )
+
+    assert response.status_code == 200
+    data = response.get_json()["data"]
+    assert data["image_url"] == "https://res.cloudinary.com/demo/image/upload/greeting.jpg"
+    assert data["image_public_id"] == "sounglah/concepts/greeting"
+    assert data["image_alt_text"] == "Grandparents greeting a child"
+
+
+def test_delete_concept_image_clears_fields():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+    with app.app_context():
+        concept = Concept.query.filter_by(key="greeting").first()
+        concept_id = concept.id
+        concept.image_url = "https://res.cloudinary.com/demo/image/upload/greeting.jpg"
+        concept.image_public_id = "sounglah/concepts/greeting"
+        concept.image_alt_text = "A greeting"
+        db.session.commit()
+
+    with patch("app.routes.concept_routes.cloudinary_service.delete_image") as delete_mock:
+        response = client.delete(f"/api/admin/concepts/{concept_id}/image", headers=headers)
+
+    assert response.status_code == 200
+    data = response.get_json()["data"]
+    assert data["image_url"] is None
+    assert data["image_public_id"] is None
+    assert data["image_alt_text"] is None
+    delete_mock.assert_called_once_with("sounglah/concepts/greeting")
+
+
+def test_replacing_concept_image_deletes_old_public_id_after_new_upload():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+    with app.app_context():
+        concept = Concept.query.filter_by(key="greeting").first()
+        concept_id = concept.id
+        concept.image_url = "https://res.cloudinary.com/demo/image/upload/old.jpg"
+        concept.image_public_id = "sounglah/concepts/old"
+        concept.image_alt_text = "Old alt text"
+        db.session.commit()
+
+    with (
+        patch("app.routes.concept_routes.cloudinary_service.upload_concept_image") as upload_mock,
+        patch("app.routes.concept_routes.cloudinary_service.delete_image") as delete_mock,
+    ):
+        upload_mock.return_value = {
+            "secure_url": "https://res.cloudinary.com/demo/image/upload/new.jpg",
+            "public_id": "sounglah/concepts/new",
+        }
+        response = client.post(
+            f"/api/admin/concepts/{concept_id}/image",
+            headers=headers,
+            data={"image": (BytesIO(b"new-image-bytes"), "new.webp")},
+            content_type="multipart/form-data",
+        )
+
+    assert response.status_code == 200
+    data = response.get_json()["data"]
+    assert data["image_url"] == "https://res.cloudinary.com/demo/image/upload/new.jpg"
+    assert data["image_public_id"] == "sounglah/concepts/new"
+    assert data["image_alt_text"] == "Old alt text"
+    upload_mock.assert_called_once()
+    delete_mock.assert_called_once_with("sounglah/concepts/old")

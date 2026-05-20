@@ -61,6 +61,45 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
   return data as T
 }
 
+export async function apiMultipartRequest<T>(
+  path: string,
+  formData: FormData,
+  options: Omit<RequestOptions, 'body'> = {},
+): Promise<T> {
+  const headers = new Headers()
+
+  if (options.authenticated) {
+    const token = getToken()
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`)
+    }
+  }
+
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    method: options.method ?? 'POST',
+    headers,
+    body: formData,
+  })
+
+  const data = await response.json().catch(() => null)
+
+  if (!response.ok) {
+    if (options.authenticated && response.status === 401) {
+      clearToken()
+      window.location.assign('/login')
+    }
+
+    const apiError = data?.error as ApiValidationError | undefined
+    throw new ApiError(
+      apiError?.message ?? data?.message ?? `API request failed: ${response.status}`,
+      response.status,
+      apiError?.fields,
+    )
+  }
+
+  return data as T
+}
+
 export async function apiGet<T>(path: string): Promise<T> {
   return apiRequest<T>(path)
 }

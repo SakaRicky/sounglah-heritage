@@ -30,6 +30,9 @@ S012 intentionally does not attach a language to concepts.
 | `slug` | URL-safe identifier. |
 | `description` | Optional meaning notes. |
 | `category` | Optional grouping, such as Family or Courtesy. |
+| `image_url` | Optional Cloudinary secure URL for the concept image. |
+| `image_public_id` | Optional Cloudinary public ID used for replacement and deletion. |
+| `image_alt_text` | Optional accessible description for the concept image. |
 | `difficultyLevel` | `beginner`, `intermediate`, or `advanced`. |
 | `status` | `active` or `disabled`. |
 | `sortOrder` | Admin and future lesson-builder ordering. |
@@ -46,8 +49,10 @@ The Concepts page includes:
 - Difficulty filter.
 - Sort control.
 - Concepts table.
+- Image thumbnail or “No image” state in the concepts table.
 - Empty states.
 - Create and edit drawer.
+- Optional concept image upload, preview, alt text editing, replacement, and removal.
 - Disable and enable confirmation dialog.
 
 When the admin types a title in the create form, the UI suggests:
@@ -98,6 +103,11 @@ The backend seeds a small starter set:
 - Duplicate key is rejected.
 - Duplicate slug is rejected.
 - Admin can edit a concept.
+- Admin can upload a JPEG, PNG, or WebP concept image.
+- Admin sees a thumbnail in the concept table.
+- Admin can replace a concept image.
+- Admin can update image alt text.
+- Admin can remove a concept image.
 - Admin can disable a concept.
 - Disabled concept remains visible when status filter is all.
 - Disabled concept appears when status filter is disabled.
