@@ -10,6 +10,9 @@ from app.extensions import db
 def require_admin(view):
     @wraps(view)
     def wrapped(*args, **kwargs):
+        if request.method == "OPTIONS":
+            return current_app.make_default_options_response()
+
         auth_header = request.headers.get("Authorization", "")
         prefix = "Bearer "
 
