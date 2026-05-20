@@ -30,7 +30,7 @@ type StatCard = {
   label: string
   value: string
   description: string
-  icon: 'globe' | 'check' | 'layers' | 'translate'
+  icon: 'globe' | 'check'
 }
 
 function PlusIcon() {
@@ -45,8 +45,6 @@ function StatIcon({ type }: { type: StatCard['icon'] }) {
   const path = {
     globe: 'M12 21a9 9 0 100-18 9 9 0 000 18zM3.6 9h16.8M3.6 15h16.8M12 3c2.2 2.3 3.3 5.3 3.3 9S14.2 18.7 12 21c-2.2-2.3-3.3-5.3-3.3-9S9.8 5.3 12 3z',
     check: 'M9 12.75l2 2 4-5.25M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
-    layers: 'M12 3l8 4.5-8 4.5-8-4.5L12 3zM4 12l8 4.5L20 12M4 16.5L12 21l8-4.5',
-    translate: 'M4 5h8M8 5v14M5 9h6M13 19l4-10 4 10M14.5 15h5',
   }[type]
 
   return (
@@ -67,25 +65,13 @@ function StatsGrid({ total, active }: { total: number; active: number }) {
     {
       label: 'Active Languages',
       value: String(active),
-      description: 'Currently enabled',
+      description: 'Visible on this page',
       icon: 'check',
-    },
-    {
-      label: 'Concepts Linked',
-      value: '128',
-      description: 'Across all languages',
-      icon: 'layers',
-    },
-    {
-      label: 'Translations',
-      value: '2,456',
-      description: 'Total translation records',
-      icon: 'translate',
     },
   ]
 
   return (
-    <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4" aria-label="Language summary">
+    <section className="grid gap-4 md:grid-cols-2" aria-label="Language summary">
       {stats.map((stat) => (
         <StatsCard
           key={stat.label}
@@ -93,87 +79,9 @@ function StatsGrid({ total, active }: { total: number; active: number }) {
           label={stat.label}
           value={stat.value}
           description={stat.description}
-          variant={stat.icon === 'check' ? 'green' : stat.icon === 'translate' ? 'warm' : 'default'}
+          variant={stat.icon === 'check' ? 'green' : 'default'}
         />
       ))}
-    </section>
-  )
-}
-
-function BottomInsights() {
-  const usage = [
-    { label: 'Médumba', percent: 48, count: '62 items' },
-    { label: 'English', percent: 32, count: '41 items' },
-    { label: 'French', percent: 20, count: '25 items' },
-  ]
-
-  return (
-    <section className="grid gap-6 lg:grid-cols-2">
-      <article className="relative overflow-hidden rounded-2xl border border-sand-200 bg-[linear-gradient(135deg,rgba(31,90,61,0.05),rgba(255,253,247,0.94))] p-7 shadow-soft">
-        <div className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full border-[28px] border-forest-accent/10" />
-        <div className="relative flex items-start justify-between gap-4">
-          <div>
-            <h2 className="text-lg font-semibold text-cocoa-800">Language Usage Overview</h2>
-            <p className="mt-1 text-sm text-forest-600/75">
-              Distribution of lessons, stories, and concepts by language.
-            </p>
-          </div>
-          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-[conic-gradient(#0F6B3A_0_48%,#D8A441_48%_80%,#C46A32_80%_100%)] p-2 shadow-[0_12px_26px_rgba(31,90,61,0.14)]">
-            <div className="flex h-full w-full items-center justify-center rounded-full bg-cream-50 text-xs font-bold text-forest-700">
-              100%
-            </div>
-          </div>
-        </div>
-
-        <div className="relative mt-7 space-y-4">
-          {usage.map((item) => (
-            <div key={item.label}>
-              <div className="mb-2 flex items-center justify-between text-sm">
-                <span className="font-semibold text-cocoa-800">{item.label}</span>
-                <span className="font-medium text-forest-600/75">
-                  {item.percent}% · {item.count}
-                </span>
-              </div>
-              <div className="h-2.5 rounded-full bg-cream-100 ring-1 ring-sand-100">
-                <div
-                  className="h-2.5 rounded-full bg-forest-accent shadow-[0_4px_12px_rgba(31,90,61,0.18)]"
-                  style={{ width: `${item.percent}%` }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      </article>
-
-      <article className="relative overflow-hidden rounded-2xl border border-sand-200 bg-[linear-gradient(135deg,rgba(255,253,247,0.96),rgba(31,90,61,0.045))] p-7 shadow-soft">
-        <div className="pointer-events-none absolute right-0 top-0 h-28 w-28 opacity-[0.08]">
-          <div className="grid grid-cols-4 gap-1">
-            {Array.from({ length: 16 }).map((_, index) => (
-              <span key={index} className="h-4 w-4 rotate-45 rounded-sm bg-forest-accent" />
-            ))}
-          </div>
-        </div>
-        <div className="absolute right-7 top-7 flex h-16 w-16 items-center justify-center rounded-full bg-gold-400/20 text-gold-500 ring-1 ring-gold-400/20">
-          <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7} aria-hidden>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 20v-7M8 20h8M9 13h6l1-6H8l1 6zM10 7c0-2 1-3 2-4 1 1 2 2 2 4" />
-          </svg>
-        </div>
-        <h2 className="pr-16 text-lg font-semibold text-cocoa-800">Quick Tips</h2>
-        <ul className="mt-6 space-y-4 pr-4 text-sm leading-6 text-cocoa-body">
-          <li className="flex gap-3">
-            <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-forest-accent" />
-            <span>Set the default language for new content in Settings.</span>
-          </li>
-          <li className="flex gap-3">
-            <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-gold-500" />
-            <span>Changing a language code may affect existing translations.</span>
-          </li>
-          <li className="flex gap-3">
-            <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-terracotta-500" />
-            <span>Disable a language to hide it from the public interface.</span>
-          </li>
-        </ul>
-      </article>
     </section>
   )
 }
@@ -184,6 +92,8 @@ export function AdminLanguagesPage() {
   const [search, setSearch] = useState('')
   const [status, setStatus] = useState<LanguageStatus | 'all'>('all')
   const [sort, setSort] = useState<LanguageSort>('name')
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(50)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
@@ -197,7 +107,7 @@ export function AdminLanguagesPage() {
     setError('')
 
     try {
-      const response = await getLanguages({ search, status, page: 1, pageSize: 50 })
+      const response = await getLanguages({ search, status, page, pageSize })
       setLanguages(response.data)
       setTotal(response.meta.total)
     } catch (requestError) {
@@ -205,7 +115,7 @@ export function AdminLanguagesPage() {
     } finally {
       setLoading(false)
     }
-  }, [search, status])
+  }, [page, pageSize, search, status])
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -230,6 +140,26 @@ export function AdminLanguagesPage() {
   }, [languages, sort])
 
   const activeCount = languages.filter((language) => language.status === 'active').length
+
+  function resetPageAndSetSearch(value: string) {
+    setPage(1)
+    setSearch(value)
+  }
+
+  function resetPageAndSetStatus(value: LanguageStatus | 'all') {
+    setPage(1)
+    setStatus(value)
+  }
+
+  function resetPageAndSetSort(value: LanguageSort) {
+    setPage(1)
+    setSort(value)
+  }
+
+  function handlePageSizeChange(nextPageSize: number) {
+    setPage(1)
+    setPageSize(nextPageSize)
+  }
 
   function openCreateForm() {
     setFieldErrors({})
@@ -324,9 +254,9 @@ export function AdminLanguagesPage() {
         search={search}
         status={status}
         sort={sort}
-        onSearchChange={setSearch}
-        onStatusChange={setStatus}
-        onSortChange={setSort}
+        onSearchChange={resetPageAndSetSearch}
+        onStatusChange={resetPageAndSetStatus}
+        onSortChange={resetPageAndSetSort}
       />
 
       <LanguageTable
@@ -335,9 +265,11 @@ export function AdminLanguagesPage() {
         total={total}
         onEdit={openEditForm}
         onToggleStatus={setStatusTarget}
+        page={page}
+        pageSize={pageSize}
+        onPageChange={setPage}
+        onPageSizeChange={handlePageSizeChange}
       />
-
-      <BottomInsights />
 
       {formMode ? (
         <LanguageForm

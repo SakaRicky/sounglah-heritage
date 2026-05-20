@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { AdminFilterBar } from '../../../components/admin/AdminFilterBar'
 import type { LanguageStatus } from '../types/language.types'
 
@@ -20,6 +22,21 @@ function FunnelIcon() {
   )
 }
 
+function ChevronIcon({ open }: { open: boolean }) {
+  return (
+    <svg
+      className={['h-4 w-4 transition-transform', open ? 'rotate-180' : ''].join(' ')}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={1.8}
+      aria-hidden
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" />
+    </svg>
+  )
+}
+
 export function LanguageFilters({
   search,
   status,
@@ -28,9 +45,17 @@ export function LanguageFilters({
   onStatusChange,
   onSortChange,
 }: Props) {
+  const [filtersOpen, setFiltersOpen] = useState(false)
+  const activeFilterCount = [status !== 'all' ? status : '', sort !== 'name' ? sort : ''].filter(Boolean).length
+
+  function clearFilters() {
+    onStatusChange('all')
+    onSortChange('name')
+  }
+
   return (
     <AdminFilterBar>
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_12rem_12rem_auto] lg:items-end">
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
         <label className="block">
           <span className="text-sm font-medium text-forest-600">Search</span>
           <input
@@ -41,40 +66,65 @@ export function LanguageFilters({
           />
         </label>
 
-        <label className="block">
-          <span className="text-sm font-medium text-forest-600">Status</span>
-          <select
-            value={status}
-            onChange={(event) => onStatusChange(event.target.value as LanguageStatus | 'all')}
-            className="mt-2 w-full rounded-xl border border-sand-200 bg-white/90 px-4 py-3 text-sm text-cocoa-800 outline-none transition hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-200"
-          >
-            <option value="all">All</option>
-            <option value="active">Active</option>
-            <option value="disabled">Disabled</option>
-          </select>
-        </label>
-
-        <label className="block">
-          <span className="text-sm font-medium text-forest-600">Sort</span>
-          <select
-            value={sort}
-            onChange={(event) => onSortChange(event.target.value as LanguageSort)}
-            className="mt-2 w-full rounded-xl border border-sand-200 bg-white/90 px-4 py-3 text-sm text-cocoa-800 outline-none transition hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-200"
-          >
-            <option value="name">Name (A-Z)</option>
-            <option value="newest">Newest</option>
-            <option value="sortOrder">Sort Order</option>
-          </select>
-        </label>
-
         <button
           type="button"
-          className="inline-flex items-center justify-center gap-2 rounded-xl border border-forest-accent/25 bg-white/95 px-5 py-3 text-sm font-semibold text-forest-700 shadow-[0_8px_24px_rgba(31,90,61,0.1)] transition hover:border-forest-300 hover:bg-forest-50/30 focus:outline-none focus:ring-2 focus:ring-forest-200"
+          aria-expanded={filtersOpen}
+          onClick={() => setFiltersOpen((current) => !current)}
+          className="inline-flex min-w-40 items-center justify-center gap-2 rounded-xl border border-forest-accent/25 bg-white/95 px-5 py-3 text-sm font-semibold text-forest-700 shadow-[0_8px_24px_rgba(31,90,61,0.1)] transition hover:border-forest-300 hover:bg-forest-50/30 focus:outline-none focus:ring-2 focus:ring-forest-200"
         >
           <FunnelIcon />
-          Filter
+          {filtersOpen ? 'Hide filters' : 'Show filters'}
+          {activeFilterCount > 0 ? (
+            <span className="rounded-full bg-forest-accent px-2 py-0.5 text-xs font-bold text-white">
+              {activeFilterCount}
+            </span>
+          ) : null}
+          <ChevronIcon open={filtersOpen} />
         </button>
       </div>
+
+      {filtersOpen ? (
+        <div className="mt-5 border-t border-sand-100 pt-5">
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <label className="block">
+              <span className="text-sm font-medium text-forest-600">Status</span>
+              <select
+                value={status}
+                onChange={(event) => onStatusChange(event.target.value as LanguageStatus | 'all')}
+                className="mt-2 w-full rounded-xl border border-sand-200 bg-white/90 px-4 py-3 text-sm text-cocoa-800 outline-none transition hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-200"
+              >
+                <option value="all">All</option>
+                <option value="active">Active</option>
+                <option value="disabled">Disabled</option>
+              </select>
+            </label>
+
+            <label className="block">
+              <span className="text-sm font-medium text-forest-600">Visible Sort</span>
+              <select
+                value={sort}
+                onChange={(event) => onSortChange(event.target.value as LanguageSort)}
+                className="mt-2 w-full rounded-xl border border-sand-200 bg-white/90 px-4 py-3 text-sm text-cocoa-800 outline-none transition hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-200"
+              >
+                <option value="name">Name (A-Z)</option>
+                <option value="newest">Newest</option>
+                <option value="sortOrder">Sort Order</option>
+              </select>
+            </label>
+
+            <div className="flex items-end">
+              <button
+                type="button"
+                onClick={clearFilters}
+                disabled={activeFilterCount === 0}
+                className="w-full rounded-xl border border-sand-200 bg-white/90 px-4 py-3 text-sm font-semibold text-cocoa-body transition hover:border-forest-accent/35 hover:bg-forest-50/30 hover:text-forest-700 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Clear filters
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </AdminFilterBar>
   )
 }
