@@ -12,6 +12,10 @@ type Props = {
   total: number
   onEdit: (language: Language) => void
   onToggleStatus: (language: Language) => void
+  page: number
+  pageSize: number
+  onPageChange: (page: number) => void
+  onPageSizeChange: (pageSize: number) => void
 }
 
 function LanguageMark({ name }: { name: string }) {
@@ -22,15 +26,17 @@ function LanguageMark({ name }: { name: string }) {
   )
 }
 
-function MoreIcon() {
-  return (
-    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75h.01M12 12h.01M12 17.25h.01" />
-    </svg>
-  )
-}
-
-export function LanguageTable({ languages, loading, total, onEdit, onToggleStatus }: Props) {
+export function LanguageTable({
+  languages,
+  loading,
+  total,
+  onEdit,
+  onToggleStatus,
+  page,
+  pageSize,
+  onPageChange,
+  onPageSizeChange,
+}: Props) {
   const columns = useMemo<ColumnDef<Language>[]>(
     () => [
       {
@@ -82,12 +88,7 @@ export function LanguageTable({ languages, loading, total, onEdit, onToggleStatu
       {
         accessorKey: 'updatedAt',
         header: 'Updated',
-        cell: ({ getValue }) => (
-          <div>
-            <div>{formatDate(getValue<string | null>())}</div>
-            <div className="text-xs font-medium text-forest-600/65">by Boris E.</div>
-          </div>
-        ),
+        cell: ({ getValue }) => formatDate(getValue<string | null>()),
       },
       {
         id: 'actions',
@@ -113,13 +114,6 @@ export function LanguageTable({ languages, loading, total, onEdit, onToggleStatu
               >
                 {language.status === 'active' ? 'Disable' : 'Enable'}
               </button>
-              <button
-                type="button"
-                className="flex h-8 w-8 items-center justify-center rounded-xl border border-sand-200 bg-white text-cocoa-body transition hover:border-forest-accent/40 hover:bg-forest-50/30 hover:text-forest-700 focus:outline-none focus:ring-2 focus:ring-forest-200"
-                aria-label={`More actions for ${language.name}`}
-              >
-                <MoreIcon />
-              </button>
             </div>
           )
         },
@@ -140,6 +134,13 @@ export function LanguageTable({ languages, loading, total, onEdit, onToggleStatu
       emptyState={{
         title: 'No languages found',
         description: 'Add a language or adjust the search and status filters.',
+      }}
+      pagination={{
+        page,
+        pageSize,
+        total,
+        onPageChange,
+        onPageSizeChange,
       }}
     />
   )
