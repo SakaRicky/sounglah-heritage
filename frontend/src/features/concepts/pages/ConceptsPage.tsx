@@ -77,6 +77,8 @@ export function AdminConceptsPage() {
   const [category, setCategory] = useState('')
   const [difficultyLevel, setDifficultyLevel] = useState<ConceptDifficultyLevel | 'all'>('all')
   const [sort, setSort] = useState<ConceptSort>('sortOrder')
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(50)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
@@ -96,8 +98,8 @@ export function AdminConceptsPage() {
         category,
         difficultyLevel,
         sort,
-        page: 1,
-        pageSize: 50,
+        page,
+        pageSize,
       })
       setConcepts(response.data)
       setTotal(response.meta.total)
@@ -106,7 +108,7 @@ export function AdminConceptsPage() {
     } finally {
       setLoading(false)
     }
-  }, [category, difficultyLevel, search, sort, status])
+  }, [category, difficultyLevel, page, pageSize, search, sort, status])
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -131,6 +133,36 @@ export function AdminConceptsPage() {
   }, [concepts])
   const categories = categoryCounts.length
   const filtered = Boolean(search || category || status !== 'all' || difficultyLevel !== 'all')
+
+  function resetPageAndSetSearch(value: string) {
+    setPage(1)
+    setSearch(value)
+  }
+
+  function resetPageAndSetStatus(value: ConceptStatus | 'all') {
+    setPage(1)
+    setStatus(value)
+  }
+
+  function resetPageAndSetCategory(value: string) {
+    setPage(1)
+    setCategory(value)
+  }
+
+  function resetPageAndSetDifficultyLevel(value: ConceptDifficultyLevel | 'all') {
+    setPage(1)
+    setDifficultyLevel(value)
+  }
+
+  function resetPageAndSetSort(value: ConceptSort) {
+    setPage(1)
+    setSort(value)
+  }
+
+  function handlePageSizeChange(nextPageSize: number) {
+    setPage(1)
+    setPageSize(nextPageSize)
+  }
 
   function openCreateForm() {
     setFieldErrors({})
@@ -221,7 +253,7 @@ export function AdminConceptsPage() {
 
       <section className="grid gap-4 md:grid-cols-3" aria-label="Concept summary">
         <StatsCard icon={<LayersIcon />} label="Total Concepts" value={total} description="Reusable learning ideas" variant="green" />
-        <StatsCard icon={<CheckIcon />} label="Active Concepts" value={activeCount} description="Available for content" />
+        <StatsCard icon={<CheckIcon />} label="Visible Active" value={activeCount} description="On this page" />
         <StatsCard icon={<CategoryIcon />} label="Visible Categories" value={categories} description="Current groupings" variant="warm" />
       </section>
 
@@ -231,11 +263,11 @@ export function AdminConceptsPage() {
         category={category}
         difficultyLevel={difficultyLevel}
         sort={sort}
-        onSearchChange={setSearch}
-        onStatusChange={setStatus}
-        onCategoryChange={setCategory}
-        onDifficultyLevelChange={setDifficultyLevel}
-        onSortChange={setSort}
+        onSearchChange={resetPageAndSetSearch}
+        onStatusChange={resetPageAndSetStatus}
+        onCategoryChange={resetPageAndSetCategory}
+        onDifficultyLevelChange={resetPageAndSetDifficultyLevel}
+        onSortChange={resetPageAndSetSort}
       />
 
       <ConceptTable
@@ -246,13 +278,17 @@ export function AdminConceptsPage() {
         onCreate={openCreateForm}
         onEdit={openEditForm}
         onToggleStatus={setStatusTarget}
+        page={page}
+        pageSize={pageSize}
+        onPageChange={setPage}
+        onPageSizeChange={handlePageSizeChange}
       />
 
       <section className="grid gap-6 lg:grid-cols-2">
         <InsightCard title="Category Shape" description="A quick view of how this concept set is organized.">
           <div className="space-y-4">
             {(categoryCounts.length ? categoryCounts : [{ label: 'No categories yet', count: 0 }]).map((item) => {
-              const percent = total > 0 ? Math.round((item.count / total) * 100) : 0
+              const percent = concepts.length > 0 ? Math.round((item.count / concepts.length) * 100) : 0
 
               return (
                 <div key={item.label}>

@@ -16,6 +16,10 @@ type Props = {
   onCreate: () => void
   onEdit: (concept: Concept) => void
   onToggleStatus: (concept: Concept) => void
+  page: number
+  pageSize: number
+  onPageChange: (page: number) => void
+  onPageSizeChange: (pageSize: number) => void
 }
 
 function ConceptMark({ title }: { title: string }) {
@@ -26,7 +30,19 @@ function ConceptMark({ title }: { title: string }) {
   )
 }
 
-export function ConceptTable({ concepts, loading, total, filtered, onCreate, onEdit, onToggleStatus }: Props) {
+export function ConceptTable({
+  concepts,
+  loading,
+  total,
+  filtered,
+  onCreate,
+  onEdit,
+  onToggleStatus,
+  page,
+  pageSize,
+  onPageChange,
+  onPageSizeChange,
+}: Props) {
   const columns = useMemo<ColumnDef<Concept>[]>(
     () => [
       {
@@ -142,6 +158,13 @@ export function ConceptTable({ concepts, loading, total, filtered, onCreate, onE
             Add concept
           </button>
         ) : undefined,
+      }}
+      pagination={{
+        page,
+        pageSize,
+        total,
+        onPageChange,
+        onPageSizeChange,
       }}
     />
   )

@@ -69,11 +69,14 @@ export function AdminConceptTextsPage() {
   const [languages, setLanguages] = useState<Language[]>([])
   const [total, setTotal] = useState(0)
   const [search, setSearch] = useState('')
+  const [conceptSearch, setConceptSearch] = useState('')
   const [conceptId, setConceptId] = useState('')
   const [languageId, setLanguageId] = useState('')
   const [status, setStatus] = useState<ConceptTextStatus | 'all'>('all')
   const [reviewStatus, setReviewStatus] = useState<ConceptTextReviewStatus | 'all'>('all')
   const [sort, setSort] = useState<ConceptTextSort>('updated')
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(50)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
@@ -85,7 +88,7 @@ export function AdminConceptTextsPage() {
   const loadReferenceData = useCallback(async () => {
     try {
       const [conceptResponse, languageResponse] = await Promise.all([
-        getConcepts({ status: 'active', sort: 'title', page: 1, pageSize: 100 }),
+        getConcepts({ search: conceptSearch, status: 'active', sort: 'title', page: 1, pageSize: 100 }),
         getLanguages({ status: 'active', page: 1, pageSize: 100 }),
       ])
       setConcepts(conceptResponse.data)
@@ -93,7 +96,7 @@ export function AdminConceptTextsPage() {
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : 'Unable to load concepts and languages.')
     }
-  }, [])
+  }, [conceptSearch])
 
   const loadConceptTexts = useCallback(async () => {
     setLoading(true)
@@ -107,8 +110,8 @@ export function AdminConceptTextsPage() {
         status,
         reviewStatus,
         sort,
-        page: 1,
-        pageSize: 50,
+        page,
+        pageSize,
       })
       setConceptTexts(response.data)
       setTotal(response.meta.total)
@@ -117,12 +120,12 @@ export function AdminConceptTextsPage() {
     } finally {
       setLoading(false)
     }
-  }, [conceptId, languageId, reviewStatus, search, sort, status])
+  }, [conceptId, languageId, page, pageSize, reviewStatus, search, sort, status])
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
       void loadReferenceData()
-    }, 0)
+    }, 200)
 
     return () => window.clearTimeout(timer)
   }, [loadReferenceData])
@@ -151,6 +154,41 @@ export function AdminConceptTextsPage() {
       .slice(0, 5)
   }, [conceptTexts])
   const filtered = Boolean(search || conceptId || languageId || status !== 'all' || reviewStatus !== 'all')
+
+  function resetPageAndSetSearch(value: string) {
+    setPage(1)
+    setSearch(value)
+  }
+
+  function resetPageAndSetConceptId(value: string) {
+    setPage(1)
+    setConceptId(value)
+  }
+
+  function resetPageAndSetLanguageId(value: string) {
+    setPage(1)
+    setLanguageId(value)
+  }
+
+  function resetPageAndSetStatus(value: ConceptTextStatus | 'all') {
+    setPage(1)
+    setStatus(value)
+  }
+
+  function resetPageAndSetReviewStatus(value: ConceptTextReviewStatus | 'all') {
+    setPage(1)
+    setReviewStatus(value)
+  }
+
+  function resetPageAndSetSort(value: ConceptTextSort) {
+    setPage(1)
+    setSort(value)
+  }
+
+  function handlePageSizeChange(nextPageSize: number) {
+    setPage(1)
+    setPageSize(nextPageSize)
+  }
 
   function openCreateForm() {
     setFieldErrors({})
@@ -241,12 +279,13 @@ export function AdminConceptTextsPage() {
 
       <section className="grid gap-4 md:grid-cols-3" aria-label="Concept text summary">
         <StatsCard icon={<TranslateIcon />} label="Total Texts" value={total} description="Concept-language expressions" variant="green" />
-        <StatsCard icon={<CheckIcon />} label="Active Texts" value={activeCount} description={`${approvedCount} approved`} />
-        <StatsCard icon={<ReviewIcon />} label="Needs Review" value={needsReviewCount} description="Queued for content review" variant="warm" />
+        <StatsCard icon={<CheckIcon />} label="Visible Active" value={activeCount} description={`${approvedCount} approved on this page`} />
+        <StatsCard icon={<ReviewIcon />} label="Visible Review" value={needsReviewCount} description="On this page" variant="warm" />
       </section>
 
       <ConceptTextFilters
         search={search}
+        conceptSearch={conceptSearch}
         conceptId={conceptId}
         languageId={languageId}
         status={status}
@@ -254,12 +293,13 @@ export function AdminConceptTextsPage() {
         sort={sort}
         concepts={concepts}
         languages={languages}
-        onSearchChange={setSearch}
-        onConceptChange={setConceptId}
-        onLanguageChange={setLanguageId}
-        onStatusChange={setStatus}
-        onReviewStatusChange={setReviewStatus}
-        onSortChange={setSort}
+        onSearchChange={resetPageAndSetSearch}
+        onConceptSearchChange={setConceptSearch}
+        onConceptChange={resetPageAndSetConceptId}
+        onLanguageChange={resetPageAndSetLanguageId}
+        onStatusChange={resetPageAndSetStatus}
+        onReviewStatusChange={resetPageAndSetReviewStatus}
+        onSortChange={resetPageAndSetSort}
       />
 
       <ConceptTextTable
@@ -270,6 +310,10 @@ export function AdminConceptTextsPage() {
         onCreate={openCreateForm}
         onEdit={openEditForm}
         onToggleStatus={setStatusTarget}
+        page={page}
+        pageSize={pageSize}
+        onPageChange={setPage}
+        onPageSizeChange={handlePageSizeChange}
       />
 
       <section className="grid gap-6 lg:grid-cols-2">
@@ -320,8 +364,10 @@ export function AdminConceptTextsPage() {
           conceptText={formMode.conceptText}
           concepts={concepts}
           languages={languages}
+          conceptSearch={conceptSearch}
           fieldErrors={fieldErrors}
           saving={saving}
+          onConceptSearchChange={setConceptSearch}
           onCancel={() => setFormMode(null)}
           onSubmit={handleFormSubmit}
         />

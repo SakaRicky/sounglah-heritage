@@ -16,6 +16,10 @@ type Props = {
   onCreate: () => void
   onEdit: (conceptText: ConceptText) => void
   onToggleStatus: (conceptText: ConceptText) => void
+  page: number
+  pageSize: number
+  onPageChange: (page: number) => void
+  onPageSizeChange: (pageSize: number) => void
 }
 
 function ConceptMark({ title }: { title: string }) {
@@ -34,6 +38,10 @@ export function ConceptTextTable({
   onCreate,
   onEdit,
   onToggleStatus,
+  page,
+  pageSize,
+  onPageChange,
+  onPageSizeChange,
 }: Props) {
   const columns = useMemo<ColumnDef<ConceptText>[]>(
     () => [
@@ -160,6 +168,13 @@ export function ConceptTextTable({
             Add concept text
           </button>
         ) : undefined,
+      }}
+      pagination={{
+        page,
+        pageSize,
+        total,
+        onPageChange,
+        onPageSizeChange,
       }}
     />
   )
