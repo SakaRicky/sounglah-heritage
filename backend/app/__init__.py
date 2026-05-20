@@ -9,7 +9,7 @@ from app.routes.concept_text_routes import concept_text_bp
 from app.routes.concept_routes import concept_bp
 from app.routes.health_routes import health_bp
 from app.routes.language_routes import language_bp
-from app.seed import seed_admin_user, seed_concept_texts, seed_concepts, seed_languages
+from app.seed import seed_admin_user, seed_concept_texts, seed_concepts, seed_languages, seed_test_content
 
 
 def create_app(testing=False):
@@ -52,7 +52,6 @@ def create_app(testing=False):
             db.create_all()
             seed_admin_user()
             seed_languages()
-            seed_concepts()
-            seed_concept_texts()
+            seed_test_content()
 
     return app

@@ -69,7 +69,7 @@ def test_create_concept_text_normalizes_values():
     app = create_app(testing=True)
     client = app.test_client()
     headers = auth_headers(client)
-    concept_id, language_id = _lookup_ids(client, headers, "yes", "medumba")
+    concept_id, language_id = _lookup_ids(client, headers, "yes", "med")
 
     response = client.post(
         "/api/admin/concept-texts",
@@ -176,7 +176,7 @@ def test_create_concept_text_rejects_disabled_concept_or_language():
 
     with app.app_context():
         concept = Concept.query.filter_by(key="yes").first()
-        language = Language.query.filter_by(code="medumba").first()
+        language = Language.query.filter_by(code="med").first()
         concept.status = "disabled"
         db.session.commit()
         concept_id = concept.id

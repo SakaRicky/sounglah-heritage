@@ -31,7 +31,7 @@ def test_list_seeded_languages():
     assert response.status_code == 200
     data = response.get_json()
     assert data["meta"]["total"] == 3
-    assert [language["code"] for language in data["data"]] == ["medumba", "en", "fr"]
+    assert [language["code"] for language in data["data"]] == ["med", "en", "fr"]
 
 
 def test_create_language_normalizes_values():
