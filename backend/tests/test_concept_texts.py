@@ -13,7 +13,7 @@ def auth_headers(client):
     return {"Authorization": f"Bearer {token}"}
 
 
-def _lookup_ids(client, headers, concept_search="greeting", language_search="english"):
+def _lookup_ids(client, headers, concept_search="what_s_happening", language_search="english"):
     concept_response = client.get(f"/api/admin/concepts?search={concept_search}", headers=headers)
     language_response = client.get(f"/api/admin/languages?search={language_search}", headers=headers)
     return (
@@ -42,7 +42,7 @@ def test_list_seeded_concept_texts():
 
     assert response.status_code == 200
     data = response.get_json()
-    assert data["meta"]["total"] == 12
+    assert data["meta"]["total"] == 883
     assert data["data"][0]["concept"]["key"]
     assert data["data"][0]["language"]["code"]
     assert "audioUrl" in data["data"][0]
@@ -54,13 +54,15 @@ def test_get_one_concept_text():
     client = app.test_client()
     headers = auth_headers(client)
 
-    list_response = client.get("/api/admin/concept-texts?search=bonjour", headers=headers)
-    concept_text = list_response.get_json()["data"][0]
+    list_response = client.get("/api/admin/concept-texts?search=what%27s%20happening", headers=headers)
+    concept_text = next(
+        item for item in list_response.get_json()["data"] if item["language"]["code"] == "en"
+    )
     response = client.get(f"/api/admin/concept-texts/{concept_text['id']}", headers=headers)
 
     assert response.status_code == 200
     data = response.get_json()["data"]
-    assert data["text"] == "Bonjour"
+    assert data["text"] == "What's happening?"
     assert "audioUrl" in data
     assert "pronunciationNote" in data
 
@@ -69,7 +71,7 @@ def test_create_concept_text_normalizes_values():
     app = create_app(testing=True)
     client = app.test_client()
     headers = auth_headers(client)
-    concept_id, language_id = _lookup_ids(client, headers, "yes", "medumba")
+    concept_id, language_id = _lookup_ids(client, headers, "thank", "french")
 
     response = client.post(
         "/api/admin/concept-texts",
@@ -79,7 +81,7 @@ def test_create_concept_text_normalizes_values():
             "languageId": language_id,
             "text": "  [needs translation]  ",
             "pronunciation": "  ",
-            "audio_url": "  /media/audio/med/yes.mp3  ",
+            "audio_url": "  /media/audio/fr/thank-you.mp3  ",
             "pronunciation_note": "  Native speaker review required. ",
             "literalMeaning": "  Placeholder pending translator review. ",
             "usageNote": "  Do not publish until reviewed. ",
@@ -92,8 +94,8 @@ def test_create_concept_text_normalizes_values():
     concept_text = response.get_json()["data"]
     assert concept_text["text"] == "[needs translation]"
     assert concept_text["pronunciation"] is None
-    assert concept_text["audioUrl"] == "/media/audio/med/yes.mp3"
-    assert concept_text["audio_url"] == "/media/audio/med/yes.mp3"
+    assert concept_text["audioUrl"] == "/media/audio/fr/thank-you.mp3"
+    assert concept_text["audio_url"] == "/media/audio/fr/thank-you.mp3"
     assert concept_text["pronunciationNote"] == "Native speaker review required."
     assert concept_text["pronunciation_note"] == "Native speaker review required."
     assert concept_text["literalMeaning"] == "Placeholder pending translator review."
@@ -175,8 +177,8 @@ def test_create_concept_text_rejects_disabled_concept_or_language():
     headers = auth_headers(client)
 
     with app.app_context():
-        concept = Concept.query.filter_by(key="yes").first()
-        language = Language.query.filter_by(code="medumba").first()
+        concept = Concept.query.filter_by(key="thank_you").first()
+        language = Language.query.filter_by(code="med").first()
         concept.status = "disabled"
         db.session.commit()
         concept_id = concept.id
@@ -226,14 +228,14 @@ def test_update_concept_text_and_status_flow():
     client = app.test_client()
     headers = auth_headers(client)
 
-    list_response = client.get("/api/admin/concept-texts?search=bonjour", headers=headers)
+    list_response = client.get("/api/admin/concept-texts?search=what%27s%20happening", headers=headers)
     concept_text = list_response.get_json()["data"][0]
 
     update_response = client.patch(
         f"/api/admin/concept-texts/{concept_text['id']}",
         headers=headers,
         json={
-            "text": "  Bonjour  ",
+            "text": "  What's happening?  ",
             "pronunciation": "bon-zhoor",
             "audioUrl": "/media/audio/fr/bonjour.mp3",
             "pronunciationNote": "Listen for the soft final r.",
@@ -244,7 +246,7 @@ def test_update_concept_text_and_status_flow():
 
     assert update_response.status_code == 200
     updated = update_response.get_json()["data"]
-    assert updated["text"] == "Bonjour"
+    assert updated["text"] == "What's happening?"
     assert updated["pronunciation"] == "bon-zhoor"
     assert updated["audioUrl"] == "/media/audio/fr/bonjour.mp3"
     assert updated["audio_url"] == "/media/audio/fr/bonjour.mp3"
@@ -276,18 +278,22 @@ def test_filter_and_search_concept_texts():
     app = create_app(testing=True)
     client = app.test_client()
     headers = auth_headers(client)
-    concept_id, language_id = _lookup_ids(client, headers, "greeting", "french")
+    concept_id, language_id = _lookup_ids(client, headers, "young_man_and_lion", "french")
 
     concept_response = client.get(f"/api/admin/concept-texts?conceptId={concept_id}", headers=headers)
     language_response = client.get(f"/api/admin/concept-texts?languageId={language_id}", headers=headers)
-    review_response = client.get("/api/admin/concept-texts?reviewStatus=approved", headers=headers)
-    search_response = client.get("/api/admin/concept-texts?search=bonjour", headers=headers)
+    review_response = client.get("/api/admin/concept-texts?reviewStatus=needs_review", headers=headers)
+    search_response = client.get("/api/admin/concept-texts?search=what%27s%20happening", headers=headers)
 
     assert concept_response.status_code == 200
-    assert {item["concept"]["key"] for item in concept_response.get_json()["data"]} == {"greeting"}
+    assert {item["concept"]["key"] for item in concept_response.get_json()["data"]} == {
+        "young_man_and_lion"
+    }
     assert language_response.status_code == 200
     assert {item["language"]["code"] for item in language_response.get_json()["data"]} == {"fr"}
     assert review_response.status_code == 200
-    assert review_response.get_json()["meta"]["total"] == 12
+    assert review_response.get_json()["meta"]["total"] == 883
     assert search_response.status_code == 200
-    assert search_response.get_json()["data"][0]["text"] == "Bonjour"
+    assert any(
+        item["text"] == "What's happening?" for item in search_response.get_json()["data"]
+    )

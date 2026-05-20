@@ -1,3 +1,7 @@
+import csv
+import re
+from pathlib import Path
+
 from flask import current_app
 from werkzeug.security import generate_password_hash
 
@@ -6,6 +10,46 @@ from app.models.concept import Concept
 from app.models.concept_text import ConceptText
 from app.models.language import Language
 from app.models.user import User
+
+
+EXTRACTION_DIR = Path(__file__).resolve().parents[1] / "sounglah_extraction"
+CONCEPTS_SEED_FILE = EXTRACTION_DIR / "concepts_seed.csv"
+CONCEPT_TEXTS_SEED_FILE = EXTRACTION_DIR / "concept_texts_seed.csv"
+
+DIFFICULTY_LEVEL_MAP = {
+    "beginner": "beginner",
+    "beginner_story": "beginner",
+    "beginner_plus": "intermediate",
+    "intermediate": "intermediate",
+    "advanced": "advanced",
+    "advanced_culture": "advanced",
+    "review": "beginner",
+    "ui": "beginner",
+}
+
+
+def _read_seed_csv(path):
+    with path.open(encoding="utf-8-sig", newline="") as seed_file:
+        return list(csv.DictReader(seed_file))
+
+
+def _optional_string(value):
+    if value is None:
+        return None
+
+    normalized = str(value).strip()
+    return normalized or None
+
+
+def _slug_from_key(value):
+    slug = str(value or "").strip().lower().replace("_", "-")
+    slug = re.sub(r"[^a-z0-9-]+", "", slug)
+    slug = re.sub(r"-{2,}", "-", slug)
+    return slug.strip("-")
+
+
+def _normalize_difficulty_level(value):
+    return DIFFICULTY_LEVEL_MAP.get(str(value or "").strip().lower(), "beginner")
 
 
 def seed_admin_user():
@@ -24,11 +68,17 @@ def seed_admin_user():
 
 
 def seed_languages():
+    legacy_medumba = Language.query.filter_by(code="medumba").first()
+    current_medumba = Language.query.filter_by(code="med").first()
+    if legacy_medumba is not None and current_medumba is None:
+        legacy_medumba.code = "med"
+        db.session.commit()
+
     seed_data = [
         {
             "name": "Médumba",
             "native_name": "Médumba",
-            "code": "medumba",
+            "code": "med",
             "slug": "medumba",
             "description": "Primary heritage language for the MVP.",
             "direction": "ltr",
@@ -71,116 +121,25 @@ def seed_languages():
 
 
 def seed_concepts():
-    seed_data = [
-        {
-            "key": "greeting",
-            "slug": "greeting",
-            "title": "Greeting",
-            "description": "A basic greeting used when meeting someone.",
-            "category": "Greetings",
-            "difficulty_level": "beginner",
-            "status": "active",
-            "sort_order": 1,
-        },
-        {
-            "key": "mother",
-            "slug": "mother",
-            "title": "Mother",
-            "description": "The concept of mother in a family context.",
-            "category": "Family",
-            "difficulty_level": "beginner",
-            "status": "active",
-            "sort_order": 2,
-        },
-        {
-            "key": "father",
-            "slug": "father",
-            "title": "Father",
-            "description": "The concept of father in a family context.",
-            "category": "Family",
-            "difficulty_level": "beginner",
-            "status": "active",
-            "sort_order": 3,
-        },
-        {
-            "key": "water",
-            "slug": "water",
-            "title": "Water",
-            "description": None,
-            "category": "Food & Drink",
-            "difficulty_level": "beginner",
-            "status": "active",
-            "sort_order": 4,
-        },
-        {
-            "key": "food",
-            "slug": "food",
-            "title": "Food",
-            "description": None,
-            "category": "Food & Drink",
-            "difficulty_level": "beginner",
-            "status": "active",
-            "sort_order": 5,
-        },
-        {
-            "key": "thank_you",
-            "slug": "thank-you",
-            "title": "Thank You",
-            "description": "A polite expression of gratitude.",
-            "category": "Courtesy",
-            "difficulty_level": "beginner",
-            "status": "active",
-            "sort_order": 6,
-        },
-        {
-            "key": "yes",
-            "slug": "yes",
-            "title": "Yes",
-            "description": None,
-            "category": "Everyday Life",
-            "difficulty_level": "beginner",
-            "status": "active",
-            "sort_order": 7,
-        },
-        {
-            "key": "no",
-            "slug": "no",
-            "title": "No",
-            "description": None,
-            "category": "Everyday Life",
-            "difficulty_level": "beginner",
-            "status": "active",
-            "sort_order": 8,
-        },
-        {
-            "key": "family",
-            "slug": "family",
-            "title": "Family",
-            "description": "The concept of family and family relationships.",
-            "category": "Family",
-            "difficulty_level": "beginner",
-            "status": "active",
-            "sort_order": 9,
-        },
-        {
-            "key": "home",
-            "slug": "home",
-            "title": "Home",
-            "description": None,
-            "category": "Home",
-            "difficulty_level": "beginner",
-            "status": "active",
-            "sort_order": 10,
-        },
-    ]
-
     changed = False
 
-    for item in seed_data:
-        if Concept.query.filter_by(key=item["key"]).first():
+    for sort_order, row in enumerate(_read_seed_csv(CONCEPTS_SEED_FILE), start=1):
+        concept_key = row["concept_key"].strip()
+        if Concept.query.filter_by(key=concept_key).first():
             continue
 
-        db.session.add(Concept(**item))
+        db.session.add(
+            Concept(
+                key=concept_key,
+                slug=_slug_from_key(concept_key),
+                title=row["display_name"].strip(),
+                description=None,
+                category=_optional_string(row.get("category")),
+                difficulty_level=_normalize_difficulty_level(row.get("difficulty")),
+                status="active",
+                sort_order=sort_order,
+            )
+        )
         changed = True
 
     if changed:
@@ -188,108 +147,39 @@ def seed_concepts():
 
 
 def seed_concept_texts():
-    seed_data = [
-        {
-            "concept_key": "greeting",
-            "language_code": "en",
-            "text": "Hello",
-            "usage_note": "Basic greeting.",
-            "review_status": "approved",
-        },
-        {
-            "concept_key": "greeting",
-            "language_code": "fr",
-            "text": "Bonjour",
-            "usage_note": "Standard French greeting.",
-            "review_status": "approved",
-        },
-        {
-            "concept_key": "mother",
-            "language_code": "en",
-            "text": "Mother",
-            "review_status": "approved",
-        },
-        {
-            "concept_key": "mother",
-            "language_code": "fr",
-            "text": "Mère",
-            "review_status": "approved",
-        },
-        {
-            "concept_key": "father",
-            "language_code": "en",
-            "text": "Father",
-            "review_status": "approved",
-        },
-        {
-            "concept_key": "father",
-            "language_code": "fr",
-            "text": "Père",
-            "review_status": "approved",
-        },
-        {
-            "concept_key": "water",
-            "language_code": "en",
-            "text": "Water",
-            "review_status": "approved",
-        },
-        {
-            "concept_key": "water",
-            "language_code": "fr",
-            "text": "Eau",
-            "review_status": "approved",
-        },
-        {
-            "concept_key": "food",
-            "language_code": "en",
-            "text": "Food",
-            "review_status": "approved",
-        },
-        {
-            "concept_key": "food",
-            "language_code": "fr",
-            "text": "Nourriture",
-            "review_status": "approved",
-        },
-        {
-            "concept_key": "thank_you",
-            "language_code": "en",
-            "text": "Thank you",
-            "review_status": "approved",
-        },
-        {
-            "concept_key": "thank_you",
-            "language_code": "fr",
-            "text": "Merci",
-            "review_status": "approved",
-        },
-    ]
-
+    concepts_by_key = {concept.key: concept for concept in Concept.query.all()}
+    languages_by_code = {language.code: language for language in Language.query.all()}
+    existing_pairs = {
+        (row.concept_id, row.language_id)
+        for row in ConceptText.query.with_entities(
+            ConceptText.concept_id,
+            ConceptText.language_id,
+        ).all()
+    }
+    seen_seed_pairs = set()
     changed = False
 
-    for item in seed_data:
-        concept = Concept.query.filter_by(key=item["concept_key"]).first()
-        language = Language.query.filter_by(code=item["language_code"]).first()
-        if concept is None or language is None:
+    for row in _read_seed_csv(CONCEPT_TEXTS_SEED_FILE):
+        concept = concepts_by_key.get(row["concept_key"].strip())
+        language = languages_by_code.get(row["language_code"].strip())
+        text = row["text"].strip()
+        if concept is None or language is None or not text:
             continue
 
-        existing = ConceptText.query.filter_by(
-            concept_id=concept.id,
-            language_id=language.id,
-        ).first()
-        if existing:
+        pair = (concept.id, language.id)
+        if pair in existing_pairs or pair in seen_seed_pairs:
             continue
 
         db.session.add(
             ConceptText(
                 concept_id=concept.id,
                 language_id=language.id,
-                text=item["text"],
-                usage_note=item.get("usage_note"),
+                text=text,
                 status="active",
-                review_status=item["review_status"],
+                review_status="needs_review",
             )
         )
+        seen_seed_pairs.add(pair)
         changed = True
 
     if changed:

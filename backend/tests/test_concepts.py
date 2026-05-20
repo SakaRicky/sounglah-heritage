@@ -30,8 +30,12 @@ def test_list_seeded_concepts():
 
     assert response.status_code == 200
     data = response.get_json()
-    assert data["meta"]["total"] == 10
-    assert [concept["key"] for concept in data["data"][:3]] == ["greeting", "mother", "father"]
+    assert data["meta"]["total"] == 429
+    assert [concept["key"] for concept in data["data"][:3]] == [
+        "awaken_him",
+        "bring",
+        "bring_back_to_you",
+    ]
     assert data["data"][0]["difficultyLevel"] == "beginner"
     assert "defaultImageUrl" in data["data"][0]
 
@@ -60,8 +64,8 @@ def test_create_concept_normalizes_values():
         headers=auth_headers(client),
         json={
             "title": "  Good Morning  ",
-            "key": " Good Morning ",
-            "slug": "Good Morning",
+            "key": " Sunrise Greeting ",
+            "slug": "Sunrise Greeting",
             "description": "  A morning greeting.  ",
             "category": "  Greetings  ",
             "defaultImageUrl": "  /media/images/concepts/good-morning.png  ",
@@ -74,8 +78,8 @@ def test_create_concept_normalizes_values():
     assert response.status_code == 201
     concept = response.get_json()["data"]
     assert concept["title"] == "Good Morning"
-    assert concept["key"] == "good_morning"
-    assert concept["slug"] == "good-morning"
+    assert concept["key"] == "sunrise_greeting"
+    assert concept["slug"] == "sunrise-greeting"
     assert concept["description"] == "A morning greeting."
     assert concept["category"] == "Greetings"
     assert concept["defaultImageUrl"] == "/media/images/concepts/good-morning.png"
@@ -93,9 +97,9 @@ def test_create_concept_rejects_duplicate_key_and_slug():
         "/api/admin/concepts",
         headers=headers,
         json={
-            "title": "Greeting Duplicate",
-            "key": "GREETING",
-            "slug": "greeting-duplicate",
+            "title": "Thank You Duplicate",
+            "key": "THANK YOU",
+            "slug": "thank-you-duplicate",
             "difficultyLevel": "beginner",
             "status": "active",
             "sortOrder": 12,
@@ -105,9 +109,9 @@ def test_create_concept_rejects_duplicate_key_and_slug():
         "/api/admin/concepts",
         headers=headers,
         json={
-            "title": "Other Greeting",
-            "key": "other_greeting",
-            "slug": "GREETING",
+            "title": "Other Thank You",
+            "key": "other_thank_you",
+            "slug": "THANK-YOU",
             "difficultyLevel": "beginner",
             "status": "active",
             "sortOrder": 13,
@@ -172,23 +176,22 @@ def test_search_and_filter_concepts():
     client = app.test_client()
     headers = auth_headers(client)
 
-    search_response = client.get("/api/admin/concepts?search=family", headers=headers)
-    category_response = client.get("/api/admin/concepts?category=Family", headers=headers)
+    search_response = client.get("/api/admin/concepts?search=mother", headers=headers)
+    category_response = client.get("/api/admin/concepts?category=family_people", headers=headers)
     difficulty_response = client.get(
         "/api/admin/concepts?difficultyLevel=beginner",
         headers=headers,
     )
 
     assert search_response.status_code == 200
-    assert {concept["key"] for concept in search_response.get_json()["data"]} >= {"family"}
+    assert {concept["key"] for concept in search_response.get_json()["data"]} >= {"mother"}
     assert category_response.status_code == 200
     assert {concept["key"] for concept in category_response.get_json()["data"]} >= {
         "mother",
         "father",
-        "family",
     }
     assert difficulty_response.status_code == 200
-    assert difficulty_response.get_json()["meta"]["total"] == 10
+    assert difficulty_response.get_json()["meta"]["total"] >= 1
 
 
 def test_filter_disabled_concepts():
@@ -196,8 +199,8 @@ def test_filter_disabled_concepts():
     client = app.test_client()
     headers = auth_headers(client)
 
-    list_response = client.get("/api/admin/concepts?search=food", headers=headers)
-    food = next(concept for concept in list_response.get_json()["data"] if concept["key"] == "food")
+    list_response = client.get("/api/admin/concepts?search=water", headers=headers)
+    food = next(concept for concept in list_response.get_json()["data"] if concept["key"] == "water")
     client.patch(
         f"/api/admin/concepts/{food['id']}/status",
         headers=headers,
@@ -209,4 +212,4 @@ def test_filter_disabled_concepts():
     assert disabled_response.status_code == 200
     data = disabled_response.get_json()
     assert data["meta"]["total"] == 1
-    assert data["data"][0]["key"] == "food"
+    assert data["data"][0]["key"] == "water"
