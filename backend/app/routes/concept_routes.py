@@ -1,15 +1,20 @@
 import re
+from io import BytesIO
 
-from flask import Blueprint, jsonify, request
+from cloudinary.exceptions import Error as CloudinaryError
+from flask import Blueprint, current_app, jsonify, request
 from sqlalchemy import or_
 
 from app.extensions import db
 from app.models.concept import Concept
 from app.schemas.concept_schema import concept_to_dict
+from app.services import cloudinary_service
+from app.services.cloudinary_service import CloudinaryConfigurationError
 from app.utils.auth import require_admin
 
 concept_bp = Blueprint("admin_concepts", __name__)
 
+ALLOWED_IMAGE_MIME_TYPES = {"image/jpeg", "image/png", "image/webp"}
 VALID_DIFFICULTY_LEVELS = {"beginner", "intermediate", "advanced"}
 VALID_STATUSES = {"active", "disabled"}
 VALID_STATUS_FILTERS = {"active", "disabled", "all"}
@@ -63,6 +68,25 @@ def _optional_string_with_max(value, max_length):
         return normalized, f"Must be {max_length} characters or fewer."
 
     return normalized, None
+
+
+def _image_file_from_request():
+    image_file = request.files.get("image")
+    if image_file is None or not image_file.filename:
+        return None, {"image": "Image file is required."}
+
+    if image_file.mimetype not in ALLOWED_IMAGE_MIME_TYPES:
+        return None, {"image": "Image must be a JPEG, PNG, or WebP file."}
+
+    max_bytes = current_app.config["MAX_IMAGE_UPLOAD_MB"] * 1024 * 1024
+    content = image_file.stream.read(max_bytes + 1)
+    if len(content) > max_bytes:
+        return None, {"image": f"Image must be {current_app.config['MAX_IMAGE_UPLOAD_MB']} MB or smaller."}
+
+    if not content:
+        return None, {"image": "Image file cannot be empty."}
+
+    return BytesIO(content), None
 
 
 def _validate_payload(data, existing_concept=None, partial=False):
@@ -260,6 +284,76 @@ def update_concept(concept_id):
         return _validation_error(errors)
 
     _apply_concept_payload(concept, payload)
+    db.session.commit()
+
+    return jsonify({"data": concept_to_dict(concept)})
+
+
+@concept_bp.post("/<concept_id>/image")
+@require_admin
+def upload_concept_image(concept_id):
+    concept = db.session.get(Concept, concept_id)
+    if concept is None:
+        return jsonify({"error": {"message": "Concept not found."}}), 404
+
+    image_file, errors = _image_file_from_request()
+    if errors:
+        return _validation_error(errors)
+
+    alt_text = _optional_string(request.form.get("image_alt_text"))
+    old_public_id = concept.image_public_id
+
+    try:
+        uploaded_image = cloudinary_service.upload_concept_image(image_file)
+        if old_public_id:
+            cloudinary_service.delete_image(old_public_id)
+    except CloudinaryConfigurationError as error:
+        return jsonify({"error": {"message": str(error)}}), 500
+    except CloudinaryError:
+        current_app.logger.exception("Cloudinary concept image upload failed.")
+        return jsonify({"error": {"message": "Unable to upload concept image to Cloudinary."}}), 503
+
+    concept.image_url = uploaded_image["secure_url"]
+    concept.image_public_id = uploaded_image["public_id"]
+    concept.image_alt_text = alt_text if alt_text is not None else concept.image_alt_text
+    db.session.commit()
+
+    return jsonify({"data": concept_to_dict(concept)})
+
+
+@concept_bp.patch("/<concept_id>/image-alt-text")
+@require_admin
+def update_concept_image_alt_text(concept_id):
+    concept = db.session.get(Concept, concept_id)
+    if concept is None:
+        return jsonify({"error": {"message": "Concept not found."}}), 404
+
+    data = request.get_json(silent=True) or {}
+    concept.image_alt_text = _optional_string(data.get("image_alt_text"))
+    db.session.commit()
+
+    return jsonify({"data": concept_to_dict(concept)})
+
+
+@concept_bp.delete("/<concept_id>/image")
+@require_admin
+def delete_concept_image(concept_id):
+    concept = db.session.get(Concept, concept_id)
+    if concept is None:
+        return jsonify({"error": {"message": "Concept not found."}}), 404
+
+    if concept.image_public_id:
+        try:
+            cloudinary_service.delete_image(concept.image_public_id)
+        except CloudinaryConfigurationError as error:
+            return jsonify({"error": {"message": str(error)}}), 500
+        except CloudinaryError:
+            current_app.logger.exception("Cloudinary concept image deletion failed.")
+            return jsonify({"error": {"message": "Unable to remove concept image from Cloudinary."}}), 503
+
+    concept.image_url = None
+    concept.image_public_id = None
+    concept.image_alt_text = None
     db.session.commit()
 
     return jsonify({"data": concept_to_dict(concept)})

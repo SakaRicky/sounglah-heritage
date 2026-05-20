@@ -10,6 +10,9 @@ export interface Concept {
   description?: string | null
   category?: string | null
   defaultImageUrl?: string | null
+  image_url?: string | null
+  image_public_id?: string | null
+  image_alt_text?: string | null
   difficultyLevel: ConceptDifficultyLevel
   status: ConceptStatus
   sortOrder: number

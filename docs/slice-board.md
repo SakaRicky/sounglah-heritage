@@ -59,6 +59,7 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 |---|---|---|
 | S011 - Languages CRUD | Backlog | First backend/frontend CRUD |
 | S012 - Concepts CRUD | Backlog | Core learning concepts |
+| Unnumbered - Concept image upload with Cloudinary | Done | Backend Cloudinary upload/delete endpoints, nullable concept image fields, admin image preview/upload/remove UI, docs/env updates, backend tests passing; frontend typecheck and JSON lint pass, build blocked locally by Node 20.10.0 below Vite requirement. |
 | S013 - ConceptTexts CRUD | Backlog | English/French/Médumba text |
 | S014 - Lessons CRUD | Backlog | Lesson structure |
 | S015 - LessonItems CRUD | Backlog | Exercises/items |

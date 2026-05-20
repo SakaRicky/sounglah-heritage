@@ -6,13 +6,17 @@ import { StatsCard } from '../../../components/admin/StatsCard'
 import { ApiError } from '../../../lib/api'
 import {
   createConcept,
+  deleteConceptImage,
   getConcepts,
+  updateConceptImageAltText,
   updateConcept,
   updateConceptStatus,
+  uploadConceptImage,
 } from '../api/conceptsApi'
 import { ConceptFilters } from '../components/ConceptFilters'
 import type { ConceptSort } from '../components/ConceptFilters'
 import { ConceptForm } from '../components/ConceptForm'
+import type { ConceptFormSubmission } from '../components/ConceptForm'
 import { ConceptTable } from '../components/ConceptTable'
 import { DisableConceptDialog } from '../components/DisableConceptDialog'
 import type {
@@ -86,6 +90,7 @@ export function AdminConceptsPage() {
   const [formMode, setFormMode] = useState<FormMode>(null)
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
   const [statusTarget, setStatusTarget] = useState<Concept | null>(null)
+  const [quickImageUploadingId, setQuickImageUploadingId] = useState<string | null>(null)
 
   const loadConcepts = useCallback(async () => {
     setLoading(true)
@@ -174,18 +179,68 @@ export function AdminConceptsPage() {
     setFormMode({ concept })
   }
 
-  async function handleFormSubmit(payload: CreateConceptPayload | UpdateConceptPayload) {
+  function validateImageFile(file: File) {
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+      return 'Choose a JPEG, PNG, or WebP image.'
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      return 'Choose an image that is 5 MB or smaller.'
+    }
+
+    return ''
+  }
+
+  async function handleQuickImageSelect(concept: Concept, file: File) {
+    const validationError = validateImageFile(file)
+    if (validationError) {
+      setError(validationError)
+      return
+    }
+
+    setQuickImageUploadingId(concept.id)
+    setError('')
+    setNotice('')
+
+    try {
+      await uploadConceptImage(concept.id, file, concept.image_alt_text ?? undefined)
+      setNotice(concept.image_url ? 'Concept image replaced.' : 'Concept image uploaded.')
+      await loadConcepts()
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : 'Unable to upload concept image.')
+    } finally {
+      setQuickImageUploadingId(null)
+    }
+  }
+
+  async function handleFormSubmit(submission: ConceptFormSubmission) {
     setSaving(true)
     setFieldErrors({})
     setError('')
 
     try {
+      let savedConcept: Concept
+
       if (formMode?.concept) {
-        await updateConcept(formMode.concept.id, payload as UpdateConceptPayload)
+        const response = await updateConcept(formMode.concept.id, submission.payload as UpdateConceptPayload)
+        savedConcept = response.data
         setNotice('Concept updated.')
       } else {
-        await createConcept(payload as CreateConceptPayload)
+        const response = await createConcept(submission.payload as CreateConceptPayload)
+        savedConcept = response.data
+        setFormMode({ concept: savedConcept })
         setNotice('Concept created.')
+      }
+
+      if (submission.removeImage && savedConcept.image_url) {
+        const response = await deleteConceptImage(savedConcept.id)
+        savedConcept = response.data
+      } else if (submission.imageFile) {
+        const response = await uploadConceptImage(savedConcept.id, submission.imageFile, submission.imageAltText)
+        savedConcept = response.data
+      } else if (formMode?.concept && submission.imageAltTextChanged) {
+        const response = await updateConceptImageAltText(savedConcept.id, submission.imageAltText)
+        savedConcept = response.data
       }
 
       setFormMode(null)
@@ -277,7 +332,9 @@ export function AdminConceptsPage() {
         filtered={filtered}
         onCreate={openCreateForm}
         onEdit={openEditForm}
+        onQuickImageSelect={handleQuickImageSelect}
         onToggleStatus={setStatusTarget}
+        quickImageUploadingId={quickImageUploadingId}
         page={page}
         pageSize={pageSize}
         onPageChange={setPage}

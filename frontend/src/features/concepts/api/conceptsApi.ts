@@ -1,4 +1,4 @@
-import { apiRequest } from '../../../lib/api'
+import { apiMultipartRequest, apiRequest } from '../../../lib/api'
 import type {
   Concept,
   ConceptListParams,
@@ -53,6 +53,35 @@ export async function updateConceptStatus(id: string, status: ConceptStatus) {
   return apiRequest<{ data: Concept }>(`/admin/concepts/${id}/status`, {
     method: 'PATCH',
     body: { status },
+    authenticated: true,
+  })
+}
+
+export async function uploadConceptImage(id: string, image: File, imageAltText?: string) {
+  const formData = new FormData()
+  formData.set('image', image)
+
+  if (imageAltText !== undefined) {
+    formData.set('image_alt_text', imageAltText)
+  }
+
+  return apiMultipartRequest<{ data: Concept }>(`/admin/concepts/${id}/image`, formData, {
+    method: 'POST',
+    authenticated: true,
+  })
+}
+
+export async function updateConceptImageAltText(id: string, imageAltText: string) {
+  return apiRequest<{ data: Concept }>(`/admin/concepts/${id}/image-alt-text`, {
+    method: 'PATCH',
+    body: { image_alt_text: imageAltText },
+    authenticated: true,
+  })
+}
+
+export async function deleteConceptImage(id: string) {
+  return apiRequest<{ data: Concept }>(`/admin/concepts/${id}/image`, {
+    method: 'DELETE',
     authenticated: true,
   })
 }
