@@ -11,9 +11,16 @@ const badgeClass: Record<ConceptTextReviewStatus, string> = {
   approved: 'border-forest-accent/25 bg-forest-accent/10 text-forest-700',
 }
 
+const dotClass: Record<ConceptTextReviewStatus, string> = {
+  draft: 'bg-cocoa-body/45',
+  needs_review: 'bg-gold-500',
+  approved: 'bg-forest-accent',
+}
+
 export function ConceptTextReviewBadge({ reviewStatus }: Props) {
   return (
-    <span className={['inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold', badgeClass[reviewStatus]].join(' ')}>
+    <span className={['inline-flex items-center gap-2 whitespace-nowrap rounded-full border px-3 py-1.5 text-xs font-semibold', badgeClass[reviewStatus]].join(' ')}>
+      <span className={['h-2 w-2 rounded-full', dotClass[reviewStatus]].join(' ')} />
       {conceptTextReviewStatusLabel(reviewStatus)}
     </span>
   )
