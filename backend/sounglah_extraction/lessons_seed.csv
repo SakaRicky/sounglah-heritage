@@ -1,0 +1,16 @@
+﻿lesson_key,title,level,primary_category,source_files,notes,status,recommended_for_mvp
+greetings_01,Greetings and Polite Words,beginner,greetings_politeness,simple-eng-med.xlsx,"Hello, thank you, please, welcome, good morning.",draft_needs_review,True
+family_01,My Family,beginner,family_people,simple-eng-med.xlsx; story files,"Mother, father, brother, sister, child, woman, man.",draft_needs_review,True
+body_01,My Body,beginner,body,simple-eng-med.xlsx,"Head, eyes, ears, hand, mouth, tongue, legs, belly.",draft_needs_review,True
+food_drink_01,Food and Drink,beginner,food_drink,simple-eng-med.xlsx,"Water, drink, eat, rice, sauce, meat.",draft_needs_review,True
+home_01,At Home,beginner,home_objects,simple-eng-med.xlsx,"Kitchen, door, plate, spoon, living room.",draft_needs_review,True
+actions_01,Common Actions,beginner,actions,simple-eng-med.xlsx,"Come, go, run, sleep, give, take, open, close.",draft_needs_review,True
+questions_01,Simple Questions,beginner,questions,simple-eng-med.xlsx; story files,"Who, what, where, why, what is it, are you hungry?",draft_needs_review,True
+animals_01,Animals,beginner,animals,simple-eng-med.xlsx; story files,"Dog, cat, snake, lion, hyena, jackal, tiger.",draft_needs_review,True
+numbers_01,Numbers 0 to 10,beginner,numbers,simple-eng-med.xlsx,Numbers available in source; eight requires translator review/addition.,draft_needs_review,True
+time_weather_01,Time and Weather,beginner,"time,weather_nature",simple-eng-med.xlsx,"Today, yesterday, tomorrow, morning, rain, sun.",draft_needs_review,True
+health_hygiene_01,Health and Hygiene,beginner_plus,health_hygiene,simple-eng-med.xlsx,"Wash hands, brush teeth, sick, hungry, tired.",draft_needs_review,True
+story_young_man_lion,Story: The Young Man and the Lion,beginner_story,story,frabcaise_3.xlsx; Francais_3.docx,First story passage lesson after review.,draft_needs_review,True
+story_anta_mamadou,Story: Anta and Mamadou,intermediate_story,story,Anta et Mamadou (1).docx,Cultural story; adapt for child-friendly content.,draft_needs_review,False
+story_who_can_help_me,Story: Who Can Help Me?,beginner_story_after_alignment,story,Francais_2 traduit (1).docx,Repeated question/help pattern; needs alignment.,draft_needs_review,False
+culture_proverbs_01,Culture: Proverbs and Wisdom,advanced_culture,story,frabcaise_3.xlsx; Francais_3.docx,Later cultural reading lesson.,draft_needs_review,False

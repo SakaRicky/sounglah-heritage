@@ -14,6 +14,9 @@ htmlcov/
 
 # Local extraction artifacts
 backend/sounglah_extraction/
+!backend/sounglah_extraction/
+backend/sounglah_extraction/*
+!backend/sounglah_extraction/*.csv
 
 # Flask / database
 *.db
