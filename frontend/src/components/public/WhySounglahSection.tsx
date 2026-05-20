@@ -1,49 +1,57 @@
 import { Link } from 'react-router-dom'
 
+import { useI18n } from '../../i18n'
+import type { TranslationKey } from '../../i18n'
+
 const BENEFITS = [
   {
     icon: '📚',
-    title: 'Cultural Connection',
-    description:
-      'Stories and lessons rooted in heritage, family life, and everyday conversations.',
+    titleKey: 'why.benefit.culture.title',
+    descriptionKey: 'why.benefit.culture.description',
   },
   {
     icon: '🌱',
-    title: 'Child-Friendly Pace',
-    description:
-      'Short lessons designed to respect children’s attention, curiosity, and joy.',
+    titleKey: 'why.benefit.child.title',
+    descriptionKey: 'why.benefit.child.description',
   },
   {
     icon: '🤝',
-    title: 'Family-Centered',
-    description:
-      'Built for parents, grandparents, and children learning together across generations.',
+    titleKey: 'why.benefit.family.title',
+    descriptionKey: 'why.benefit.family.description',
   },
-] as const
+] satisfies ReadonlyArray<{
+  icon: string
+  titleKey: TranslationKey
+  descriptionKey: TranslationKey
+}>
 
 function BenefitCard({
   icon,
-  title,
-  description,
+  titleKey,
+  descriptionKey,
 }: {
   icon: string
-  title: string
-  description: string
+  titleKey: TranslationKey
+  descriptionKey: TranslationKey
 }) {
+  const { t } = useI18n()
+
   return (
     <div className="flex gap-5 rounded-2xl border border-sand-100 bg-cream-50 p-6 transition hover:-translate-y-0.5 hover:shadow-soft md:p-6">
       <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-sand-100 text-xl">
         {icon}
       </div>
       <div className="min-w-0">
-        <h3 className="mb-2 font-sans text-lg font-bold text-cocoa-ink">{title}</h3>
-        <p className="leading-7 text-cocoa-body">{description}</p>
+        <h3 className="mb-2 font-sans text-lg font-bold text-cocoa-ink">{t(titleKey)}</h3>
+        <p className="leading-7 text-cocoa-body">{t(descriptionKey)}</p>
       </div>
     </div>
   )
 }
 
 export function WhySounglahSection() {
+  const { t } = useI18n()
+
   return (
     <section
       id="about"
@@ -62,34 +70,32 @@ export function WhySounglahSection() {
       <div className="section relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-6 lg:grid-cols-2 lg:gap-14 lg:px-8">
         <div>
           <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-forest-accent">
-            Built for heritage learning
+            {t('why.eyebrow')}
           </p>
 
           <h2
             id="why-sounglah-heading"
             className="mb-6 font-serif text-[2rem] font-bold leading-tight text-cocoa-ink sm:text-4xl lg:text-5xl"
           >
-            Why Sounglah
+            {t('why.title')}
           </h2>
 
           <p className="mb-8 max-w-xl text-lg leading-8 text-cocoa-body">
-            Sounglah helps families pass language, culture, and identity from one
-            generation to the next through simple, joyful lessons made for children
-            and parents.
+            {t('why.description')}
           </p>
 
           <Link
             to="/languages"
             className="btn-primary inline-flex items-center gap-2 rounded-cta px-6 py-3 text-sm font-semibold no-underline"
           >
-            Explore Languages
+            {t('why.explore')}
             <span aria-hidden>→</span>
           </Link>
         </div>
 
         <div className="space-y-5">
           {BENEFITS.map((benefit) => (
-            <BenefitCard key={benefit.title} {...benefit} />
+            <BenefitCard key={benefit.titleKey} {...benefit} />
           ))}
         </div>
       </div>

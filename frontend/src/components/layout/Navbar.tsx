@@ -2,6 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import { createPortal } from 'react-dom'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
+import { localeNames, supportedLocales, useI18n, type Locale } from '../../i18n'
 import { clearToken, isAuthenticated, subscribeToAuthChanges } from '../../lib/auth'
 
 function MenuIcon({ open }: { open: boolean }) {
@@ -25,7 +26,27 @@ function MenuIcon({ open }: { open: boolean }) {
   )
 }
 
+function LanguageSwitcher() {
+  const { locale, setLocale, t } = useI18n()
+
+  return (
+    <select
+      value={locale}
+      onChange={(event) => setLocale(event.target.value as Locale)}
+      aria-label={t('common.language')}
+      className="h-11 rounded-button border-2 border-cocoa-800/15 bg-white/70 px-3 text-sm font-semibold text-cocoa-800 shadow-sm transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-500 focus-visible:ring-offset-2 focus-visible:ring-offset-cream-100"
+    >
+      {supportedLocales.map((option) => (
+        <option key={option} value={option}>
+          {localeNames[option]}
+        </option>
+      ))}
+    </select>
+  )
+}
+
 export function Navbar() {
+  const { t } = useI18n()
   const location = useLocation()
   const navigate = useNavigate()
   const activeHash = location.hash
@@ -43,11 +64,11 @@ export function Navbar() {
   }, [closeMobileMenu, navigate])
 
   const navItems = [
-    { label: 'Home', href: '/' },
-    { label: 'Languages', href: '#languages' },
-    { label: 'Stories', href: '/stories-cultures' },
-    { label: 'About Us', href: '#about' },
-    { label: 'Blog', href: '#blog' },
+    { label: t('nav.home'), href: '/' },
+    { label: t('nav.languages'), href: '#languages' },
+    { label: t('nav.stories'), href: '/stories-cultures' },
+    { label: t('nav.about'), href: '#about' },
+    { label: t('nav.blog'), href: '#blog' },
   ] as const
 
   const isItemActive = (href: (typeof navItems)[number]['href']) => {
@@ -131,7 +152,7 @@ export function Navbar() {
         <button
           type="button"
           className="fixed inset-0 z-[90] bg-forest-700/40 backdrop-blur-sm lg:hidden"
-          aria-label="Close menu"
+          aria-label={t('nav.closeMenu')}
           onClick={closeMobileMenu}
         />
         <div
@@ -140,9 +161,9 @@ export function Navbar() {
           style={{ top: menuTopPx }}
           role="dialog"
           aria-modal="true"
-          aria-label="Site navigation"
+          aria-label={t('nav.siteNavigation')}
         >
-          <nav className="section py-1" aria-label="Primary pages">
+          <nav className="section py-1" aria-label={t('nav.primaryPages')}>
             {navItems.map((item) => (
               <Link
                 key={item.label}
@@ -156,10 +177,11 @@ export function Navbar() {
           </nav>
           <div
             role="region"
-            aria-label="Account"
+            aria-label={t('nav.account')}
             className="section border-t border-sand-100/90 bg-cream-200/35 px-4 py-4"
           >
-            <div className="flex min-w-0 flex-row gap-2 sm:gap-3">
+            <div className="flex min-w-0 flex-row flex-wrap gap-2 sm:gap-3">
+              <LanguageSwitcher />
               {authenticated ? (
                 <>
                   <Link
@@ -167,14 +189,14 @@ export function Navbar() {
                     className="flex min-w-0 flex-1 items-center justify-center rounded-button border-2 border-transparent bg-[#0F6B3A] px-2 py-3 text-center text-sm font-semibold text-white shadow-button transition hover:bg-[#0c5630] sm:px-3"
                     onClick={closeMobileMenu}
                   >
-                    Admin
+                    {t('common.admin')}
                   </Link>
                   <button
                     type="button"
                     className="flex min-w-0 flex-1 items-center justify-center rounded-button border-2 border-[#0F6B3A] bg-transparent px-2 py-3 text-center text-sm font-semibold text-[#0F6B3A] transition hover:bg-cream-100 sm:px-3"
                     onClick={handleLogout}
                   >
-                    Log out
+                    {t('nav.logout')}
                   </button>
                 </>
               ) : (
@@ -184,14 +206,14 @@ export function Navbar() {
                     className="flex min-w-0 flex-1 items-center justify-center rounded-button border-2 border-[#0F6B3A] bg-transparent px-2 py-3 text-center text-sm font-semibold text-[#0F6B3A] transition hover:bg-cream-100 sm:px-3"
                     onClick={closeMobileMenu}
                   >
-                    Log in
+                    {t('common.login')}
                   </Link>
                   <Link
                     to="/login"
                     className="flex min-w-0 flex-1 items-center justify-center rounded-button border-2 border-transparent bg-[#0F6B3A] px-2 py-3 text-center text-sm font-semibold text-white shadow-button transition hover:bg-[#0c5630] sm:px-3"
                     onClick={closeMobileMenu}
                   >
-                    Sign up
+                    {t('common.signUp')}
                   </Link>
                 </>
               )}
@@ -210,11 +232,11 @@ export function Navbar() {
       >
         <nav
           className="section flex min-h-[72px] min-w-0 items-center justify-between gap-2 py-2 sm:gap-6 sm:py-2.5 lg:gap-8"
-          aria-label="Primary"
+          aria-label={t('nav.primary')}
         >
           <Link
             to="/"
-            aria-label="Sounglah home"
+            aria-label={t('nav.sounglahHome')}
             className="mr-2 flex min-w-0 flex-1 items-center gap-2.5 sm:mr-8 sm:gap-4 lg:mr-12 lg:flex-none"
           >
             <img
@@ -228,7 +250,7 @@ export function Navbar() {
                 Sounglah
               </p>
               <p className="truncate text-[11px] font-semibold leading-snug text-cocoa-body sm:text-xs sm:font-medium lg:text-sm">
-                Speak it. Live it. Keep it alive.
+                {t('nav.tagline')}
               </p>
             </div>
           </Link>
@@ -256,10 +278,13 @@ export function Navbar() {
               onClick={() => setMobileMenuOpen((o) => !o)}
             >
               <span className="sr-only">
-                {mobileMenuOpen ? 'Close menu' : 'Open menu'}
+                {mobileMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
               </span>
               <MenuIcon open={mobileMenuOpen} />
             </button>
+            <div className="hidden lg:block">
+              <LanguageSwitcher />
+            </div>
             <div className="hidden items-center gap-2 sm:gap-3 lg:flex">
               {authenticated ? (
                 <>
@@ -267,14 +292,14 @@ export function Navbar() {
                     to="/admin"
                     className="rounded-button border-2 border-transparent bg-[#0F6B3A] px-4 py-2.5 text-sm font-semibold text-white shadow-button transition hover:bg-[#0c5630] sm:px-5"
                   >
-                    Admin
+                    {t('common.admin')}
                   </Link>
                   <button
                     type="button"
                     className="rounded-button border-2 border-[#0F6B3A] bg-transparent px-4 py-2.5 text-sm font-semibold text-[#0F6B3A] transition hover:bg-cream-100 sm:px-5"
                     onClick={handleLogout}
                   >
-                    Log out
+                    {t('nav.logout')}
                   </button>
                 </>
               ) : (
@@ -283,13 +308,13 @@ export function Navbar() {
                     to="/login"
                     className="rounded-button border-2 border-[#0F6B3A] bg-transparent px-4 py-2.5 text-sm font-semibold text-[#0F6B3A] transition hover:bg-cream-100 sm:px-5"
                   >
-                    Log in
+                    {t('common.login')}
                   </Link>
                   <Link
                     to="/login"
                     className="rounded-button border-2 border-transparent bg-[#0F6B3A] px-4 py-2.5 text-sm font-semibold text-white shadow-button transition hover:bg-[#0c5630] sm:px-5"
                   >
-                    Sign up
+                    {t('common.signUp')}
                   </Link>
                 </>
               )}

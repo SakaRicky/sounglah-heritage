@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { LANDING_STORIES } from '../../content/stories'
+import { useI18n } from '../../i18n'
 import { StoryCard } from './StoryCard'
 
 const SCROLLER_ID = 'stories-culture-scroll'
@@ -52,6 +53,7 @@ const arrowButtonClass =
   'hidden h-12 w-12 shrink-0 items-center justify-center rounded-full border border-sand-100 bg-cream-50 text-cocoa-ink transition hover:bg-cream-100 disabled:pointer-events-none disabled:opacity-35 md:flex'
 
 export function StoriesCultureSection() {
+  const { t } = useI18n()
   const scrollRef = useRef<HTMLDivElement>(null)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(false)
@@ -100,11 +102,11 @@ export function StoriesCultureSection() {
             id="stories-culture-heading"
             className="font-sans text-[1.875rem] font-bold leading-tight text-cocoa-ink"
           >
-            Stories &amp; Culture
+            {t('stories.section.title')}
           </h2>
 
           <p className="mt-4 max-w-[260px] text-[0.9375rem] leading-7 text-cocoa-body">
-            Discover stories, traditions, and the beauty of our people.
+            {t('stories.section.description')}
           </p>
 
           <Link
@@ -112,14 +114,14 @@ export function StoriesCultureSection() {
             className="btn-primary mt-6 inline-flex items-center gap-3 rounded-cta px-6 py-4 text-sm font-semibold no-underline"
           >
             <BookIcon className="shrink-0 text-white" />
-            Explore Stories
+            {t('stories.section.explore')}
           </Link>
         </div>
 
         <div className="flex min-w-0 flex-1 items-center gap-2 md:gap-3">
           <button
             type="button"
-            aria-label="Previous stories"
+            aria-label={t('stories.scrollPrevious')}
             aria-controls={SCROLLER_ID}
             disabled={!canScrollLeft}
             onClick={() => scrollByAmount(-1)}
@@ -133,7 +135,7 @@ export function StoriesCultureSection() {
               ref={scrollRef}
               id={SCROLLER_ID}
               role="region"
-              aria-label="Story previews"
+              aria-label={t('stories.region')}
               tabIndex={0}
               className="flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-2 [-ms-overflow-style:none] [scrollbar-width:none] md:pb-0 [&::-webkit-scrollbar]:hidden"
             >
@@ -151,7 +153,7 @@ export function StoriesCultureSection() {
 
           <button
             type="button"
-            aria-label="Next stories"
+            aria-label={t('stories.scrollNext')}
             aria-controls={SCROLLER_ID}
             disabled={!canScrollRight}
             onClick={() => scrollByAmount(1)}

@@ -1,3 +1,5 @@
+import type { TranslationKey } from '../i18n'
+
 export type HeritageLanguageAvailability = 'available' | 'coming_soon'
 
 export type HeritageLanguage = {
@@ -5,7 +7,7 @@ export type HeritageLanguage = {
   name: string
   nativeName: string
   image: string
-  alt: string
+  altKey: TranslationKey
   objectPosition: string
   availability: HeritageLanguageAvailability
   /** Present when `availability` is `available` (e.g. in-app destination). */
@@ -18,7 +20,7 @@ export const HERITAGE_LANGUAGES: HeritageLanguage[] = [
     name: 'Médumba',
     nativeName: '(Yédùmba)',
     image: '/images/languages/medumba.png',
-    alt: 'A family moment representing Médumba language learning',
+    altKey: 'languages.medumba.alt',
     objectPosition: 'object-center',
     availability: 'available',
     ctaHref: '/languages#medumba',
@@ -28,7 +30,7 @@ export const HERITAGE_LANGUAGES: HeritageLanguage[] = [
     name: 'Fe’efe’e',
     nativeName: '(Nufi)',
     image: '/images/languages/fefe.png',
-    alt: 'Children practicing Fe’efe’e together',
+    altKey: 'languages.fefe.alt',
     objectPosition: 'object-[center_35%]',
     availability: 'coming_soon',
   },
@@ -37,7 +39,7 @@ export const HERITAGE_LANGUAGES: HeritageLanguage[] = [
     name: 'Yemba',
     nativeName: '(Dschang)',
     image: '/images/languages/yemba.png',
-    alt: 'Community heritage scene representing Yemba language',
+    altKey: 'languages.yemba.alt',
     objectPosition: 'object-[center_40%]',
     availability: 'coming_soon',
   },
@@ -46,7 +48,7 @@ export const HERITAGE_LANGUAGES: HeritageLanguage[] = [
     name: 'Duala',
     nativeName: '(Mundu)',
     image: '/images/languages/duala.png',
-    alt: 'Family learning setup for Duala language',
+    altKey: 'languages.duala.alt',
     objectPosition: 'object-center',
     availability: 'coming_soon',
   },
@@ -55,7 +57,7 @@ export const HERITAGE_LANGUAGES: HeritageLanguage[] = [
     name: 'Bassa',
     nativeName: '(Ɓasaá)',
     image: '/images/languages/bassa.png',
-    alt: 'Cultural learning visuals for Bassa language lessons',
+    altKey: 'languages.bassa.alt',
     objectPosition: 'object-[center_42%]',
     availability: 'coming_soon',
   },

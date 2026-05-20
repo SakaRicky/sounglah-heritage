@@ -39,7 +39,7 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 | Slice | Status | Notes |
 |---|---|---|
 | S004 - Public app shell | Done | `PublicLayout`, `Navbar`, `Footer`, React Router shell in `frontend/`. |
-| S005 - Landing page | Done | Marketing landing sections and hero in `LandingPage.tsx`. |
+| S005 - Landing page | Done | Marketing landing sections and hero in `LandingPage.tsx`; public UI i18n now supports English/French with navbar language switching. |
 | SS009 - Explore languages section (S005) | Done | Horizontal explore strip, `/languages` stub, shared `content/languages.ts` (see `docs/slices/E02-public-experience/SS009-explore-languages-section.md`). |
 | SS010 - Middle feature band (S005) | Done | Mint band, three cards (continue / stories / daily goal), shared `content/stories.ts` (see `docs/slices/E02-public-experience/SS010-middle-feature-band.md`). |
 | S006 - Login CTA from navbar | Done | Nav links to `/login`. |

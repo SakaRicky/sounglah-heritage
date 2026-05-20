@@ -5,6 +5,7 @@ import {
   getFeaturedStory,
   getStoriesPreview,
 } from '../../content/stories'
+import { useI18n } from '../../i18n'
 
 const CONTINUE_PROGRESS = 60
 const DAILY_DONE = 3
@@ -35,6 +36,7 @@ function BookIcon({ className }: { className?: string }) {
 }
 
 export function MiddleFeatureBand() {
+  const { t } = useI18n()
   const featured = getFeaturedStory()
   const preview = getStoriesPreview(3)
   const thumbPosition = featured.objectPosition ?? 'object-center'
@@ -46,20 +48,20 @@ export function MiddleFeatureBand() {
     >
       <div className="section">
         <h2 id="middle-feature-heading" className="sr-only">
-          Continue learning, stories, and your daily goal
+          {t('middle.heading')}
         </h2>
         <div className="grid gap-6 md:grid-cols-3 md:gap-8">
           {/* Continue Learning */}
           <div className="card flex flex-col p-5 sm:p-6">
             <h3 className="text-lg font-bold text-cocoa-ink sm:text-xl">
-              Continue learning
+              {t('middle.continue.title')}
             </h3>
             <p className="mt-1 text-sm font-semibold text-cocoa-body">
-              Greetings &amp; introductions
+              {t('middle.continue.lesson')}
             </p>
             <div className="mt-4">
               <div className="flex items-center justify-between gap-2 text-xs font-medium text-cocoa-700">
-                <span>Your progress</span>
+                <span>{t('middle.continue.progress')}</span>
                 <span>{CONTINUE_PROGRESS}%</span>
               </div>
               <div
@@ -68,7 +70,7 @@ export function MiddleFeatureBand() {
                 aria-valuenow={CONTINUE_PROGRESS}
                 aria-valuemin={0}
                 aria-valuemax={100}
-                aria-label="Lesson progress"
+                aria-label={t('middle.continue.progressLabel')}
               >
                 <div
                   className="h-full rounded-full bg-forest-accent transition-[width]"
@@ -81,7 +83,7 @@ export function MiddleFeatureBand() {
                 to="/login"
                 className="btn-primary inline-flex w-full items-center justify-center gap-2 rounded-cta py-3 text-sm font-semibold no-underline"
               >
-                Continue lesson
+                {t('middle.continue.cta')}
                 <span aria-hidden>→</span>
               </Link>
             </div>
@@ -92,17 +94,17 @@ export function MiddleFeatureBand() {
             <div className="aspect-[16/10] w-full shrink-0 overflow-hidden bg-cream-100">
               <img
                 src={featured.image}
-                alt={featured.alt}
+                alt={t(featured.altKey)}
                 loading="lazy"
                 className={`h-full w-full object-cover ${thumbPosition}`}
               />
             </div>
             <div className="flex flex-1 flex-col px-5 pb-5 pt-4 sm:px-6 sm:pb-6 sm:pt-5">
               <h3 className="text-lg font-bold text-cocoa-ink sm:text-xl">
-                Stories &amp; culture
+                {t('stories.section.title')}
               </h3>
               <p className="mt-1 text-sm text-cocoa-700">
-                Discover stories, traditions, and the beauty of our people.
+                {t('stories.section.description')}
               </p>
               <ul className="mt-4 flex flex-col gap-2 border-t border-sand-100/80 pt-4">
                 {preview.map((story) => (
@@ -112,10 +114,10 @@ export function MiddleFeatureBand() {
                       className="group block rounded-soft px-1 py-1 transition hover:bg-cream-100/80"
                     >
                       <span className="block font-semibold text-cocoa-ink group-hover:text-forest-accent">
-                        {story.title}
+                        {t(story.titleKey)}
                       </span>
                       <span className="text-xs text-cocoa-700">
-                        {formatStoryMeta(story)}
+                        {formatStoryMeta(story, t)}
                       </span>
                     </Link>
                   </li>
@@ -127,7 +129,7 @@ export function MiddleFeatureBand() {
                   className="btn-primary inline-flex w-full items-center justify-center gap-2 rounded-cta py-3 text-sm font-semibold no-underline"
                 >
                   <BookIcon className="shrink-0 text-white" />
-                  Explore stories
+                  {t('stories.section.explore')}
                 </Link>
               </div>
             </div>
@@ -136,10 +138,10 @@ export function MiddleFeatureBand() {
           {/* Daily goal */}
           <div className="card flex flex-col p-5 sm:p-6">
             <h3 className="text-lg font-bold text-cocoa-ink sm:text-xl">
-              Daily goal
+              {t('middle.goal.title')}
             </h3>
             <p className="mt-1 text-sm text-cocoa-700">
-              Small steps add up for your family.
+              {t('middle.goal.description')}
             </p>
             <div className="mt-5 flex items-center gap-4">
               <div
@@ -148,7 +150,7 @@ export function MiddleFeatureBand() {
                 aria-valuenow={DAILY_DONE}
                 aria-valuemin={0}
                 aria-valuemax={DAILY_TARGET}
-                aria-label="Lessons completed today"
+                aria-label={t('middle.goal.aria')}
               >
                 <svg
                   className="absolute inset-0 -rotate-90"
@@ -182,10 +184,10 @@ export function MiddleFeatureBand() {
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-semibold text-cocoa-body">
-                  Lessons today
+                  {t('middle.goal.lessonsToday')}
                 </p>
                 <p className="mt-1 text-xs text-cocoa-700">
-                  {DAILY_TARGET - DAILY_DONE} to go to hit your goal.
+                  {t('middle.goal.remaining', { count: DAILY_TARGET - DAILY_DONE })}
                 </p>
                 <div
                   className="mt-2 h-2 overflow-hidden rounded-full bg-sand-100"
@@ -203,7 +205,7 @@ export function MiddleFeatureBand() {
                 to="/login"
                 className="btn-primary inline-flex w-full items-center justify-center gap-2 rounded-cta py-3 text-sm font-semibold no-underline"
               >
-                Log today&apos;s lesson
+                {t('middle.goal.cta')}
                 <span aria-hidden>→</span>
               </Link>
             </div>
