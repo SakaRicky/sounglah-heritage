@@ -1,7 +1,7 @@
 from functools import wraps
 
 import jwt
-from flask import current_app, jsonify, request
+from flask import current_app, g, jsonify, request
 
 from app.models.user import User
 from app.extensions import db
@@ -39,6 +39,7 @@ def require_admin(view):
         if user is None:
             return jsonify({"error": {"message": "Admin authentication is required."}}), 401
 
+        g.current_user = user
         return view(*args, **kwargs)
 
     return wrapped

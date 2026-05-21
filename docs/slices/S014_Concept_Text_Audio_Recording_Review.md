@@ -313,6 +313,8 @@ Implementation notes:
 
 ## S014.3 - Audio API Endpoints
 
+Status: Review
+
 ### Goal
 
 Expose clean admin API endpoints for recording, listing, reviewing, approving, rejecting, and replacing concept text audios.
@@ -422,13 +424,24 @@ Use carefully. Prefer `archived` instead of hard delete.
 ### Acceptance criteria
 
 ```text
-- Recorder can upload audio.
-- Reviewer/admin can approve audio.
-- Reviewer/admin can reject audio with a note.
-- Approved audio becomes the current playable audio.
-- Rejected audio remains in history but is not used in lessons.
-- API responses include enough information for the table Audio column.
+- [x] Recorder can upload audio.
+- [x] Reviewer/admin can approve audio.
+- [x] Reviewer/admin can reject audio with a note.
+- [x] Approved audio becomes the current playable audio.
+- [x] Rejected audio remains in history but is not used in lessons.
+- [x] API responses include enough information for the table Audio column.
 ```
+
+Implementation notes:
+
+- Added `POST /api/admin/concept-texts/:conceptTextId/audios`.
+- Added `GET /api/admin/concept-texts/:conceptTextId/audios`.
+- Added `GET /api/admin/concept-text-audios/review-queue`.
+- Added `PATCH /api/admin/concept-text-audios/:audioId/approve`.
+- Added `PATCH /api/admin/concept-text-audios/:audioId/reject`.
+- Uploads are saved as `pending_review`; approve sets `concept_texts.current_audio_id`.
+- Rejection preserves history and clears `current_audio_id` if the rejected audio was current.
+- Verification: from `backend/`, `.venv/bin/pytest` passes.
 
 ---
 
