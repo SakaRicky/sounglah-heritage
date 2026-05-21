@@ -62,6 +62,7 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 | Unnumbered - Concept image upload with Cloudinary | Done | Backend Cloudinary upload/delete endpoints, nullable concept image fields, admin image preview/upload/remove UI, docs/env updates, backend tests passing; frontend typecheck and JSON lint pass, build blocked locally by Node 20.10.0 below Vite requirement. |
 | S013 - ConceptTexts CRUD | Backlog | English/French/Médumba text |
 | S014.1 - Concept Text Audio Data Model + Migration | Review | Adds `concept_text_audios` history model/table and nullable `concept_texts.current_audio_id`; backend tests passing. |
+| S014.2 - Concept Text Audio Storage Service | Review | Backend validation/upload service for short concept text recordings; backend tests passing. |
 | S014 - Lessons CRUD | Backlog | Lesson structure |
 | S015 - LessonItems CRUD | Backlog | Exercises/items |
 

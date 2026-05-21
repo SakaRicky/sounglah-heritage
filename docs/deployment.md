@@ -13,6 +13,8 @@ Set these variables on the Render backend service:
 - `CLOUDINARY_API_SECRET`
 - `CLOUDINARY_UPLOAD_ROOT=sounglah/prod`
 - `MAX_IMAGE_UPLOAD_MB=5`
+- `MAX_AUDIO_UPLOAD_MB=5`
+- `MAX_AUDIO_DURATION_SECONDS=30`
 
 Cloudinary uploads are handled by Flask. Do not add `CLOUDINARY_API_SECRET` or other Cloudinary secrets to Vercel or any `VITE_` frontend environment variable.
 
@@ -23,6 +25,7 @@ Use one upload root per environment, then let backend code derive media-specific
 - Production: `CLOUDINARY_UPLOAD_ROOT=sounglah/prod`
 
 Concept images upload to `<CLOUDINARY_UPLOAD_ROOT>/concepts`.
+Concept text audio uploads to `<CLOUDINARY_UPLOAD_ROOT>/concept-text-audios`.
 
 ## Vercel Frontend Environment
 

@@ -236,6 +236,8 @@ Implementation notes:
 
 ## S014.2 - Audio Storage Service
 
+Status: Review
+
 ### Goal
 
 Create a backend service responsible for receiving audio files, validating them, uploading them to storage, and returning metadata.
@@ -289,13 +291,23 @@ The browser may produce different formats depending on device and browser, so th
 ### Acceptance criteria
 
 ```text
-- Backend accepts authenticated audio upload.
-- Backend rejects oversized audio files.
-- Backend rejects unsupported file types.
-- Backend uploads audio to storage.
-- Backend stores audio metadata in concept_text_audios.
-- Upload failure does not create broken database records.
+- [x] Backend storage service accepts validated audio file objects.
+- [x] Backend rejects oversized audio files.
+- [x] Backend rejects unsupported file types.
+- [x] Backend rejects recordings over the configured duration limit.
+- [x] Backend uploads audio to Cloudinary storage.
+- [x] Backend returns metadata needed for concept_text_audios.
+- [ ] Authenticated upload endpoint stores audio metadata in concept_text_audios. Deferred to S014.3.
+- [ ] Upload failure does not create broken database records. Deferred to S014.3 transaction handling.
 ```
+
+Implementation notes:
+
+- Added `concept_text_audio_storage.upload_concept_text_audio`.
+- Added `MAX_AUDIO_UPLOAD_MB` and `MAX_AUDIO_DURATION_SECONDS` backend config.
+- Added Cloudinary audio uploads under `<CLOUDINARY_UPLOAD_ROOT>/concept-text-audios` using `resource_type="video"`, which is Cloudinary's audio-compatible upload resource type.
+- Accepted MIME types include WebM, MP3/MPEG, WAV, M4A/MP4, AAC, and OGG to support browser differences.
+- Verification: from `backend/`, `.venv/bin/pytest` passes.
 
 ---
 
