@@ -1,6 +1,8 @@
 import { apiMultipartRequest, apiRequest } from '../../../lib/api'
 import type {
   ConceptTextAudio,
+  ConceptTextAudioReviewQueueParams,
+  ConceptTextAudioReviewQueueResponse,
   ConceptText,
   ConceptTextListParams,
   ConceptTextListResponse,
@@ -9,10 +11,10 @@ import type {
   UpdateConceptTextPayload,
 } from '../types/conceptText.types'
 
-function buildQuery(params: ConceptTextListParams = {}) {
+function buildQuery<T extends object>(params: T = {} as T) {
   const query = new URLSearchParams()
 
-  Object.entries(params).forEach(([key, value]) => {
+  Object.entries(params as Record<string, unknown>).forEach(([key, value]) => {
     if (value !== undefined && value !== '') {
       query.set(key, String(value))
     }
@@ -66,6 +68,27 @@ export async function uploadConceptTextAudio(conceptTextId: string, audioBlob: B
   formData.set('duration_seconds', String(durationSeconds))
 
   return apiMultipartRequest<{ data: ConceptTextAudio }>(`/admin/concept-texts/${conceptTextId}/audios`, formData, {
+    authenticated: true,
+  })
+}
+
+export async function getConceptTextAudioReviewQueue(params?: ConceptTextAudioReviewQueueParams) {
+  return apiRequest<ConceptTextAudioReviewQueueResponse>(`/admin/concept-text-audios/review-queue${buildQuery(params)}`, {
+    authenticated: true,
+  })
+}
+
+export async function approveConceptTextAudio(audioId: string) {
+  return apiRequest<{ data: ConceptTextAudio }>(`/admin/concept-text-audios/${audioId}/approve`, {
+    method: 'PATCH',
+    authenticated: true,
+  })
+}
+
+export async function rejectConceptTextAudio(audioId: string, reviewNote: string) {
+  return apiRequest<{ data: ConceptTextAudio }>(`/admin/concept-text-audios/${audioId}/reject`, {
+    method: 'PATCH',
+    body: { review_note: reviewNote },
     authenticated: true,
   })
 }

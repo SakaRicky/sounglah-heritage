@@ -30,6 +30,7 @@ export interface ConceptTextAudio {
   submittedAt: string | null
   approvedAt: string | null
   rejectedAt: string | null
+  conceptText?: Pick<ConceptText, 'id' | 'text' | 'conceptId' | 'languageId' | 'concept' | 'language'> | null
 }
 
 export interface ConceptText {
@@ -96,6 +97,25 @@ export interface ConceptTextListParams {
 
 export type ConceptTextListResponse = {
   data: ConceptText[]
+  meta: {
+    page: number
+    pageSize: number
+    total: number
+  }
+}
+
+export type ConceptTextAudioReviewStatus = ConceptTextAudio['status'] | 'all'
+
+export interface ConceptTextAudioReviewQueueParams {
+  status?: ConceptTextAudioReviewStatus
+  languageId?: string
+  conceptId?: string
+  page?: number
+  pageSize?: number
+}
+
+export type ConceptTextAudioReviewQueueResponse = {
+  data: ConceptTextAudio[]
   meta: {
     page: number
     pageSize: number

@@ -9,6 +9,7 @@ import { ConceptTextAudioCell } from './ConceptTextAudioCell'
 import { ConceptTextReviewBadge } from './ConceptTextReviewBadge'
 import { ConceptTextStatusBadge } from './ConceptTextStatusBadge'
 import type { ConceptText } from '../types/conceptText.types'
+import { canRecordConceptTextAudio } from '../utils/conceptTextAudioPermissions'
 
 type Props = {
   conceptTexts: ConceptText[]
@@ -96,7 +97,7 @@ function AudioCell({ conceptText }: { conceptText: ConceptText }) {
     pendingAudioId: null,
     durationSeconds: null,
   }
-  const canRecordAudio = conceptText.language?.code?.toLowerCase() === 'med'
+  const canRecordAudio = canRecordConceptTextAudio(conceptText.language?.code)
 
   return (
     <ConceptTextAudioCell
@@ -252,6 +253,10 @@ export function ConceptTextTable({
         accessorKey: 'audioSummary',
         header: 'Audio',
         cell: ({ row }) => <AudioCell conceptText={row.original} />,
+        meta: {
+          headerClassName: 'min-w-[22rem] w-[24rem]',
+          cellClassName: 'min-w-[22rem] w-[24rem]',
+        },
       },
       {
         accessorKey: 'reviewStatus',

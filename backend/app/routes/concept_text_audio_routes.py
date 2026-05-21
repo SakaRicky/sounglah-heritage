@@ -9,7 +9,7 @@ from app.models.concept_text_audio import ConceptTextAudio
 from app.schemas.concept_text_audio_schema import concept_text_audio_to_dict
 from app.services.concept_text_audio_storage import AudioValidationError, upload_concept_text_audio
 from app.services.cloudinary_service import CloudinaryConfigurationError
-from app.utils.auth import require_admin
+from app.utils.auth import CONCEPT_TEXT_AUDIO_PERMISSIONS, require_concept_text_audio_permission
 
 concept_text_audio_nested_bp = Blueprint("admin_concept_text_audio_nested", __name__)
 concept_text_audio_bp = Blueprint("admin_concept_text_audios", __name__)
@@ -32,7 +32,7 @@ def _optional_string(value):
 
 
 @concept_text_audio_nested_bp.post("/<concept_text_id>/audios")
-@require_admin
+@require_concept_text_audio_permission(CONCEPT_TEXT_AUDIO_PERMISSIONS["create"])
 def upload_audio_for_concept_text(concept_text_id):
     concept_text = db.session.get(ConceptText, concept_text_id)
     if concept_text is None:
@@ -70,7 +70,7 @@ def upload_audio_for_concept_text(concept_text_id):
 
 
 @concept_text_audio_nested_bp.get("/<concept_text_id>/audios")
-@require_admin
+@require_concept_text_audio_permission(CONCEPT_TEXT_AUDIO_PERMISSIONS["read"])
 def list_audio_for_concept_text(concept_text_id):
     concept_text = db.session.get(ConceptText, concept_text_id)
     if concept_text is None:
@@ -86,7 +86,7 @@ def list_audio_for_concept_text(concept_text_id):
 
 
 @concept_text_audio_bp.get("/review-queue")
-@require_admin
+@require_concept_text_audio_permission(CONCEPT_TEXT_AUDIO_PERMISSIONS["review"])
 def review_queue():
     status = (request.args.get("status") or ConceptTextAudio.STATUS_PENDING_REVIEW).strip().lower()
     concept_id = (request.args.get("concept_id") or request.args.get("conceptId") or "").strip()
@@ -146,7 +146,7 @@ def review_queue():
 
 
 @concept_text_audio_bp.patch("/<audio_id>/approve")
-@require_admin
+@require_concept_text_audio_permission(CONCEPT_TEXT_AUDIO_PERMISSIONS["approve"])
 def approve_audio(audio_id):
     audio = db.session.get(ConceptTextAudio, audio_id)
     if audio is None:
@@ -164,7 +164,7 @@ def approve_audio(audio_id):
 
 
 @concept_text_audio_bp.patch("/<audio_id>/reject")
-@require_admin
+@require_concept_text_audio_permission(CONCEPT_TEXT_AUDIO_PERMISSIONS["reject"])
 def reject_audio(audio_id):
     audio = db.session.get(ConceptTextAudio, audio_id)
     if audio is None:

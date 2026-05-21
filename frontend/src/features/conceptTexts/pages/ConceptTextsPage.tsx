@@ -29,6 +29,7 @@ import type {
   CreateConceptTextPayload,
   UpdateConceptTextPayload,
 } from '../types/conceptText.types'
+import { canRecordConceptTextAudio } from '../utils/conceptTextAudioPermissions'
 
 type FormMode = {
   conceptText: ConceptText | null
@@ -245,7 +246,7 @@ export function AdminConceptTextsPage() {
   async function handleAudioSubmitted(conceptText: ConceptText, audioBlob: Blob, durationSeconds: number) {
     setError('')
 
-    if (conceptText.language?.code?.toLowerCase() !== 'med') {
+    if (!canRecordConceptTextAudio(conceptText.language?.code)) {
       const message = 'Audio recording is currently available for Médumba only.'
       setError(message)
       throw new Error(message)

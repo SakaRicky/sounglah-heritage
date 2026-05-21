@@ -49,7 +49,7 @@ function StatusBadge({ status, hasAudio }: { status: ConceptTextAudioStatus; has
   return (
     <span className={['inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold', statusClass[status]].join(' ')}>
       {hasAudio ? <Volume2 className="h-3.5 w-3.5" aria-hidden /> : <VolumeX className="h-3.5 w-3.5" aria-hidden />}
-      {statusLabel[status]}
+      <span className="whitespace-nowrap">{statusLabel[status]}</span>
     </span>
   )
 }
@@ -74,6 +74,7 @@ export function ConceptTextAudioCell({
   const isRecorderActive = activeRecorderId === conceptTextId
   const recorderDisabled = activeRecorderId !== null && !isRecorderActive
   const hasAudio = Boolean(audioUrl)
+  const missingAudioLabel = canRecord ? statusLabel.missing : 'No audio required'
   const showRecorder = canRecord && (status === 'missing' || status === 'rejected' || status === 'pending_review' || status === 'approved')
   const recordLabel =
     status === 'approved' || status === 'pending_review' ? 'Replace' : status === 'rejected' ? 'Record again' : 'Record'
@@ -83,10 +84,10 @@ export function ConceptTextAudioCell({
       {status === 'missing' ? (
         <div className="flex items-center gap-2 whitespace-nowrap text-xs font-medium text-cocoa-body/55">
           <VolumeX className="h-4 w-4 text-cocoa-body/45" aria-hidden />
-          <span>{statusLabel[status]}</span>
+          <span>{missingAudioLabel}</span>
         </div>
       ) : (
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex items-center gap-2 whitespace-nowrap">
           <StatusBadge status={status} hasAudio={hasAudio} />
           {durationLabel ? <span className="text-xs font-medium text-cocoa-body/55">{durationLabel}</span> : null}
         </div>
@@ -97,6 +98,7 @@ export function ConceptTextAudioCell({
         src={audioUrl}
         durationSeconds={audioSummary.durationSeconds}
         canReview={audioSummary.status === 'pending_review'}
+        className="min-w-72"
       />
 
       {showRecorder ? (

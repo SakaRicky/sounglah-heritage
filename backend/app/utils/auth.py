@@ -43,3 +43,35 @@ def require_admin(view):
         return view(*args, **kwargs)
 
     return wrapped
+
+
+CONCEPT_TEXT_AUDIO_PERMISSIONS = {
+    "read": "concept_text_audio:read",
+    "create": "concept_text_audio:create",
+    "replace": "concept_text_audio:replace",
+    "review": "concept_text_audio:review",
+    "approve": "concept_text_audio:approve",
+    "reject": "concept_text_audio:reject",
+    "archive": "concept_text_audio:archive",
+}
+
+
+def current_user_can_concept_text_audio(_permission):
+    # MVP: all authenticated admin users can perform concept text audio actions.
+    # Keep this function as the single upgrade point when roles are added.
+    return getattr(g, "current_user", None) is not None
+
+
+def require_concept_text_audio_permission(permission):
+    def decorator(view):
+        @require_admin
+        @wraps(view)
+        def wrapped(*args, **kwargs):
+            if not current_user_can_concept_text_audio(permission):
+                return jsonify({"error": {"message": "You do not have permission to manage concept text audio."}}), 403
+
+            return view(*args, **kwargs)
+
+        return wrapped
+
+    return decorator

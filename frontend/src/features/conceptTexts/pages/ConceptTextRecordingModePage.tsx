@@ -8,6 +8,7 @@ import { StatsCard } from '../../../components/admin/StatsCard'
 import { getConceptTexts, uploadConceptTextAudio } from '../api/conceptTextsApi'
 import { InlineAudioRecorder } from '../components/InlineAudioRecorder'
 import type { ConceptText } from '../types/conceptText.types'
+import { canRecordConceptTextAudio } from '../utils/conceptTextAudioPermissions'
 import { getLanguages } from '../../languages/api/languagesApi'
 import type { Language } from '../../languages/types/language.types'
 
@@ -88,7 +89,7 @@ export function ConceptTextRecordingModePage() {
     [missingConceptTexts],
   )
 
-  const isRecordingLanguage = selectedLanguage?.code?.toLowerCase() === 'med'
+  const isRecordingLanguage = canRecordConceptTextAudio(selectedLanguage?.code)
   const recordableQueue = isRecordingLanguage ? medumbaMissingConceptTexts : []
   const currentItem = recordableQueue[currentIndex] ?? null
   const selectedLanguageLabel = selectedLanguage?.name ?? 'All languages'
