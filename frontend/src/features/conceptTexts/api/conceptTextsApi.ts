@@ -1,5 +1,6 @@
-import { apiRequest } from '../../../lib/api'
+import { apiMultipartRequest, apiRequest } from '../../../lib/api'
 import type {
+  ConceptTextAudio,
   ConceptText,
   ConceptTextListParams,
   ConceptTextListResponse,
@@ -53,6 +54,18 @@ export async function updateConceptTextStatus(id: string, status: ConceptTextSta
   return apiRequest<{ data: ConceptText }>(`/admin/concept-texts/${id}/status`, {
     method: 'PATCH',
     body: { status },
+    authenticated: true,
+  })
+}
+
+export async function uploadConceptTextAudio(conceptTextId: string, audioBlob: Blob, durationSeconds: number) {
+  const formData = new FormData()
+  const extension = audioBlob.type.includes('mp4') ? 'mp4' : 'webm'
+
+  formData.set('audio', audioBlob, `concept-text-${conceptTextId}.${extension}`)
+  formData.set('duration_seconds', String(durationSeconds))
+
+  return apiMultipartRequest<{ data: ConceptTextAudio }>(`/admin/concept-texts/${conceptTextId}/audios`, formData, {
     authenticated: true,
   })
 }

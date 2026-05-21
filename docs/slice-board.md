@@ -65,6 +65,10 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 | S014.2 - Concept Text Audio Storage Service | Review | Backend validation/upload service for short concept text recordings; backend tests passing. |
 | S014.3 - Concept Text Audio API Endpoints | Review | Upload, history, review queue, approve, and reject endpoints; backend tests passing. |
 | S014.4 - Concept Text Table Audio Summary | Review | Concept Texts list includes page-level `audioSummary`/`audio_summary`; table displays missing, pending, approved, and rejected audio states without per-row history requests. |
+| S014.5 - Inline Audio Recorder Component | Review | Reusable browser recorder wired into missing/rejected Concept Text table rows; local preview/retake/cancel before multipart submit for review. |
+| S014.6 - Concept Text Audio Cell | Review | Reusable audio cell handles missing, pending, approved, and rejected states with Médumba-only record/replace actions in the Concept Texts table. |
+| S014.7 - Mini Audio Player | Review | Compact reusable audio player with play/pause, loading, duration, and error states; used in the Concept Text audio cell and recorder preview. |
+| S014.8 - Recording Mode Page | Review | Focused batch recording page at `/admin/content/concept-texts/recording`; loads missing Médumba items from the concept text list and advances to the next item after submit. |
 | S014 - Lessons CRUD | Backlog | Lesson structure |
 | S015 - LessonItems CRUD | Backlog | Exercises/items |
 

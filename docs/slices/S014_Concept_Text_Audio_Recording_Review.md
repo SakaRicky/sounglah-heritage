@@ -525,6 +525,8 @@ Implementation notes:
 
 ## S014.5 - Inline Audio Recorder Component
 
+Status: Review
+
 ### Goal
 
 Build a reusable React component that records audio from the browser using the microphone.
@@ -609,9 +611,22 @@ After stopping:
 - Upload starts only after Submit for Review.
 ```
 
+Implementation notes:
+
+- Added reusable `InlineAudioRecorder` using `navigator.mediaDevices.getUserMedia()` and `MediaRecorder`.
+- Wired missing and rejected Médumba Concept Text table rows to record inline, preview locally, retake, cancel, and submit to the S014.3 upload endpoint.
+- Added a typed multipart frontend upload helper for `POST /api/admin/concept-texts/:conceptTextId/audios`.
+- Only one recorder can be active at a time; other record buttons are disabled while a row is recording or previewing.
+- Kept table column definitions stable through active-recorder state changes so the browser permission prompt does not remount and reset the recorder UI.
+- English and French rows continue to show audio status/playback but do not expose recording actions.
+- Object URLs, timers, and microphone tracks are cleaned up on cancel, submit, retake, and unmount.
+- Verification: from `frontend/`, `npm run typecheck` and `npm run lint` pass. `npm run build` remains blocked locally because Node 20.10.0 is below Vite's required Node 20.19+ / 22.12+.
+
 ---
 
 ## S014.6 - Concept Text Audio Cell
+
+Status: Review
 
 ### Goal
 
@@ -683,9 +698,19 @@ Rejected
 - The component is reusable in future pages.
 ```
 
+Implementation notes:
+
+- Added reusable `ConceptTextAudioCell` for missing, pending review, approved, and rejected states.
+- The Concept Texts table now delegates audio status, playback, and record/replace actions to `ConceptTextAudioCell`.
+- Médumba rows can record missing audio, record again after rejection, and replace pending/approved audio; English and French rows do not expose recording actions.
+- The cell uses current approved audio when available. Pending rows without a current approved audio show pending status without playback until S014.7/S014.9 provide pending audio URLs or history detail.
+- Verification: from `frontend/`, `npm run typecheck` and `npm run lint` pass.
+
 ---
 
 ## S014.7 - Mini Audio Player
+
+Status: Review
 
 ### Goal
 
@@ -725,9 +750,18 @@ Show error if audio cannot load
 - The same player can be reused in the review queue.
 ```
 
+Implementation notes:
+
+- Added reusable `AudioPlayerMini` with play/pause, loading, duration, and error states.
+- Replaced native `<audio controls>` usage in the Concept Text audio cell and recorder preview with the compact player.
+- The table still shows approved and pending audio without the browser's full player chrome.
+- Verification: from `frontend/`, `npm run typecheck` and `npm run lint` pass.
+
 ---
 
 ## S014.8 - Recording Mode Page
+
+Status: Review
 
 ### Goal
 
@@ -802,6 +836,12 @@ Moving to next item...
 - Page automatically moves to next item after submit.
 - User can skip difficult items.
 ```
+
+Implementation notes:
+
+- Added `/admin/content/concept-texts/recording` with an admin link from the Concept Texts page and a redirect from `/admin/audio-recording`.
+- The recording queue is built from the existing concept text list endpoint and filtered client-side to missing Médumba rows.
+- The page uses the existing inline browser recorder, auto-advances by reloading the queue after upload, and keeps recording controls disabled outside Médumba.
 
 ---
 

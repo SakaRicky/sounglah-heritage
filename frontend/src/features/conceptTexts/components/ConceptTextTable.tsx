@@ -1,12 +1,14 @@
-import { useMemo, useState } from 'react'
+import { createContext, useContext, useMemo, useState } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 import type { ColumnDef } from '@tanstack/react-table'
-import { MoreVertical, Pencil, Power, PowerOff, Volume2, VolumeX } from 'lucide-react'
+import { MoreVertical, Pencil, Power, PowerOff } from 'lucide-react'
 
 import { AdminTable } from '../../../components/admin/AdminTable'
 import { formatDate } from '../../../lib/date'
+import { ConceptTextAudioCell } from './ConceptTextAudioCell'
 import { ConceptTextReviewBadge } from './ConceptTextReviewBadge'
 import { ConceptTextStatusBadge } from './ConceptTextStatusBadge'
-import type { ConceptText, ConceptTextAudioStatus } from '../types/conceptText.types'
+import type { ConceptText } from '../types/conceptText.types'
 
 type Props = {
   conceptTexts: ConceptText[]
@@ -16,10 +18,33 @@ type Props = {
   onCreate: () => void
   onEdit: (conceptText: ConceptText) => void
   onToggleStatus: (conceptText: ConceptText) => void
+  onAudioSubmitted: (conceptText: ConceptText, audioBlob: Blob, durationSeconds: number) => Promise<void>
   page: number
   pageSize: number
   onPageChange: (page: number) => void
   onPageSizeChange: (pageSize: number) => void
+}
+
+type ConceptTextTableContextValue = {
+  activeRecorderId: string | null
+  setActiveRecorderId: Dispatch<SetStateAction<string | null>>
+  openActionId: string | null
+  setOpenActionId: Dispatch<SetStateAction<string | null>>
+  onEdit: (conceptText: ConceptText) => void
+  onToggleStatus: (conceptText: ConceptText) => void
+  onAudioSubmitted: (conceptText: ConceptText, audioBlob: Blob, durationSeconds: number) => Promise<void>
+}
+
+const ConceptTextTableContext = createContext<ConceptTextTableContextValue | null>(null)
+
+function useConceptTextTableContext() {
+  const context = useContext(ConceptTextTableContext)
+
+  if (!context) {
+    throw new Error('ConceptTextTableContext must be used inside ConceptTextTable.')
+  }
+
+  return context
 }
 
 const conceptMarkColors = [
@@ -63,49 +88,76 @@ function LanguageFlag({ code }: { code?: string }) {
 }
 
 function AudioCell({ conceptText }: { conceptText: ConceptText }) {
-  const summary = conceptText.audioSummary
-  const status = summary?.status ?? (conceptText.audioUrl ? 'approved' : 'missing')
-  const audioUrl = summary?.currentAudioUrl ?? conceptText.audioUrl
-  const durationLabel = summary?.durationSeconds ? `${summary.durationSeconds}s` : null
-  const statusLabel: Record<ConceptTextAudioStatus, string> = {
-    missing: 'No audio',
-    pending_review: 'Pending review',
-    approved: 'Approved',
-    rejected: 'Rejected',
+  const { activeRecorderId, setActiveRecorderId, onAudioSubmitted } = useConceptTextTableContext()
+  const audioSummary = conceptText.audioSummary ?? {
+    status: conceptText.audioUrl ? 'approved' : 'missing',
+    currentAudioId: null,
+    currentAudioUrl: conceptText.audioUrl ?? null,
+    pendingAudioId: null,
+    durationSeconds: null,
   }
-  const statusClass: Record<ConceptTextAudioStatus, string> = {
-    missing: 'border-sand-200 bg-cream-100 text-cocoa-body/65',
-    pending_review: 'border-gold-500/25 bg-gold-400/15 text-cocoa-700',
-    approved: 'border-forest-accent/25 bg-forest-accent/10 text-forest-700',
-    rejected: 'border-terracotta-500/20 bg-terracotta-400/10 text-terracotta-600',
-  }
-
-  if (status === 'missing') {
-    return (
-      <div className="flex items-center gap-2 whitespace-nowrap text-xs font-medium text-cocoa-body/55">
-        <VolumeX className="h-4 w-4 text-cocoa-body/45" aria-hidden />
-        <span>{statusLabel[status]}</span>
-      </div>
-    )
-  }
+  const canRecordAudio = conceptText.language?.code?.toLowerCase() === 'med'
 
   return (
-    <div className="space-y-2">
-      <div className="flex flex-wrap items-center gap-2">
-        <span className={['inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold', statusClass[status]].join(' ')}>
-          {audioUrl ? <Volume2 className="h-3.5 w-3.5" aria-hidden /> : <VolumeX className="h-3.5 w-3.5" aria-hidden />}
-          {statusLabel[status]}
-        </span>
-        {durationLabel ? <span className="text-xs font-medium text-cocoa-body/55">{durationLabel}</span> : null}
+    <ConceptTextAudioCell
+      conceptTextId={conceptText.id}
+      languageName={conceptText.language?.name ?? 'Unknown language'}
+      conceptName={conceptText.concept?.title ?? 'Unknown concept'}
+      text={conceptText.text}
+      audioSummary={audioSummary}
+      fallbackAudioUrl={conceptText.audioUrl}
+      pronunciationNote={conceptText.pronunciationNote}
+      canRecord={canRecordAudio}
+      canReview={false}
+      activeRecorderId={activeRecorderId}
+      onRecorderActivate={setActiveRecorderId}
+      onRecorderCancel={() => setActiveRecorderId(null)}
+      onAudioSubmit={(audioBlob, durationSeconds) => onAudioSubmitted(conceptText, audioBlob, durationSeconds)}
+    />
+  )
+}
+
+function ActionsCell({ conceptText }: { conceptText: ConceptText }) {
+  const { openActionId, setOpenActionId, onEdit, onToggleStatus } = useConceptTextTableContext()
+  const isActive = conceptText.status === 'active'
+
+  return (
+    <div className="flex justify-end gap-2">
+      <button
+        type="button"
+        onClick={() => onEdit(conceptText)}
+        className="inline-flex items-center justify-center gap-2 rounded-xl border border-forest-accent/25 bg-white px-3 py-2 text-sm font-semibold text-forest-700 shadow-[0_4px_14px_rgba(47,26,16,0.04)] transition hover:border-forest-accent hover:bg-forest-50/50 hover:shadow-[0_8px_22px_rgba(31,90,61,0.08)] focus:outline-none focus:ring-2 focus:ring-forest-200"
+      >
+        <Pencil className="h-4 w-4" aria-hidden />
+        Edit
+      </button>
+      <div className="relative">
+        <button
+          type="button"
+          onClick={() => setOpenActionId((currentId) => (currentId === conceptText.id ? null : conceptText.id))}
+          aria-expanded={openActionId === conceptText.id}
+          aria-label="More actions"
+          title="More actions"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-sand-200 bg-white text-cocoa-body/65 shadow-[0_4px_14px_rgba(47,26,16,0.04)] transition hover:border-forest-300 hover:bg-forest-50/40 hover:text-forest-700 focus:outline-none focus:ring-2 focus:ring-forest-200"
+        >
+          <MoreVertical className="h-4 w-4" aria-hidden />
+        </button>
+        {openActionId === conceptText.id ? (
+          <div className="absolute right-0 z-20 mt-2 w-40 rounded-xl border border-sand-200 bg-white p-1.5 text-left shadow-card">
+            <button
+              type="button"
+              onClick={() => {
+                setOpenActionId(null)
+                onToggleStatus(conceptText)
+              }}
+              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-cocoa-body transition hover:bg-cream-100 hover:text-terracotta-600 focus:outline-none focus:ring-2 focus:ring-forest-200"
+            >
+              {isActive ? <PowerOff className="h-4 w-4" aria-hidden /> : <Power className="h-4 w-4" aria-hidden />}
+              {isActive ? 'Disable' : 'Enable'}
+            </button>
+          </div>
+        ) : null}
       </div>
-      {audioUrl ? (
-        <audio src={audioUrl} controls className="h-8 w-40 max-w-full" preload="none">
-          <a href={audioUrl}>Audio</a>
-        </audio>
-      ) : null}
-      {conceptText.pronunciationNote ? (
-        <p className="max-w-44 truncate text-xs text-cocoa-body/60">{conceptText.pronunciationNote}</p>
-      ) : null}
     </div>
   )
 }
@@ -118,12 +170,26 @@ export function ConceptTextTable({
   onCreate,
   onEdit,
   onToggleStatus,
+  onAudioSubmitted,
   page,
   pageSize,
   onPageChange,
   onPageSizeChange,
 }: Props) {
   const [openActionId, setOpenActionId] = useState<string | null>(null)
+  const [activeRecorderId, setActiveRecorderId] = useState<string | null>(null)
+  const tableContextValue = useMemo(
+    () => ({
+      activeRecorderId,
+      setActiveRecorderId,
+      openActionId,
+      setOpenActionId,
+      onEdit,
+      onToggleStatus,
+      onAudioSubmitted,
+    }),
+    [activeRecorderId, onAudioSubmitted, onEdit, onToggleStatus, openActionId],
+  )
 
   const columns = useMemo<ColumnDef<ConceptText>[]>(
     () => [
@@ -207,86 +273,45 @@ export function ConceptTextTable({
         header: 'Actions',
         enableSorting: false,
         meta: { align: 'right' },
-        cell: ({ row }) => {
-          const conceptText = row.original
-          const isActive = conceptText.status === 'active'
-
-          return (
-            <div className="flex justify-end gap-2">
-              <button
-                type="button"
-                onClick={() => onEdit(conceptText)}
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-forest-accent/25 bg-white px-3 py-2 text-sm font-semibold text-forest-700 shadow-[0_4px_14px_rgba(47,26,16,0.04)] transition hover:border-forest-accent hover:bg-forest-50/50 hover:shadow-[0_8px_22px_rgba(31,90,61,0.08)] focus:outline-none focus:ring-2 focus:ring-forest-200"
-              >
-                <Pencil className="h-4 w-4" aria-hidden />
-                Edit
-              </button>
-              <div className="relative">
-                <button
-                  type="button"
-                  onClick={() => setOpenActionId((currentId) => (currentId === conceptText.id ? null : conceptText.id))}
-                  aria-expanded={openActionId === conceptText.id}
-                  aria-label="More actions"
-                  title="More actions"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-sand-200 bg-white text-cocoa-body/65 shadow-[0_4px_14px_rgba(47,26,16,0.04)] transition hover:border-forest-300 hover:bg-forest-50/40 hover:text-forest-700 focus:outline-none focus:ring-2 focus:ring-forest-200"
-                >
-                  <MoreVertical className="h-4 w-4" aria-hidden />
-                </button>
-                {openActionId === conceptText.id ? (
-                  <div className="absolute right-0 z-20 mt-2 w-40 rounded-xl border border-sand-200 bg-white p-1.5 text-left shadow-card">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setOpenActionId(null)
-                        onToggleStatus(conceptText)
-                      }}
-                      className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-cocoa-body transition hover:bg-cream-100 hover:text-terracotta-600 focus:outline-none focus:ring-2 focus:ring-forest-200"
-                    >
-                      {isActive ? <PowerOff className="h-4 w-4" aria-hidden /> : <Power className="h-4 w-4" aria-hidden />}
-                      {isActive ? 'Disable' : 'Enable'}
-                    </button>
-                  </div>
-                ) : null}
-              </div>
-            </div>
-          )
-        },
+        cell: ({ row }) => <ActionsCell conceptText={row.original} />,
       },
     ],
-    [onEdit, onToggleStatus, openActionId],
+    [],
   )
 
   return (
-    <AdminTable
-      columns={columns}
-      data={conceptTexts}
-      getRowId={(conceptText) => conceptText.id}
-      title={`${total} concept text records`}
-      subtitle="One primary expression per concept and language"
-      loading={loading}
-      loadingLabel="Loading concept texts..."
-      emptyState={{
-        title: filtered ? 'No matching concept texts' : 'No concept texts yet',
-        description: filtered
-          ? 'Try changing the selected concept, language, status, review status, or search term.'
-          : 'Add your first translated text by choosing a concept, a language, and the text used for that concept.',
-        action: !filtered ? (
-          <button
-            type="button"
-            onClick={onCreate}
-            className="rounded-xl bg-forest-600 px-5 py-3 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(31,90,61,0.15)] transition hover:bg-forest-700 focus:outline-none focus:ring-2 focus:ring-forest-200"
-          >
-            Add concept text
-          </button>
-        ) : undefined,
-      }}
-      pagination={{
-        page,
-        pageSize,
-        total,
-        onPageChange,
-        onPageSizeChange,
-      }}
-    />
+    <ConceptTextTableContext.Provider value={tableContextValue}>
+      <AdminTable
+        columns={columns}
+        data={conceptTexts}
+        getRowId={(conceptText) => conceptText.id}
+        title={`${total} concept text records`}
+        subtitle="One primary expression per concept and language"
+        loading={loading}
+        loadingLabel="Loading concept texts..."
+        emptyState={{
+          title: filtered ? 'No matching concept texts' : 'No concept texts yet',
+          description: filtered
+            ? 'Try changing the selected concept, language, status, review status, or search term.'
+            : 'Add your first translated text by choosing a concept, a language, and the text used for that concept.',
+          action: !filtered ? (
+            <button
+              type="button"
+              onClick={onCreate}
+              className="rounded-xl bg-forest-600 px-5 py-3 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(31,90,61,0.15)] transition hover:bg-forest-700 focus:outline-none focus:ring-2 focus:ring-forest-200"
+            >
+              Add concept text
+            </button>
+          ) : undefined,
+        }}
+        pagination={{
+          page,
+          pageSize,
+          total,
+          onPageChange,
+          onPageSizeChange,
+        }}
+      />
+    </ConceptTextTableContext.Provider>
   )
 }

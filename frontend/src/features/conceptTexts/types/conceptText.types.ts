@@ -12,6 +12,26 @@ export interface ConceptTextAudioSummary {
   durationSeconds: number | null
 }
 
+export interface ConceptTextAudio {
+  id: string
+  conceptTextId: string
+  audioUrl: string
+  audioPublicId: string
+  storageProvider: string
+  durationSeconds: number | null
+  fileSizeBytes: number | null
+  mimeType: string | null
+  status: 'draft' | 'pending_review' | 'approved' | 'rejected' | 'archived'
+  recordedByUserId: number | null
+  reviewedByUserId: number | null
+  reviewNote: string | null
+  createdAt: string | null
+  updatedAt: string | null
+  submittedAt: string | null
+  approvedAt: string | null
+  rejectedAt: string | null
+}
+
 export interface ConceptText {
   id: string
   conceptId: string
