@@ -31,7 +31,7 @@ def _language_summary(language):
     }
 
 
-def concept_text_to_dict(concept_text, include_relationships=True):
+def concept_text_to_dict(concept_text, include_relationships=True, audio_summary=None):
     data = {
         "id": concept_text.id,
         "conceptId": concept_text.concept_id,
@@ -40,6 +40,8 @@ def concept_text_to_dict(concept_text, include_relationships=True):
         "pronunciation": concept_text.pronunciation,
         "audioUrl": concept_text.audio_url,
         "audio_url": concept_text.audio_url,
+        "currentAudioId": concept_text.current_audio_id,
+        "current_audio_id": concept_text.current_audio_id,
         "pronunciationNote": concept_text.pronunciation_note,
         "pronunciation_note": concept_text.pronunciation_note,
         "literalMeaning": concept_text.literal_meaning,
@@ -53,5 +55,16 @@ def concept_text_to_dict(concept_text, include_relationships=True):
     if include_relationships:
         data["concept"] = _concept_summary(concept_text.concept)
         data["language"] = _language_summary(concept_text.language)
+
+    if audio_summary is not None:
+        data["audioSummary"] = audio_summary
+        data["audio_summary"] = {
+            "status": audio_summary["status"],
+            "current_audio_id": audio_summary["currentAudioId"],
+            "current_audio_url": audio_summary["currentAudioUrl"],
+            "pending_audio_id": audio_summary["pendingAudioId"],
+            "pending_audio_url": audio_summary["pendingAudioUrl"],
+            "duration_seconds": audio_summary["durationSeconds"],
+        }
 
     return data

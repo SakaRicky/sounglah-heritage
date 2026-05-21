@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Mic, Plus } from 'lucide-react'
 
 import { AdminPageHeader } from '../../../components/admin/AdminPageHeader'
 import { InsightCard } from '../../../components/admin/InsightCard'
@@ -13,6 +15,7 @@ import {
   getConceptTexts,
   updateConceptText,
   updateConceptTextStatus,
+  uploadConceptTextAudio,
 } from '../api/conceptTextsApi'
 import { ConceptTextFilters } from '../components/ConceptTextFilters'
 import type { ConceptTextSort } from '../components/ConceptTextFilters'
@@ -26,18 +29,11 @@ import type {
   CreateConceptTextPayload,
   UpdateConceptTextPayload,
 } from '../types/conceptText.types'
+import { canRecordConceptTextAudio } from '../utils/conceptTextAudioPermissions'
 
 type FormMode = {
   conceptText: ConceptText | null
 } | null
-
-function PlusIcon() {
-  return (
-    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14M5 12h14" />
-    </svg>
-  )
-}
 
 function TranslateIcon() {
   return (
@@ -247,6 +243,25 @@ export function AdminConceptTextsPage() {
     }
   }
 
+  async function handleAudioSubmitted(conceptText: ConceptText, audioBlob: Blob, durationSeconds: number) {
+    setError('')
+
+    if (!canRecordConceptTextAudio(conceptText.language?.code)) {
+      const message = 'Audio recording is currently available for Médumba only.'
+      setError(message)
+      throw new Error(message)
+    }
+
+    try {
+      await uploadConceptTextAudio(conceptText.id, audioBlob, durationSeconds)
+      setNotice('Recording submitted for review.')
+      await loadConceptTexts()
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : 'Unable to submit recording.')
+      throw requestError
+    }
+  }
+
   return (
     <div className="space-y-8">
       <AdminPageHeader
@@ -254,14 +269,23 @@ export function AdminConceptTextsPage() {
         title="Concept Texts"
         description="Manage translated text for each concept and language. A concept such as Greeting can have English, French, Médumba, and future language versions."
         action={
-          <button
-            type="button"
-            onClick={openCreateForm}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-forest-600 px-5 py-3 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(31,90,61,0.15)] transition-all duration-200 hover:bg-forest-700 hover:shadow-[0_12px_30px_rgba(31,90,61,0.2)] focus:outline-none focus:ring-2 focus:ring-forest-200"
-          >
-            <PlusIcon />
-            Add concept text
-          </button>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              to="/admin/content/concept-texts/recording"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-forest-accent/25 bg-white px-5 py-3 text-sm font-semibold text-forest-700 shadow-[0_8px_24px_rgba(31,90,61,0.1)] transition-all duration-200 hover:border-forest-300 hover:bg-forest-50/30 focus:outline-none focus:ring-2 focus:ring-forest-200"
+            >
+              <Mic className="h-4 w-4" aria-hidden />
+              Recording mode
+            </Link>
+            <button
+              type="button"
+              onClick={openCreateForm}
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-forest-600 px-5 py-3 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(31,90,61,0.15)] transition-all duration-200 hover:bg-forest-700 hover:shadow-[0_12px_30px_rgba(31,90,61,0.2)] focus:outline-none focus:ring-2 focus:ring-forest-200"
+            >
+              <Plus className="h-4 w-4" aria-hidden />
+              Add concept text
+            </button>
+          </div>
         }
       />
 
@@ -310,6 +334,7 @@ export function AdminConceptTextsPage() {
         onCreate={openCreateForm}
         onEdit={openEditForm}
         onToggleStatus={setStatusTarget}
+        onAudioSubmitted={handleAudioSubmitted}
         page={page}
         pageSize={pageSize}
         onPageChange={setPage}

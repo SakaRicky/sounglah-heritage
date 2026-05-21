@@ -5,6 +5,7 @@ from flask_cors import CORS
 from app.config import Config
 from app.extensions import db, migrate
 from app.routes.auth_routes import auth_bp
+from app.routes.concept_text_audio_routes import concept_text_audio_bp, concept_text_audio_nested_bp
 from app.routes.concept_text_routes import concept_text_bp
 from app.routes.concept_routes import concept_bp
 from app.routes.health_routes import health_bp
@@ -36,6 +37,8 @@ def create_app(testing=False):
     app.register_blueprint(language_bp, url_prefix="/api/admin/languages")
     app.register_blueprint(concept_bp, url_prefix="/api/admin/concepts")
     app.register_blueprint(concept_text_bp, url_prefix="/api/admin/concept-texts")
+    app.register_blueprint(concept_text_audio_nested_bp, url_prefix="/api/admin/concept-texts")
+    app.register_blueprint(concept_text_audio_bp, url_prefix="/api/admin/concept-text-audios")
 
     @app.cli.command("seed")
     def seed_command():

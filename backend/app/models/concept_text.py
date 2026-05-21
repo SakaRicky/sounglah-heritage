@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 from uuid import uuid4
 
 from app.extensions import db
+from app.models.concept_text_audio import ConceptTextAudio
 
 
 class ConceptText(db.Model):
@@ -23,6 +24,12 @@ class ConceptText(db.Model):
     text = db.Column(db.Text, nullable=False)
     pronunciation = db.Column(db.String(255), nullable=True)
     audio_url = db.Column(db.String(500), nullable=True)
+    current_audio_id = db.Column(
+        db.String(36),
+        db.ForeignKey("concept_text_audios.id"),
+        nullable=True,
+        index=True,
+    )
     pronunciation_note = db.Column(db.Text, nullable=True)
     literal_meaning = db.Column(db.Text, nullable=True)
     usage_note = db.Column(db.Text, nullable=True)
@@ -42,6 +49,17 @@ class ConceptText(db.Model):
 
     concept = db.relationship("Concept", backref=db.backref("concept_texts", lazy="dynamic"))
     language = db.relationship("Language", backref=db.backref("concept_texts", lazy="dynamic"))
+    audio_attempts = db.relationship(
+        "ConceptTextAudio",
+        back_populates="concept_text",
+        foreign_keys="ConceptTextAudio.concept_text_id",
+        order_by="ConceptTextAudio.created_at.desc()",
+    )
+    current_audio = db.relationship(
+        "ConceptTextAudio",
+        foreign_keys=[current_audio_id],
+        post_update=True,
+    )
 
     __table_args__ = (
         db.UniqueConstraint("concept_id", "language_id", name="uq_concept_texts_concept_language"),
@@ -55,3 +73,11 @@ class ConceptText(db.Model):
             name="concept_texts_review_status_check",
         ),
     )
+
+    def set_current_audio(self, audio):
+        if audio.concept_text_id != self.id:
+            raise ValueError("Current audio must belong to this concept text.")
+        if audio.status != ConceptTextAudio.STATUS_APPROVED:
+            raise ValueError("Only approved audio can become current audio.")
+
+        self.current_audio = audio

@@ -61,6 +61,16 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 | S012 - Concepts CRUD | Backlog | Core learning concepts |
 | Unnumbered - Concept image upload with Cloudinary | Done | Backend Cloudinary upload/delete endpoints, nullable concept image fields, admin image preview/upload/remove UI, docs/env updates, backend tests passing; frontend typecheck and JSON lint pass, build blocked locally by Node 20.10.0 below Vite requirement. |
 | S013 - ConceptTexts CRUD | Backlog | English/French/Médumba text |
+| S014.1 - Concept Text Audio Data Model + Migration | Review | Adds `concept_text_audios` history model/table and nullable `concept_texts.current_audio_id`; backend tests passing. |
+| S014.2 - Concept Text Audio Storage Service | Review | Backend validation/upload service for short concept text recordings; backend tests passing. |
+| S014.3 - Concept Text Audio API Endpoints | Review | Upload, history, review queue, approve, and reject endpoints; backend tests passing. |
+| S014.4 - Concept Text Table Audio Summary | Review | Concept Texts list includes page-level `audioSummary`/`audio_summary`; table displays missing, pending, approved, and rejected audio states without per-row history requests. |
+| S014.5 - Inline Audio Recorder Component | Review | Reusable browser recorder wired into missing/rejected Concept Text table rows; local preview/retake/cancel before multipart submit for review. |
+| S014.6 - Concept Text Audio Cell | Review | Reusable audio cell handles missing, pending, approved, and rejected states with Médumba-only record/replace actions in the Concept Texts table. |
+| S014.7 - Mini Audio Player | Review | Compact reusable audio player with play/pause, loading, duration, and error states; used in the Concept Text audio cell and recorder preview. |
+| S014.8 - Recording Mode Page | Review | Focused batch recording page at `/admin/content/concept-texts/recording`; loads missing Médumba items from the concept text list and advances to the next item after submit. |
+| S014.9 - Audio Review Queue | Review | Admin review queue at `/admin/audio-review` lists submitted audio, plays recordings, and supports approve/reject with review notes; phones and tablets use stacked recording cards while desktop keeps the table. |
+| S014.10 - Permissions and Roles | Review | MVP admin-only audio permission gates are centralized on backend and frontend; role-specific behavior is deferred until roles exist. |
 | S014 - Lessons CRUD | Backlog | Lesson structure |
 | S015 - LessonItems CRUD | Backlog | Exercises/items |
 

@@ -2,6 +2,38 @@ export type ConceptTextStatus = 'active' | 'disabled'
 
 export type ConceptTextReviewStatus = 'draft' | 'needs_review' | 'approved'
 
+export type ConceptTextAudioStatus = 'missing' | 'pending_review' | 'approved' | 'rejected'
+
+export interface ConceptTextAudioSummary {
+  status: ConceptTextAudioStatus
+  currentAudioId: string | null
+  currentAudioUrl: string | null
+  pendingAudioId: string | null
+  pendingAudioUrl: string | null
+  durationSeconds: number | null
+}
+
+export interface ConceptTextAudio {
+  id: string
+  conceptTextId: string
+  audioUrl: string
+  audioPublicId: string
+  storageProvider: string
+  durationSeconds: number | null
+  fileSizeBytes: number | null
+  mimeType: string | null
+  status: 'draft' | 'pending_review' | 'approved' | 'rejected' | 'archived'
+  recordedByUserId: number | null
+  reviewedByUserId: number | null
+  reviewNote: string | null
+  createdAt: string | null
+  updatedAt: string | null
+  submittedAt: string | null
+  approvedAt: string | null
+  rejectedAt: string | null
+  conceptText?: Pick<ConceptText, 'id' | 'text' | 'conceptId' | 'languageId' | 'concept' | 'language'> | null
+}
+
 export interface ConceptText {
   id: string
   conceptId: string
@@ -14,6 +46,7 @@ export interface ConceptText {
   usageNote?: string | null
   status: ConceptTextStatus
   reviewStatus: ConceptTextReviewStatus
+  audioSummary?: ConceptTextAudioSummary
   createdAt: string | null
   updatedAt: string | null
   concept?: {
@@ -65,6 +98,25 @@ export interface ConceptTextListParams {
 
 export type ConceptTextListResponse = {
   data: ConceptText[]
+  meta: {
+    page: number
+    pageSize: number
+    total: number
+  }
+}
+
+export type ConceptTextAudioReviewStatus = ConceptTextAudio['status'] | 'all'
+
+export interface ConceptTextAudioReviewQueueParams {
+  status?: ConceptTextAudioReviewStatus
+  languageId?: string
+  conceptId?: string
+  page?: number
+  pageSize?: number
+}
+
+export type ConceptTextAudioReviewQueueResponse = {
+  data: ConceptTextAudio[]
   meta: {
     page: number
     pageSize: number

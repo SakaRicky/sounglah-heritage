@@ -5,6 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from app.extensions import db
 from app.models.concept import Concept
 from app.models.concept_text import ConceptText
+from app.models.concept_text_audio import ConceptTextAudio
 from app.models.language import Language
 from app.schemas.concept_text_schema import concept_text_to_dict
 from app.utils.auth import require_admin
@@ -160,6 +161,96 @@ def _apply_concept_text_payload(concept_text, payload):
         setattr(concept_text, field_map.get(key, key), value)
 
 
+def _empty_audio_summary():
+    return {
+        "status": "missing",
+        "currentAudioId": None,
+        "currentAudioUrl": None,
+        "pendingAudioId": None,
+        "pendingAudioUrl": None,
+        "durationSeconds": None,
+    }
+
+
+def _audio_summary_for(concept_text, audio_attempts):
+    summary = _empty_audio_summary()
+    current_audio = None
+    pending_audio = None
+    rejected_audio = None
+
+    for audio in audio_attempts:
+        if audio.id == concept_text.current_audio_id:
+            current_audio = audio
+        if audio.status == ConceptTextAudio.STATUS_PENDING_REVIEW and pending_audio is None:
+            pending_audio = audio
+        if audio.status == ConceptTextAudio.STATUS_REJECTED and rejected_audio is None:
+            rejected_audio = audio
+
+    if current_audio is not None:
+        summary.update(
+            {
+                "status": "approved",
+                "currentAudioId": current_audio.id,
+                "currentAudioUrl": current_audio.audio_url,
+                "durationSeconds": current_audio.duration_seconds,
+            }
+        )
+
+    if pending_audio is not None:
+        summary.update(
+            {
+                "status": "pending_review",
+                "pendingAudioId": pending_audio.id,
+                "pendingAudioUrl": pending_audio.audio_url,
+                "durationSeconds": pending_audio.duration_seconds,
+            }
+        )
+        if current_audio is not None:
+            summary["currentAudioId"] = current_audio.id
+            summary["currentAudioUrl"] = current_audio.audio_url
+        return summary
+
+    if current_audio is not None:
+        return summary
+
+    if rejected_audio is not None:
+        summary.update(
+            {
+                "status": "rejected",
+                "durationSeconds": rejected_audio.duration_seconds,
+            }
+        )
+
+    return summary
+
+
+def _audio_summaries_for(concept_texts):
+    concept_text_ids = [concept_text.id for concept_text in concept_texts]
+    summaries = {concept_text_id: _empty_audio_summary() for concept_text_id in concept_text_ids}
+    if not concept_text_ids:
+        return summaries
+
+    audios = (
+        ConceptTextAudio.query.filter(
+            ConceptTextAudio.concept_text_id.in_(concept_text_ids),
+            ConceptTextAudio.status != ConceptTextAudio.STATUS_ARCHIVED,
+        )
+        .order_by(ConceptTextAudio.submitted_at.desc(), ConceptTextAudio.created_at.desc())
+        .all()
+    )
+    audios_by_concept_text_id = {concept_text_id: [] for concept_text_id in concept_text_ids}
+    for audio in audios:
+        audios_by_concept_text_id[audio.concept_text_id].append(audio)
+
+    for concept_text in concept_texts:
+        summaries[concept_text.id] = _audio_summary_for(
+            concept_text,
+            audios_by_concept_text_id.get(concept_text.id, []),
+        )
+
+    return summaries
+
+
 @concept_text_bp.get("")
 @require_admin
 def list_concept_texts():
@@ -224,10 +315,17 @@ def list_concept_texts():
         else (ConceptText.updated_at.desc(), Concept.title.asc(), Language.name.asc())
     )
     concept_texts = query.order_by(*order).offset((page - 1) * page_size).limit(page_size).all()
+    audio_summaries = _audio_summaries_for(concept_texts)
 
     return jsonify(
         {
-            "data": [concept_text_to_dict(concept_text) for concept_text in concept_texts],
+            "data": [
+                concept_text_to_dict(
+                    concept_text,
+                    audio_summary=audio_summaries[concept_text.id],
+                )
+                for concept_text in concept_texts
+            ],
             "meta": {"page": page, "pageSize": page_size, "total": total},
         }
     )
