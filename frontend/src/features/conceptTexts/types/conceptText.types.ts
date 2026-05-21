@@ -2,6 +2,16 @@ export type ConceptTextStatus = 'active' | 'disabled'
 
 export type ConceptTextReviewStatus = 'draft' | 'needs_review' | 'approved'
 
+export type ConceptTextAudioStatus = 'missing' | 'pending_review' | 'approved' | 'rejected'
+
+export interface ConceptTextAudioSummary {
+  status: ConceptTextAudioStatus
+  currentAudioId: string | null
+  currentAudioUrl: string | null
+  pendingAudioId: string | null
+  durationSeconds: number | null
+}
+
 export interface ConceptText {
   id: string
   conceptId: string
@@ -14,6 +24,7 @@ export interface ConceptText {
   usageNote?: string | null
   status: ConceptTextStatus
   reviewStatus: ConceptTextReviewStatus
+  audioSummary?: ConceptTextAudioSummary
   createdAt: string | null
   updatedAt: string | null
   concept?: {

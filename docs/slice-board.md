@@ -64,6 +64,7 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 | S014.1 - Concept Text Audio Data Model + Migration | Review | Adds `concept_text_audios` history model/table and nullable `concept_texts.current_audio_id`; backend tests passing. |
 | S014.2 - Concept Text Audio Storage Service | Review | Backend validation/upload service for short concept text recordings; backend tests passing. |
 | S014.3 - Concept Text Audio API Endpoints | Review | Upload, history, review queue, approve, and reject endpoints; backend tests passing. |
+| S014.4 - Concept Text Table Audio Summary | Review | Concept Texts list includes page-level `audioSummary`/`audio_summary`; table displays missing, pending, approved, and rejected audio states without per-row history requests. |
 | S014 - Lessons CRUD | Backlog | Lesson structure |
 | S015 - LessonItems CRUD | Backlog | Exercises/items |
 

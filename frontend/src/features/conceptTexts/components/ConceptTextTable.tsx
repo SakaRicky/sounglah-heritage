@@ -6,7 +6,7 @@ import { AdminTable } from '../../../components/admin/AdminTable'
 import { formatDate } from '../../../lib/date'
 import { ConceptTextReviewBadge } from './ConceptTextReviewBadge'
 import { ConceptTextStatusBadge } from './ConceptTextStatusBadge'
-import type { ConceptText } from '../types/conceptText.types'
+import type { ConceptText, ConceptTextAudioStatus } from '../types/conceptText.types'
 
 type Props = {
   conceptTexts: ConceptText[]
@@ -63,23 +63,46 @@ function LanguageFlag({ code }: { code?: string }) {
 }
 
 function AudioCell({ conceptText }: { conceptText: ConceptText }) {
-  if (!conceptText.audioUrl) {
+  const summary = conceptText.audioSummary
+  const status = summary?.status ?? (conceptText.audioUrl ? 'approved' : 'missing')
+  const audioUrl = summary?.currentAudioUrl ?? conceptText.audioUrl
+  const durationLabel = summary?.durationSeconds ? `${summary.durationSeconds}s` : null
+  const statusLabel: Record<ConceptTextAudioStatus, string> = {
+    missing: 'No audio',
+    pending_review: 'Pending review',
+    approved: 'Approved',
+    rejected: 'Rejected',
+  }
+  const statusClass: Record<ConceptTextAudioStatus, string> = {
+    missing: 'border-sand-200 bg-cream-100 text-cocoa-body/65',
+    pending_review: 'border-gold-500/25 bg-gold-400/15 text-cocoa-700',
+    approved: 'border-forest-accent/25 bg-forest-accent/10 text-forest-700',
+    rejected: 'border-terracotta-500/20 bg-terracotta-400/10 text-terracotta-600',
+  }
+
+  if (status === 'missing') {
     return (
       <div className="flex items-center gap-2 whitespace-nowrap text-xs font-medium text-cocoa-body/55">
         <VolumeX className="h-4 w-4 text-cocoa-body/45" aria-hidden />
-        <span>No audio</span>
+        <span>{statusLabel[status]}</span>
       </div>
     )
   }
 
   return (
-    <div className="space-y-1.5">
-      <div className="flex items-center gap-2 text-xs font-semibold text-forest-700">
-        <Volume2 className="h-4 w-4" aria-hidden />
-        <audio src={conceptText.audioUrl} controls className="h-8 w-40 max-w-full" preload="none">
-          <a href={conceptText.audioUrl}>Audio</a>
-        </audio>
+    <div className="space-y-2">
+      <div className="flex flex-wrap items-center gap-2">
+        <span className={['inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold', statusClass[status]].join(' ')}>
+          {audioUrl ? <Volume2 className="h-3.5 w-3.5" aria-hidden /> : <VolumeX className="h-3.5 w-3.5" aria-hidden />}
+          {statusLabel[status]}
+        </span>
+        {durationLabel ? <span className="text-xs font-medium text-cocoa-body/55">{durationLabel}</span> : null}
       </div>
+      {audioUrl ? (
+        <audio src={audioUrl} controls className="h-8 w-40 max-w-full" preload="none">
+          <a href={audioUrl}>Audio</a>
+        </audio>
+      ) : null}
       {conceptText.pronunciationNote ? (
         <p className="max-w-44 truncate text-xs text-cocoa-body/60">{conceptText.pronunciationNote}</p>
       ) : null}
@@ -160,7 +183,7 @@ export function ConceptTextTable({
         },
       },
       {
-        accessorKey: 'audioUrl',
+        accessorKey: 'audioSummary',
         header: 'Audio',
         cell: ({ row }) => <AudioCell conceptText={row.original} />,
       },

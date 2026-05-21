@@ -447,6 +447,8 @@ Implementation notes:
 
 ## S014.4 - Concept Text Table Audio Summary
 
+Status: Review
+
 ### Goal
 
 Update the Concept Texts list endpoint so the frontend can show audio status without making one request per row.
@@ -511,6 +513,13 @@ rejected
 - No extra request is needed for each table row.
 - Filters can later use audio status.
 ```
+
+Implementation notes:
+
+- Added `audioSummary` and `audio_summary` to the admin concept text list response.
+- The list endpoint now fetches audio attempts for the visible page in one query and derives missing, pending_review, approved, and rejected row summaries.
+- Pending review takes precedence over an approved current audio so replacement recordings remain visible in the table.
+- Updated the Concept Texts table type and Audio column to display the returned summary without loading per-row audio history.
 
 ---
 

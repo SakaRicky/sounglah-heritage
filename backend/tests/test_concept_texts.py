@@ -49,6 +49,8 @@ def test_list_seeded_concept_texts():
     assert data["data"][0]["language"]["code"]
     assert "audioUrl" in data["data"][0]
     assert "currentAudioId" in data["data"][0]
+    assert data["data"][0]["audioSummary"]["status"] == "missing"
+    assert data["data"][0]["audio_summary"]["status"] == "missing"
     assert "pronunciationNote" in data["data"][0]
 
 
@@ -295,6 +297,116 @@ def test_filter_and_search_concept_texts():
     assert review_response.get_json()["meta"]["total"] == 12
     assert search_response.status_code == 200
     assert search_response.get_json()["data"][0]["text"] == "Bonjour"
+
+
+def test_list_concept_texts_includes_audio_summary_without_per_row_history_requests():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+
+    with app.app_context():
+        concept_texts = ConceptText.query.order_by(ConceptText.id.asc()).limit(4).all()
+        missing_text, approved_text, pending_text, replacement_text = concept_texts
+
+        approved_audio = ConceptTextAudio(
+            concept_text_id=approved_text.id,
+            audio_url="/media/audio/approved.webm",
+            status=ConceptTextAudio.STATUS_APPROVED,
+            duration_seconds=4,
+        )
+        pending_audio = ConceptTextAudio(
+            concept_text_id=pending_text.id,
+            audio_url="/media/audio/pending.webm",
+            status=ConceptTextAudio.STATUS_PENDING_REVIEW,
+            duration_seconds=5,
+        )
+        current_audio = ConceptTextAudio(
+            concept_text_id=replacement_text.id,
+            audio_url="/media/audio/current.webm",
+            status=ConceptTextAudio.STATUS_APPROVED,
+            duration_seconds=3,
+        )
+        replacement_audio = ConceptTextAudio(
+            concept_text_id=replacement_text.id,
+            audio_url="/media/audio/replacement.webm",
+            status=ConceptTextAudio.STATUS_PENDING_REVIEW,
+            duration_seconds=6,
+        )
+        db.session.add_all([approved_audio, pending_audio, current_audio, replacement_audio])
+        db.session.flush()
+        approved_text.set_current_audio(approved_audio)
+        replacement_text.set_current_audio(current_audio)
+        db.session.commit()
+
+        expected_ids = {
+            "missing": missing_text.id,
+            "approved": approved_text.id,
+            "pending": pending_text.id,
+            "replacement": replacement_text.id,
+        }
+        expected_audio_ids = {
+            "approved": approved_audio.id,
+            "pending": pending_audio.id,
+            "current": current_audio.id,
+            "replacement": replacement_audio.id,
+        }
+
+    response = client.get("/api/admin/concept-texts?pageSize=100", headers=headers)
+
+    assert response.status_code == 200
+    summaries = {item["id"]: item["audioSummary"] for item in response.get_json()["data"]}
+    snake_summaries = {item["id"]: item["audio_summary"] for item in response.get_json()["data"]}
+
+    assert summaries[expected_ids["missing"]] == {
+        "status": "missing",
+        "currentAudioId": None,
+        "currentAudioUrl": None,
+        "pendingAudioId": None,
+        "durationSeconds": None,
+    }
+    assert summaries[expected_ids["approved"]]["status"] == "approved"
+    assert summaries[expected_ids["approved"]]["currentAudioId"] == expected_audio_ids["approved"]
+    assert summaries[expected_ids["approved"]]["currentAudioUrl"] == "/media/audio/approved.webm"
+    assert summaries[expected_ids["approved"]]["durationSeconds"] == 4
+    assert summaries[expected_ids["pending"]]["status"] == "pending_review"
+    assert summaries[expected_ids["pending"]]["pendingAudioId"] == expected_audio_ids["pending"]
+    assert summaries[expected_ids["pending"]]["durationSeconds"] == 5
+    assert summaries[expected_ids["replacement"]]["status"] == "pending_review"
+    assert summaries[expected_ids["replacement"]]["currentAudioId"] == expected_audio_ids["current"]
+    assert summaries[expected_ids["replacement"]]["currentAudioUrl"] == "/media/audio/current.webm"
+    assert summaries[expected_ids["replacement"]]["pendingAudioId"] == expected_audio_ids["replacement"]
+    assert summaries[expected_ids["replacement"]]["durationSeconds"] == 6
+    assert snake_summaries[expected_ids["replacement"]]["current_audio_url"] == "/media/audio/current.webm"
+
+
+def test_list_concept_texts_audio_summary_shows_rejected_when_latest_attempt_was_rejected():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+
+    with app.app_context():
+        concept_text = ConceptText.query.first()
+        rejected_audio = ConceptTextAudio(
+            concept_text_id=concept_text.id,
+            audio_url="/media/audio/rejected.webm",
+            status=ConceptTextAudio.STATUS_REJECTED,
+            duration_seconds=7,
+        )
+        db.session.add(rejected_audio)
+        db.session.commit()
+        concept_text_id = concept_text.id
+
+    response = client.get("/api/admin/concept-texts?pageSize=100", headers=headers)
+
+    assert response.status_code == 200
+    summaries = {item["id"]: item["audioSummary"] for item in response.get_json()["data"]}
+    assert summaries[concept_text_id] == {
+        "status": "rejected",
+        "currentAudioId": None,
+        "currentAudioUrl": None,
+        "pendingAudioId": None,
+        "durationSeconds": 7,
+    }
 
 
 def test_concept_text_audio_history_can_set_approved_current_audio():
