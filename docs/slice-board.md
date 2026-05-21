@@ -69,6 +69,8 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 | S014.6 - Concept Text Audio Cell | Review | Reusable audio cell handles missing, pending, approved, and rejected states with Médumba-only record/replace actions in the Concept Texts table. |
 | S014.7 - Mini Audio Player | Review | Compact reusable audio player with play/pause, loading, duration, and error states; used in the Concept Text audio cell and recorder preview. |
 | S014.8 - Recording Mode Page | Review | Focused batch recording page at `/admin/content/concept-texts/recording`; loads missing Médumba items from the concept text list and advances to the next item after submit. |
+| S014.9 - Audio Review Queue | Review | Admin review queue at `/admin/audio-review` lists submitted audio, plays recordings, and supports approve/reject with review notes; phones and tablets use stacked recording cards while desktop keeps the table. |
+| S014.10 - Permissions and Roles | Review | MVP admin-only audio permission gates are centralized on backend and frontend; role-specific behavior is deferred until roles exist. |
 | S014 - Lessons CRUD | Backlog | Lesson structure |
 | S015 - LessonItems CRUD | Backlog | Exercises/items |
 

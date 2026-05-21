@@ -847,6 +847,8 @@ Implementation notes:
 
 ## S014.9 - Audio Review Queue
 
+Status: Review
+
 ### Goal
 
 Allow reviewers/admins to approve or reject submitted audio recordings.
@@ -868,6 +870,8 @@ Audio
 Submitted
 Actions
 ```
+
+On phones and tablets, the same queue should use stacked recording cards instead of forcing the desktop table to scroll horizontally.
 
 Actions:
 
@@ -910,17 +914,29 @@ When a reviewer rejects an audio:
 ### Acceptance criteria
 
 ```text
-- Reviewer can see all pending audios.
-- Reviewer can play audio before deciding.
-- Reviewer can approve audio.
-- Reviewer can reject audio with a note.
-- Approved audio becomes the current concept text audio.
-- Rejected audio is not used in lessons.
+- [x] Reviewer can see all pending audios.
+- [x] Reviewer can play audio before deciding.
+- [x] Reviewer can approve audio.
+- [x] Reviewer can reject audio with a note.
+- [x] Approved audio becomes the current concept text audio.
+- [x] Rejected audio is not used in lessons.
 ```
+
+Implementation notes:
+
+- Added `/admin/audio-review` for the admin audio review queue.
+- Added frontend helpers for the existing review queue, approve, and reject endpoints.
+- The queue supports status and language filters, pagination, empty/loading/error states, and refresh.
+- Reviewers can play submitted audio with `AudioPlayerMini`, approve pending audio, or reject with a review note.
+- Phones and tablets now render submitted recordings as stacked review cards with concept, language, status, player, submitted metadata, recorder, and approve/reject actions; the table remains the desktop view.
+- Added an Audio Review entry to the admin sidebar.
+- Verification: from `frontend/`, `npm run typecheck` and `npm run lint` pass. `npm run build` remains blocked locally because Node 20.10.0 is below Vite's required Node 20.19+ / 22.12+.
 
 ---
 
 ## S014.10 - Permissions and Roles
+
+Status: Review
 
 ### Goal
 
@@ -989,11 +1005,18 @@ But the code should be structured so permissions can be separated later.
 ### Acceptance criteria
 
 ```text
-- Unauthorized users cannot record audio.
-- Unauthorized users cannot approve/reject audio.
-- UI hides actions users cannot perform.
-- Backend also enforces permissions.
+- [x] Unauthorized users cannot record audio.
+- [x] Unauthorized users cannot approve/reject audio.
+- [x] UI hides actions users cannot perform.
+- [x] Backend also enforces permissions.
 ```
+
+Implementation notes:
+
+- MVP keeps concept text audio permissions admin-only, matching the current auth model.
+- Added named backend permission gates for read, create, review, approve, reject, replace, and archive so future roles can plug into one place.
+- Added frontend audio capability helpers and routed table recording, recording mode, and review queue actions through them.
+- Full role separation for Audio Contributor, Reviewer, and Content Manager is deferred until the user/session model has roles.
 
 ---
 
