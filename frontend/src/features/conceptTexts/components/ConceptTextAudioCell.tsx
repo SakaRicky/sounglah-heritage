@@ -69,7 +69,10 @@ export function ConceptTextAudioCell({
   onAudioSubmit,
 }: ConceptTextAudioCellProps) {
   const status = audioSummary.status
-  const audioUrl = audioSummary.currentAudioUrl ?? fallbackAudioUrl ?? null
+  const audioUrl =
+    status === 'pending_review'
+      ? audioSummary.pendingAudioUrl ?? audioSummary.currentAudioUrl ?? fallbackAudioUrl ?? null
+      : audioSummary.currentAudioUrl ?? fallbackAudioUrl ?? null
   const durationLabel = formatDuration(audioSummary.durationSeconds)
   const isRecorderActive = activeRecorderId === conceptTextId
   const recorderDisabled = activeRecorderId !== null && !isRecorderActive

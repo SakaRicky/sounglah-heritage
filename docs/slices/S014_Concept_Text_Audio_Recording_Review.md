@@ -492,6 +492,7 @@ Example:
     "current_audio_id": null,
     "current_audio_url": null,
     "pending_audio_id": null,
+    "pending_audio_url": null,
     "duration_seconds": null
   }
 }
@@ -651,6 +652,7 @@ type ConceptTextAudioCellProps = {
     currentAudioId?: string | null;
     currentAudioUrl?: string | null;
     pendingAudioId?: string | null;
+    pendingAudioUrl?: string | null;
     durationSeconds?: number | null;
   };
   canRecord: boolean;

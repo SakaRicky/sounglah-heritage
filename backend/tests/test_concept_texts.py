@@ -362,6 +362,7 @@ def test_list_concept_texts_includes_audio_summary_without_per_row_history_reque
         "currentAudioId": None,
         "currentAudioUrl": None,
         "pendingAudioId": None,
+        "pendingAudioUrl": None,
         "durationSeconds": None,
     }
     assert summaries[expected_ids["approved"]]["status"] == "approved"
@@ -370,13 +371,16 @@ def test_list_concept_texts_includes_audio_summary_without_per_row_history_reque
     assert summaries[expected_ids["approved"]]["durationSeconds"] == 4
     assert summaries[expected_ids["pending"]]["status"] == "pending_review"
     assert summaries[expected_ids["pending"]]["pendingAudioId"] == expected_audio_ids["pending"]
+    assert summaries[expected_ids["pending"]]["pendingAudioUrl"] == "/media/audio/pending.webm"
     assert summaries[expected_ids["pending"]]["durationSeconds"] == 5
     assert summaries[expected_ids["replacement"]]["status"] == "pending_review"
     assert summaries[expected_ids["replacement"]]["currentAudioId"] == expected_audio_ids["current"]
     assert summaries[expected_ids["replacement"]]["currentAudioUrl"] == "/media/audio/current.webm"
     assert summaries[expected_ids["replacement"]]["pendingAudioId"] == expected_audio_ids["replacement"]
+    assert summaries[expected_ids["replacement"]]["pendingAudioUrl"] == "/media/audio/replacement.webm"
     assert summaries[expected_ids["replacement"]]["durationSeconds"] == 6
     assert snake_summaries[expected_ids["replacement"]]["current_audio_url"] == "/media/audio/current.webm"
+    assert snake_summaries[expected_ids["replacement"]]["pending_audio_url"] == "/media/audio/replacement.webm"
 
 
 def test_list_concept_texts_audio_summary_shows_rejected_when_latest_attempt_was_rejected():
@@ -405,6 +409,7 @@ def test_list_concept_texts_audio_summary_shows_rejected_when_latest_attempt_was
         "currentAudioId": None,
         "currentAudioUrl": None,
         "pendingAudioId": None,
+        "pendingAudioUrl": None,
         "durationSeconds": 7,
     }
 

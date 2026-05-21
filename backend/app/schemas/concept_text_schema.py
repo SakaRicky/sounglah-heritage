@@ -63,6 +63,7 @@ def concept_text_to_dict(concept_text, include_relationships=True, audio_summary
             "current_audio_id": audio_summary["currentAudioId"],
             "current_audio_url": audio_summary["currentAudioUrl"],
             "pending_audio_id": audio_summary["pendingAudioId"],
+            "pending_audio_url": audio_summary["pendingAudioUrl"],
             "duration_seconds": audio_summary["durationSeconds"],
         }
 

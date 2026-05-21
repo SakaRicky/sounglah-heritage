@@ -9,6 +9,7 @@ export interface ConceptTextAudioSummary {
   currentAudioId: string | null
   currentAudioUrl: string | null
   pendingAudioId: string | null
+  pendingAudioUrl: string | null
   durationSeconds: number | null
 }
 

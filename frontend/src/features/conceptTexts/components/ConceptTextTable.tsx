@@ -95,6 +95,7 @@ function AudioCell({ conceptText }: { conceptText: ConceptText }) {
     currentAudioId: null,
     currentAudioUrl: conceptText.audioUrl ?? null,
     pendingAudioId: null,
+    pendingAudioUrl: null,
     durationSeconds: null,
   }
   const canRecordAudio = canRecordConceptTextAudio(conceptText.language?.code)

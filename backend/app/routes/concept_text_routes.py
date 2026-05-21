@@ -167,6 +167,7 @@ def _empty_audio_summary():
         "currentAudioId": None,
         "currentAudioUrl": None,
         "pendingAudioId": None,
+        "pendingAudioUrl": None,
         "durationSeconds": None,
     }
 
@@ -200,6 +201,7 @@ def _audio_summary_for(concept_text, audio_attempts):
             {
                 "status": "pending_review",
                 "pendingAudioId": pending_audio.id,
+                "pendingAudioUrl": pending_audio.audio_url,
                 "durationSeconds": pending_audio.duration_seconds,
             }
         )
