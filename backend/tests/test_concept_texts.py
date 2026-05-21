@@ -1,6 +1,8 @@
 from app import create_app
 from app.extensions import db
 from app.models.concept import Concept
+from app.models.concept_text import ConceptText
+from app.models.concept_text_audio import ConceptTextAudio
 from app.models.language import Language
 
 
@@ -46,6 +48,7 @@ def test_list_seeded_concept_texts():
     assert data["data"][0]["concept"]["key"]
     assert data["data"][0]["language"]["code"]
     assert "audioUrl" in data["data"][0]
+    assert "currentAudioId" in data["data"][0]
     assert "pronunciationNote" in data["data"][0]
 
 
@@ -62,6 +65,7 @@ def test_get_one_concept_text():
     data = response.get_json()["data"]
     assert data["text"] == "Bonjour"
     assert "audioUrl" in data
+    assert "currentAudioId" in data
     assert "pronunciationNote" in data
 
 
@@ -291,3 +295,83 @@ def test_filter_and_search_concept_texts():
     assert review_response.get_json()["meta"]["total"] == 12
     assert search_response.status_code == 200
     assert search_response.get_json()["data"][0]["text"] == "Bonjour"
+
+
+def test_concept_text_audio_history_can_set_approved_current_audio():
+    app = create_app(testing=True)
+
+    with app.app_context():
+        concept_text = ConceptText.query.join(Language).filter(Language.code == "fr").first()
+        rejected_audio = ConceptTextAudio(
+            concept_text_id=concept_text.id,
+            audio_url="/media/audio/fr/bonjour-rejected.webm",
+            audio_public_id="concept-text-audio/bonjour-rejected",
+            storage_provider="cloudinary",
+            duration_seconds=3,
+            file_size_bytes=12000,
+            mime_type="audio/webm",
+            status=ConceptTextAudio.STATUS_REJECTED,
+            review_note="Pronunciation needs to be clearer.",
+        )
+        approved_audio = ConceptTextAudio(
+            concept_text_id=concept_text.id,
+            audio_url="/media/audio/fr/bonjour-approved.webm",
+            audio_public_id="concept-text-audio/bonjour-approved",
+            storage_provider="cloudinary",
+            duration_seconds=4,
+            file_size_bytes=14000,
+            mime_type="audio/webm",
+            status=ConceptTextAudio.STATUS_APPROVED,
+        )
+        db.session.add_all([rejected_audio, approved_audio])
+        db.session.flush()
+
+        concept_text.set_current_audio(approved_audio)
+        db.session.commit()
+
+        saved = db.session.get(ConceptText, concept_text.id)
+        assert saved.current_audio_id == approved_audio.id
+        assert saved.current_audio.audio_url == "/media/audio/fr/bonjour-approved.webm"
+        assert len(saved.audio_attempts) == 2
+
+
+def test_concept_text_rejects_non_approved_current_audio():
+    app = create_app(testing=True)
+
+    with app.app_context():
+        concept_text = ConceptText.query.first()
+        pending_audio = ConceptTextAudio(
+            concept_text_id=concept_text.id,
+            audio_url="/media/audio/pending.webm",
+            status=ConceptTextAudio.STATUS_PENDING_REVIEW,
+        )
+        db.session.add(pending_audio)
+        db.session.flush()
+
+        try:
+            concept_text.set_current_audio(pending_audio)
+        except ValueError as error:
+            assert str(error) == "Only approved audio can become current audio."
+        else:
+            raise AssertionError("Pending audio should not become current audio.")
+
+
+def test_concept_text_rejects_audio_from_another_concept_text_as_current():
+    app = create_app(testing=True)
+
+    with app.app_context():
+        concept_texts = ConceptText.query.limit(2).all()
+        audio = ConceptTextAudio(
+            concept_text_id=concept_texts[1].id,
+            audio_url="/media/audio/other.webm",
+            status=ConceptTextAudio.STATUS_APPROVED,
+        )
+        db.session.add(audio)
+        db.session.flush()
+
+        try:
+            concept_texts[0].set_current_audio(audio)
+        except ValueError as error:
+            assert str(error) == "Current audio must belong to this concept text."
+        else:
+            raise AssertionError("Audio from another concept text should not become current audio.")

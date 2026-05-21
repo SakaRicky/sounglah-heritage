@@ -40,6 +40,8 @@ def concept_text_to_dict(concept_text, include_relationships=True):
         "pronunciation": concept_text.pronunciation,
         "audioUrl": concept_text.audio_url,
         "audio_url": concept_text.audio_url,
+        "currentAudioId": concept_text.current_audio_id,
+        "current_audio_id": concept_text.current_audio_id,
         "pronunciationNote": concept_text.pronunciation_note,
         "pronunciation_note": concept_text.pronunciation_note,
         "literalMeaning": concept_text.literal_meaning,
