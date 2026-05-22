@@ -60,7 +60,11 @@ The MVP should focus on:
 - Concept management
 - Concept text management
 - Lesson and lesson item management
-- Simple learner experience later
+- Simple **anonymous** learner experience (no child accounts yet; progress is session-only)
+
+## Learner access (MVP)
+
+Families use published lessons without signing up. Public read APIs live at `/api/lessons`. Admin login remains separate at `/api/auth/login`. Saved progress and learner accounts are post-MVP.
 
 ## Preferred Tech Stack
 

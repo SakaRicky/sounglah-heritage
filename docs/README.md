@@ -18,6 +18,7 @@ Use this map when you return to the project or onboard a new contributor.
 |-----|---------|
 | [slice-board.md](./slice-board.md) | Epics, slice status, current phase |
 | [slices/](./slices/) | Per-slice specs (`00-overview.md` for parent slices) |
+| [slices/E05-lessons/00-overview.md](./slices/E05-lessons/00-overview.md) | **Epic 5:** Lessons + lesson items MVP (S023, Greeting Grandma) |
 | [prompts/](./prompts/) | Planner, Builder, Reviewer prompt templates |
 | [SS008 verify (S001)](./slices/E01-foundation/S001-setup-dev-environment/SS008-verify-dev-commands.md) | Record of last `pytest` / `npm run build` / `npm run lint` verification |
 

@@ -1,12 +1,14 @@
 # S015 - LessonItems CRUD
 
+> **Superseded by [S023 — Lessons and Lesson Items MVP](../E05-lessons/00-overview.md).** MVP item types are `VOCABULARY`, `PHRASE`, `AUDIO_LISTEN`, `CULTURAL_NOTE` — not seed `vocabulary_card` / `story_segment`. Builders should follow **S023.5–S023.7** and player slices **S023.11–S023.14**.
+
 ## Epic
 
-Epic 4 - Content Admin CRUD
+Epic 4 - Content Admin CRUD (historical)
 
 ## Status
 
-Planned
+Superseded
 
 ## Goal
 

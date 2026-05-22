@@ -24,7 +24,8 @@ Early backend should start with:
 - auth routes later
 - language routes later
 - concept routes later
-- lesson routes later
+- lesson routes at `/api/lessons` (public) and `/api/admin/lessons` (admin)
+- Lesson + LessonItem models (S023)
 
 ## Frontend
 
