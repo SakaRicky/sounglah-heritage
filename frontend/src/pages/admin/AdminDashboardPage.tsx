@@ -21,11 +21,6 @@ const contentAreas = [
     description: 'Build structured learning paths.',
     to: '/admin/content/lessons',
   },
-  {
-    title: 'Lesson Items',
-    description: 'Create the small learning steps inside lessons.',
-    to: '/admin/content/lesson-items',
-  },
 ] as const
 
 const buildFocus = [
@@ -33,7 +28,6 @@ const buildFocus = [
   'Concepts',
   'Concept Texts',
   'Lessons',
-  'Lesson Items',
 ] as const
 
 export function AdminDashboardPage() {

@@ -8,7 +8,6 @@ import { LanguagesPage } from '../pages/public/LanguagesPage'
 import { StoriesCulturesPage } from '../pages/public/StoriesCulturesPage'
 import { LoginPage } from '../pages/auth/LoginPage'
 import { AdminDashboardPage } from '../pages/admin/AdminDashboardPage'
-import { AdminPlaceholderPage } from '../pages/admin/AdminPlaceholderPage'
 import { AdminConceptTextsPage } from '../features/conceptTexts/pages/ConceptTextsPage'
 import { ConceptTextAudioReviewPage } from '../features/conceptTexts/pages/ConceptTextAudioReviewPage'
 import { ConceptTextReviewPage } from '../features/conceptTexts/pages/ConceptTextReviewPage'
@@ -18,6 +17,7 @@ import { AdminConceptsPage } from '../features/concepts/pages/ConceptsPage'
 import { AdminLanguagesPage } from '../features/languages/pages/LanguagesPage'
 import { AdminLessonsPage } from '../features/lessons/pages/LessonsPage'
 import { LessonFormPage } from '../features/lessons/pages/LessonFormPage'
+import { LessonItemsBuilderPage } from '../features/lessons/pages/LessonItemsBuilderPage'
 
 export const router = createBrowserRouter([
   {
@@ -110,14 +110,12 @@ export const router = createBrowserRouter([
             element: <LessonFormPage />,
           },
           {
+            path: 'content/lessons/:lessonId/items',
+            element: <LessonItemsBuilderPage />,
+          },
+          {
             path: 'content/lesson-items',
-            element: (
-              <AdminPlaceholderPage
-                title="Lesson Items"
-                description="Create the small learning steps inside lessons."
-                nextSlice="S015"
-              />
-            ),
+            element: <Navigate to="/admin/content/lessons" replace />,
           },
           {
             path: 'concepts',
@@ -133,7 +131,7 @@ export const router = createBrowserRouter([
           },
           {
             path: 'lesson-items',
-            element: <Navigate to="/admin/content/lesson-items" replace />,
+            element: <Navigate to="/admin/content/lessons" replace />,
           },
         ],
       },

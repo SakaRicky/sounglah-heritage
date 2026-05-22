@@ -132,7 +132,6 @@ const navSections: NavSection[] = [
       { type: 'link', label: 'Concepts', to: '/admin/content/concepts', icon: <LayersIcon /> },
       { type: 'link', label: 'Concept Texts', to: '/admin/content/concept-texts', icon: <DocumentIcon /> },
       { type: 'link', label: 'Lessons', to: '/admin/content/lessons', icon: <BookIcon /> },
-      { type: 'link', label: 'Lesson Items', to: '/admin/content/lesson-items', icon: <ListIcon /> },
       { type: 'disabled', label: 'Stories', icon: <DocumentIcon /> },
       { type: 'disabled', label: 'Vocabulary', icon: <ListIcon /> },
       { type: 'disabled', label: 'Culture & Media', icon: <LayersIcon /> },
