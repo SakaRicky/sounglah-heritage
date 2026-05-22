@@ -6,7 +6,7 @@ Epic 4 - Content Admin CRUD
 
 ## Status
 
-Planned
+Done
 
 ## Goal
 
@@ -269,7 +269,7 @@ Result: passed.
 
 ### S022.3 - Review Table And Mobile Cards
 
-Status: Planned
+Status: Done
 
 Goal: Phrase-first reviewer layout on desktop and mobile.
 
@@ -285,9 +285,26 @@ Acceptance criteria:
 - Reviewers can scan and paginate the queue on phone and desktop.
 - Heritage phrase is visually primary.
 
+Implementation notes:
+
+- Added `ConceptTextReviewReferenceTexts` and `ConceptTextReviewMobileCard` components.
+- Wired review status, local language, and search filters to the review-queue API with reset support.
+- Replaced the preview list with a phrase-first desktop table and stacked mobile cards.
+- Added pagination via `AdminDataTable`; approve/reject/edit actions remain for S022.4.
+
+Verification:
+
+```bash
+cd frontend
+npm run lint
+npm run build
+```
+
+Result: passed.
+
 ### S022.4 - Approve, Reject, And Edit Actions
 
-Status: Planned
+Status: Done
 
 Goal: Complete the review loop without leaving the queue when possible.
 
@@ -302,9 +319,25 @@ Acceptance criteria:
 - Approve and one-click reject update row and refresh queue.
 - Edit opens Concept Texts form with context.
 
+Implementation notes:
+
+- Added `ConceptTextReviewActions` for desktop and mobile approve, one-click reject, and edit link.
+- Wired `updateConceptText()` from the review page with success notice and queue refresh.
+- Edit deep links to `/admin/content/concept-texts?edit=<id>`.
+
+Verification:
+
+```bash
+cd frontend
+npm run lint
+npm run build
+```
+
+Result: passed.
+
 ### S022.5 - Tests, Docs, And Stabilization
 
-Status: Planned
+Status: Done
 
 Goal: Verify and document the workflow.
 
@@ -319,6 +352,32 @@ Acceptance criteria:
 - Relevant backend tests pass.
 - Frontend lint and build pass.
 - Slice board reflects Done when complete.
+
+Implementation notes:
+
+- Review-queue backend coverage from S022.1 remains in `tests/test_concept_texts.py` (six tests).
+- Re-ran focused review-queue tests and full backend `pytest` (81 passed).
+- Re-ran frontend `npm run lint` and `npm run build`.
+- API docs for `GET /api/admin/concept-texts/review-queue` shipped in S022.1.
+- Parent slice **S022** marked Done on slice board.
+
+Verification:
+
+```bash
+cd backend
+.venv/bin/pytest tests/test_concept_texts.py -k review_queue
+.venv/bin/pytest
+```
+
+Result: passed, `6 passed` review-queue; `81 passed` full suite.
+
+```bash
+cd frontend
+npm run lint
+npm run build
+```
+
+Result: passed.
 
 ## Recommended Build Order
 
@@ -339,7 +398,7 @@ Acceptance criteria:
 
 **Frontend**
 
-- `frontend/src/features/conceptTexts/pages/ConceptTextTextReviewPage.tsx` (new)
+- `frontend/src/features/conceptTexts/pages/ConceptTextReviewPage.tsx` (new)
 - `frontend/src/features/conceptTexts/api/conceptTextsApi.ts`
 - `frontend/src/features/conceptTexts/types/conceptText.types.ts`
 - `frontend/src/components/admin/AdminSidebar.tsx`
