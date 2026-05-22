@@ -154,7 +154,7 @@ Seed CSVs under `backend/sounglah_extraction/` (`lessons_seed.csv`, `lesson_item
 
 | ID | Name | Status |
 | --- | --- | --- |
-| S023.1 | Database + backend foundation | Planned |
+| S023.1 | Database + backend foundation | Done |
 | S023.2 | Backend lessons API | Planned |
 | S023.3 | Admin lessons list screen | Planned |
 | S023.4 | Admin create/edit lesson screen | Planned |
