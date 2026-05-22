@@ -263,6 +263,90 @@ Incomplete response:
 }
 ```
 
+## List Concept Completion
+
+`GET /api/admin/concepts/completion`
+
+Returns concepts with their required-language completion state. The `status` query param filters completion status, not concept visibility.
+
+Query params:
+
+| Param | Values | Default |
+| --- | --- | --- |
+| `search` | string | none |
+| `status` | `needs_translation`, `has_rejected_text`, `draft`, `needs_review`, `complete`, `published`, `all` | `all` |
+| `language` | active required language code, such as `med`, `en`, or `fr` | none |
+| `page` | number | `1` |
+| `pageSize` | number, max `100` | `20` |
+
+The `language` filter returns concepts where that required language is missing or not approved.
+
+Response:
+
+```json
+{
+  "data": [
+    {
+      "id": "uuid-here",
+      "key": "mother",
+      "slug": "mother",
+      "title": "Mother",
+      "description": "The concept of mother in a family context.",
+      "category": "Family",
+      "difficultyLevel": "beginner",
+      "status": "active",
+      "publishedAt": null,
+      "isPublished": false,
+      "sortOrder": 2,
+      "createdAt": "2026-05-18T10:00:00Z",
+      "updatedAt": "2026-05-18T10:00:00Z",
+      "completionStatus": "needs_translation",
+      "isComplete": false,
+      "isReadyToPublish": false,
+      "missingLanguages": ["med"],
+      "draftLanguages": [],
+      "needsReviewLanguages": [],
+      "rejectedLanguages": [],
+      "languages": [
+        {
+          "languageId": "uuid-here",
+          "languageCode": "med",
+          "languageName": "Médumba",
+          "hasText": false,
+          "textStatus": null,
+          "textId": null
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "pageSize": 20,
+    "total": 1
+  }
+}
+```
+
+## Concept Completion Summary
+
+`GET /api/admin/concepts/completion/summary`
+
+Response:
+
+```json
+{
+  "data": {
+    "totalConcepts": 120,
+    "needsTranslation": 35,
+    "hasRejectedText": 4,
+    "draft": 6,
+    "needsReview": 18,
+    "complete": 52,
+    "published": 15
+  }
+}
+```
+
 ## Validation
 
 The API enforces:

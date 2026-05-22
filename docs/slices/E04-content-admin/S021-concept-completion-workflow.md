@@ -498,7 +498,7 @@ Result: passed, `64 passed`.
 
 ### S021.5 - Completion API Endpoints
 
-Status: Planned
+Status: Done
 
 Goal: Provide list and summary data for the dashboard.
 
@@ -515,9 +515,35 @@ Acceptance criteria:
 - Status, language, search, and pagination filters work.
 - Summary counts match the same completion logic.
 
+Implementation notes:
+
+- Added `GET /api/admin/concepts/completion`.
+- Added `GET /api/admin/concepts/completion/summary`.
+- Completion rows merge base concept fields with the centralized completion service output.
+- The completion list supports `status`, `language`, `search`, `page`, and `pageSize`.
+- The `language` filter accepts active required language codes and returns concepts where that language is missing or not approved.
+- Summary counts are calculated from the same centralized completion service.
+- Updated the Concepts Admin API docs.
+
+Verification:
+
+```bash
+cd backend
+.venv/bin/pytest tests/test_concepts.py
+```
+
+Result: passed, `24 passed`.
+
+```bash
+cd backend
+.venv/bin/pytest
+```
+
+Result: passed, `72 passed`.
+
 ### S021.6 - Admin Route And Dashboard Shell
 
-Status: Planned
+Status: Done
 
 Goal: Add the admin dashboard page shell.
 
@@ -533,6 +559,34 @@ Acceptance criteria:
 - Route is protected inside the existing admin layout.
 - Sidebar navigation works.
 - Page can load API data.
+
+Implementation notes:
+
+- Added the protected `/admin/content/concepts/completion` route.
+- Added the "Concept Completion" sidebar link under Content Management.
+- Added frontend completion API client functions and TypeScript types for list rows, language states, filters, and summary.
+- Added the first dashboard shell with page header, summary cards, API loading, empty, and error states.
+- The shell intentionally shows only a small workflow preview; filters, desktop table, mobile cards, language badges, and publish actions remain in later S021 child slices.
+
+Verification:
+
+```bash
+cd frontend
+source ~/.nvm/nvm.sh
+nvm use 22.15.0
+npm run build
+```
+
+Result: passed.
+
+```bash
+cd frontend
+source ~/.nvm/nvm.sh
+nvm use 22.15.0
+npm run lint
+```
+
+Result: passed.
 
 ### S021.7 - Completion Table And Mobile Cards
 

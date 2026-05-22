@@ -81,6 +81,8 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 | S021.2 - Concept Text Rejected Review Status | Done | Adds `rejected` to concept text review status across backend validation/constraint, frontend form/filter/badges, API docs, and tests. |
 | S021.3 - Concept Published State And Publish Guard | Done | Adds `concepts.published_at`, exposes publish state in concept API responses, and guards `POST /api/admin/concepts/:id/publish` with centralized completion logic. |
 | S021.4 - Completion Calculation Service | Done | Centralizes concept completion status calculation for required languages, active concept texts, rejected/draft/review states, complete, and published readiness; backend tests pass. |
+| S021.5 - Completion API Endpoints | Done | Adds authenticated completion list and summary endpoints with status, required-language, search, and pagination filters; focused concept tests pass. |
+| S021.6 - Admin Route And Dashboard Shell | Done | Adds the protected Concept Completion admin route, sidebar link, frontend API client/types, and loading/error/empty dashboard shell; frontend lint/build pass. |
 
 ## Epic 5 - Learner Experience
 

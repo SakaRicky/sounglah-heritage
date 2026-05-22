@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from io import BytesIO
 from unittest.mock import patch
 
@@ -15,6 +16,37 @@ def auth_headers(client):
     )
     token = response.get_json()["token"]
     return {"Authorization": f"Bearer {token}"}
+
+
+def add_required_texts(concept_key, statuses_by_language_code):
+    concept = Concept.query.filter_by(key=concept_key).first()
+    languages_by_code = {
+        language.code: language
+        for language in Language.query.filter(Language.code.in_(statuses_by_language_code.keys())).all()
+    }
+
+    for language_code, review_status in statuses_by_language_code.items():
+        language = languages_by_code[language_code]
+        existing = ConceptText.query.filter_by(
+            concept_id=concept.id,
+            language_id=language.id,
+        ).first()
+        if existing is not None:
+            existing.status = "active"
+            existing.review_status = review_status
+            continue
+
+        db.session.add(
+            ConceptText(
+                concept_id=concept.id,
+                language_id=language.id,
+                text=f"{concept.title} {language.code}",
+                status="active",
+                review_status=review_status,
+            )
+        )
+
+    db.session.commit()
 
 
 def test_concepts_require_admin_authentication():
@@ -227,6 +259,140 @@ def test_filter_disabled_concepts():
     data = disabled_response.get_json()
     assert data["meta"]["total"] == 1
     assert data["data"][0]["key"] == "food"
+
+
+def test_concept_completion_requires_admin_authentication():
+    app = create_app(testing=True)
+    client = app.test_client()
+
+    response = client.get("/api/admin/concepts/completion")
+
+    assert response.status_code == 401
+    assert response.get_json() == {
+        "error": {"message": "Admin authentication is required."}
+    }
+
+
+def test_list_concept_completion_rows():
+    app = create_app(testing=True)
+    client = app.test_client()
+
+    response = client.get("/api/admin/concepts/completion", headers=auth_headers(client))
+
+    assert response.status_code == 200
+    data = response.get_json()
+    assert data["meta"] == {"page": 1, "pageSize": 20, "total": 10}
+    assert data["data"][0]["key"] == "greeting"
+    assert data["data"][0]["completionStatus"] == "needs_translation"
+    assert data["data"][0]["isComplete"] is False
+    assert data["data"][0]["isReadyToPublish"] is False
+    assert data["data"][0]["missingLanguages"] == ["med"]
+    assert [language["languageCode"] for language in data["data"][0]["languages"]] == ["med", "en", "fr"]
+    assert data["data"][0]["languages"][0]["hasText"] is False
+
+
+def test_filter_concept_completion_by_status_language_search_and_page():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+
+    with app.app_context():
+        add_required_texts(
+            "greeting",
+            {"en": "approved", "fr": "approved", "med": "approved"},
+        )
+        add_required_texts(
+            "yes",
+            {"en": "approved", "fr": "approved", "med": "rejected"},
+        )
+
+    complete_response = client.get("/api/admin/concepts/completion?status=complete", headers=headers)
+    med_response = client.get(
+        "/api/admin/concepts/completion?language=med&page=1&pageSize=3",
+        headers=headers,
+    )
+    search_response = client.get(
+        "/api/admin/concepts/completion?search=yes&status=has_rejected_text",
+        headers=headers,
+    )
+
+    assert complete_response.status_code == 200
+    complete_data = complete_response.get_json()
+    assert complete_data["meta"]["total"] == 1
+    assert complete_data["data"][0]["key"] == "greeting"
+
+    assert med_response.status_code == 200
+    med_data = med_response.get_json()
+    assert med_data["meta"] == {"page": 1, "pageSize": 3, "total": 9}
+    assert [row["key"] for row in med_data["data"]] == ["mother", "father", "water"]
+
+    assert search_response.status_code == 200
+    search_data = search_response.get_json()
+    assert search_data["meta"]["total"] == 1
+    assert search_data["data"][0]["key"] == "yes"
+    assert search_data["data"][0]["rejectedLanguages"] == ["med"]
+
+
+def test_concept_completion_validates_filters():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+
+    status_response = client.get("/api/admin/concepts/completion?status=archived", headers=headers)
+    language_response = client.get("/api/admin/concepts/completion?language=zz", headers=headers)
+    pagination_response = client.get("/api/admin/concepts/completion?page=abc", headers=headers)
+
+    assert status_response.status_code == 400
+    assert "status" in status_response.get_json()["error"]["fields"]
+    assert language_response.status_code == 400
+    assert language_response.get_json()["error"]["fields"]["language"] == (
+        "Language filter must be an active required language code."
+    )
+    assert pagination_response.status_code == 400
+    assert pagination_response.get_json()["error"]["fields"]["page"] == "Page and page size must be numbers."
+
+
+def test_concept_completion_summary_counts_statuses():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+
+    with app.app_context():
+        add_required_texts(
+            "greeting",
+            {"en": "approved", "fr": "approved", "med": "approved"},
+        )
+        add_required_texts(
+            "mother",
+            {"en": "approved", "fr": "approved", "med": "approved"},
+        )
+        add_required_texts(
+            "yes",
+            {"en": "approved", "fr": "approved", "med": "rejected"},
+        )
+        add_required_texts(
+            "no",
+            {"en": "approved", "fr": "approved", "med": "draft"},
+        )
+        add_required_texts(
+            "family",
+            {"en": "approved", "fr": "approved", "med": "needs_review"},
+        )
+        Concept.query.filter_by(key="greeting").first().published_at = datetime.now(timezone.utc)
+        db.session.commit()
+
+    response = client.get("/api/admin/concepts/completion/summary", headers=headers)
+
+    assert response.status_code == 200
+    assert response.get_json()["data"] == {
+        "totalConcepts": 10,
+        "needsTranslation": 5,
+        "hasRejectedText": 1,
+        "draft": 1,
+        "needsReview": 1,
+        "complete": 1,
+        "published": 1,
+    }
 
 
 def test_publish_concept_requires_admin_authentication():

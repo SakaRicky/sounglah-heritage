@@ -137,7 +137,8 @@ const navSections: NavSection[] = [
     title: 'Content Management',
     items: [
       { type: 'link', label: 'Languages', to: '/admin/content/languages', icon: <BookIcon /> },
-      { type: 'link', label: 'Concepts', to: '/admin/content/concepts', icon: <LayersIcon /> },
+      { type: 'link', label: 'Concepts', to: '/admin/content/concepts', icon: <LayersIcon />, end: true },
+      { type: 'link', label: 'Concept Completion', to: '/admin/content/concepts/completion', icon: <ListIcon /> },
       { type: 'link', label: 'Concept Texts', to: '/admin/content/concept-texts', icon: <DocumentIcon /> },
       { type: 'link', label: 'Audio Review', to: '/admin/audio-review', icon: <AudioIcon /> },
       { type: 'link', label: 'Lessons', to: '/admin/content/lessons', icon: <BookIcon /> },

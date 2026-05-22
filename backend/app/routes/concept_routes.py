@@ -26,6 +26,15 @@ VALID_STATUSES = {"active", "disabled"}
 VALID_STATUS_FILTERS = {"active", "disabled", "all"}
 VALID_DIFFICULTY_FILTERS = {"beginner", "intermediate", "advanced", "all"}
 VALID_SORTS = {"title", "newest", "sortOrder"}
+VALID_COMPLETION_STATUS_FILTERS = {
+    "needs_translation",
+    "has_rejected_text",
+    "draft",
+    "needs_review",
+    "complete",
+    "published",
+    "all",
+}
 WRITABLE_FIELDS = {
     "key",
     "slug",
@@ -182,6 +191,55 @@ def _apply_concept_payload(concept, payload):
         setattr(concept, field_map.get(key, key), value)
 
 
+def _pagination_args():
+    try:
+        page = max(int(request.args.get("page", 1)), 1)
+        page_size = min(max(int(request.args.get("pageSize", 20)), 1), 100)
+    except ValueError:
+        return None, None, {"page": "Page and page size must be numbers."}
+
+    return page, page_size, None
+
+
+def _concept_completion_rows(concepts, required_languages):
+    concept_ids = [concept.id for concept in concepts]
+    concept_texts_by_concept_id = {concept_id: [] for concept_id in concept_ids}
+
+    if concept_ids:
+        concept_texts = ConceptText.query.filter(ConceptText.concept_id.in_(concept_ids)).all()
+        for concept_text in concept_texts:
+            concept_texts_by_concept_id.setdefault(concept_text.concept_id, []).append(concept_text)
+
+    rows = []
+    for concept in concepts:
+        completion = calculate_concept_completion(
+            concept,
+            required_languages,
+            concept_texts_by_concept_id.get(concept.id, []),
+        )
+        rows.append({**concept_to_dict(concept), **completion})
+
+    return rows
+
+
+def _concept_matches_completion_language(row, language_code):
+    if not language_code:
+        return True
+
+    language = next(
+        (
+            item
+            for item in row["languages"]
+            if item["languageCode"].lower() == language_code
+        ),
+        None,
+    )
+
+    return language is not None and (
+        not language["hasText"] or language["textStatus"] != "approved"
+    )
+
+
 @concept_bp.get("")
 @require_admin
 def list_concepts():
@@ -202,11 +260,9 @@ def list_concepts():
     if sort not in VALID_SORTS:
         return _validation_error({"sort": "Sort must be title, newest, or sortOrder."})
 
-    try:
-        page = max(int(request.args.get("page", 1)), 1)
-        page_size = min(max(int(request.args.get("pageSize", 20)), 1), 100)
-    except ValueError:
-        return _validation_error({"page": "Page and page size must be numbers."})
+    page, page_size, pagination_errors = _pagination_args()
+    if pagination_errors:
+        return _validation_error(pagination_errors)
 
     query = Concept.query
 
@@ -247,6 +303,97 @@ def list_concepts():
             "meta": {"page": page, "pageSize": page_size, "total": total},
         }
     )
+
+
+@concept_bp.get("/completion")
+@require_admin
+def list_concept_completion():
+    search = (request.args.get("search") or "").strip()
+    completion_status = (request.args.get("status") or "all").strip().lower()
+    language_code = (request.args.get("language") or "").strip().lower()
+    page, page_size, pagination_errors = _pagination_args()
+
+    if pagination_errors:
+        return _validation_error(pagination_errors)
+
+    if completion_status not in VALID_COMPLETION_STATUS_FILTERS:
+        return _validation_error(
+            {
+                "status": (
+                    "Status filter must be needs_translation, has_rejected_text, draft, "
+                    "needs_review, complete, published, or all."
+                )
+            }
+        )
+
+    required_languages = get_active_required_languages()
+    required_language_codes = {language.code.lower() for language in required_languages}
+    if language_code and language_code not in required_language_codes:
+        return _validation_error({"language": "Language filter must be an active required language code."})
+
+    query = Concept.query
+    if search:
+        pattern = f"%{search.lower()}%"
+        query = query.filter(
+            or_(
+                db.func.lower(Concept.title).like(pattern),
+                db.func.lower(Concept.key).like(pattern),
+                db.func.lower(Concept.slug).like(pattern),
+                db.func.lower(Concept.description).like(pattern),
+                db.func.lower(Concept.category).like(pattern),
+            )
+        )
+
+    concepts = query.order_by(Concept.sort_order.asc(), Concept.title.asc()).all()
+    rows = _concept_completion_rows(concepts, required_languages)
+
+    if completion_status != "all":
+        rows = [row for row in rows if row["completionStatus"] == completion_status]
+
+    if language_code:
+        rows = [row for row in rows if _concept_matches_completion_language(row, language_code)]
+
+    total = len(rows)
+    start = (page - 1) * page_size
+    rows = rows[start : start + page_size]
+
+    return jsonify(
+        {
+            "data": rows,
+            "meta": {"page": page, "pageSize": page_size, "total": total},
+        }
+    )
+
+
+@concept_bp.get("/completion/summary")
+@require_admin
+def get_concept_completion_summary():
+    required_languages = get_active_required_languages()
+    concepts = Concept.query.order_by(Concept.sort_order.asc(), Concept.title.asc()).all()
+    rows = _concept_completion_rows(concepts, required_languages)
+
+    summary = {
+        "totalConcepts": len(rows),
+        "needsTranslation": 0,
+        "hasRejectedText": 0,
+        "draft": 0,
+        "needsReview": 0,
+        "complete": 0,
+        "published": 0,
+    }
+    status_counts = {
+        "needs_translation": "needsTranslation",
+        "has_rejected_text": "hasRejectedText",
+        "draft": "draft",
+        "needs_review": "needsReview",
+        "complete": "complete",
+        "published": "published",
+    }
+
+    for row in rows:
+        summary[status_counts[row["completionStatus"]]] += 1
+
+    return jsonify({"data": summary})
 
 
 @concept_bp.get("/<concept_id>")

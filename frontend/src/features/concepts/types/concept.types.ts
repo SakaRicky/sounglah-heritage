@@ -2,6 +2,14 @@ export type ConceptStatus = 'active' | 'disabled'
 
 export type ConceptDifficultyLevel = 'beginner' | 'intermediate' | 'advanced'
 
+export type ConceptCompletionStatus =
+  | 'needs_translation'
+  | 'has_rejected_text'
+  | 'draft'
+  | 'needs_review'
+  | 'complete'
+  | 'published'
+
 export interface Concept {
   id: string
   key: string
@@ -63,4 +71,51 @@ export type ConceptListResponse = {
     pageSize: number
     total: number
   }
+}
+
+export interface ConceptCompletionLanguage {
+  languageId: string
+  languageCode: string
+  languageName: string
+  hasText: boolean
+  textStatus: 'draft' | 'needs_review' | 'approved' | 'rejected' | null
+  textId: string | null
+}
+
+export interface ConceptCompletionRow extends Concept {
+  completionStatus: ConceptCompletionStatus
+  isComplete: boolean
+  isReadyToPublish: boolean
+  missingLanguages: string[]
+  draftLanguages: string[]
+  needsReviewLanguages: string[]
+  rejectedLanguages: string[]
+  languages: ConceptCompletionLanguage[]
+}
+
+export interface ConceptCompletionListParams {
+  search?: string
+  status?: ConceptCompletionStatus | 'all'
+  language?: string
+  page?: number
+  pageSize?: number
+}
+
+export type ConceptCompletionListResponse = {
+  data: ConceptCompletionRow[]
+  meta: {
+    page: number
+    pageSize: number
+    total: number
+  }
+}
+
+export interface ConceptCompletionSummary {
+  totalConcepts: number
+  needsTranslation: number
+  hasRejectedText: number
+  draft: number
+  needsReview: number
+  complete: number
+  published: number
 }
