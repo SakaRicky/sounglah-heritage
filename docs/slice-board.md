@@ -79,6 +79,7 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 | S021 - Concept Completion Workflow | Planned | Admin dashboard and backend completion logic for required concept texts, rejected review state, and guarded concept publishing. See `docs/slices/E04-content-admin/S021-concept-completion-workflow.md`. |
 | S021.1 - Required Language Flag | Done | Adds `languages.is_required_for_concept_completion`, seeds English/French/Médumba as required, exposes the flag through language API/admin UI, and passes backend tests plus frontend lint/build. |
 | S021.2 - Concept Text Rejected Review Status | Done | Adds `rejected` to concept text review status across backend validation/constraint, frontend form/filter/badges, API docs, and tests. |
+| S021.4 - Completion Calculation Service | Done | Centralizes concept completion status calculation for required languages, active concept texts, rejected/draft/review states, complete, and published readiness; backend tests pass. |
 
 ## Epic 5 - Learner Experience
 

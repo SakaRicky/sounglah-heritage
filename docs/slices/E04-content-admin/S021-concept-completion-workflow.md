@@ -413,7 +413,7 @@ Acceptance criteria:
 
 ### S021.4 - Completion Calculation Service
 
-Status: Planned
+Status: Done
 
 Goal: Centralize concept completion logic.
 
@@ -427,6 +427,32 @@ Acceptance criteria:
 
 - Completion logic is not duplicated in routes.
 - Unit tests cover the status priority order.
+
+Implementation notes:
+
+- Added `backend/app/services/concept_completion_service.py`.
+- Added `get_active_required_languages()` to load active languages marked required for concept completion.
+- Added `calculate_concept_completion(concept, required_languages, concept_texts)`.
+- The service returns status, readiness, missing/draft/review/rejected language code lists, and per-language completion rows.
+- Disabled required languages are excluded from completion.
+- Disabled concept texts do not count toward completion.
+- `concept.published_at` is read with `getattr` so S021.3 can add the real column without changing the service contract.
+
+Verification:
+
+```bash
+cd backend
+.venv/bin/pytest tests/test_concept_completion_service.py
+```
+
+Result: passed, `7 passed`.
+
+```bash
+cd backend
+.venv/bin/pytest
+```
+
+Result: passed, `64 passed`.
 
 ### S021.5 - Completion API Endpoints
 
