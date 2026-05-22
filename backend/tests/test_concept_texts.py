@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta, timezone
+
 from app import create_app
 from app.extensions import db
 from app.models.concept import Concept
@@ -539,3 +541,158 @@ def test_concept_text_rejects_audio_from_another_concept_text_as_current():
             assert str(error) == "Current audio must belong to this concept text."
         else:
             raise AssertionError("Audio from another concept text should not become current audio.")
+
+
+def test_review_queue_requires_admin_authentication():
+    app = create_app(testing=True)
+    client = app.test_client()
+
+    response = client.get("/api/admin/concept-texts/review-queue")
+
+    assert response.status_code == 401
+
+
+def test_review_queue_defaults_to_local_needs_review_texts():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+    concept_id, med_language_id = _lookup_ids(client, headers, "mother", "med")
+
+    create_response = client.post(
+        "/api/admin/concept-texts",
+        headers=headers,
+        json={
+            "conceptId": concept_id,
+            "languageId": med_language_id,
+            "text": "Màkòn",
+            "status": "active",
+            "reviewStatus": "needs_review",
+        },
+    )
+    assert create_response.status_code == 201
+
+    response = client.get("/api/admin/concept-texts/review-queue", headers=headers)
+
+    assert response.status_code == 200
+    payload = response.get_json()
+    assert payload["meta"]["total"] >= 1
+    row = next(item for item in payload["data"] if item["text"] == "Màkòn")
+    assert row["reviewStatus"] == "needs_review"
+    assert row["language"]["code"] == "med"
+    assert row["referenceTexts"] == [
+        {"languageCode": "en", "text": "Mother"},
+        {"languageCode": "fr", "text": "Mère"},
+    ]
+
+
+def test_review_queue_excludes_support_language_rows():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+
+    list_response = client.get("/api/admin/concept-texts?search=Hello", headers=headers)
+    english_row = list_response.get_json()["data"][0]
+    assert english_row["language"]["code"] == "en"
+
+    update_response = client.patch(
+        f"/api/admin/concept-texts/{english_row['id']}",
+        headers=headers,
+        json={"reviewStatus": "needs_review"},
+    )
+    assert update_response.status_code == 200
+
+    response = client.get("/api/admin/concept-texts/review-queue", headers=headers)
+
+    assert response.status_code == 200
+    payload = response.get_json()
+    returned_ids = {item["id"] for item in payload["data"]}
+    assert english_row["id"] not in returned_ids
+    assert all(item["language"]["code"] == "med" for item in payload["data"])
+
+
+def test_review_queue_orders_oldest_waiting_first():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+
+    with app.app_context():
+        med_language = Language.query.filter_by(code="med").first()
+        greeting_concept = Concept.query.filter_by(key="greeting").first()
+        yes_concept = Concept.query.filter_by(key="yes").first()
+        now = datetime.now(timezone.utc)
+
+        older_text = ConceptText(
+            concept_id=greeting_concept.id,
+            language_id=med_language.id,
+            text="Older queue item",
+            status="active",
+            review_status="needs_review",
+            updated_at=now - timedelta(days=2),
+        )
+        newer_text = ConceptText(
+            concept_id=yes_concept.id,
+            language_id=med_language.id,
+            text="Newer queue item",
+            status="active",
+            review_status="needs_review",
+            updated_at=now - timedelta(hours=1),
+        )
+        db.session.add_all([older_text, newer_text])
+        db.session.commit()
+
+    response = client.get(
+        "/api/admin/concept-texts/review-queue?search=queue%20item",
+        headers=headers,
+    )
+
+    assert response.status_code == 200
+    texts = [item["text"] for item in response.get_json()["data"]]
+    assert texts.index("Older queue item") < texts.index("Newer queue item")
+
+
+def test_review_queue_rejects_non_local_language_filter():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+    _, english_language_id = _lookup_ids(client, headers, "greeting", "english")
+
+    response = client.get(
+        f"/api/admin/concept-texts/review-queue?languageId={english_language_id}",
+        headers=headers,
+    )
+
+    assert response.status_code == 400
+    assert response.get_json()["error"]["fields"]["languageId"] == (
+        "Language filter must be a local review language."
+    )
+
+
+def test_review_queue_supports_status_and_search_filters():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+    concept_id, med_language_id = _lookup_ids(client, headers, "father", "med")
+
+    create_response = client.post(
+        "/api/admin/concept-texts",
+        headers=headers,
+        json={
+            "conceptId": concept_id,
+            "languageId": med_language_id,
+            "text": "Rejected heritage phrase",
+            "status": "active",
+            "reviewStatus": "rejected",
+        },
+    )
+    assert create_response.status_code == 201
+
+    rejected_response = client.get(
+        "/api/admin/concept-texts/review-queue?reviewStatus=rejected&search=Rejected%20heritage",
+        headers=headers,
+    )
+
+    assert rejected_response.status_code == 200
+    payload = rejected_response.get_json()
+    assert payload["meta"]["total"] == 1
+    assert payload["data"][0]["reviewStatus"] == "rejected"
+    assert payload["data"][0]["text"] == "Rejected heritage phrase"

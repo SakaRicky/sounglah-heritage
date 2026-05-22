@@ -86,6 +86,12 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 | S021.7 - Completion Table And Mobile Cards | Done | Six status summary cards, filters, desktop table with per-language badges, mobile stacked cards, and Concepts sub-nav tabs; frontend lint/build pass. |
 | S021.8 - Quick Actions And Publish UI | Done | Per-language quick links into Concept Texts, publish button with disabled reasons for incomplete concepts, and deep-link support for prefilled create/edit forms; frontend lint/build pass. |
 | S021.9 - Workflow Tests And Stabilization | Done | Pins test admin credentials for reliable pytest, adds summary auth and rejected-text publish guard coverage, runs full backend/frontend checks, and marks S021 complete. |
+| S022 - Text Review Queue | Planned | Dedicated local-language text review at `/admin/text-review` (Médumba + future Duala/Fefe/Bassa); one-click reject; EN/FR reference only, never queue rows. See `docs/slices/E04-content-admin/S022-text-review-queue.md`. |
+| S022.1 - Text Review Queue API | Done | `GET /api/admin/concept-texts/review-queue` — local-language filter, FIFO ordering, EN/FR reference texts; six backend tests pass. |
+| S022.2 - Text Review Page Shell | Planned | Protected route, sidebar link, API client, header, and loading/empty/error states. |
+| S022.3 - Review Table And Mobile Cards | Planned | Phrase-first desktop table and mobile cards with filters and pagination. |
+| S022.4 - Approve, Reject, And Edit Actions | Planned | One-click approve/reject via concept text update; edit deep link to Concept Texts. |
+| S022.5 - Tests, Docs, And Stabilization | Planned | Backend tests, frontend lint/build, API docs, slice board update. |
 
 ## Epic 5 - Learner Experience
 

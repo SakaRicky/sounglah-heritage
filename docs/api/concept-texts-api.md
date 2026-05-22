@@ -94,6 +94,64 @@ Response:
 }
 ```
 
+## Text Review Queue
+
+Local-language review queue for heritage translations (Médumba and future languages with `requiresConceptTextReview = true`). English and French never appear as queue rows; they may appear as `referenceTexts` for context.
+
+```http
+GET /api/admin/concept-texts/review-queue
+```
+
+Query params:
+
+- `reviewStatus`: `draft`, `needs_review`, `approved`, `rejected`, or `all` (default `needs_review`)
+- `languageId`: optional local review language filter
+- `search`
+- `page` (default `1`)
+- `pageSize` (default `25`)
+
+Only **active** concept texts in local review languages are returned. Results are ordered oldest waiting first (`updatedAt ASC`).
+
+Example:
+
+```http
+GET /api/admin/concept-texts/review-queue?reviewStatus=needs_review&page=1&pageSize=25
+```
+
+Response:
+
+```json
+{
+  "data": [
+    {
+      "id": "uuid",
+      "text": "Màkòn",
+      "reviewStatus": "needs_review",
+      "status": "active",
+      "concept": {
+        "id": "concept-uuid",
+        "key": "mother",
+        "title": "Mother"
+      },
+      "language": {
+        "id": "language-uuid",
+        "name": "Médumba",
+        "code": "med"
+      },
+      "referenceTexts": [
+        { "languageCode": "en", "text": "Mother" },
+        { "languageCode": "fr", "text": "Mère" }
+      ]
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "pageSize": 25,
+    "total": 1
+  }
+}
+```
+
 ## Get One
 
 ```http
