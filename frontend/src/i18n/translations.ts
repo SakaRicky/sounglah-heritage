@@ -48,6 +48,25 @@ export const translations = {
     'hero.ratingLabel': '5 out of 5 stars',
     'hero.socialProof': 'Loved by 1,000+ families',
 
+    'public.lessons.hero.title': 'Start learning Médumba',
+    'public.lessons.hero.description':
+      'Choose a small lesson and learn with words, audio, and culture — together with family.',
+    'public.lessons.search.label': 'Search lessons',
+    'public.lessons.search.placeholder': 'Search lessons...',
+    'public.lessons.search.emptyTitle': 'No matching lessons',
+    'public.lessons.search.emptyDescription': 'Try a different search term or browse all lessons.',
+    'public.lessons.loading': 'Loading lessons...',
+    'public.lessons.error.retry': 'Try again',
+    'public.lessons.empty.title': 'Lessons are on their way',
+    'public.lessons.empty.description':
+      'We are preparing warm, family-ready lessons. Check back soon to start learning together.',
+    'public.lessons.card.open': 'Start',
+    'public.lessons.card.coverFallbackAlt': 'Cover image for {title}',
+    'public.lessons.card.estimatedMinutes': '{count} min',
+    'public.lessons.card.timeUnknown': 'Short lesson',
+    'public.lessons.card.oneItem': '1 item',
+    'public.lessons.card.itemCount': '{count} items',
+
     'languages.explore.title': 'Explore our languages',
     'languages.explore.description': 'Starting with Médumba. Many more coming soon.',
     'languages.explore.viewAll': 'View all languages',
@@ -392,6 +411,25 @@ export const translations = {
       'Une mère, un enfant et un grand-père apprennent ensemble avec une tablette',
     'hero.ratingLabel': '5 étoiles sur 5',
     'hero.socialProof': 'Aimé par plus de 1 000 familles',
+
+    'public.lessons.hero.title': 'Commencer le Médumba',
+    'public.lessons.hero.description':
+      'Choisissez une petite leçon et apprenez avec des mots, de l’audio et de la culture — en famille.',
+    'public.lessons.search.label': 'Rechercher des leçons',
+    'public.lessons.search.placeholder': 'Rechercher des leçons...',
+    'public.lessons.search.emptyTitle': 'Aucune leçon trouvée',
+    'public.lessons.search.emptyDescription': 'Essayez un autre mot ou parcourez toutes les leçons.',
+    'public.lessons.loading': 'Chargement des leçons...',
+    'public.lessons.error.retry': 'Réessayer',
+    'public.lessons.empty.title': 'Les leçons arrivent bientôt',
+    'public.lessons.empty.description':
+      'Nous préparons des leçons chaleureuses pour la famille. Revenez bientôt pour apprendre ensemble.',
+    'public.lessons.card.open': 'Commencer',
+    'public.lessons.card.coverFallbackAlt': 'Image de couverture pour {title}',
+    'public.lessons.card.estimatedMinutes': '{count} min',
+    'public.lessons.card.timeUnknown': 'Courte leçon',
+    'public.lessons.card.oneItem': '1 élément',
+    'public.lessons.card.itemCount': '{count} éléments',
 
     'languages.explore.title': 'Explorer nos langues',
     'languages.explore.description': 'On commence avec le Médumba. Beaucoup d’autres arrivent bientôt.',

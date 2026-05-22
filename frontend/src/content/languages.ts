@@ -23,7 +23,7 @@ export const HERITAGE_LANGUAGES: HeritageLanguage[] = [
     altKey: 'languages.medumba.alt',
     objectPosition: 'object-center',
     availability: 'available',
-    ctaHref: '/languages#medumba',
+    ctaHref: '/lessons',
   },
   {
     id: 'fefe',
