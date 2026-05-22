@@ -59,7 +59,7 @@ export function HeroSection() {
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <Link
-                to="/login"
+                to="/lessons"
                 className="inline-flex h-[46px] w-full items-center justify-center gap-2 rounded-[14px] bg-[#0F6B3A] px-[26px] py-[14px] text-base font-semibold text-white shadow-button transition hover:bg-[#0c5630] sm:w-auto"
               >
                 {t('common.startLearning')}

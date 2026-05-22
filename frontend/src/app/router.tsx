@@ -19,6 +19,7 @@ import { AdminLessonsPage } from '../features/lessons/pages/LessonsPage'
 import { LessonFormPage } from '../features/lessons/pages/LessonFormPage'
 import { LessonItemFormPage } from '../features/lessons/pages/LessonItemFormPage'
 import { LessonItemsBuilderPage } from '../features/lessons/pages/LessonItemsBuilderPage'
+import { PublicLessonsPage } from '../features/lessons/pages/PublicLessonsPage'
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
       {
         path: 'stories-cultures',
         element: <StoriesCulturesPage />,
+      },
+      {
+        path: 'lessons',
+        element: <PublicLessonsPage />,
       },
     ],
   },

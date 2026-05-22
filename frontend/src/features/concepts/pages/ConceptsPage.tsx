@@ -19,6 +19,7 @@ import type { ConceptSort } from '../components/ConceptFilters'
 import { ConceptForm } from '../components/ConceptForm'
 import type { ConceptFormSubmission } from '../components/ConceptForm'
 import { ConceptTable } from '../components/ConceptTable'
+import { ConceptTextsPreviewDialog } from '../components/ConceptTextsPreviewDialog'
 import { DisableConceptDialog } from '../components/DisableConceptDialog'
 import type {
   Concept,
@@ -91,6 +92,7 @@ export function AdminConceptsPage() {
   const [formMode, setFormMode] = useState<FormMode>(null)
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
   const [statusTarget, setStatusTarget] = useState<Concept | null>(null)
+  const [previewConcept, setPreviewConcept] = useState<Concept | null>(null)
   const [quickImageUploadingId, setQuickImageUploadingId] = useState<string | null>(null)
 
   const loadConcepts = useCallback(async () => {
@@ -335,6 +337,7 @@ export function AdminConceptsPage() {
         filtered={filtered}
         onCreate={openCreateForm}
         onEdit={openEditForm}
+        onPreviewTexts={setPreviewConcept}
         onQuickImageSelect={handleQuickImageSelect}
         onToggleStatus={setStatusTarget}
         quickImageUploadingId={quickImageUploadingId}
@@ -402,6 +405,12 @@ export function AdminConceptsPage() {
         saving={saving}
         onCancel={() => setStatusTarget(null)}
         onConfirm={handleStatusConfirm}
+      />
+
+      <ConceptTextsPreviewDialog
+        key={previewConcept?.id ?? 'closed'}
+        concept={previewConcept}
+        onClose={() => setPreviewConcept(null)}
       />
     </div>
   )

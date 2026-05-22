@@ -11,7 +11,7 @@ from app.models.lesson_item import LessonItem
 from app.schemas.lesson_schema import lesson_to_dict
 from app.services import cloudinary_service
 from app.services.cloudinary_service import CloudinaryConfigurationError
-from app.services.lesson_publish_service import validate_lesson_publish
+from app.services.lesson_publish_service import prepare_lesson_for_publish, validate_lesson_publish
 from app.utils.auth import require_admin
 
 lesson_bp = Blueprint("admin_lessons", __name__)
@@ -333,7 +333,7 @@ def update_lesson(lesson_id):
 
     next_status = payload.get("status", lesson.status)
     if next_status == "published":
-        publish_fields = validate_lesson_publish(lesson)
+        publish_fields = prepare_lesson_for_publish(lesson)
         if publish_fields:
             return _publish_validation_error(publish_fields)
 

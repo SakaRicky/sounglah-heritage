@@ -3,8 +3,47 @@ from datetime import datetime, timezone
 from app import create_app
 from app.extensions import db
 from app.models.concept import Concept
+from app.models.concept_text import ConceptText
+from app.models.language import Language
 from app.models.lesson import Lesson
 from app.models.lesson_item import LessonItem
+
+
+def make_concept_ready(concept_key, statuses_by_language_code=None):
+    concept = Concept.query.filter_by(key=concept_key).first()
+    if statuses_by_language_code is None:
+        statuses_by_language_code = {"en": "approved", "fr": "approved", "med": "approved"}
+
+    languages_by_code = {
+        language.code: language
+        for language in Language.query.filter(Language.code.in_(statuses_by_language_code.keys())).all()
+    }
+
+    for language_code, review_status in statuses_by_language_code.items():
+        language = languages_by_code[language_code]
+        existing = ConceptText.query.filter_by(
+            concept_id=concept.id,
+            language_id=language.id,
+        ).first()
+        if existing is not None:
+            existing.status = "active"
+            existing.review_status = review_status
+            continue
+
+        db.session.add(
+            ConceptText(
+                concept_id=concept.id,
+                language_id=language.id,
+                text=f"{concept.title} {language.code}",
+                status="active",
+                review_status=review_status,
+            )
+        )
+
+    concept.status = "active"
+    concept.published_at = None
+    db.session.commit()
+    return concept
 
 
 def auth_headers(client):
@@ -159,7 +198,7 @@ def test_publish_lesson_requires_active_items():
     assert error["fields"]["status"] == "Published lesson must have at least one active item."
 
 
-def test_publish_lesson_requires_published_concepts():
+def test_publish_lesson_requires_ready_concepts():
     app = create_app(testing=True)
     client = app.test_client()
     headers = auth_headers(client)
@@ -196,7 +235,54 @@ def test_publish_lesson_requires_published_concepts():
 
     assert response.status_code == 400
     items_errors = response.get_json()["error"]["fields"]["items"]
-    assert any("not published yet" in message for message in items_errors)
+    assert any("not ready to publish" in message for message in items_errors)
+
+
+def test_publish_lesson_auto_publishes_complete_concepts():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+
+    with app.app_context():
+        lesson = Lesson(
+            title="Greeting Grandma",
+            slug="greeting-grandma",
+            difficulty="beginner",
+            status="draft",
+            order_index=1,
+        )
+        db.session.add(lesson)
+        db.session.flush()
+
+        concept = make_concept_ready("greeting")
+        assert concept.published_at is None
+
+        db.session.add(
+            LessonItem(
+                lesson_id=lesson.id,
+                type="VOCABULARY",
+                concept_id=concept.id,
+                title="Hello",
+                order_index=1,
+            )
+        )
+        db.session.commit()
+        lesson_id = lesson.id
+        concept_id = concept.id
+
+    response = client.patch(
+        f"/api/admin/lessons/{lesson_id}",
+        headers=headers,
+        json={"status": "published"},
+    )
+
+    assert response.status_code == 200
+    published = response.get_json()["data"]
+    assert published["status"] == "published"
+
+    with app.app_context():
+        concept = db.session.get(Concept, concept_id)
+        assert concept.published_at is not None
 
 
 def test_publish_lesson_when_curriculum_is_ready():

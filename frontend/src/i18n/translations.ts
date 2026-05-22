@@ -48,6 +48,25 @@ export const translations = {
     'hero.ratingLabel': '5 out of 5 stars',
     'hero.socialProof': 'Loved by 1,000+ families',
 
+    'public.lessons.hero.title': 'Start learning Médumba',
+    'public.lessons.hero.description':
+      'Choose a small lesson and learn with words, audio, and culture — together with family.',
+    'public.lessons.search.label': 'Search lessons',
+    'public.lessons.search.placeholder': 'Search lessons...',
+    'public.lessons.search.emptyTitle': 'No matching lessons',
+    'public.lessons.search.emptyDescription': 'Try a different search term or browse all lessons.',
+    'public.lessons.loading': 'Loading lessons...',
+    'public.lessons.error.retry': 'Try again',
+    'public.lessons.empty.title': 'Lessons are on their way',
+    'public.lessons.empty.description':
+      'We are preparing warm, family-ready lessons. Check back soon to start learning together.',
+    'public.lessons.card.open': 'Start',
+    'public.lessons.card.coverFallbackAlt': 'Cover image for {title}',
+    'public.lessons.card.estimatedMinutes': '{count} min',
+    'public.lessons.card.timeUnknown': 'Short lesson',
+    'public.lessons.card.oneItem': '1 item',
+    'public.lessons.card.itemCount': '{count} items',
+
     'languages.explore.title': 'Explore our languages',
     'languages.explore.description': 'Starting with Médumba. Many more coming soon.',
     'languages.explore.viewAll': 'View all languages',
@@ -162,6 +181,9 @@ export const translations = {
     'admin.lessons.actions.manageItems': 'Manage Items',
     'admin.lessons.actions.preview': 'Preview',
     'admin.lessons.actions.previewDisabled': 'Publish lesson to preview publicly.',
+    'admin.lessons.actions.publish': 'Publish',
+    'admin.lessons.actions.publishing': 'Publishing…',
+    'admin.lessons.actions.publishedSuccess': 'Lesson published.',
     'admin.lessons.empty.title': 'No lessons yet',
     'admin.lessons.empty.description':
       'Create your first lesson to help children practice heritage language with family.',
@@ -393,6 +415,25 @@ export const translations = {
     'hero.ratingLabel': '5 étoiles sur 5',
     'hero.socialProof': 'Aimé par plus de 1 000 familles',
 
+    'public.lessons.hero.title': 'Commencer le Médumba',
+    'public.lessons.hero.description':
+      'Choisissez une petite leçon et apprenez avec des mots, de l’audio et de la culture — en famille.',
+    'public.lessons.search.label': 'Rechercher des leçons',
+    'public.lessons.search.placeholder': 'Rechercher des leçons...',
+    'public.lessons.search.emptyTitle': 'Aucune leçon trouvée',
+    'public.lessons.search.emptyDescription': 'Essayez un autre mot ou parcourez toutes les leçons.',
+    'public.lessons.loading': 'Chargement des leçons...',
+    'public.lessons.error.retry': 'Réessayer',
+    'public.lessons.empty.title': 'Les leçons arrivent bientôt',
+    'public.lessons.empty.description':
+      'Nous préparons des leçons chaleureuses pour la famille. Revenez bientôt pour apprendre ensemble.',
+    'public.lessons.card.open': 'Commencer',
+    'public.lessons.card.coverFallbackAlt': 'Image de couverture pour {title}',
+    'public.lessons.card.estimatedMinutes': '{count} min',
+    'public.lessons.card.timeUnknown': 'Courte leçon',
+    'public.lessons.card.oneItem': '1 élément',
+    'public.lessons.card.itemCount': '{count} éléments',
+
     'languages.explore.title': 'Explorer nos langues',
     'languages.explore.description': 'On commence avec le Médumba. Beaucoup d’autres arrivent bientôt.',
     'languages.explore.viewAll': 'Voir toutes les langues',
@@ -507,6 +548,9 @@ export const translations = {
     'admin.lessons.actions.manageItems': 'Gérer les éléments',
     'admin.lessons.actions.preview': 'Aperçu',
     'admin.lessons.actions.previewDisabled': 'Publiez la leçon pour la prévisualiser publiquement.',
+    'admin.lessons.actions.publish': 'Publier',
+    'admin.lessons.actions.publishing': 'Publication…',
+    'admin.lessons.actions.publishedSuccess': 'Leçon publiée.',
     'admin.lessons.empty.title': 'Aucune leçon pour l’instant',
     'admin.lessons.empty.description':
       'Créez votre première leçon pour aider les enfants à pratiquer la langue héritée en famille.',

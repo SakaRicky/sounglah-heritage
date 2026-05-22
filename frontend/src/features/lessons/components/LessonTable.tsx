@@ -1,10 +1,15 @@
-import { Link } from 'react-router-dom'
-
 import { AdminDataTable } from '../../../components/admin/AdminDataTable'
+import {
+  AdminIconAction,
+  AdminIconActionAnchor,
+  AdminIconActionLink,
+  adminIconActionIconClass,
+} from '../../../components/admin/AdminIconAction'
 import { ImagePreview } from '../../../components/admin/MediaPreview'
 import { useI18n } from '../../../i18n'
 import type { TranslationKey } from '../../../i18n'
 import { LessonDifficultyBadge } from './LessonDifficultyBadge'
+import { LessonQuickPublishButton } from './LessonQuickPublishButton'
 import { LessonStatusBadge } from './LessonStatusBadge'
 import type { Lesson } from '../types/lesson.types'
 
@@ -18,6 +23,8 @@ type Props = {
   onPageChange: (page: number) => void
   onPageSizeChange: (pageSize: number) => void
   onCreate: () => void
+  publishingLessonId: string | null
+  onPublish: (lessonId: string) => void
 }
 
 function LessonMark({ title }: { title: string }) {
@@ -54,7 +61,7 @@ function EditIcon() {
 
 function ExternalLinkIcon() {
   return (
-    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden>
+    <svg className={adminIconActionIconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden>
       <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H18v4.5M10.5 13.5L18 6M15 18H6V9" />
     </svg>
   )
@@ -123,69 +130,73 @@ function ItemCountCell({ count, t }: { count: number; t: (key: TranslationKey) =
 
 function LessonActions({
   lesson,
-  compact = false,
+  publishingLessonId,
+  onPublish,
   t,
 }: {
   lesson: Lesson
-  compact?: boolean
+  publishingLessonId: string | null
+  onPublish: (lessonId: string) => void
   t: (key: TranslationKey) => string
 }) {
   const canPreview = lesson.status === 'published'
-  const actionClass = compact
-    ? 'inline-flex flex-1 items-center justify-center rounded-xl border border-sand-200 bg-white px-3 py-2.5 text-forest-700 transition hover:border-forest-accent/35 hover:bg-forest-50/30 focus:outline-none focus:ring-2 focus:ring-forest-200'
-    : 'inline-flex items-center gap-1.5 rounded-xl border border-forest-accent/35 bg-white px-3 py-1.5 text-sm font-semibold text-forest-700 transition hover:border-forest-accent hover:bg-forest-50/30 hover:shadow-[0_8px_22px_rgba(31,90,61,0.08)] focus:outline-none focus:ring-2 focus:ring-forest-200'
 
   return (
-    <div className={compact ? 'flex gap-2' : 'flex flex-wrap justify-end gap-2'}>
-      <Link to={`/admin/content/lessons/${lesson.id}/edit`} className={actionClass} title={t('admin.lessons.actions.edit')}>
-        <EditIcon />
-        {compact ? null : <span>{t('admin.lessons.actions.edit')}</span>}
-      </Link>
-      <Link
-        to={`/admin/content/lessons/${lesson.id}/items`}
-        className={actionClass}
-        title={t('admin.lessons.actions.manageItems')}
+    <div className="flex items-center justify-end gap-1.5">
+      <LessonQuickPublishButton
+        lesson={lesson}
+        publishing={publishingLessonId === lesson.id}
+        onPublish={onPublish}
+      />
+      <AdminIconActionLink
+        to={`/admin/content/lessons/${lesson.id}/edit`}
+        label={t('admin.lessons.actions.edit')}
       >
-        <ListIcon />
-        {compact ? null : <span>{t('admin.lessons.actions.manageItems')}</span>}
-      </Link>
+        <EditIcon />
+      </AdminIconActionLink>
+      <AdminIconActionLink
+        to={`/admin/content/lessons/${lesson.id}/items`}
+        label={t('admin.lessons.actions.manageItems')}
+      >
+        <svg className={adminIconActionIconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
+        </svg>
+      </AdminIconActionLink>
       {canPreview ? (
-        <a
+        <AdminIconActionAnchor
           href={`/lessons/${lesson.slug}`}
           target="_blank"
           rel="noreferrer"
-          className={actionClass}
-          title={t('admin.lessons.actions.preview')}
+          label={t('admin.lessons.actions.preview')}
         >
           <ExternalLinkIcon />
-          {compact ? null : <span>{t('admin.lessons.actions.preview')}</span>}
-        </a>
+        </AdminIconActionAnchor>
       ) : (
-        <span className="group relative inline-flex">
-          <button
-            type="button"
-            disabled
-            className={[
-              actionClass,
-              'cursor-not-allowed opacity-50',
-            ].join(' ')}
-            title={t('admin.lessons.actions.previewDisabled')}
-          >
-            <ExternalLinkIcon />
-            {compact ? null : <span>{t('admin.lessons.actions.preview')}</span>}
-          </button>
-          {!compact ? (
-            <span className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 hidden w-48 -translate-x-1/2 rounded-lg bg-cocoa-800 px-3 py-2 text-center text-xs font-medium text-white shadow-lg group-hover:block">
-              {t('admin.lessons.actions.previewDisabled')}
-            </span>
-          ) : null}
-        </span>
+        <AdminIconAction
+          label={t('admin.lessons.actions.preview')}
+          tooltip={t('admin.lessons.actions.previewDisabled')}
+          multilineTooltip
+          variant="disabled"
+          disabled
+        >
+          <ExternalLinkIcon />
+        </AdminIconAction>
       )}
     </div>
   )
 }
 
-function LessonMobileCard({ lesson, t }: { lesson: Lesson; t: (key: TranslationKey) => string }) {
+function LessonMobileCard({
+  lesson,
+  publishingLessonId,
+  onPublish,
+  t,
+}: {
+  lesson: Lesson
+  publishingLessonId: string | null
+  onPublish: (lessonId: string) => void
+  t: (key: TranslationKey) => string
+}) {
   return (
     <article className="rounded-2xl border border-sand-200 bg-white/80 p-4 shadow-soft">
       <LessonIdentity lesson={lesson} />
@@ -204,7 +215,12 @@ function LessonMobileCard({ lesson, t }: { lesson: Lesson; t: (key: TranslationK
       </div>
 
       <div className="mt-4 border-t border-sand-100 pt-4">
-        <LessonActions lesson={lesson} compact t={t} />
+        <LessonActions
+          lesson={lesson}
+          publishingLessonId={publishingLessonId}
+          onPublish={onPublish}
+          t={t}
+        />
       </div>
     </article>
   )
@@ -220,6 +236,8 @@ export function LessonTable({
   onPageChange,
   onPageSizeChange,
   onCreate,
+  publishingLessonId,
+  onPublish,
 }: Props) {
   const { t } = useI18n()
 
@@ -254,7 +272,13 @@ export function LessonTable({
     >
       <div className="space-y-4 bg-cream-50/35 p-3 lg:hidden">
         {lessons.map((lesson) => (
-          <LessonMobileCard key={lesson.id} lesson={lesson} t={t} />
+          <LessonMobileCard
+            key={lesson.id}
+            lesson={lesson}
+            publishingLessonId={publishingLessonId}
+            onPublish={onPublish}
+            t={t}
+          />
         ))}
       </div>
 
@@ -290,8 +314,13 @@ export function LessonTable({
               <td className="px-5 py-4">
                 <LessonStatusBadge status={lesson.status} />
               </td>
-              <td className="px-5 py-4 text-right">
-                <LessonActions lesson={lesson} t={t} />
+              <td className="whitespace-nowrap px-5 py-4 text-right">
+                <LessonActions
+                  lesson={lesson}
+                  publishingLessonId={publishingLessonId}
+                  onPublish={onPublish}
+                  t={t}
+                />
               </td>
             </tr>
           ))}

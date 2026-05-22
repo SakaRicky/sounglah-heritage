@@ -6,6 +6,7 @@ import { ImagePreview } from '../../../components/admin/MediaPreview'
 import { formatDate } from '../../../lib/date'
 import { ConceptDifficultyBadge } from './ConceptDifficultyBadge'
 import { ConceptStatusBadge } from './ConceptStatusBadge'
+import { ConceptTextsPreviewButton } from './ConceptTextsPreviewDialog'
 import type { Concept } from '../types/concept.types'
 
 type Props = {
@@ -15,6 +16,7 @@ type Props = {
   filtered: boolean
   onCreate: () => void
   onEdit: (concept: Concept) => void
+  onPreviewTexts: (concept: Concept) => void
   onQuickImageSelect: (concept: Concept, file: File) => void
   onToggleStatus: (concept: Concept) => void
   quickImageUploadingId: string | null
@@ -91,6 +93,7 @@ export function ConceptTable({
   filtered,
   onCreate,
   onEdit,
+  onPreviewTexts,
   onQuickImageSelect,
   onToggleStatus,
   quickImageUploadingId,
@@ -175,6 +178,7 @@ export function ConceptTable({
 
           return (
             <div className="flex justify-end gap-2">
+              <ConceptTextsPreviewButton concept={concept} onPreview={onPreviewTexts} />
               <button
                 type="button"
                 onClick={() => onEdit(concept)}
@@ -194,7 +198,7 @@ export function ConceptTable({
         },
       },
     ],
-    [onEdit, onQuickImageSelect, onToggleStatus, quickImageUploadingId],
+    [onEdit, onPreviewTexts, onQuickImageSelect, onToggleStatus, quickImageUploadingId],
   )
 
   return (
