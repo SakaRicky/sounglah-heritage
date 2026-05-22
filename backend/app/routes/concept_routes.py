@@ -14,6 +14,7 @@ from app.services import cloudinary_service
 from app.services.cloudinary_service import CloudinaryConfigurationError
 from app.services.concept_completion_service import (
     calculate_concept_completion,
+    concept_completion_for,
     get_active_required_languages,
 )
 from app.utils.auth import require_admin
@@ -191,6 +192,22 @@ def _apply_concept_payload(concept, payload):
         setattr(concept, field_map.get(key, key), value)
 
 
+def _parse_optional_bool(value):
+    if value is None or value == "":
+        return None
+
+    if isinstance(value, bool):
+        return value
+
+    normalized = str(value).strip().lower()
+    if normalized in {"true", "1", "yes"}:
+        return True
+    if normalized in {"false", "0", "no"}:
+        return False
+
+    raise ValueError
+
+
 def _pagination_args():
     try:
         page = max(int(request.args.get("page", 1)), 1)
@@ -317,6 +334,7 @@ def list_concepts():
 def list_concept_completion():
     search = (request.args.get("search") or "").strip()
     completion_status = (request.args.get("status") or "all").strip().lower()
+    concept_status = (request.args.get("conceptStatus") or "all").strip().lower()
     language_code = (request.args.get("language") or "").strip().lower()
     page, page_size, pagination_errors = _pagination_args()
 
@@ -333,12 +351,22 @@ def list_concept_completion():
             }
         )
 
+    if concept_status not in VALID_STATUS_FILTERS:
+        return _validation_error({"conceptStatus": "Concept status filter must be active, disabled, or all."})
+
+    try:
+        is_complete = _parse_optional_bool(request.args.get("isComplete"))
+    except ValueError:
+        return _validation_error({"isComplete": "isComplete must be true or false."})
+
     required_languages = get_active_required_languages()
     required_language_codes = {language.code.lower() for language in required_languages}
     if language_code and language_code not in required_language_codes:
         return _validation_error({"language": "Language filter must be an active required language code."})
 
     query = Concept.query
+    if concept_status != "all":
+        query = query.filter(Concept.status == concept_status)
     if search:
         pattern = f"%{search.lower()}%"
         query = query.filter(
@@ -356,6 +384,9 @@ def list_concept_completion():
 
     if completion_status != "all":
         rows = [row for row in rows if row["completionStatus"] == completion_status]
+
+    if is_complete is not None:
+        rows = [row for row in rows if row["isComplete"] is is_complete]
 
     if language_code:
         rows = [row for row in rows if _concept_matches_completion_language(row, language_code)]
@@ -401,6 +432,17 @@ def get_concept_completion_summary():
         summary[status_counts[row["completionStatus"]]] += 1
 
     return jsonify({"data": summary})
+
+
+@concept_bp.get("/<concept_id>/completion")
+@require_admin
+def get_concept_completion(concept_id):
+    concept = db.session.get(Concept, concept_id)
+    if concept is None:
+        return jsonify({"error": {"message": "Concept not found."}}), 404
+
+    completion = concept_completion_for(concept)
+    return jsonify({"data": {**concept_to_dict(concept), **completion}})
 
 
 @concept_bp.get("/<concept_id>")

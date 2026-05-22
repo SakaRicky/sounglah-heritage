@@ -1,3 +1,4 @@
+from app.models.concept_text import ConceptText
 from app.models.language import Language
 
 
@@ -23,6 +24,22 @@ def get_active_required_languages():
         .order_by(Language.sort_order.asc(), Language.name.asc())
         .all()
     )
+
+
+def concept_completion_for(concept):
+    concept_texts = ConceptText.query.filter_by(concept_id=concept.id).all()
+    return calculate_concept_completion(concept, get_active_required_languages(), concept_texts)
+
+
+def is_concept_ready_for_lesson_items(concept, concept_texts=None):
+    if concept is None or concept.status != "active":
+        return False
+
+    if concept_texts is None:
+        concept_texts = ConceptText.query.filter_by(concept_id=concept.id).all()
+
+    completion = calculate_concept_completion(concept, get_active_required_languages(), concept_texts)
+    return completion["isComplete"]
 
 
 def calculate_concept_completion(concept, required_languages, concept_texts):

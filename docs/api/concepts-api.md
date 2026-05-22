@@ -275,6 +275,8 @@ Query params:
 | --- | --- | --- |
 | `search` | string | none |
 | `status` | `needs_translation`, `has_rejected_text`, `draft`, `needs_review`, `complete`, `published`, `all` | `all` |
+| `conceptStatus` | concept visibility: `active`, `disabled`, `all` | `all` |
+| `isComplete` | `true` or `false` — filters by required-language readiness | none |
 | `language` | active required language code, such as `med`, `en`, or `fr` | none |
 | `page` | number | `1` |
 | `pageSize` | number, max `100` | `20` |
@@ -328,6 +330,12 @@ Response:
   }
 }
 ```
+
+## Get Concept Completion
+
+`GET /api/admin/concepts/:id/completion`
+
+Returns one concept with the same completion fields as the completion list. Useful when editing an existing lesson item that may still link a legacy incomplete concept.
 
 ## Concept Completion Summary
 

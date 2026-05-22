@@ -369,6 +369,62 @@ def test_concept_completion_validates_filters():
     assert pagination_response.get_json()["error"]["fields"]["page"] == "Page and page size must be numbers."
 
 
+def test_filter_concept_completion_by_is_complete_and_concept_status():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+
+    with app.app_context():
+        add_required_texts(
+            "greeting",
+            {"en": "approved", "fr": "approved", "med": "approved"},
+        )
+        greeting = Concept.query.filter_by(key="greeting").first()
+        greeting.status = "disabled"
+        db.session.commit()
+
+    ready_response = client.get(
+        "/api/admin/concepts/completion?isComplete=true&conceptStatus=active",
+        headers=headers,
+    )
+    incomplete_response = client.get("/api/admin/concepts/completion?isComplete=false", headers=headers)
+    invalid_response = client.get("/api/admin/concepts/completion?isComplete=maybe", headers=headers)
+
+    assert ready_response.status_code == 200
+    ready_data = ready_response.get_json()
+    assert ready_data["meta"]["total"] == 0
+    assert all(row["isComplete"] is True for row in ready_data["data"])
+
+    assert incomplete_response.status_code == 200
+    incomplete_data = incomplete_response.get_json()
+    assert incomplete_data["meta"]["total"] >= 1
+    assert all(row["isComplete"] is False for row in incomplete_data["data"])
+
+    assert invalid_response.status_code == 400
+    assert invalid_response.get_json()["error"]["fields"]["isComplete"] == "isComplete must be true or false."
+
+
+def test_get_concept_completion_by_id():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+
+    with app.app_context():
+        add_required_texts(
+            "greeting",
+            {"en": "approved", "fr": "approved", "med": "approved"},
+        )
+        concept_id = Concept.query.filter_by(key="greeting").first().id
+
+    response = client.get(f"/api/admin/concepts/{concept_id}/completion", headers=headers)
+
+    assert response.status_code == 200
+    data = response.get_json()["data"]
+    assert data["key"] == "greeting"
+    assert data["isComplete"] is True
+    assert data["completionStatus"] == "complete"
+
+
 def test_concept_completion_summary_counts_statuses():
     app = create_app(testing=True)
     client = app.test_client()

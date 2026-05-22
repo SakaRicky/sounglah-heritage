@@ -9,7 +9,11 @@ from app.models.lesson_item import (
     validate_cultural_note_content_json,
     validate_lesson_item_concept_id,
 )
-from app.services.concept_completion_service import calculate_concept_completion, get_active_required_languages
+from app.services.concept_completion_service import (
+    calculate_concept_completion,
+    get_active_required_languages,
+    is_concept_ready_for_lesson_items,
+)
 
 WRITABLE_FIELDS = {
     "type",
@@ -59,7 +63,7 @@ def _validate_type_specific_content(item_type, content_json):
     return fields
 
 
-def _validate_concept_link(item_type, concept_id):
+def _validate_concept_link(item_type, concept_id, existing_item=None):
     fields = {}
     fields.update(validate_lesson_item_concept_id(item_type, concept_id))
 
@@ -73,6 +77,15 @@ def _validate_concept_link(item_type, concept_id):
 
     if concept.status == "disabled":
         fields["conceptId"] = "Cannot link a disabled concept."
+    elif item_type in CONCEPT_BACKED_ITEM_TYPES:
+        keeping_existing_concept = (
+            existing_item is not None and existing_item.concept_id == concept_id
+        )
+        if not keeping_existing_concept and not is_concept_ready_for_lesson_items(concept):
+            fields["conceptId"] = (
+                "Concept is missing required translations or approvals. "
+                "Finish concept completion before linking it to a lesson item."
+            )
 
     if item_type in CONCEPT_BACKED_ITEM_TYPES:
         return fields, concept
@@ -109,7 +122,7 @@ def validate_item_payload(data, existing_item=None, partial=False):
         concept_id = str(raw_concept_id).strip() if raw_concept_id not in (None, "") else None
         normalized["conceptId"] = concept_id
 
-    concept_fields, _concept = _validate_concept_link(item_type, concept_id)
+    concept_fields, _concept = _validate_concept_link(item_type, concept_id, existing_item=existing_item)
     fields.update(concept_fields)
 
     content_json = existing_item.content_json if existing_item is not None else {}

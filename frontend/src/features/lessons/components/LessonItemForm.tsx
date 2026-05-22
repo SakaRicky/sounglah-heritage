@@ -172,6 +172,7 @@ export function LessonItemForm({
                   <div className="mt-3">
                     <LessonItemConceptPicker
                       selectedConceptId={values.conceptId}
+                      selectedConceptRow={selectedConceptRow}
                       initialSearch={conceptSearchSeed}
                       onSelect={handleConceptSelect}
                     />

@@ -6,27 +6,37 @@ import { ConceptCompletionLanguageBadge } from '../../concepts/components/Concep
 import { ConceptCompletionStatusBadge } from '../../concepts/components/ConceptCompletionStatusBadge'
 import type { ConceptCompletionRow } from '../../concepts/types/concept.types'
 import { useI18n } from '../../../i18n'
-import { languageForCode } from '../utils/lessonItemPreview'
-
-const HERITAGE_LANGUAGE_CODES = ['en', 'fr', 'med'] as const
 
 type Props = {
   selectedConceptId: string
+  selectedConceptRow?: ConceptCompletionRow | null
   initialSearch?: string
   onSelect: (conceptId: string, row: ConceptCompletionRow | null) => void
 }
 
-export function LessonItemConceptPicker({ selectedConceptId, initialSearch = '', onSelect }: Props) {
+function requiredLanguages(row: ConceptCompletionRow) {
+  return row.languages
+}
+
+export function LessonItemConceptPicker({
+  selectedConceptId,
+  selectedConceptRow = null,
+  initialSearch = '',
+  onSelect,
+}: Props) {
   const { t } = useI18n()
   const [search, setSearch] = useState(initialSearch)
   const [rows, setRows] = useState<ConceptCompletionRow[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  const selectedRow = useMemo(
-    () => rows.find((row) => row.id === selectedConceptId) ?? null,
-    [rows, selectedConceptId],
-  )
+  const selectedRow = useMemo(() => {
+    if (selectedConceptRow && selectedConceptRow.id === selectedConceptId) {
+      return selectedConceptRow
+    }
+
+    return rows.find((row) => row.id === selectedConceptId) ?? null
+  }, [rows, selectedConceptId, selectedConceptRow])
 
   const loadConcepts = useCallback(async () => {
     setLoading(true)
@@ -35,7 +45,8 @@ export function LessonItemConceptPicker({ selectedConceptId, initialSearch = '',
     try {
       const response = await getConceptCompletion({
         search,
-        status: 'all',
+        conceptStatus: 'active',
+        isComplete: true,
         page: 1,
         pageSize: 25,
       })
@@ -60,6 +71,8 @@ export function LessonItemConceptPicker({ selectedConceptId, initialSearch = '',
 
   return (
     <div className="space-y-4">
+      <p className="text-xs text-cocoa-body/70">{t('admin.lessons.itemForm.conceptReadyOnlyHelp')}</p>
+
       <div className="relative">
         <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-cocoa-body/45">
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
@@ -90,17 +103,11 @@ export function LessonItemConceptPicker({ selectedConceptId, initialSearch = '',
             <ConceptCompletionStatusBadge status={selectedRow.completionStatus} />
           </div>
           <div className="mt-4 grid gap-3 sm:grid-cols-3">
-            {HERITAGE_LANGUAGE_CODES.map((code) => {
-              const language = languageForCode(selectedRow, code)
-
-              if (!language) {
-                return null
-              }
-
+            {requiredLanguages(selectedRow).map((language) => {
               const previewText = language.text?.trim()
 
               return (
-                <div key={code} className="rounded-xl border border-sand-200 bg-white px-3 py-2.5">
+                <div key={language.languageCode} className="rounded-xl border border-sand-200 bg-white px-3 py-2.5">
                   <ConceptCompletionLanguageBadge language={language} showCode />
                   {previewText ? (
                     <p className="mt-2 line-clamp-2 text-sm text-cocoa-body">{previewText}</p>
@@ -118,7 +125,7 @@ export function LessonItemConceptPicker({ selectedConceptId, initialSearch = '',
         {loading ? (
           <p className="px-3 py-4 text-sm text-cocoa-body">{t('admin.lessons.itemForm.conceptLoading')}</p>
         ) : rows.length === 0 ? (
-          <p className="px-3 py-4 text-sm text-cocoa-body">{t('admin.lessons.itemForm.conceptEmpty')}</p>
+          <p className="px-3 py-4 text-sm text-cocoa-body">{t('admin.lessons.itemForm.conceptEmptyReadyOnly')}</p>
         ) : (
           rows.map((row) => {
             const selected = row.id === selectedConceptId
@@ -142,15 +149,9 @@ export function LessonItemConceptPicker({ selectedConceptId, initialSearch = '',
                   </span>
                 </div>
                 <div className="mt-2 flex flex-wrap gap-2">
-                  {HERITAGE_LANGUAGE_CODES.map((code) => {
-                    const language = languageForCode(row, code)
-
-                    if (!language) {
-                      return null
-                    }
-
-                    return <ConceptCompletionLanguageBadge key={code} language={language} showCode />
-                  })}
+                  {requiredLanguages(row).map((language) => (
+                    <ConceptCompletionLanguageBadge key={language.languageCode} language={language} showCode />
+                  ))}
                 </div>
               </button>
             )
