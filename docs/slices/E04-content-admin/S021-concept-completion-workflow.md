@@ -334,7 +334,7 @@ Result: passed.
 
 ### S021.2 - Concept Text Rejected Review Status
 
-Status: Planned
+Status: Done
 
 Goal: Add text-level rejected review state.
 
@@ -350,6 +350,47 @@ Acceptance criteria:
 - Admin can mark a concept text as rejected.
 - Invalid review statuses are rejected.
 - Existing draft, needs review, and approved flows still work.
+
+Implementation notes:
+
+- Extended `ConceptText.review_status` to allow `rejected`.
+- Added an Alembic migration to update the `concept_texts_review_status_check` constraint.
+- Updated concept text API validation and review-status filtering.
+- Updated frontend concept text types, form options, filter options, labels, and badges.
+- Updated concept text API docs.
+- Added backend tests for invalid review status and rejected review-status filtering.
+
+Verification:
+
+```bash
+cd backend
+.venv/bin/pytest tests/test_concept_texts.py
+```
+
+Result: passed, `16 passed`.
+
+```bash
+cd backend
+.venv/bin/pytest
+```
+
+Result: passed, `57 passed`.
+
+```bash
+cd frontend
+npm run lint
+```
+
+Result: passed.
+
+```bash
+cd frontend
+source ~/.nvm/nvm.sh
+nvm use 22.15.0
+npm run build
+```
+
+Result: passed.
 
 ### S021.3 - Concept Published State And Publish Guard
 

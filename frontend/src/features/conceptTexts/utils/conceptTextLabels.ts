@@ -9,5 +9,6 @@ export function conceptTextReviewStatusLabel(status: ConceptTextReviewStatus) {
     draft: 'Draft',
     needs_review: 'Needs review',
     approved: 'Approved',
+    rejected: 'Rejected',
   }[status]
 }

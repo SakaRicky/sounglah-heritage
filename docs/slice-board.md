@@ -78,6 +78,7 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 | S015 - LessonItems CRUD | Planned | Exercises/items; contract expanded before implementation, including concept-backed vocabulary cards and concept-less story segments. |
 | S021 - Concept Completion Workflow | Planned | Admin dashboard and backend completion logic for required concept texts, rejected review state, and guarded concept publishing. See `docs/slices/E04-content-admin/S021-concept-completion-workflow.md`. |
 | S021.1 - Required Language Flag | Done | Adds `languages.is_required_for_concept_completion`, seeds English/French/Médumba as required, exposes the flag through language API/admin UI, and passes backend tests plus frontend lint/build. |
+| S021.2 - Concept Text Rejected Review Status | Done | Adds `rejected` to concept text review status across backend validation/constraint, frontend form/filter/badges, API docs, and tests. |
 
 ## Epic 5 - Learner Experience
 

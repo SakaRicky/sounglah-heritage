@@ -69,7 +69,7 @@ class ConceptText(db.Model):
             name="concept_texts_status_check",
         ),
         db.CheckConstraint(
-            "review_status IN ('draft', 'needs_review', 'approved')",
+            "review_status IN ('draft', 'needs_review', 'approved', 'rejected')",
             name="concept_texts_review_status_check",
         ),
     )

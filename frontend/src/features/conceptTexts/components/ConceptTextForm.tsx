@@ -322,6 +322,7 @@ export function ConceptTextForm({
                 <option value="draft">Draft</option>
                 <option value="needs_review">Needs review</option>
                 <option value="approved">Approved</option>
+                <option value="rejected">Rejected</option>
               </select>
               {errorFor('reviewStatus')}
             </label>

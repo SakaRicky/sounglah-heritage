@@ -16,7 +16,7 @@ Fields:
 - `literalMeaning`
 - `usageNote`
 - `status`: `active` or `disabled`
-- `reviewStatus`: `draft`, `needs_review`, or `approved`
+- `reviewStatus`: `draft`, `needs_review`, `approved`, or `rejected`
 - `createdAt`
 - `updatedAt`
 
@@ -176,7 +176,7 @@ Validation rules:
 - `languageId` must reference an existing language.
 - `text` cannot be empty after trimming.
 - `status` must be `active` or `disabled`.
-- `reviewStatus` must be `draft`, `needs_review`, or `approved`.
+- `reviewStatus` must be `draft`, `needs_review`, `approved`, or `rejected`.
 - A concept-language pair can only have one primary text.
 
 Duplicate response:
