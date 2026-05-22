@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Foundation (S001) **complete**. S016 content admin stabilization and S021 concept completion are complete. **Next focus: Epic 5 — S023 Lessons and Lesson Items MVP.**
+Foundation (S001) **complete**. S016 content admin stabilization and S021 concept completion are complete. **Epic 5 — S023 Lessons MVP in progress.** **S023.1–S023.2** are **Done**; **next: S023.3** (admin lessons list screen).
 
 Use **`docs/slices/E05-lessons/00-overview.md`** and child slices **S023.1–S023.15** as the source of truth for lessons work. Epic is **implementation-ready**; product decisions locked (anonymous public API, nested item admin, publish guards). Prerequisite: curated published concepts with approved Médumba texts and audio before seeding **Greeting Grandma** (S023.15).
 
@@ -100,8 +100,8 @@ Parent spec: **`docs/slices/E05-lessons/00-overview.md`**. One child slice per C
 | Slice | Status | Notes |
 |---|---|---|
 | S023 - Lessons and Lesson Items MVP | Planned | Parent epic; admin + public + player vertical slices |
-| S023.1 - Database + backend foundation | Planned | `lessons`, `lesson_items` tables and models |
-| S023.2 - Backend lessons API | Planned | Admin CRUD `/api/admin/lessons` |
+| S023.1 - Database + backend foundation | Done | `lessons`, `lesson_items` tables and models |
+| S023.2 - Backend lessons API | Done | Admin CRUD `/api/admin/lessons` |
 | S023.3 - Admin lessons list screen | Planned | `/admin/content/lessons` |
 | S023.4 - Admin create/edit lesson screen | Planned | Create Greeting Grandma shell |
 | S023.5 - Backend lesson items API | Planned | Items CRUD + reorder |
