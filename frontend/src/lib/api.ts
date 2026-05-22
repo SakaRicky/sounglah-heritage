@@ -4,19 +4,29 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:5000
 
 export type ApiValidationError = {
   message: string
-  fields?: Record<string, string>
+  fields?: Record<string, string | string[]>
 }
 
 export class ApiError extends Error {
-  fields?: Record<string, string>
+  fields?: Record<string, string | string[]>
   status: number
 
-  constructor(message: string, status: number, fields?: Record<string, string>) {
+  constructor(message: string, status: number, fields?: Record<string, string | string[]>) {
     super(message)
     this.name = 'ApiError'
     this.status = status
     this.fields = fields
   }
+}
+
+export function normalizeApiFieldErrors(fields?: Record<string, string | string[]>) {
+  if (!fields) {
+    return {}
+  }
+
+  return Object.fromEntries(
+    Object.entries(fields).map(([key, value]) => [key, Array.isArray(value) ? value.join(' ') : value]),
+  )
 }
 
 type RequestOptions = {

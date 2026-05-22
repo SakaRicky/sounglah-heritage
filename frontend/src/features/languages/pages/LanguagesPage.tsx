@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { AdminPageHeader } from '../../../components/admin/AdminPageHeader'
 import { StatsCard } from '../../../components/admin/StatsCard'
-import { ApiError } from '../../../lib/api'
+import { ApiError, normalizeApiFieldErrors } from '../../../lib/api'
 import { getTimestamp } from '../../../lib/date'
 import {
   createLanguage,
@@ -197,7 +197,7 @@ export function AdminLanguagesPage() {
       await loadLanguages()
     } catch (requestError) {
       if (requestError instanceof ApiError && requestError.fields) {
-        setFieldErrors(requestError.fields)
+        setFieldErrors(normalizeApiFieldErrors(requestError.fields))
       }
       setError(requestError instanceof Error ? requestError.message : 'Unable to save language.')
     } finally {
