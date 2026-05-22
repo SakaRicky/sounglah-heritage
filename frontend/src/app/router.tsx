@@ -11,6 +11,7 @@ import { AdminDashboardPage } from '../pages/admin/AdminDashboardPage'
 import { AdminPlaceholderPage } from '../pages/admin/AdminPlaceholderPage'
 import { AdminConceptTextsPage } from '../features/conceptTexts/pages/ConceptTextsPage'
 import { ConceptTextAudioReviewPage } from '../features/conceptTexts/pages/ConceptTextAudioReviewPage'
+import { ConceptTextReviewPage } from '../features/conceptTexts/pages/ConceptTextReviewPage'
 import { ConceptTextRecordingModePage } from '../features/conceptTexts/pages/ConceptTextRecordingModePage'
 import { ConceptCompletionPage } from '../features/concepts/pages/ConceptCompletionPage'
 import { AdminConceptsPage } from '../features/concepts/pages/ConceptsPage'
@@ -81,6 +82,10 @@ export const router = createBrowserRouter([
           {
             path: 'audio-review',
             element: <ConceptTextAudioReviewPage />,
+          },
+          {
+            path: 'text-review',
+            element: <ConceptTextReviewPage />,
           },
           {
             path: 'content/lessons',

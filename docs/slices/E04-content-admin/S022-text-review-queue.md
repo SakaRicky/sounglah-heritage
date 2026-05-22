@@ -233,7 +233,7 @@ Result: passed, `6 passed`.
 
 ### S022.2 - Text Review Page Shell
 
-Status: Planned
+Status: Done
 
 Goal: Add route, API client, types, loading/empty/error states.
 
@@ -248,6 +248,24 @@ Acceptance criteria:
 
 - Protected admin route loads queue data.
 - Loading, error, and empty states render.
+
+Implementation notes:
+
+- Added `ConceptTextReviewPage` at `/admin/text-review` inside the protected admin layout.
+- Added **Text Review** sidebar link between Concept Texts and Audio Review.
+- Added frontend types and `getConceptTextReviewQueue()` API client.
+- Page includes header, refresh action, three summary cards, and `AdminDataTable` loading/empty handling.
+- Non-empty state shows a phrase-first preview list until S022.3 adds filters, table, and mobile cards.
+
+Verification:
+
+```bash
+cd frontend
+npm run lint
+npm run build
+```
+
+Result: passed.
 
 ### S022.3 - Review Table And Mobile Cards
 

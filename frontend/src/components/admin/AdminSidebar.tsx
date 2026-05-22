@@ -71,6 +71,14 @@ function ListIcon({ className = 'h-5 w-5' }: NavIconProps) {
   )
 }
 
+function TextReviewIcon({ className = 'h-5 w-5' }: NavIconProps) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M8 6h8M8 10h8M8 14h5M6 4h12a2 2 0 012 2v12l-4-2-4 2-4-2-4 2V6a2 2 0 012-2z" />
+    </svg>
+  )
+}
+
 function AudioIcon({ className = 'h-5 w-5' }: NavIconProps) {
   return (
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden>
@@ -139,6 +147,7 @@ const navSections: NavSection[] = [
       { type: 'link', label: 'Languages', to: '/admin/content/languages', icon: <BookIcon /> },
       { type: 'link', label: 'Concepts', to: '/admin/content/concepts', icon: <LayersIcon /> },
       { type: 'link', label: 'Concept Texts', to: '/admin/content/concept-texts', icon: <DocumentIcon /> },
+      { type: 'link', label: 'Text Review', to: '/admin/text-review', icon: <TextReviewIcon /> },
       { type: 'link', label: 'Audio Review', to: '/admin/audio-review', icon: <AudioIcon /> },
       { type: 'link', label: 'Lessons', to: '/admin/content/lessons', icon: <BookIcon /> },
       { type: 'link', label: 'Lesson Items', to: '/admin/content/lesson-items', icon: <ListIcon /> },
