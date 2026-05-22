@@ -12,6 +12,96 @@ type Props = {
   onReject: () => void
 }
 
+const iconButtonClass =
+  'inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border transition focus:outline-none focus:ring-2 focus:ring-forest-200 disabled:cursor-not-allowed disabled:opacity-50'
+
+function ApproveIconButton({
+  saving,
+  onClick,
+}: {
+  saving?: boolean
+  onClick: () => void
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={saving}
+      title="Approve text"
+      aria-label="Approve text"
+      className={`${iconButtonClass} border-forest-accent/25 bg-forest-accent text-white shadow-[0_8px_20px_rgba(31,90,61,0.16)] hover:bg-forest-accent-hover`}
+    >
+      {saving ? <Loader2 className="h-5 w-5 animate-spin" aria-hidden /> : <Check className="h-5 w-5" aria-hidden />}
+    </button>
+  )
+}
+
+function RejectIconButton({
+  saving,
+  onClick,
+}: {
+  saving?: boolean
+  onClick: () => void
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={saving}
+      title="Reject text"
+      aria-label="Reject text"
+      className={`${iconButtonClass} border-terracotta-500/35 bg-white text-terracotta-600 hover:border-terracotta-500/55 hover:bg-terracotta-400/10`}
+    >
+      <ThumbsDown className="h-5 w-5" aria-hidden />
+    </button>
+  )
+}
+
+function EditButton({ editPath, compact = false }: { editPath: string; compact?: boolean }) {
+  return (
+    <Link
+      to={editPath}
+      className={[
+        'inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-sand-200 bg-white font-semibold text-forest-700 transition hover:border-forest-accent/35 hover:bg-forest-50/40 focus:outline-none focus:ring-2 focus:ring-forest-200',
+        compact ? 'w-full px-4 py-2.5 text-sm' : 'px-4 py-2 text-sm',
+      ].join(' ')}
+    >
+      <Pencil className="h-4 w-4 shrink-0" aria-hidden />
+      Edit
+    </Link>
+  )
+}
+
+function ActionRow({
+  canApprove,
+  canReject,
+  saving,
+  editPath,
+  compact,
+  onApprove,
+  onReject,
+}: {
+  canApprove: boolean
+  canReject: boolean
+  saving?: boolean
+  editPath: string
+  compact?: boolean
+  onApprove: () => void
+  onReject: () => void
+}) {
+  return (
+    <div className={['grid items-center gap-4', compact ? 'grid-cols-[3rem_1fr_3rem]' : 'grid-cols-[2.75rem_1fr_2.75rem]'].join(' ')}>
+      <div className="flex justify-start">
+        {canApprove ? <ApproveIconButton saving={saving} onClick={onApprove} /> : null}
+      </div>
+      <EditButton editPath={editPath} compact={compact} />
+      <div className="flex justify-end">
+        {canReject ? <RejectIconButton saving={saving} onClick={onReject} /> : null}
+      </div>
+    </div>
+  )
+}
+
 export function ConceptTextReviewActions({
   conceptText,
   saving = false,
@@ -25,73 +115,30 @@ export function ConceptTextReviewActions({
 
   if (layout === 'mobile') {
     return (
-      <div className="mt-3 space-y-2.5 sm:ml-[3.25rem]">
-        <div className="grid grid-cols-2 gap-2.5">
-          {canApprove ? (
-            <button
-              type="button"
-              onClick={onApprove}
-              disabled={saving}
-              className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl bg-forest-accent px-3.5 py-2 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(31,90,61,0.16)] transition hover:bg-forest-accent-hover disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {saving ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Check className="h-4 w-4" aria-hidden />}
-              Approve
-            </button>
-          ) : null}
-          {canReject ? (
-            <button
-              type="button"
-              onClick={onReject}
-              disabled={saving}
-              className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-terracotta-500/35 bg-white px-3.5 py-2 text-sm font-semibold text-terracotta-600 transition hover:border-terracotta-500/55 hover:bg-terracotta-400/10 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              <ThumbsDown className="h-4 w-4" aria-hidden />
-              Reject
-            </button>
-          ) : null}
-        </div>
-        <Link
-          to={editPath}
-          className="inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-xl border border-sand-200 bg-white px-3.5 py-2 text-sm font-semibold text-forest-700 transition hover:border-forest-accent/35 hover:bg-forest-50/40"
-        >
-          <Pencil className="h-4 w-4" aria-hidden />
-          Edit text
-        </Link>
+      <div className="mt-5 border-t border-sand-100 pt-5 sm:ml-[3.25rem]">
+        <ActionRow
+          canApprove={canApprove}
+          canReject={canReject}
+          saving={saving}
+          editPath={editPath}
+          compact
+          onApprove={onApprove}
+          onReject={onReject}
+        />
       </div>
     )
   }
 
   return (
-    <div className="flex flex-wrap justify-end gap-2">
-      {canApprove ? (
-        <button
-          type="button"
-          onClick={onApprove}
-          disabled={saving}
-          className="inline-flex items-center gap-2 rounded-lg bg-forest-accent px-3 py-2 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(31,90,61,0.16)] transition hover:bg-forest-accent-hover disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          {saving ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Check className="h-4 w-4" aria-hidden />}
-          Approve
-        </button>
-      ) : null}
-      {canReject ? (
-        <button
-          type="button"
-          onClick={onReject}
-          disabled={saving}
-          className="inline-flex items-center gap-2 rounded-lg border border-terracotta-500/25 bg-white px-3 py-2 text-sm font-semibold text-terracotta-600 transition hover:border-terracotta-500/45 hover:bg-terracotta-400/10 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          <ThumbsDown className="h-4 w-4" aria-hidden />
-          Reject
-        </button>
-      ) : null}
-      <Link
-        to={editPath}
-        className="inline-flex items-center gap-2 rounded-lg border border-sand-200 bg-white px-3 py-2 text-sm font-semibold text-forest-700 transition hover:border-forest-accent/35 hover:bg-forest-50/40"
-      >
-        <Pencil className="h-4 w-4" aria-hidden />
-        Edit
-      </Link>
+    <div className="min-w-[12rem] py-1">
+      <ActionRow
+        canApprove={canApprove}
+        canReject={canReject}
+        saving={saving}
+        editPath={editPath}
+        onApprove={onApprove}
+        onReject={onReject}
+      />
     </div>
   )
 }

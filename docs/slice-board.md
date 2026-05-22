@@ -86,7 +86,7 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 | S021.7 - Completion Table And Mobile Cards | Done | Six status summary cards, filters, desktop table with per-language badges, mobile stacked cards, and Concepts sub-nav tabs; frontend lint/build pass. |
 | S021.8 - Quick Actions And Publish UI | Done | Per-language quick links into Concept Texts, publish button with disabled reasons for incomplete concepts, and deep-link support for prefilled create/edit forms; frontend lint/build pass. |
 | S021.9 - Workflow Tests And Stabilization | Done | Pins test admin credentials for reliable pytest, adds summary auth and rejected-text publish guard coverage, runs full backend/frontend checks, and marks S021 complete. |
-| S022 - Text Review Queue | Done | Dedicated local-language text review at `/admin/text-review` with queue API, filters, phrase-first table/cards, one-click approve/reject, and edit deep links. See `docs/slices/E04-content-admin/S022-text-review-queue.md`. |
+| S022 - Text Review Queue | Done | Local-language text review at `/admin/content/concept-texts/review` (Concept Texts tab); queue API, filters, phrase-first table/cards, one-click approve/reject, edit deep links. |
 | S022.1 - Text Review Queue API | Done | `GET /api/admin/concept-texts/review-queue` — local-language filter, FIFO ordering, EN/FR reference texts; six backend tests pass. |
 | S022.2 - Text Review Page Shell | Done | Protected `/admin/text-review` route, sidebar link, API client/types, header, summary cards, and loading/empty/error states; frontend lint/build pass. |
 | S022.3 - Review Table And Mobile Cards | Done | Filters, phrase-first desktop table, mobile cards, reference text display, and pagination; frontend lint/build pass. |

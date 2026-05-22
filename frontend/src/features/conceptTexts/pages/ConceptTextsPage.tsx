@@ -19,6 +19,7 @@ import {
   uploadConceptTextAudio,
 } from '../api/conceptTextsApi'
 import { ConceptTextFilters } from '../components/ConceptTextFilters'
+import { ConceptTextsSubNav } from '../components/ConceptTextsSubNav'
 import type { ConceptTextSort } from '../components/ConceptTextFilters'
 import { ConceptTextBulkReviewBar } from '../components/ConceptTextBulkReviewBar'
 import { ConceptTextForm } from '../components/ConceptTextForm'
@@ -458,6 +459,8 @@ export function AdminConceptTextsPage() {
           </div>
         }
       />
+
+      <ConceptTextsSubNav />
 
       {notice ? (
         <div className="rounded-cta border border-forest-accent/20 bg-forest-accent/10 px-4 py-3 text-sm font-medium text-forest-700">

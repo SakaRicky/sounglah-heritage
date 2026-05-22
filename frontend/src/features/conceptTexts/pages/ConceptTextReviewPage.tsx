@@ -14,6 +14,7 @@ import { ConceptTextReviewActions } from '../components/ConceptTextReviewActions
 import { ConceptTextReviewBadge } from '../components/ConceptTextReviewBadge'
 import { ConceptTextReviewMobileCard } from '../components/ConceptTextReviewMobileCard'
 import { ConceptTextReviewReferenceTexts } from '../components/ConceptTextReviewReferenceTexts'
+import { ConceptTextsSubNav } from '../components/ConceptTextsSubNav'
 import type {
   ConceptTextReviewQueueItem,
   ConceptTextReviewQueueReviewStatus,
@@ -180,6 +181,8 @@ export function ConceptTextReviewPage() {
         }
       />
 
+      <ConceptTextsSubNav />
+
       {notice ? (
         <div className="rounded-cta border border-forest-accent/20 bg-forest-accent/10 px-4 py-3 text-sm font-medium text-forest-700">
           {notice}
@@ -278,6 +281,7 @@ export function ConceptTextReviewPage() {
         subtitle={`${total} phrase${total === 1 ? '' : 's'}`}
         loading={loading}
         loadingLabel="Loading text review queue..."
+        scrollMaxHeight="32rem"
         isEmpty={!loading && conceptTexts.length === 0}
         emptyState={{
           title: 'No heritage text matches this review filter.',

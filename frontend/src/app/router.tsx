@@ -76,6 +76,10 @@ export const router = createBrowserRouter([
             element: <ConceptTextRecordingModePage />,
           },
           {
+            path: 'content/concept-texts/review',
+            element: <ConceptTextReviewPage />,
+          },
+          {
             path: 'audio-recording',
             element: <Navigate to="/admin/content/concept-texts/recording" replace />,
           },
@@ -85,7 +89,7 @@ export const router = createBrowserRouter([
           },
           {
             path: 'text-review',
-            element: <ConceptTextReviewPage />,
+            element: <Navigate to="/admin/content/concept-texts/review" replace />,
           },
           {
             path: 'content/lessons',

@@ -68,8 +68,7 @@ Later optional follow-up (not S022): a sidebar group **Review** with sub-links o
 - Approve sets `reviewStatus = approved`. Reject sets `reviewStatus = rejected`.
 - **One-click reject.** No reject note, no reject confirmation modal, no new `review_note` column on `concept_texts` for v1. Match the existing Concept Texts quick reject behavior.
 - Reuse existing concept text update for approve/reject; add dedicated approve/reject endpoints only if they simplify permissions later.
-- Route suggestion: `/admin/text-review` (parallel to `/admin/audio-review`).
-- Sidebar label: **Text Review** under Content Management, next to Audio Review.
+- Route: `/admin/content/concept-texts/review` (tab under Concept Texts; legacy `/admin/text-review` redirects).
 - i18n: admin copy in EN/FR per project convention when user-facing strings are added.
 
 ## Non-Goals
@@ -153,7 +152,7 @@ Reject is one-click via `{ "reviewStatus": "rejected" }` — no body fields beyo
 ### Route
 
 ```text
-/admin/text-review
+/admin/content/concept-texts/review
 ```
 
 Protected inside existing admin layout.
