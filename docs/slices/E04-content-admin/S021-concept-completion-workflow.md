@@ -394,7 +394,7 @@ Result: passed.
 
 ### S021.3 - Concept Published State And Publish Guard
 
-Status: Planned
+Status: Done
 
 Goal: Add concept publish state and backend enforcement.
 
@@ -410,6 +410,48 @@ Acceptance criteria:
 - Published concepts expose `publishedAt`.
 - Incomplete concepts cannot be published.
 - Complete concepts can be published.
+
+Implementation notes:
+
+- Added nullable `concepts.published_at`.
+- Added an Alembic migration for `published_at`.
+- Exposed `publishedAt` and `isPublished` in concept API responses.
+- Added `POST /api/admin/concepts/:id/publish`.
+- The publish endpoint uses `calculate_concept_completion()` and rejects incomplete concepts with missing, draft, needs-review, and rejected language code lists.
+- Updated frontend concept types and concepts API docs.
+- Added backend tests for publish authentication, incomplete publish rejection, and successful publishing.
+
+Verification:
+
+```bash
+cd backend
+.venv/bin/pytest tests/test_concepts.py
+```
+
+Result: passed, `19 passed`.
+
+```bash
+cd backend
+.venv/bin/pytest
+```
+
+Result: passed, `67 passed`.
+
+```bash
+cd frontend
+npm run lint
+```
+
+Result: passed.
+
+```bash
+cd frontend
+source ~/.nvm/nvm.sh
+nvm use 22.15.0
+npm run build
+```
+
+Result: passed.
 
 ### S021.4 - Completion Calculation Service
 

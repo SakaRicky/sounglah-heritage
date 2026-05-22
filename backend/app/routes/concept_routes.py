@@ -1,4 +1,5 @@
 import re
+from datetime import datetime, timezone
 from io import BytesIO
 
 from cloudinary.exceptions import Error as CloudinaryError
@@ -7,9 +8,14 @@ from sqlalchemy import or_
 
 from app.extensions import db
 from app.models.concept import Concept
+from app.models.concept_text import ConceptText
 from app.schemas.concept_schema import concept_to_dict
 from app.services import cloudinary_service
 from app.services.cloudinary_service import CloudinaryConfigurationError
+from app.services.concept_completion_service import (
+    calculate_concept_completion,
+    get_active_required_languages,
+)
 from app.utils.auth import require_admin
 
 concept_bp = Blueprint("admin_concepts", __name__)
@@ -284,6 +290,39 @@ def update_concept(concept_id):
         return _validation_error(errors)
 
     _apply_concept_payload(concept, payload)
+    db.session.commit()
+
+    return jsonify({"data": concept_to_dict(concept)})
+
+
+@concept_bp.post("/<concept_id>/publish")
+@require_admin
+def publish_concept(concept_id):
+    concept = db.session.get(Concept, concept_id)
+    if concept is None:
+        return jsonify({"error": {"message": "Concept not found."}}), 404
+
+    required_languages = get_active_required_languages()
+    concept_texts = ConceptText.query.filter(ConceptText.concept_id == concept.id).all()
+    completion = calculate_concept_completion(concept, required_languages, concept_texts)
+
+    if not completion["isReadyToPublish"]:
+        return (
+            jsonify(
+                {
+                    "error": {
+                        "message": "Concept cannot be published because required texts are missing or not approved."
+                    },
+                    "missingLanguages": completion["missingLanguages"],
+                    "draftLanguages": completion["draftLanguages"],
+                    "needsReviewLanguages": completion["needsReviewLanguages"],
+                    "rejectedLanguages": completion["rejectedLanguages"],
+                }
+            ),
+            400,
+        )
+
+    concept.published_at = datetime.now(timezone.utc)
     db.session.commit()
 
     return jsonify({"data": concept_to_dict(concept)})

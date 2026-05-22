@@ -15,6 +15,8 @@ export interface Concept {
   image_alt_text?: string | null
   difficultyLevel: ConceptDifficultyLevel
   status: ConceptStatus
+  publishedAt: string | null
+  isPublished: boolean
   sortOrder: number
   createdAt: string | null
   updatedAt: string | null

@@ -4,6 +4,8 @@ from unittest.mock import patch
 from app import create_app
 from app.extensions import db
 from app.models.concept import Concept
+from app.models.concept_text import ConceptText
+from app.models.language import Language
 
 
 def auth_headers(client):
@@ -42,6 +44,8 @@ def test_list_seeded_concepts():
     assert "image_url" in data["data"][0]
     assert "image_public_id" in data["data"][0]
     assert "image_alt_text" in data["data"][0]
+    assert "publishedAt" in data["data"][0]
+    assert data["data"][0]["isPublished"] is False
 
 
 def test_get_one_concept():
@@ -60,6 +64,8 @@ def test_get_one_concept():
     assert "image_url" in concept
     assert "image_public_id" in concept
     assert "image_alt_text" in concept
+    assert "publishedAt" in concept
+    assert concept["isPublished"] is False
 
 
 def test_create_concept_normalizes_values():
@@ -221,6 +227,75 @@ def test_filter_disabled_concepts():
     data = disabled_response.get_json()
     assert data["meta"]["total"] == 1
     assert data["data"][0]["key"] == "food"
+
+
+def test_publish_concept_requires_admin_authentication():
+    app = create_app(testing=True)
+    client = app.test_client()
+
+    with app.app_context():
+        concept_id = Concept.query.filter_by(key="greeting").first().id
+
+    response = client.post(f"/api/admin/concepts/{concept_id}/publish")
+
+    assert response.status_code == 401
+    assert response.get_json() == {
+        "error": {"message": "Admin authentication is required."}
+    }
+
+
+def test_publish_concept_rejects_incomplete_concept():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+
+    with app.app_context():
+        concept_id = Concept.query.filter_by(key="yes").first().id
+
+    response = client.post(f"/api/admin/concepts/{concept_id}/publish", headers=headers)
+
+    assert response.status_code == 400
+    data = response.get_json()
+    assert (
+        data["error"]["message"]
+        == "Concept cannot be published because required texts are missing or not approved."
+    )
+    assert data["missingLanguages"] == ["med", "en", "fr"]
+    assert data["draftLanguages"] == []
+    assert data["needsReviewLanguages"] == []
+    assert data["rejectedLanguages"] == []
+
+
+def test_publish_concept_when_required_texts_are_approved():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+
+    with app.app_context():
+        concept = Concept.query.filter_by(key="greeting").first()
+        medumba = Language.query.filter_by(code="med").first()
+        db.session.add(
+            ConceptText(
+                concept_id=concept.id,
+                language_id=medumba.id,
+                text="Mbote",
+                status="active",
+                review_status="approved",
+            )
+        )
+        db.session.commit()
+        concept_id = concept.id
+
+    response = client.post(f"/api/admin/concepts/{concept_id}/publish", headers=headers)
+
+    assert response.status_code == 200
+    data = response.get_json()["data"]
+    assert data["publishedAt"] is not None
+    assert data["isPublished"] is True
+
+    with app.app_context():
+        concept = db.session.get(Concept, concept_id)
+        assert concept.published_at is not None
 
 
 def test_concept_image_upload_requires_admin_authentication():

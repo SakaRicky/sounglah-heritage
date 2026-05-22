@@ -23,6 +23,8 @@ type Concept = {
   category?: string | null;
   difficultyLevel: ConceptDifficultyLevel;
   status: ConceptStatus;
+  publishedAt: string | null;
+  isPublished: boolean;
   sortOrder: number;
   createdAt: string;
   updatedAt: string;
@@ -65,6 +67,8 @@ Response:
       "category": "Family",
       "difficultyLevel": "beginner",
       "status": "active",
+      "publishedAt": null,
+      "isPublished": false,
       "sortOrder": 2,
       "createdAt": "2026-05-18T10:00:00Z",
       "updatedAt": "2026-05-18T10:00:00Z"
@@ -95,6 +99,8 @@ Response:
     "category": "Courtesy",
     "difficultyLevel": "beginner",
     "status": "active",
+    "publishedAt": null,
+    "isPublished": false,
     "sortOrder": 6,
     "createdAt": "2026-05-18T10:00:00Z",
     "updatedAt": "2026-05-18T10:00:00Z"
@@ -134,6 +140,8 @@ Response: `201 Created`
     "category": "Courtesy",
     "difficultyLevel": "beginner",
     "status": "active",
+    "publishedAt": null,
+    "isPublished": false,
     "sortOrder": 6,
     "createdAt": "2026-05-18T10:00:00Z",
     "updatedAt": "2026-05-18T10:00:00Z"
@@ -170,6 +178,8 @@ Response:
     "category": "Courtesy",
     "difficultyLevel": "beginner",
     "status": "active",
+    "publishedAt": null,
+    "isPublished": false,
     "sortOrder": 5,
     "createdAt": "2026-05-18T10:00:00Z",
     "updatedAt": "2026-05-18T10:30:00Z"
@@ -202,10 +212,54 @@ Response:
     "category": "Courtesy",
     "difficultyLevel": "beginner",
     "status": "disabled",
+    "publishedAt": null,
+    "isPublished": false,
     "sortOrder": 6,
     "createdAt": "2026-05-18T10:00:00Z",
     "updatedAt": "2026-05-18T10:30:00Z"
   }
+}
+```
+
+## Publish Concept
+
+`POST /api/admin/concepts/:id/publish`
+
+Publishing is guarded by concept completion. A concept can only be published when every active language marked as required for concept completion has an active concept text with `reviewStatus = approved`.
+
+Success response:
+
+```json
+{
+  "data": {
+    "id": "uuid-here",
+    "key": "thank_you",
+    "slug": "thank-you",
+    "title": "Thank You",
+    "description": "A polite expression of gratitude.",
+    "category": "Courtesy",
+    "difficultyLevel": "beginner",
+    "status": "active",
+    "publishedAt": "2026-05-22T10:00:00Z",
+    "isPublished": true,
+    "sortOrder": 6,
+    "createdAt": "2026-05-18T10:00:00Z",
+    "updatedAt": "2026-05-22T10:00:00Z"
+  }
+}
+```
+
+Incomplete response:
+
+```json
+{
+  "error": {
+    "message": "Concept cannot be published because required texts are missing or not approved."
+  },
+  "missingLanguages": ["med"],
+  "draftLanguages": [],
+  "needsReviewLanguages": [],
+  "rejectedLanguages": []
 }
 ```
 
