@@ -21,6 +21,9 @@ export function ConceptTextsSubNav() {
       <NavLink to="/admin/content/concept-texts/review" className={({ isActive }) => subNavClass(isActive)}>
         Text review
       </NavLink>
+      <NavLink to="/admin/content/concept-texts/audio-review" className={({ isActive }) => subNavClass(isActive)}>
+        Audio review
+      </NavLink>
     </nav>
   )
 }

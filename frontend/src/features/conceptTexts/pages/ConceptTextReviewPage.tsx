@@ -10,6 +10,7 @@ import { formatDate } from '../../../lib/date'
 import { getLanguages } from '../../languages/api/languagesApi'
 import type { Language } from '../../languages/types/language.types'
 import { getConceptTextReviewQueue, updateConceptText } from '../api/conceptTextsApi'
+import { ConceptTextBulkReviewBar } from '../components/ConceptTextBulkReviewBar'
 import { ConceptTextReviewActions } from '../components/ConceptTextReviewActions'
 import { ConceptTextReviewBadge } from '../components/ConceptTextReviewBadge'
 import { ConceptTextReviewMobileCard } from '../components/ConceptTextReviewMobileCard'
@@ -21,6 +22,11 @@ import type {
   ConceptTextReviewStatus,
 } from '../types/conceptText.types'
 import { conceptTextReviewStatusLabel } from '../utils/conceptTextLabels'
+import {
+  bulkUpdateConceptTextReviewStatus,
+  countReviewableConceptTexts,
+  reviewableConceptTextIds,
+} from '../utils/conceptTextReviewActions'
 
 const REVIEW_PAGE_SIZE = 25
 
@@ -47,6 +53,8 @@ export function ConceptTextReviewPage() {
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(true)
   const [savingTextId, setSavingTextId] = useState<string | null>(null)
+  const [bulkReviewing, setBulkReviewing] = useState(false)
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set())
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
 
@@ -59,6 +67,19 @@ export function ConceptTextReviewPage() {
     () => conceptTexts.filter((conceptText) => conceptText.reviewStatus === 'needs_review').length,
     [conceptTexts],
   )
+
+  const reviewableCounts = useMemo(
+    () => countReviewableConceptTexts(conceptTexts, selectedIds),
+    [conceptTexts, selectedIds],
+  )
+
+  const selectableIds = useMemo(
+    () => conceptTexts.filter((conceptText) => conceptText.status === 'active').map((conceptText) => conceptText.id),
+    [conceptTexts],
+  )
+
+  const allSelected = selectableIds.length > 0 && selectableIds.every((id) => selectedIds.has(id))
+  const someSelected = selectableIds.some((id) => selectedIds.has(id))
 
   const loadLanguages = useCallback(async () => {
     try {
@@ -155,6 +176,58 @@ export function ConceptTextReviewPage() {
     } finally {
       setSavingTextId(null)
     }
+  }
+
+  async function handleBulkReview(reviewStatus: ConceptTextReviewStatus) {
+    const action = reviewStatus === 'approved' ? 'approve' : 'reject'
+    const ids = reviewableConceptTextIds(conceptTexts, action, selectedIds)
+
+    if (ids.length === 0) {
+      return
+    }
+
+    setBulkReviewing(true)
+    setError('')
+    setNotice('')
+
+    try {
+      const result = await bulkUpdateConceptTextReviewStatus(ids, reviewStatus)
+      const actionLabel = reviewStatus === 'approved' ? 'approved' : 'rejected'
+
+      if (result.failed > 0) {
+        setError(`${result.failed} of ${ids.length} heritage texts could not be ${actionLabel}.`)
+      }
+
+      if (result.updated > 0) {
+        setNotice(`${result.updated} heritage text${result.updated === 1 ? '' : 's'} ${actionLabel}.`)
+      }
+
+      setSelectedIds(new Set())
+      await loadQueue()
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : 'Unable to bulk update review status.')
+    } finally {
+      setBulkReviewing(false)
+    }
+  }
+
+  function toggleSelected(id: string) {
+    setSelectedIds((current) => {
+      const next = new Set(current)
+      if (next.has(id)) {
+        next.delete(id)
+      } else {
+        next.add(id)
+      }
+      return next
+    })
+  }
+
+  function toggleSelectAll() {
+    setSelectedIds((current) => {
+      const allCurrentlySelected = selectableIds.length > 0 && selectableIds.every((id) => current.has(id))
+      return allCurrentlySelected ? new Set() : new Set(selectableIds)
+    })
   }
 
   const emptyDescription =
@@ -276,6 +349,16 @@ export function ConceptTextReviewPage() {
         </div>
       </AdminFilterBar>
 
+      <ConceptTextBulkReviewBar
+        approveCount={reviewableCounts.approveCount}
+        rejectCount={reviewableCounts.rejectCount}
+        selectedCount={selectedIds.size}
+        busy={bulkReviewing}
+        onApprove={() => void handleBulkReview('approved')}
+        onReject={() => void handleBulkReview('rejected')}
+        onClearSelection={() => setSelectedIds(new Set())}
+      />
+
       <AdminDataTable
         title="Heritage translations"
         subtitle={`${total} phrase${total === 1 ? '' : 's'}`}
@@ -309,6 +392,9 @@ export function ConceptTextReviewPage() {
               key={conceptText.id}
               conceptText={conceptText}
               saving={savingTextId === conceptText.id}
+              selected={selectedIds.has(conceptText.id)}
+              selectable={conceptText.status === 'active'}
+              onToggleSelected={() => toggleSelected(conceptText.id)}
               onApprove={() => void handleQuickReview(conceptText, 'approved')}
               onReject={() => void handleQuickReview(conceptText, 'rejected')}
             />
@@ -318,6 +404,21 @@ export function ConceptTextReviewPage() {
         <table className="hidden min-w-full divide-y divide-sand-100 text-left text-sm lg:table">
           <thead className="bg-forest-50/30 text-xs uppercase tracking-wide text-forest-700/75">
             <tr>
+              <th className="w-12 px-5 py-4">
+                <input
+                  type="checkbox"
+                  checked={allSelected}
+                  ref={(input) => {
+                    if (input) {
+                      input.indeterminate = !allSelected && someSelected
+                    }
+                  }}
+                  onChange={toggleSelectAll}
+                  disabled={selectableIds.length === 0}
+                  aria-label="Select all heritage texts on this page"
+                  className="h-4 w-4 rounded border-sand-300 text-forest-accent focus:ring-forest-200"
+                />
+              </th>
               <th className="px-5 py-4 font-semibold">Text to review</th>
               <th className="px-5 py-4 font-semibold">Concept</th>
               <th className="px-5 py-4 font-semibold">Language</th>
@@ -330,6 +431,16 @@ export function ConceptTextReviewPage() {
           <tbody className="divide-y divide-sand-100/80 bg-white/70">
             {conceptTexts.map((conceptText) => (
               <tr key={conceptText.id} className="align-top transition-all duration-200 hover:bg-forest-50/30">
+                <td className="px-5 py-4">
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.has(conceptText.id)}
+                    disabled={conceptText.status !== 'active'}
+                    onChange={() => toggleSelected(conceptText.id)}
+                    aria-label={`Select ${conceptText.concept?.title ?? 'heritage text'}`}
+                    className="h-4 w-4 rounded border-sand-300 text-forest-accent focus:ring-forest-200 disabled:cursor-not-allowed disabled:opacity-40"
+                  />
+                </td>
                 <td className="max-w-lg px-5 py-4">
                   <p className="break-words text-xl font-bold leading-7 text-cocoa-800">{conceptText.text}</p>
                 </td>

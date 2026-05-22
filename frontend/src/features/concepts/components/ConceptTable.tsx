@@ -228,6 +228,7 @@ export function ConceptTable({
         onPageChange,
         onPageSizeChange,
       }}
+      scrollMaxHeight="32rem"
     />
   )
 }
