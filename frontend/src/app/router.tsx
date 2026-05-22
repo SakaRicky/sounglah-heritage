@@ -17,6 +17,7 @@ import { AdminConceptsPage } from '../features/concepts/pages/ConceptsPage'
 import { AdminLanguagesPage } from '../features/languages/pages/LanguagesPage'
 import { AdminLessonsPage } from '../features/lessons/pages/LessonsPage'
 import { LessonFormPage } from '../features/lessons/pages/LessonFormPage'
+import { LessonItemFormPage } from '../features/lessons/pages/LessonItemFormPage'
 import { LessonItemsBuilderPage } from '../features/lessons/pages/LessonItemsBuilderPage'
 
 export const router = createBrowserRouter([
@@ -108,6 +109,14 @@ export const router = createBrowserRouter([
           {
             path: 'content/lessons/:lessonId/edit',
             element: <LessonFormPage />,
+          },
+          {
+            path: 'content/lessons/:lessonId/items/new',
+            element: <LessonItemFormPage />,
+          },
+          {
+            path: 'content/lessons/:lessonId/items/:itemId/edit',
+            element: <LessonItemFormPage />,
           },
           {
             path: 'content/lessons/:lessonId/items',

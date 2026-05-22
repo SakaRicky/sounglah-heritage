@@ -26,3 +26,19 @@ export type LessonItemListResponse = {
 }
 
 export type ReorderDirection = 'up' | 'down'
+
+export type CreateLessonItemPayload = {
+  type: LessonItemType
+  title: string
+  instructionText?: string | null
+  conceptId?: string | null
+  contentJson?: Record<string, unknown>
+  orderIndex?: number
+  isActive?: boolean
+}
+
+export type UpdateLessonItemPayload = Partial<CreateLessonItemPayload>
+
+export type LessonItemResponse = {
+  data: LessonItem
+}

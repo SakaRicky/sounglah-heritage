@@ -1,8 +1,30 @@
 import { apiRequest } from '../../../lib/api'
-import type { LessonItemListResponse, ReorderDirection } from '../types/lessonItem.types'
+import type {
+  CreateLessonItemPayload,
+  LessonItemListResponse,
+  LessonItemResponse,
+  ReorderDirection,
+  UpdateLessonItemPayload,
+} from '../types/lessonItem.types'
 
 export async function getLessonItems(lessonId: string) {
   return apiRequest<LessonItemListResponse>(`/admin/lessons/${lessonId}/items`, {
+    authenticated: true,
+  })
+}
+
+export async function createLessonItem(lessonId: string, payload: CreateLessonItemPayload) {
+  return apiRequest<LessonItemResponse>(`/admin/lessons/${lessonId}/items`, {
+    method: 'POST',
+    body: payload,
+    authenticated: true,
+  })
+}
+
+export async function updateLessonItem(itemId: string, payload: UpdateLessonItemPayload) {
+  return apiRequest<LessonItemResponse>(`/admin/lesson-items/${itemId}`, {
+    method: 'PATCH',
+    body: payload,
     authenticated: true,
   })
 }
