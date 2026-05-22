@@ -30,7 +30,7 @@ type StatCard = {
   label: string
   value: string
   description: string
-  icon: 'globe' | 'check'
+  icon: 'globe' | 'check' | 'required'
 }
 
 function PlusIcon() {
@@ -45,6 +45,7 @@ function StatIcon({ type }: { type: StatCard['icon'] }) {
   const path = {
     globe: 'M12 21a9 9 0 100-18 9 9 0 000 18zM3.6 9h16.8M3.6 15h16.8M12 3c2.2 2.3 3.3 5.3 3.3 9S14.2 18.7 12 21c-2.2-2.3-3.3-5.3-3.3-9S9.8 5.3 12 3z',
     check: 'M9 12.75l2 2 4-5.25M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+    required: 'M12 3.75l7.5 4.25v5.75c0 4-3.1 6.4-7.5 7.5-4.4-1.1-7.5-3.5-7.5-7.5V8L12 3.75zM9 12.25l2 2 4-4.5',
   }[type]
 
   return (
@@ -54,7 +55,7 @@ function StatIcon({ type }: { type: StatCard['icon'] }) {
   )
 }
 
-function StatsGrid({ total, active }: { total: number; active: number }) {
+function StatsGrid({ total, active, required }: { total: number; active: number; required: number }) {
   const stats: StatCard[] = [
     {
       label: 'Total Languages',
@@ -68,10 +69,16 @@ function StatsGrid({ total, active }: { total: number; active: number }) {
       description: 'Visible on this page',
       icon: 'check',
     },
+    {
+      label: 'Required Languages',
+      value: String(required),
+      description: 'Needed for concept completion',
+      icon: 'required',
+    },
   ]
 
   return (
-    <section className="grid gap-4 md:grid-cols-2" aria-label="Language summary">
+    <section className="grid gap-4 md:grid-cols-3" aria-label="Language summary">
       {stats.map((stat) => (
         <StatsCard
           key={stat.label}
@@ -140,6 +147,7 @@ export function AdminLanguagesPage() {
   }, [languages, sort])
 
   const activeCount = languages.filter((language) => language.status === 'active').length
+  const requiredCount = languages.filter((language) => language.isRequiredForConceptCompletion).length
 
   function resetPageAndSetSearch(value: string) {
     setPage(1)
@@ -248,7 +256,7 @@ export function AdminLanguagesPage() {
         </div>
       ) : null}
 
-      <StatsGrid total={total} active={activeCount} />
+      <StatsGrid total={total} active={activeCount} required={requiredCount} />
 
       <LanguageFilters
         search={search}

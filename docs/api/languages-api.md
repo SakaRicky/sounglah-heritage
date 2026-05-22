@@ -20,6 +20,8 @@ Authorization: Bearer <token>
   "description": "Primary heritage language for the MVP.",
   "direction": "ltr",
   "status": "active",
+  "isRequiredForConceptCompletion": true,
+  "requiresConceptTextReview": true,
   "sortOrder": 1,
   "createdAt": "2026-05-18T10:00:00Z",
   "updatedAt": "2026-05-18T10:00:00Z"
@@ -61,6 +63,7 @@ Response:
       "description": "Primary heritage language for the MVP.",
       "direction": "ltr",
       "status": "active",
+      "isRequiredForConceptCompletion": true,
       "sortOrder": 1,
       "createdAt": "2026-05-18T10:00:00Z",
       "updatedAt": "2026-05-18T10:00:00Z"
@@ -89,6 +92,7 @@ Request:
   "description": "Primary heritage language for the MVP.",
   "direction": "ltr",
   "status": "active",
+  "isRequiredForConceptCompletion": true,
   "sortOrder": 1
 }
 ```
@@ -106,6 +110,7 @@ Response: `201 Created`
     "description": "Primary heritage language for the MVP.",
     "direction": "ltr",
     "status": "active",
+    "isRequiredForConceptCompletion": true,
     "sortOrder": 1,
     "createdAt": "2026-05-18T10:00:00Z",
     "updatedAt": "2026-05-18T10:00:00Z"
@@ -119,7 +124,7 @@ Response: `201 Created`
 
 Editable fields:
 
-`name`, `nativeName`, `code`, `slug`, `description`, `direction`, `status`, `sortOrder`
+`name`, `nativeName`, `code`, `slug`, `description`, `direction`, `status`, `isRequiredForConceptCompletion`, `requiresConceptTextReview`, `sortOrder`
 
 Request:
 
@@ -128,6 +133,7 @@ Request:
   "name": "Médumba",
   "nativeName": "Mə̀dʉ̂mbɑ̀",
   "description": "Updated description.",
+  "isRequiredForConceptCompletion": true,
   "sortOrder": 1
 }
 ```
@@ -145,6 +151,7 @@ Response:
     "description": "Updated description.",
     "direction": "ltr",
     "status": "active",
+    "isRequiredForConceptCompletion": true,
     "sortOrder": 1,
     "createdAt": "2026-05-18T10:00:00Z",
     "updatedAt": "2026-05-18T10:30:00Z"
@@ -177,6 +184,7 @@ Response:
     "description": "Primary heritage language for the MVP.",
     "direction": "ltr",
     "status": "disabled",
+    "isRequiredForConceptCompletion": true,
     "sortOrder": 1,
     "createdAt": "2026-05-18T10:00:00Z",
     "updatedAt": "2026-05-18T10:30:00Z"
@@ -193,6 +201,8 @@ Backend rules:
 - `slug` is required, lowercased, trimmed, space-to-hyphen normalized, and unique.
 - `direction` must be `ltr` or `rtl`.
 - `status` must be `active` or `disabled`.
+- `isRequiredForConceptCompletion` must be `true` or `false`.
+- `requiresConceptTextReview` must be `true` or `false`. Use for heritage languages that must be approved before a concept is complete.
 - `sortOrder` must be numeric.
 
 Validation error response:

@@ -1,6 +1,9 @@
 import { apiMultipartRequest, apiRequest } from '../../../lib/api'
 import type {
   Concept,
+  ConceptCompletionListParams,
+  ConceptCompletionListResponse,
+  ConceptCompletionSummary,
   ConceptListParams,
   ConceptListResponse,
   ConceptStatus,
@@ -8,7 +11,7 @@ import type {
   UpdateConceptPayload,
 } from '../types/concept.types'
 
-function buildQuery(params: ConceptListParams = {}) {
+function buildQuery(params: ConceptListParams | ConceptCompletionListParams = {}) {
   const query = new URLSearchParams()
 
   Object.entries(params).forEach(([key, value]) => {
@@ -29,6 +32,18 @@ export async function getConcepts(params?: ConceptListParams) {
 
 export async function getConceptById(id: string) {
   return apiRequest<{ data: Concept }>(`/admin/concepts/${id}`, {
+    authenticated: true,
+  })
+}
+
+export async function getConceptCompletion(params?: ConceptCompletionListParams) {
+  return apiRequest<ConceptCompletionListResponse>(`/admin/concepts/completion${buildQuery(params)}`, {
+    authenticated: true,
+  })
+}
+
+export async function getConceptCompletionSummary() {
+  return apiRequest<{ data: ConceptCompletionSummary }>('/admin/concepts/completion/summary', {
     authenticated: true,
   })
 }
@@ -82,6 +97,13 @@ export async function updateConceptImageAltText(id: string, imageAltText: string
 export async function deleteConceptImage(id: string) {
   return apiRequest<{ data: Concept }>(`/admin/concepts/${id}/image`, {
     method: 'DELETE',
+    authenticated: true,
+  })
+}
+
+export async function publishConcept(id: string) {
+  return apiRequest<{ data: Concept }>(`/admin/concepts/${id}/publish`, {
+    method: 'POST',
     authenticated: true,
   })
 }

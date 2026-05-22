@@ -1,6 +1,6 @@
 export type ConceptTextStatus = 'active' | 'disabled'
 
-export type ConceptTextReviewStatus = 'draft' | 'needs_review' | 'approved'
+export type ConceptTextReviewStatus = 'draft' | 'needs_review' | 'approved' | 'rejected'
 
 export type ConceptTextAudioStatus = 'missing' | 'pending_review' | 'approved' | 'rejected'
 

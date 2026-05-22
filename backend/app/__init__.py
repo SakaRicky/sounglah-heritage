@@ -1,4 +1,3 @@
-from dotenv import load_dotenv
 from flask import Flask
 from flask_cors import CORS
 
@@ -14,8 +13,6 @@ from app.seed import seed_admin_user, seed_concept_texts, seed_concepts, seed_la
 
 
 def create_app(testing=False):
-    load_dotenv()
-
     app = Flask(__name__)
     app.config.from_object(Config)
 
@@ -24,6 +21,9 @@ def create_app(testing=False):
             {
                 "TESTING": True,
                 "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
+                "ADMIN_EMAIL": "admin@sounglah.com",
+                "ADMIN_PASSWORD": "password",
+                "SECRET_KEY": "test-secret-key-for-pytest-only",
             }
         )
 

@@ -175,6 +175,31 @@ def test_create_concept_text_rejects_missing_references_and_duplicates():
     )
 
 
+def test_create_concept_text_rejects_invalid_review_status():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+    concept_id, language_id = _lookup_ids(client, headers, "yes", "med")
+
+    response = client.post(
+        "/api/admin/concept-texts",
+        headers=headers,
+        json={
+            "conceptId": concept_id,
+            "languageId": language_id,
+            "text": "[needs translation]",
+            "status": "active",
+            "reviewStatus": "not_valid",
+        },
+    )
+
+    assert response.status_code == 400
+    assert (
+        response.get_json()["error"]["fields"]["reviewStatus"]
+        == "Review status must be draft, needs_review, approved, or rejected."
+    )
+
+
 def test_create_concept_text_rejects_disabled_concept_or_language():
     app = create_app(testing=True)
     client = app.test_client()
@@ -276,6 +301,28 @@ def test_update_concept_text_and_status_flow():
 
     assert active_response.status_code == 200
     assert active_response.get_json()["data"]["status"] == "active"
+
+
+def test_update_concept_text_review_status_to_rejected():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+
+    list_response = client.get("/api/admin/concept-texts?search=bonjour", headers=headers)
+    concept_text = list_response.get_json()["data"][0]
+
+    update_response = client.patch(
+        f"/api/admin/concept-texts/{concept_text['id']}",
+        headers=headers,
+        json={"reviewStatus": "rejected"},
+    )
+    rejected_response = client.get("/api/admin/concept-texts?reviewStatus=rejected", headers=headers)
+
+    assert update_response.status_code == 200
+    assert update_response.get_json()["data"]["reviewStatus"] == "rejected"
+    assert rejected_response.status_code == 200
+    assert rejected_response.get_json()["meta"]["total"] == 1
+    assert rejected_response.get_json()["data"][0]["id"] == concept_text["id"]
 
 
 def test_filter_and_search_concept_texts():

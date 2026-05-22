@@ -24,6 +24,8 @@ def concept_to_dict(concept):
         "image_alt_text": concept.image_alt_text,
         "difficultyLevel": concept.difficulty_level,
         "status": concept.status,
+        "publishedAt": _format_timestamp(concept.published_at),
+        "isPublished": concept.published_at is not None,
         "sortOrder": concept.sort_order,
         "createdAt": _format_timestamp(concept.created_at),
         "updatedAt": _format_timestamp(concept.updated_at),

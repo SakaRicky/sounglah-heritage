@@ -6,6 +6,8 @@ type StatsCardProps = {
   value: string | number
   description?: string
   variant?: 'default' | 'green' | 'warm'
+  cardClassName?: string
+  iconClassName?: string
 }
 
 const variantClass: Record<NonNullable<StatsCardProps['variant']>, string> = {
@@ -14,14 +16,30 @@ const variantClass: Record<NonNullable<StatsCardProps['variant']>, string> = {
   warm: 'from-cream-100/55 via-cream-50 to-gold-400/10',
 }
 
-export function StatsCard({ icon, label, value, description, variant = 'default' }: StatsCardProps) {
+export function StatsCard({
+  icon,
+  label,
+  value,
+  description,
+  variant = 'default',
+  cardClassName,
+  iconClassName,
+}: StatsCardProps) {
   return (
     <article
-      className={`relative overflow-hidden rounded-2xl border border-sand-200 bg-gradient-to-br ${variantClass[variant]} p-5 shadow-soft transition-all duration-200 hover:border-forest-300 hover:bg-forest-50/20 hover:shadow-[0_14px_34px_rgba(31,90,61,0.11)]`}
+      className={[
+        'relative overflow-hidden rounded-2xl border bg-gradient-to-br p-5 shadow-soft transition-all duration-200 hover:border-forest-300 hover:bg-forest-50/20 hover:shadow-[0_14px_34px_rgba(31,90,61,0.11)]',
+        cardClassName ?? `border-sand-200 ${variantClass[variant]}`,
+      ].join(' ')}
     >
       <div className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full border-[18px] border-forest-accent/5" />
       <div className="relative flex items-start gap-4">
-        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-forest-accent/15 bg-white/70 text-forest-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_8px_20px_rgba(31,90,61,0.08)]">
+        <span
+          className={[
+            'flex h-12 w-12 shrink-0 items-center justify-center rounded-full border shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_8px_20px_rgba(31,90,61,0.08)]',
+            iconClassName ?? 'border-forest-accent/15 bg-white/70 text-forest-700',
+          ].join(' ')}
+        >
           {icon}
         </span>
         <div>

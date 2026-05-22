@@ -12,6 +12,7 @@ import { AdminPlaceholderPage } from '../pages/admin/AdminPlaceholderPage'
 import { AdminConceptTextsPage } from '../features/conceptTexts/pages/ConceptTextsPage'
 import { ConceptTextAudioReviewPage } from '../features/conceptTexts/pages/ConceptTextAudioReviewPage'
 import { ConceptTextRecordingModePage } from '../features/conceptTexts/pages/ConceptTextRecordingModePage'
+import { ConceptCompletionPage } from '../features/concepts/pages/ConceptCompletionPage'
 import { AdminConceptsPage } from '../features/concepts/pages/ConceptsPage'
 import { AdminLanguagesPage } from '../features/languages/pages/LanguagesPage'
 
@@ -60,6 +61,10 @@ export const router = createBrowserRouter([
           {
             path: 'content/concepts',
             element: <AdminConceptsPage />,
+          },
+          {
+            path: 'content/concepts/completion',
+            element: <ConceptCompletionPage />,
           },
           {
             path: 'content/concept-texts',

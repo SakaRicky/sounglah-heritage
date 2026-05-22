@@ -26,6 +26,21 @@ function LanguageMark({ name }: { name: string }) {
   )
 }
 
+function CompletionRequirementBadge({ required }: { required: boolean }) {
+  return (
+    <span
+      className={[
+        'inline-flex rounded-full px-2.5 py-1 text-xs font-bold',
+        required
+          ? 'bg-forest-accent/10 text-forest-700 ring-1 ring-forest-accent/15'
+          : 'bg-sand-100/70 text-cocoa-body/70 ring-1 ring-sand-200/70',
+      ].join(' ')}
+    >
+      {required ? 'Required' : 'Optional'}
+    </span>
+  )
+}
+
 export function LanguageTable({
   languages,
   loading,
@@ -80,6 +95,13 @@ export function LanguageTable({
         accessorKey: 'status',
         header: 'Status',
         cell: ({ row }) => <LanguageStatusBadge status={row.original.status} />,
+      },
+      {
+        accessorKey: 'isRequiredForConceptCompletion',
+        header: 'Completion',
+        cell: ({ row }) => (
+          <CompletionRequirementBadge required={row.original.isRequiredForConceptCompletion} />
+        ),
       },
       {
         accessorKey: 'sortOrder',

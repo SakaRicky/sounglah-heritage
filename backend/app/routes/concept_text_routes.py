@@ -14,8 +14,8 @@ concept_text_bp = Blueprint("admin_concept_texts", __name__)
 
 VALID_STATUSES = {"active", "disabled"}
 VALID_STATUS_FILTERS = {"active", "disabled", "all"}
-VALID_REVIEW_STATUSES = {"draft", "needs_review", "approved"}
-VALID_REVIEW_STATUS_FILTERS = {"draft", "needs_review", "approved", "all"}
+VALID_REVIEW_STATUSES = {"draft", "needs_review", "approved", "rejected"}
+VALID_REVIEW_STATUS_FILTERS = {"draft", "needs_review", "approved", "rejected", "all"}
 VALID_SORTS = {"updated", "concept", "language", "text"}
 WRITABLE_FIELDS = {
     "text",
@@ -122,7 +122,7 @@ def _validate_payload(data, existing_concept_text=None, partial=False):
     if not partial or "reviewStatus" in data:
         review_status = str(data.get("reviewStatus", "draft")).strip().lower()
         if review_status not in VALID_REVIEW_STATUSES:
-            fields["reviewStatus"] = "Review status must be draft, needs_review, or approved."
+            fields["reviewStatus"] = "Review status must be draft, needs_review, approved, or rejected."
         else:
             normalized["reviewStatus"] = review_status
 
@@ -266,7 +266,7 @@ def list_concept_texts():
 
     if review_status not in VALID_REVIEW_STATUS_FILTERS:
         return _validation_error(
-            {"reviewStatus": "Review status filter must be draft, needs_review, approved, or all."}
+            {"reviewStatus": "Review status filter must be draft, needs_review, approved, rejected, or all."}
         )
 
     if sort not in VALID_SORTS:

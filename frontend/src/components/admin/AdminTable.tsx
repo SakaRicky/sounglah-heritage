@@ -35,6 +35,7 @@ type AdminTableProps<TData> = {
     onPageChange: (page: number) => void
     onPageSizeChange: (pageSize: number) => void
   }
+  scrollMaxHeight?: string
 }
 
 export function AdminTable<TData>({
@@ -47,6 +48,7 @@ export function AdminTable<TData>({
   emptyState,
   getRowId,
   pagination,
+  scrollMaxHeight,
 }: AdminTableProps<TData>) {
   // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
@@ -65,9 +67,10 @@ export function AdminTable<TData>({
       isEmpty={data.length === 0}
       emptyState={emptyState}
       pagination={pagination}
+      scrollMaxHeight={scrollMaxHeight}
     >
       <table className="min-w-full divide-y divide-sand-100 text-left text-sm">
-        <thead className="bg-forest-50/30 text-xs uppercase tracking-wide text-forest-700/75">
+        <thead className="sticky top-0 z-10 bg-forest-50/95 text-xs uppercase tracking-wide text-forest-700/75 backdrop-blur-sm">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => {

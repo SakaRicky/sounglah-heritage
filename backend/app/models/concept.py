@@ -19,6 +19,7 @@ class Concept(db.Model):
     image_alt_text = db.Column(db.String(255), nullable=True)
     difficulty_level = db.Column(db.String(30), nullable=False, default="beginner")
     status = db.Column(db.String(30), nullable=False, default="active")
+    published_at = db.Column(db.DateTime(timezone=True), nullable=True)
     sort_order = db.Column(db.Integer, nullable=False, default=0)
     created_at = db.Column(
         db.DateTime(timezone=True),

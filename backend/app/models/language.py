@@ -15,6 +15,8 @@ class Language(db.Model):
     description = db.Column(db.Text, nullable=True)
     direction = db.Column(db.String(10), nullable=False, default="ltr")
     status = db.Column(db.String(20), nullable=False, default="active")
+    is_required_for_concept_completion = db.Column(db.Boolean, nullable=False, default=False)
+    requires_concept_text_review = db.Column(db.Boolean, nullable=False, default=False)
     sort_order = db.Column(db.Integer, nullable=False, default=0)
     created_at = db.Column(
         db.DateTime(timezone=True),

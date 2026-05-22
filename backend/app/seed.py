@@ -83,6 +83,8 @@ def seed_languages():
             "description": "Primary heritage language for the MVP.",
             "direction": "ltr",
             "status": "active",
+            "is_required_for_concept_completion": True,
+            "requires_concept_text_review": True,
             "sort_order": 1,
         },
         {
@@ -93,6 +95,8 @@ def seed_languages():
             "description": None,
             "direction": "ltr",
             "status": "active",
+            "is_required_for_concept_completion": True,
+            "requires_concept_text_review": False,
             "sort_order": 2,
         },
         {
@@ -103,6 +107,8 @@ def seed_languages():
             "description": None,
             "direction": "ltr",
             "status": "active",
+            "is_required_for_concept_completion": True,
+            "requires_concept_text_review": False,
             "sort_order": 3,
         },
     ]
@@ -110,7 +116,14 @@ def seed_languages():
     changed = False
 
     for item in seed_data:
-        if Language.query.filter_by(code=item["code"]).first():
+        existing = Language.query.filter_by(code=item["code"]).first()
+        if existing is not None:
+            if existing.is_required_for_concept_completion != item["is_required_for_concept_completion"]:
+                existing.is_required_for_concept_completion = item["is_required_for_concept_completion"]
+                changed = True
+            if existing.requires_concept_text_review != item.get("requires_concept_text_review", False):
+                existing.requires_concept_text_review = item.get("requires_concept_text_review", False)
+                changed = True
             continue
 
         db.session.add(Language(**item))

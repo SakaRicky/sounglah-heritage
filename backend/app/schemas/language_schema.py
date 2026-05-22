@@ -19,6 +19,8 @@ def language_to_dict(language):
         "description": language.description,
         "direction": language.direction,
         "status": language.status,
+        "isRequiredForConceptCompletion": language.is_required_for_concept_completion,
+        "requiresConceptTextReview": language.requires_concept_text_review,
         "sortOrder": language.sort_order,
         "createdAt": _format_timestamp(language.created_at),
         "updatedAt": _format_timestamp(language.updated_at),
