@@ -33,3 +33,8 @@ Parent slices (for example **S001**) can list many **child slices** (**SS001**, 
 - Update **`docs/slice-board.md`** and the relevant slice file when status changes; see **`docs/definition-of-done.md`**.
 - Do not silently expand scope or invent API contracts without documenting assumptions.
 - Prompts for agents live under **`docs/prompts/`**; product and architecture context under **`docs/`**.
+
+## Git branches
+
+- **Do not implement on `main`/`master`.** See **`.cursor/rules/git-branch-workflow.mdc`**.
+- Before editing files, ask to create a feature branch; proceed only after the human approves (unless they already named the branch).
