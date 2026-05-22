@@ -333,7 +333,19 @@ export function ConceptTextRecordingModePage() {
       ) : currentItem ? (
         <section className="grid gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(20rem,0.95fr)]">
           <article className="rounded-2xl border border-sand-200 bg-white p-6 shadow-soft">
-            <div className="flex flex-wrap items-start justify-between gap-4">
+            <div className="rounded-2xl border border-forest-accent/20 bg-forest-accent/10 p-5">
+              <p className="text-xs font-semibold uppercase tracking-wide text-forest-700/75">Text to record</p>
+              <p className="mt-3 break-words text-3xl font-bold leading-tight text-cocoa-800 md:text-4xl">
+                {currentItem.text}
+              </p>
+              {currentItem.pronunciation ? (
+                <p className="mt-3 break-words text-base font-semibold leading-7 text-cocoa-body">
+                  Pronunciation: {currentItem.pronunciation}
+                </p>
+              ) : null}
+            </div>
+
+            <div className="mt-6 flex flex-wrap items-start justify-between gap-4">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wide text-forest-600/70">Current item</p>
                 <h2 className="mt-2 text-3xl font-bold text-cocoa-800">{currentItem.concept?.title ?? 'Unknown concept'}</h2>
@@ -356,9 +368,9 @@ export function ConceptTextRecordingModePage() {
                 <p className="text-sm text-cocoa-body/65">{currentLanguageCode ? currentLanguageCode.toUpperCase() : 'Unknown code'}</p>
               </div>
               <div className="rounded-2xl border border-sand-100 bg-cream-50/60 p-4">
-                <p className="text-xs font-semibold uppercase tracking-wide text-forest-600/70">Pronunciation text</p>
-                <p className="mt-2 text-lg font-semibold leading-7 text-cocoa-800">{currentItem.text}</p>
-                {currentItem.pronunciation ? <p className="mt-1 text-sm text-cocoa-body/70">{currentItem.pronunciation}</p> : null}
+                <p className="text-xs font-semibold uppercase tracking-wide text-forest-600/70">Concept</p>
+                <p className="mt-2 text-lg font-semibold leading-7 text-cocoa-800">{currentItem.concept?.title ?? 'Unknown concept'}</p>
+                <p className="mt-1 text-sm text-cocoa-body/70">Keep the recording centered on the phrase above.</p>
               </div>
             </div>
 

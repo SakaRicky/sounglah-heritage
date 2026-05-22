@@ -844,6 +844,8 @@ Implementation notes:
 - Added `/admin/content/concept-texts/recording` with an admin link from the Concept Texts page and a redirect from `/admin/audio-recording`.
 - The recording queue is built from the existing concept text list endpoint and filtered client-side to missing Médumba rows.
 - The page uses the existing inline browser recorder, auto-advances by reloading the queue after upload, and keeps recording controls disabled outside Médumba.
+- The active phrase is now promoted into a large "Text to record" panel above the concept details so recorders see the exact wording first.
+- Verification: from `frontend/`, `npm run typecheck`, `npm run lint`, and `source "$HOME/.nvm/nvm.sh" && nvm use 22.15.0 && npm run build` pass.
 
 ---
 
@@ -931,8 +933,9 @@ Implementation notes:
 - The queue supports status and language filters, pagination, empty/loading/error states, and refresh.
 - Reviewers can play submitted audio with `AudioPlayerMini`, approve pending audio, or reject with a review note.
 - Phones and tablets now render submitted recordings as stacked review cards with concept, language, status, player, submitted metadata, recorder, and approve/reject actions; the table remains the desktop view.
+- The reviewed phrase now leads each mobile card and is the first desktop table column, with larger high-contrast text before concept metadata.
 - Added an Audio Review entry to the admin sidebar.
-- Verification: from `frontend/`, `npm run typecheck` and `npm run lint` pass. `npm run build` remains blocked locally because Node 20.10.0 is below Vite's required Node 20.19+ / 22.12+.
+- Verification: from `frontend/`, `npm run typecheck`, `npm run lint`, and `source "$HOME/.nvm/nvm.sh" && nvm use 22.15.0 && npm run build` pass.
 
 ---
 

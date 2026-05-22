@@ -68,8 +68,8 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 | S014.5 - Inline Audio Recorder Component | Review | Reusable browser recorder wired into missing/rejected Concept Text table rows; local preview/retake/cancel before multipart submit for review. |
 | S014.6 - Concept Text Audio Cell | Review | Reusable audio cell handles missing, pending, approved, and rejected states with Médumba-only record/replace actions in the Concept Texts table. |
 | S014.7 - Mini Audio Player | Review | Compact reusable audio player with play/pause, loading, duration, and error states; used in the Concept Text audio cell and recorder preview. |
-| S014.8 - Recording Mode Page | Review | Focused batch recording page at `/admin/content/concept-texts/recording`; loads missing Médumba items from the concept text list and advances to the next item after submit. |
-| S014.9 - Audio Review Queue | Review | Admin review queue at `/admin/audio-review` lists submitted audio, plays recordings, and supports approve/reject with review notes; phones and tablets use stacked recording cards while desktop keeps the table. |
+| S014.8 - Recording Mode Page | Review | Focused batch recording page at `/admin/content/concept-texts/recording`; loads missing Médumba items, advances after submit, and promotes the active phrase as the primary recording target. |
+| S014.9 - Audio Review Queue | Review | Admin review queue at `/admin/audio-review` lists submitted audio, puts the reviewed phrase first on mobile and desktop, and supports approve/reject with review notes. |
 | S014.10 - Permissions and Roles | Review | MVP admin-only audio permission gates are centralized on backend and frontend; role-specific behavior is deferred until roles exist. |
 | S016 - Content Admin Stabilization + QA | Done | Focused pre-Lessons QA pass for Languages, Concepts, Concept Texts, audio review, seed sanity, and build readiness. Manual QA, backend tests, frontend lint, and frontend build pass when using the repo-pinned Node 22.15.0 through nvm. |
 | S014 - Lessons CRUD | Backlog | Lesson structure |

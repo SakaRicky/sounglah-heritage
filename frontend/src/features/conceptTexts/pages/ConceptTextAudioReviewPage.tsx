@@ -163,21 +163,29 @@ function MobileReviewCard({ audio, isSaving, canReview, canApprove, canReject, o
   return (
     <article className="rounded-2xl border border-sand-100 bg-white/90 p-3.5 shadow-[0_10px_28px_rgba(47,26,16,0.07)] sm:p-4">
       <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_13rem] sm:items-start">
-        <div className="flex min-w-0 gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-forest-50 text-lg font-bold text-forest-700">
-            {getConceptInitial(title)}
-          </div>
-          <div className="min-w-0">
-            <h3 className="break-words text-base font-bold text-cocoa-800">{title}</h3>
-            <p className="mt-1 break-words text-sm font-medium text-cocoa-body">{conceptText?.text ?? 'No text available'}</p>
-            <p className="mt-2 flex flex-wrap items-center gap-2 text-sm font-medium text-cocoa-body/70">
-              <span className="inline-flex rounded-sm bg-terracotta-500 px-1.5 py-0.5 text-[0.65rem] font-bold uppercase text-gold-400">
-                {conceptText?.language?.code?.slice(0, 2) ?? 'lg'}
-              </span>
-              <span>{conceptText?.language?.name ?? 'Unknown language'}</span>
-              <span aria-hidden>·</span>
-              <span className="uppercase">{conceptText?.language?.code ?? 'unknown'}</span>
+        <div className="min-w-0">
+          <div className="rounded-2xl border border-forest-accent/20 bg-forest-accent/10 p-4">
+            <p className="text-xs font-semibold uppercase tracking-wide text-forest-700/75">Text to review</p>
+            <p className="mt-2 break-words text-2xl font-bold leading-tight text-cocoa-800">
+              {conceptText?.text ?? 'No text available'}
             </p>
+          </div>
+
+          <div className="mt-3 flex min-w-0 gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-forest-50 text-lg font-bold text-forest-700">
+              {getConceptInitial(title)}
+            </div>
+            <div className="min-w-0">
+              <h3 className="break-words text-base font-bold text-cocoa-800">{title}</h3>
+              <p className="mt-2 flex flex-wrap items-center gap-2 text-sm font-medium text-cocoa-body/70">
+                <span className="inline-flex rounded-sm bg-terracotta-500 px-1.5 py-0.5 text-[0.65rem] font-bold uppercase text-gold-400">
+                  {conceptText?.language?.code?.slice(0, 2) ?? 'lg'}
+                </span>
+                <span>{conceptText?.language?.name ?? 'Unknown language'}</span>
+                <span aria-hidden>·</span>
+                <span className="uppercase">{conceptText?.language?.code ?? 'unknown'}</span>
+              </p>
+            </div>
           </div>
         </div>
 
@@ -508,6 +516,7 @@ export function ConceptTextAudioReviewPage() {
         <table className="hidden min-w-full divide-y divide-sand-100 text-left text-sm lg:table">
           <thead className="bg-forest-50/30 text-xs uppercase tracking-wide text-forest-700/75">
             <tr>
+              <th className="px-5 py-4 font-semibold">Text to review</th>
               <th className="px-5 py-4 font-semibold">Concept</th>
               <th className="px-5 py-4 font-semibold">Language</th>
               <th className="px-5 py-4 font-semibold">Audio</th>
@@ -523,9 +532,11 @@ export function ConceptTextAudioReviewPage() {
 
               return (
                 <tr key={audio.id} className="align-middle transition-all duration-200 hover:bg-forest-50/30">
-                  <td className="max-w-md px-5 py-4">
+                  <td className="max-w-lg px-5 py-4">
+                    <p className="break-words text-xl font-bold leading-7 text-cocoa-800">{conceptText?.text ?? 'No text available'}</p>
+                  </td>
+                  <td className="max-w-xs px-5 py-4">
                     <p className="font-semibold text-cocoa-800">{conceptText?.concept?.title ?? 'Untitled concept'}</p>
-                    <p className="mt-1 text-base font-medium text-cocoa-body">{conceptText?.text ?? 'No text available'}</p>
                   </td>
                   <td className="px-5 py-4">
                     <p className="font-semibold text-cocoa-800">{conceptText?.language?.name ?? 'Unknown language'}</p>
