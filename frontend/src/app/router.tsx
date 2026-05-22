@@ -80,12 +80,16 @@ export const router = createBrowserRouter([
             element: <ConceptTextReviewPage />,
           },
           {
+            path: 'content/concept-texts/audio-review',
+            element: <ConceptTextAudioReviewPage />,
+          },
+          {
             path: 'audio-recording',
             element: <Navigate to="/admin/content/concept-texts/recording" replace />,
           },
           {
             path: 'audio-review',
-            element: <ConceptTextAudioReviewPage />,
+            element: <Navigate to="/admin/content/concept-texts/audio-review" replace />,
           },
           {
             path: 'text-review',

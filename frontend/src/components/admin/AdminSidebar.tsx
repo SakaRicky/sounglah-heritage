@@ -71,14 +71,6 @@ function ListIcon({ className = 'h-5 w-5' }: NavIconProps) {
   )
 }
 
-function AudioIcon({ className = 'h-5 w-5' }: NavIconProps) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9 8v8m4-11v14m4-9v4M5 11v2" />
-    </svg>
-  )
-}
-
 function UsersIcon({ className = 'h-5 w-5' }: NavIconProps) {
   return (
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden>
@@ -139,7 +131,6 @@ const navSections: NavSection[] = [
       { type: 'link', label: 'Languages', to: '/admin/content/languages', icon: <BookIcon /> },
       { type: 'link', label: 'Concepts', to: '/admin/content/concepts', icon: <LayersIcon /> },
       { type: 'link', label: 'Concept Texts', to: '/admin/content/concept-texts', icon: <DocumentIcon /> },
-      { type: 'link', label: 'Audio Review', to: '/admin/audio-review', icon: <AudioIcon /> },
       { type: 'link', label: 'Lessons', to: '/admin/content/lessons', icon: <BookIcon /> },
       { type: 'link', label: 'Lesson Items', to: '/admin/content/lesson-items', icon: <ListIcon /> },
       { type: 'disabled', label: 'Stories', icon: <DocumentIcon /> },

@@ -14,15 +14,39 @@ function getConceptInitial(value?: string | null) {
 type Props = {
   conceptText: ConceptTextReviewQueueItem
   saving?: boolean
+  selected?: boolean
+  selectable?: boolean
+  onToggleSelected?: () => void
   onApprove: () => void
   onReject: () => void
 }
 
-export function ConceptTextReviewMobileCard({ conceptText, saving = false, onApprove, onReject }: Props) {
+export function ConceptTextReviewMobileCard({
+  conceptText,
+  saving = false,
+  selected = false,
+  selectable = true,
+  onToggleSelected,
+  onApprove,
+  onReject,
+}: Props) {
   const title = conceptText.concept?.title ?? 'Untitled concept'
 
   return (
     <article className="rounded-2xl border border-sand-100 bg-white/90 p-3.5 shadow-[0_10px_28px_rgba(47,26,16,0.07)] sm:p-4">
+      {onToggleSelected ? (
+        <div className="mb-3 flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={selected}
+            disabled={!selectable}
+            onChange={onToggleSelected}
+            aria-label={`Select ${title}`}
+            className="h-4 w-4 rounded border-sand-300 text-forest-accent focus:ring-forest-200 disabled:cursor-not-allowed disabled:opacity-40"
+          />
+          <span className="text-xs font-semibold uppercase tracking-wide text-cocoa-body/55">Select for bulk review</span>
+        </div>
+      ) : null}
       <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_11rem] sm:items-start">
         <div className="min-w-0">
           <div className="rounded-2xl border border-forest-accent/20 bg-forest-accent/10 p-4">

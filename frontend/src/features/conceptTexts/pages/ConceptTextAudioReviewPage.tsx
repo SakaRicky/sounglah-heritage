@@ -15,6 +15,7 @@ import {
   rejectConceptTextAudio,
 } from '../api/conceptTextsApi'
 import { AudioPlayerMini } from '../components/AudioPlayerMini'
+import { ConceptTextsSubNav } from '../components/ConceptTextsSubNav'
 import type {
   ConceptTextAudio,
   ConceptTextAudioReviewStatus,
@@ -376,7 +377,7 @@ export function ConceptTextAudioReviewPage() {
   return (
     <div className="space-y-8">
       <AdminPageHeader
-        breadcrumb={['Content Management', 'Concept Text Audio', 'Review Queue']}
+        breadcrumb={['Content Management', 'Concept Texts', 'Audio Review']}
         title="Audio Review"
         description="Listen to submitted pronunciations, approve clear recordings for lessons, or send gentle notes when a family word needs another take."
         action={
@@ -391,6 +392,8 @@ export function ConceptTextAudioReviewPage() {
           </button>
         }
       />
+
+      <ConceptTextsSubNav />
 
       {notice ? (
         <div className="rounded-cta border border-forest-accent/20 bg-forest-accent/10 px-4 py-3 text-sm font-medium text-forest-700">
