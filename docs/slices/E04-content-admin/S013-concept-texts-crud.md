@@ -6,7 +6,7 @@ Epic 4 - Content Admin CRUD
 
 ## Status
 
-Backlog
+Done
 
 ## Goal
 
@@ -31,3 +31,8 @@ Texts:
 - Text-only concept text create/edit uses the same centered modal treatment as language forms.
 - Concept image handling remains on the concept form, where the existing image preview and upload section is still the better fit.
 - Clicking the transparent backdrop outside the form or confirmation dialog closes it.
+
+## Current Notes
+
+- Backend and frontend Concept Texts CRUD exists and was included in S016 stabilization QA.
+- Concept Text audio recording/review was completed as follow-up S014.x work.

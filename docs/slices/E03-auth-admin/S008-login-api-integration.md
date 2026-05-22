@@ -6,7 +6,7 @@ Epic 3 - Authentication + Admin Shell
 
 ## Status
 
-Backlog
+Done
 
 ## Goal
 
@@ -23,3 +23,8 @@ Connect the login form to the Flask backend auth endpoint.
 - Successful login stores token.
 - Failed login shows a friendly error.
 - Successful login routes to `/admin`.
+
+## Current Notes
+
+- Backend `/api/auth/login` and frontend token storage/routing are implemented.
+- This doc is retained for traceability; future auth hardening should be planned as a new slice.

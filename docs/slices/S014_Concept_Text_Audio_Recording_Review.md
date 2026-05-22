@@ -8,7 +8,7 @@ Epic 5 - Learning Media Management
 
 ## Status
 
-Review / High Priority
+Done
 
 ## Goal
 
@@ -128,7 +128,7 @@ Only one row should be in recording mode at a time.
 
 ## S014.1 - Audio Data Model + Migration
 
-Status: Review
+Status: Done
 
 ### Goal
 
@@ -236,7 +236,7 @@ Implementation notes:
 
 ## S014.2 - Audio Storage Service
 
-Status: Review
+Status: Done
 
 ### Goal
 
@@ -313,7 +313,7 @@ Implementation notes:
 
 ## S014.3 - Audio API Endpoints
 
-Status: Review
+Status: Done
 
 ### Goal
 
@@ -447,7 +447,7 @@ Implementation notes:
 
 ## S014.4 - Concept Text Table Audio Summary
 
-Status: Review
+Status: Done
 
 ### Goal
 
@@ -526,7 +526,7 @@ Implementation notes:
 
 ## S014.5 - Inline Audio Recorder Component
 
-Status: Review
+Status: Done
 
 ### Goal
 
@@ -627,7 +627,7 @@ Implementation notes:
 
 ## S014.6 - Concept Text Audio Cell
 
-Status: Review
+Status: Done
 
 ### Goal
 
@@ -712,7 +712,7 @@ Implementation notes:
 
 ## S014.7 - Mini Audio Player
 
-Status: Review
+Status: Done
 
 ### Goal
 
@@ -763,7 +763,7 @@ Implementation notes:
 
 ## S014.8 - Recording Mode Page
 
-Status: Review
+Status: Done
 
 ### Goal
 
@@ -851,7 +851,7 @@ Implementation notes:
 
 ## S014.9 - Audio Review Queue
 
-Status: Review
+Status: Done
 
 ### Goal
 
@@ -941,7 +941,7 @@ Implementation notes:
 
 ## S014.10 - Permissions and Roles
 
-Status: Review
+Status: Done
 
 ### Goal
 

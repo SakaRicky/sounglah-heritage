@@ -6,13 +6,15 @@ Epic 4 - Content Admin CRUD
 
 ## Status
 
-Backlog
+Done
 
 ## Goal
 
 Build the first admin CRUD flow for managing languages in the Sounglah admin dashboard.
 
 Languages are foundational. Concepts, concept texts, lessons, lesson items, stories, audio, and translation content will depend on language support.
+
+This planning document is retained as historical context. The implemented slice summary lives in `docs/slices/E04-content-admin/S011-languages-crud.md`, and S016 stabilization verified the completed Languages CRUD flow.
 
 ---
 
