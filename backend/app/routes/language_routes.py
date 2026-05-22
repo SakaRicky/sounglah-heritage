@@ -21,6 +21,7 @@ WRITABLE_FIELDS = {
     "description",
     "direction",
     "status",
+    "isRequiredForConceptCompletion",
     "sortOrder",
 }
 
@@ -47,6 +48,20 @@ def _optional_string(value):
 
     normalized = str(value).strip()
     return normalized or None
+
+
+def _normalize_bool(value):
+    if isinstance(value, bool):
+        return value
+
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in {"true", "1", "yes"}:
+            return True
+        if normalized in {"false", "0", "no"}:
+            return False
+
+    raise ValueError
 
 
 def _validate_payload(data, existing_language=None, partial=False):
@@ -104,6 +119,14 @@ def _validate_payload(data, existing_language=None, partial=False):
         else:
             normalized["status"] = status
 
+    if not partial or "isRequiredForConceptCompletion" in data:
+        try:
+            normalized["isRequiredForConceptCompletion"] = _normalize_bool(
+                data.get("isRequiredForConceptCompletion", False)
+            )
+        except ValueError:
+            fields["isRequiredForConceptCompletion"] = "Required-for-completion must be true or false."
+
     if not partial or "sortOrder" in data:
         try:
             normalized["sortOrder"] = int(data.get("sortOrder", 0))
@@ -119,6 +142,7 @@ def _validate_payload(data, existing_language=None, partial=False):
 def _apply_language_payload(language, payload):
     field_map = {
         "nativeName": "native_name",
+        "isRequiredForConceptCompletion": "is_required_for_concept_completion",
         "sortOrder": "sort_order",
     }
 

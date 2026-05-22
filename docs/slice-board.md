@@ -76,6 +76,8 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 | S016 - Content Admin Stabilization + QA | Done | Focused pre-Lessons QA pass for Languages, Concepts, Concept Texts, audio review, seed sanity, and build readiness. Manual QA, backend tests, frontend lint, and frontend build pass when using the repo-pinned Node 22.15.0 through nvm. |
 | S014 - Lessons CRUD | Planned | Lesson structure; contract expanded before implementation. Note: this ID predates the audio S014.x child slices and remains the lessons slice used by existing admin placeholders. |
 | S015 - LessonItems CRUD | Planned | Exercises/items; contract expanded before implementation, including concept-backed vocabulary cards and concept-less story segments. |
+| S021 - Concept Completion Workflow | Planned | Admin dashboard and backend completion logic for required concept texts, rejected review state, and guarded concept publishing. See `docs/slices/E04-content-admin/S021-concept-completion-workflow.md`. |
+| S021.1 - Required Language Flag | Done | Adds `languages.is_required_for_concept_completion`, seeds English/French/Médumba as required, exposes the flag through language API/admin UI, and passes backend tests plus frontend lint/build. |
 
 ## Epic 5 - Learner Experience
 

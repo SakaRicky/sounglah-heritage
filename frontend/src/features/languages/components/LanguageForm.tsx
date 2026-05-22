@@ -19,6 +19,7 @@ type FormValues = {
   description: string
   direction: LanguageDirection
   status: LanguageStatus
+  isRequiredForConceptCompletion: boolean
   sortOrder: string
 }
 
@@ -38,6 +39,7 @@ const emptyValues: FormValues = {
   description: '',
   direction: 'ltr',
   status: 'active',
+  isRequiredForConceptCompletion: false,
   sortOrder: '0',
 }
 
@@ -60,6 +62,7 @@ function valuesFromLanguage(language: Language | null): FormValues {
     description: language.description ?? '',
     direction: language.direction,
     status: language.status,
+    isRequiredForConceptCompletion: language.isRequiredForConceptCompletion,
     sortOrder: String(language.sortOrder),
   }
 }
@@ -132,10 +135,11 @@ export function LanguageForm({ language, fieldErrors, saving, onCancel, onSubmit
     }
 
     if (key === 'name' && !identifierTouched) {
-      const identifier = toLanguageIdentifier(value)
+      const name = String(value)
+      const identifier = toLanguageIdentifier(name)
       setValues((current) => ({
         ...current,
-        name: value,
+        name,
         code: identifier,
         slug: identifier,
       }))
@@ -155,6 +159,7 @@ export function LanguageForm({ language, fieldErrors, saving, onCancel, onSubmit
       description: values.description,
       direction: values.direction,
       status: values.status,
+      isRequiredForConceptCompletion: values.isRequiredForConceptCompletion,
       sortOrder: Number(values.sortOrder),
     })
   }
@@ -288,6 +293,22 @@ export function LanguageForm({ language, fieldErrors, saving, onCancel, onSubmit
               </select>
               <p className={fieldHelpClass}>Enable or disable this language.</p>
               {errorFor('status')}
+            </label>
+
+            <label className="flex gap-3 rounded-cta border border-sand-100 bg-white px-4 py-3 lg:col-span-2">
+              <input
+                type="checkbox"
+                checked={values.isRequiredForConceptCompletion}
+                onChange={(event) => updateValue('isRequiredForConceptCompletion', event.target.checked)}
+                className="mt-1 h-4 w-4 rounded border-sand-300 text-forest-accent focus:ring-forest-accent"
+              />
+              <span>
+                <span className={fieldLabelClass}>Required for concept completion</span>
+                <span className="mt-1 block text-sm leading-5 text-cocoa-body/70">
+                  Concepts need approved text in this language before they can be considered complete.
+                </span>
+                {errorFor('isRequiredForConceptCompletion')}
+              </span>
             </label>
 
             <label className="block">

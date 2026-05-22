@@ -32,6 +32,7 @@ def test_list_seeded_languages():
     data = response.get_json()
     assert data["meta"]["total"] == 3
     assert [language["code"] for language in data["data"]] == ["med", "en", "fr"]
+    assert all(language["isRequiredForConceptCompletion"] for language in data["data"])
 
 
 def test_create_language_normalizes_values():
@@ -49,6 +50,7 @@ def test_create_language_normalizes_values():
             "description": "  Western Grassfields language.  ",
             "direction": "ltr",
             "status": "active",
+            "isRequiredForConceptCompletion": False,
             "sortOrder": "4",
         },
     )
@@ -60,6 +62,7 @@ def test_create_language_normalizes_values():
     assert language["code"] == "fefe"
     assert language["slug"] == "fefe-language"
     assert language["description"] == "Western Grassfields language."
+    assert language["isRequiredForConceptCompletion"] is False
     assert language["sortOrder"] == 4
 
 
@@ -98,6 +101,7 @@ def test_update_language_and_status_flow():
         json={
             "nativeName": "Mə̀dʉ̂mbɑ̀",
             "description": "Updated description.",
+            "isRequiredForConceptCompletion": False,
             "sortOrder": 7,
         },
     )
@@ -106,6 +110,7 @@ def test_update_language_and_status_flow():
     updated = update_response.get_json()["data"]
     assert updated["nativeName"] == "Mə̀dʉ̂mbɑ̀"
     assert updated["description"] == "Updated description."
+    assert updated["isRequiredForConceptCompletion"] is False
     assert updated["sortOrder"] == 7
 
     disabled_response = client.patch(
@@ -125,6 +130,31 @@ def test_update_language_and_status_flow():
 
     assert active_response.status_code == 200
     assert active_response.get_json()["data"]["status"] == "active"
+
+
+def test_create_language_rejects_invalid_required_for_completion_flag():
+    app = create_app(testing=True)
+    client = app.test_client()
+
+    response = client.post(
+        "/api/admin/languages",
+        headers=auth_headers(client),
+        json={
+            "name": "Yemba",
+            "code": "yem",
+            "slug": "yemba",
+            "direction": "ltr",
+            "status": "active",
+            "isRequiredForConceptCompletion": "sometimes",
+            "sortOrder": 4,
+        },
+    )
+
+    assert response.status_code == 400
+    assert (
+        response.get_json()["error"]["fields"]["isRequiredForConceptCompletion"]
+        == "Required-for-completion must be true or false."
+    )
 
 
 def test_filter_disabled_languages():
