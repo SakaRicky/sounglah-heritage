@@ -1,16 +1,16 @@
-"""add required language flag
+"""add requires concept text review flag
 
-Revision ID: e1f2a3b4c5d6
-Revises: d9e0f1a2b3c4
-Create Date: 2026-05-22 00:00:00.000000
+Revision ID: b2c3d4e5f6a8
+Revises: a1b2c3d4e5f6
+Create Date: 2026-05-22 12:00:00.000000
 
 """
 from alembic import op
 import sqlalchemy as sa
 
 
-revision = "e1f2a3b4c5d6"
-down_revision = "d9e0f1a2b3c4"
+revision = "b2c3d4e5f6a8"
+down_revision = "a1b2c3d4e5f6"
 branch_labels = None
 depends_on = None
 
@@ -20,11 +20,11 @@ def upgrade():
     inspector = sa.inspect(bind)
     columns = {column["name"] for column in inspector.get_columns("languages")}
 
-    if "is_required_for_concept_completion" not in columns:
+    if "requires_concept_text_review" not in columns:
         op.add_column(
             "languages",
             sa.Column(
-                "is_required_for_concept_completion",
+                "requires_concept_text_review",
                 sa.Boolean(),
                 nullable=False,
                 server_default=sa.false(),
@@ -35,8 +35,8 @@ def upgrade():
         sa.text(
             """
             UPDATE languages
-            SET is_required_for_concept_completion = true
-            WHERE code IN ('en', 'fr', 'med')
+            SET requires_concept_text_review = true
+            WHERE code IN ('med', 'medumba')
             """
         )
     )
@@ -47,5 +47,5 @@ def downgrade():
     inspector = sa.inspect(bind)
     columns = {column["name"] for column in inspector.get_columns("languages")}
 
-    if "is_required_for_concept_completion" in columns:
-        op.drop_column("languages", "is_required_for_concept_completion")
+    if "requires_concept_text_review" in columns:
+        op.drop_column("languages", "requires_concept_text_review")

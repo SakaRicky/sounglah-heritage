@@ -235,9 +235,16 @@ def _concept_matches_completion_language(row, language_code):
         None,
     )
 
-    return language is not None and (
-        not language["hasText"] or language["textStatus"] != "approved"
-    )
+    if language is None:
+        return False
+
+    if not language["hasText"]:
+        return True
+
+    if not language.get("requiresConceptTextReview", False):
+        return False
+
+    return language["textStatus"] != "approved"
 
 
 @concept_bp.get("")

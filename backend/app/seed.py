@@ -84,6 +84,7 @@ def seed_languages():
             "direction": "ltr",
             "status": "active",
             "is_required_for_concept_completion": True,
+            "requires_concept_text_review": True,
             "sort_order": 1,
         },
         {
@@ -95,6 +96,7 @@ def seed_languages():
             "direction": "ltr",
             "status": "active",
             "is_required_for_concept_completion": True,
+            "requires_concept_text_review": False,
             "sort_order": 2,
         },
         {
@@ -106,6 +108,7 @@ def seed_languages():
             "direction": "ltr",
             "status": "active",
             "is_required_for_concept_completion": True,
+            "requires_concept_text_review": False,
             "sort_order": 3,
         },
     ]
@@ -117,6 +120,9 @@ def seed_languages():
         if existing is not None:
             if existing.is_required_for_concept_completion != item["is_required_for_concept_completion"]:
                 existing.is_required_for_concept_completion = item["is_required_for_concept_completion"]
+                changed = True
+            if existing.requires_concept_text_review != item.get("requires_concept_text_review", False):
+                existing.requires_concept_text_review = item.get("requires_concept_text_review", False)
                 changed = True
             continue
 

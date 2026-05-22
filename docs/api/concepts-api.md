@@ -225,7 +225,7 @@ Response:
 
 `POST /api/admin/concepts/:id/publish`
 
-Publishing is guarded by concept completion. A concept can only be published when every active language marked as required for concept completion has an active concept text with `reviewStatus = approved`.
+Publishing is guarded by concept completion. A concept can only be published when every active language marked as required for concept completion has an active concept text, and every required language with `requiresConceptTextReview = true` has `reviewStatus = approved`. English, French, and other support languages can be required without review gating.
 
 Success response:
 
@@ -279,7 +279,7 @@ Query params:
 | `page` | number | `1` |
 | `pageSize` | number, max `100` | `20` |
 
-The `language` filter returns concepts where that required language is missing or not approved.
+The `language` filter returns concepts where that required language is missing, or (for heritage review languages) not approved.
 
 Response:
 
@@ -314,7 +314,9 @@ Response:
           "languageName": "Médumba",
           "hasText": false,
           "textStatus": null,
-          "textId": null
+          "textId": null,
+          "text": null,
+          "pronunciation": null
         }
       ]
     }

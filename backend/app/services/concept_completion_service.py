@@ -46,24 +46,31 @@ def calculate_concept_completion(concept, required_languages, concept_texts):
     for language in active_required_languages:
         concept_text = active_texts_by_language_id.get(language.id)
         text_status = concept_text.review_status if concept_text is not None else None
+        requires_review = language.requires_concept_text_review
 
         if concept_text is None:
             missing_languages.append(language.code)
-        elif text_status == REVIEW_STATUS_REJECTED:
-            rejected_languages.append(language.code)
-        elif text_status == REVIEW_STATUS_DRAFT:
-            draft_languages.append(language.code)
-        elif text_status == REVIEW_STATUS_NEEDS_REVIEW:
-            needs_review_languages.append(language.code)
+        elif requires_review:
+            if text_status == REVIEW_STATUS_REJECTED:
+                rejected_languages.append(language.code)
+            elif text_status == REVIEW_STATUS_DRAFT:
+                draft_languages.append(language.code)
+            elif text_status == REVIEW_STATUS_NEEDS_REVIEW:
+                needs_review_languages.append(language.code)
+            elif text_status != REVIEW_STATUS_APPROVED:
+                needs_review_languages.append(language.code)
 
         language_completion.append(
             {
                 "languageId": language.id,
                 "languageCode": language.code,
                 "languageName": language.name,
+                "requiresConceptTextReview": requires_review,
                 "hasText": concept_text is not None,
                 "textStatus": text_status,
                 "textId": concept_text.id if concept_text is not None else None,
+                "text": concept_text.text if concept_text is not None else None,
+                "pronunciation": concept_text.pronunciation if concept_text is not None else None,
             }
         )
 

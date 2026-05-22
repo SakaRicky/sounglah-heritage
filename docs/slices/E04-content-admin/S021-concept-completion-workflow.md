@@ -6,7 +6,7 @@ Epic 4 - Content Admin CRUD
 
 ## Status
 
-Planned
+Done
 
 ## Goal
 
@@ -31,12 +31,14 @@ Sounglah concepts only become useful to families when children can see and hear 
 - Use this new slice ID: `S021`.
 - Required languages are controlled by backend language data, not hardcoded in frontend.
 - Add `languages.is_required_for_concept_completion`.
+- Add `languages.requires_concept_text_review` for heritage languages that must be approved before completion.
 - Seed English, French, and Médumba as required for concept completion.
+- Only heritage/local languages (Médumba and future languages like Fefe, Bassa, Duala) require approved review for completion; English and French only require that active text exists.
 - Keep `needs_review` as the review status name used by the existing codebase.
 - Add `rejected` to `ConceptText.review_status`.
 - Add `concepts.published_at`.
 - A concept is published when `published_at` is not null.
-- A concept is ready to publish only when every required active language has an active `ConceptText` with `review_status = approved`.
+- A concept is ready to publish only when every required active language has an active `ConceptText`, and every required language with `requires_concept_text_review` has `review_status = approved`.
 - Completion APIs should use the existing admin API and frontend route conventions.
 
 ## Completion Statuses
@@ -229,10 +231,10 @@ Use the existing admin route structure:
 /admin/content/concepts/completion
 ```
 
-Place the sidebar link under Content Management with label:
+Place navigation under Concepts with a sub-nav tab (not a separate sidebar item):
 
 ```text
-Concept Completion
+Concepts > Completion tab → /admin/content/concepts/completion
 ```
 
 The dashboard should include:
@@ -479,6 +481,7 @@ Implementation notes:
 - Disabled required languages are excluded from completion.
 - Disabled concept texts do not count toward completion.
 - `concept.published_at` is read with `getattr` so S021.3 can add the real column without changing the service contract.
+- Added `languages.requires_concept_text_review`. Seeded Médumba as review-required; English and French stay required but only need active text for completion/publish. Completion UI bulk review and quick actions apply to heritage languages only.
 
 Verification:
 
@@ -563,7 +566,7 @@ Acceptance criteria:
 Implementation notes:
 
 - Added the protected `/admin/content/concepts/completion` route.
-- Added the "Concept Completion" sidebar link under Content Management.
+- Added the "Concept Completion" sidebar link under Content Management (later moved under Concepts sub-nav in S021.7).
 - Added frontend completion API client functions and TypeScript types for list rows, language states, filters, and summary.
 - Added the first dashboard shell with page header, summary cards, API loading, empty, and error states.
 - The shell intentionally shows only a small workflow preview; filters, desktop table, mobile cards, language badges, and publish actions remain in later S021 child slices.
@@ -590,7 +593,7 @@ Result: passed.
 
 ### S021.7 - Completion Table And Mobile Cards
 
-Status: Planned
+Status: Done
 
 Goal: Show completion health clearly on desktop and mobile.
 
@@ -607,9 +610,33 @@ Acceptance criteria:
 - Missing, draft, needs review, approved, and rejected language states are obvious.
 - Mobile does not depend on a wide table.
 
+Implementation notes:
+
+- Removed the standalone sidebar link; added `ConceptsSubNav` tabs on both Concepts pages and kept Concepts highlighted for `/concepts/completion`.
+- Replaced the three-card rollup with six clickable per-status summary cards driven by the completion summary API.
+- Added `ConceptCompletionFilters` for search, completion status, required language, and clear filters.
+- Added `ConceptCompletionStatusBadge`, `ConceptCompletionLanguageBadge`, and `ConceptCompletionTable` with dynamic required-language columns on desktop and stacked cards on mobile.
+- Wired debounced list loading with pagination (default 20/page); actions column deferred to S021.8.
+
+Verification:
+
+```bash
+cd frontend
+npm run lint
+```
+
+Result: passed.
+
+```bash
+cd frontend
+npm run build
+```
+
+Result: passed.
+
 ### S021.8 - Quick Actions And Publish UI
 
-Status: Planned
+Status: Done
 
 Goal: Let admins move quickly from the dashboard to fixes and publishing.
 
@@ -626,9 +653,33 @@ Acceptance criteria:
 - Publish is disabled in the frontend for incomplete concepts.
 - Backend remains the source of truth for publish eligibility.
 
+Implementation notes:
+
+- Added `conceptCompletionQuickActions.ts` for concept-text deep links and publish-disabled reasons.
+- Added `ConceptCompletionActionsCell` with publish button, primary fix link, and blocked-publish messaging.
+- Per-language quick links (`Add text`, `Review`, `Fix rejected`, `Edit`) appear in language cells and route to Concept Texts with `conceptId`, `languageId`, and optional `action=create` or `edit=<textId>`.
+- Added `publishConcept()` API client and wired publish handling on the completion page.
+- Concept Texts page reads URL params to pre-filter and auto-open create/edit forms from completion links.
+
+Verification:
+
+```bash
+cd frontend
+npm run lint
+```
+
+Result: passed.
+
+```bash
+cd frontend
+npm run build
+```
+
+Result: passed.
+
 ### S021.9 - Workflow Tests And Stabilization
 
-Status: Planned
+Status: Done
 
 Goal: Verify the end-to-end workflow.
 
@@ -644,6 +695,44 @@ Acceptance criteria:
 - Relevant backend tests pass.
 - Frontend lint and build pass.
 - Docs reflect the shipped workflow.
+
+Implementation notes:
+
+- Pinned test admin credentials and secret key in `create_app(testing=True)` so pytest no longer depends on local `.env` overrides.
+- Added completion summary auth coverage, publish guard test for rejected heritage text, and `requiresConceptTextReview` assertions on language and completion list payloads.
+- Verified existing completion list, summary, filter, service, and publish tests still pass.
+- Frontend has no unit-test harness beyond Playwright public smoke tests; completion workflow verification stays on backend tests plus lint/build.
+- Updated slice board and parent slice status to Done.
+
+Verification:
+
+```bash
+cd backend
+.venv/bin/pytest
+```
+
+Result: passed, `75 passed`.
+
+```bash
+cd backend
+.venv/bin/pytest tests/test_concepts.py tests/test_concept_completion_service.py tests/test_languages.py
+```
+
+Result: passed, `41 passed`.
+
+```bash
+cd frontend
+npm run lint
+```
+
+Result: passed.
+
+```bash
+cd frontend
+npm run build
+```
+
+Result: passed.
 
 ## Recommended Build Order
 

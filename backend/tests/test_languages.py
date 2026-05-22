@@ -33,6 +33,10 @@ def test_list_seeded_languages():
     assert data["meta"]["total"] == 3
     assert [language["code"] for language in data["data"]] == ["med", "en", "fr"]
     assert all(language["isRequiredForConceptCompletion"] for language in data["data"])
+    review_flags = {
+        language["code"]: language["requiresConceptTextReview"] for language in data["data"]
+    }
+    assert review_flags == {"med": True, "en": False, "fr": False}
 
 
 def test_create_language_normalizes_values():

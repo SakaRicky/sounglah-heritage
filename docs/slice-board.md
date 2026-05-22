@@ -76,13 +76,16 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 | S016 - Content Admin Stabilization + QA | Done | Focused pre-Lessons QA pass for Languages, Concepts, Concept Texts, audio review, seed sanity, and build readiness. Manual QA, backend tests, frontend lint, and frontend build pass when using the repo-pinned Node 22.15.0 through nvm. |
 | S014 - Lessons CRUD | Planned | Lesson structure; contract expanded before implementation. Note: this ID predates the audio S014.x child slices and remains the lessons slice used by existing admin placeholders. |
 | S015 - LessonItems CRUD | Planned | Exercises/items; contract expanded before implementation, including concept-backed vocabulary cards and concept-less story segments. |
-| S021 - Concept Completion Workflow | Planned | Admin dashboard and backend completion logic for required concept texts, rejected review state, and guarded concept publishing. See `docs/slices/E04-content-admin/S021-concept-completion-workflow.md`. |
+| S021 - Concept Completion Workflow | Done | Admin completion dashboard at `/admin/content/concepts/completion`, required-language flags, heritage review gating, guarded publish, and backend/frontend verification complete. See `docs/slices/E04-content-admin/S021-concept-completion-workflow.md`. |
 | S021.1 - Required Language Flag | Done | Adds `languages.is_required_for_concept_completion`, seeds English/French/Médumba as required, exposes the flag through language API/admin UI, and passes backend tests plus frontend lint/build. |
 | S021.2 - Concept Text Rejected Review Status | Done | Adds `rejected` to concept text review status across backend validation/constraint, frontend form/filter/badges, API docs, and tests. |
 | S021.3 - Concept Published State And Publish Guard | Done | Adds `concepts.published_at`, exposes publish state in concept API responses, and guards `POST /api/admin/concepts/:id/publish` with centralized completion logic. |
 | S021.4 - Completion Calculation Service | Done | Centralizes concept completion status calculation for required languages, active concept texts, rejected/draft/review states, complete, and published readiness; backend tests pass. |
 | S021.5 - Completion API Endpoints | Done | Adds authenticated completion list and summary endpoints with status, required-language, search, and pagination filters; focused concept tests pass. |
 | S021.6 - Admin Route And Dashboard Shell | Done | Adds the protected Concept Completion admin route, sidebar link, frontend API client/types, and loading/error/empty dashboard shell; frontend lint/build pass. |
+| S021.7 - Completion Table And Mobile Cards | Done | Six status summary cards, filters, desktop table with per-language badges, mobile stacked cards, and Concepts sub-nav tabs; frontend lint/build pass. |
+| S021.8 - Quick Actions And Publish UI | Done | Per-language quick links into Concept Texts, publish button with disabled reasons for incomplete concepts, and deep-link support for prefilled create/edit forms; frontend lint/build pass. |
+| S021.9 - Workflow Tests And Stabilization | Done | Pins test admin credentials for reliable pytest, adds summary auth and rejected-text publish guard coverage, runs full backend/frontend checks, and marks S021 complete. |
 
 ## Epic 5 - Learner Experience
 

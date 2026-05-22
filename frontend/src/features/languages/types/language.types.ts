@@ -12,6 +12,7 @@ export interface Language {
   direction: LanguageDirection
   status: LanguageStatus
   isRequiredForConceptCompletion: boolean
+  requiresConceptTextReview: boolean
   sortOrder: number
   createdAt: string | null
   updatedAt: string | null
@@ -26,6 +27,7 @@ export interface CreateLanguagePayload {
   direction: LanguageDirection
   status: LanguageStatus
   isRequiredForConceptCompletion: boolean
+  requiresConceptTextReview: boolean
   sortOrder: number
 }
 
@@ -38,6 +40,7 @@ export interface UpdateLanguagePayload {
   direction?: LanguageDirection
   status?: LanguageStatus
   isRequiredForConceptCompletion?: boolean
+  requiresConceptTextReview?: boolean
   sortOrder?: number
 }
 

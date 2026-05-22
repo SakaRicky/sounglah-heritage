@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { Mic, Plus } from 'lucide-react'
 
 import { AdminPageHeader } from '../../../components/admin/AdminPageHeader'
@@ -12,6 +12,7 @@ import { getLanguages } from '../../languages/api/languagesApi'
 import type { Language } from '../../languages/types/language.types'
 import {
   createConceptText,
+  getConceptTextById,
   getConceptTexts,
   updateConceptText,
   updateConceptTextStatus,
@@ -19,6 +20,7 @@ import {
 } from '../api/conceptTextsApi'
 import { ConceptTextFilters } from '../components/ConceptTextFilters'
 import type { ConceptTextSort } from '../components/ConceptTextFilters'
+import { ConceptTextBulkReviewBar } from '../components/ConceptTextBulkReviewBar'
 import { ConceptTextForm } from '../components/ConceptTextForm'
 import { ConceptTextTable } from '../components/ConceptTextTable'
 import { DisableConceptTextDialog } from '../components/DisableConceptTextDialog'
@@ -30,9 +32,15 @@ import type {
   UpdateConceptTextPayload,
 } from '../types/conceptText.types'
 import { canRecordConceptTextAudio } from '../utils/conceptTextAudioPermissions'
+import {
+  bulkUpdateConceptTextReviewStatus,
+  countReviewableConceptTexts,
+  reviewableConceptTextIds,
+} from '../utils/conceptTextReviewActions'
 
 type FormMode = {
   conceptText: ConceptText | null
+  createPrefill?: { conceptId: string; languageId: string }
 } | null
 
 function TranslateIcon() {
@@ -60,14 +68,15 @@ function ReviewIcon() {
 }
 
 export function AdminConceptTextsPage() {
+  const [searchParams, setSearchParams] = useSearchParams()
   const [conceptTexts, setConceptTexts] = useState<ConceptText[]>([])
   const [concepts, setConcepts] = useState<Concept[]>([])
   const [languages, setLanguages] = useState<Language[]>([])
   const [total, setTotal] = useState(0)
   const [search, setSearch] = useState('')
   const [conceptSearch, setConceptSearch] = useState('')
-  const [conceptId, setConceptId] = useState('')
-  const [languageId, setLanguageId] = useState('')
+  const [conceptId, setConceptId] = useState(() => searchParams.get('conceptId') ?? '')
+  const [languageId, setLanguageId] = useState(() => searchParams.get('languageId') ?? '')
   const [status, setStatus] = useState<ConceptTextStatus | 'all'>('all')
   const [reviewStatus, setReviewStatus] = useState<ConceptTextReviewStatus | 'all'>('all')
   const [sort, setSort] = useState<ConceptTextSort>('updated')
@@ -80,6 +89,19 @@ export function AdminConceptTextsPage() {
   const [formMode, setFormMode] = useState<FormMode>(null)
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
   const [statusTarget, setStatusTarget] = useState<ConceptText | null>(null)
+  const [reviewingTextId, setReviewingTextId] = useState<string | null>(null)
+  const [bulkReviewing, setBulkReviewing] = useState(false)
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set())
+  const [deepLinkHandled, setDeepLinkHandled] = useState(false)
+
+  const clearDeepLinkParams = useCallback(() => {
+    setSearchParams((current) => {
+      const next = new URLSearchParams(current)
+      next.delete('action')
+      next.delete('edit')
+      return next
+    })
+  }, [setSearchParams])
 
   const loadReferenceData = useCallback(async () => {
     try {
@@ -134,6 +156,71 @@ export function AdminConceptTextsPage() {
     return () => window.clearTimeout(timer)
   }, [loadConceptTexts])
 
+  useEffect(() => {
+    if (deepLinkHandled) {
+      return
+    }
+
+    const action = searchParams.get('action')
+    const editId = searchParams.get('edit')
+    const urlConceptId = searchParams.get('conceptId')
+    const urlLanguageId = searchParams.get('languageId')
+
+    if (!editId && action !== 'create') {
+      return
+    }
+
+    let cancelled = false
+
+    async function handleDeepLink() {
+      if (editId) {
+        try {
+          const response = await getConceptTextById(editId)
+          if (cancelled) {
+            return
+          }
+
+          setFieldErrors({})
+          setFormMode({ conceptText: response.data })
+          clearDeepLinkParams()
+        } catch (requestError) {
+          if (!cancelled) {
+            setError(requestError instanceof Error ? requestError.message : 'Unable to open concept text.')
+          }
+        } finally {
+          if (!cancelled) {
+            setDeepLinkHandled(true)
+          }
+        }
+        return
+      }
+
+      if (action === 'create' && urlConceptId && urlLanguageId) {
+        setFieldErrors({})
+        setFormMode({
+          conceptText: null,
+          createPrefill: {
+            conceptId: urlConceptId,
+            languageId: urlLanguageId,
+          },
+        })
+        clearDeepLinkParams()
+        setDeepLinkHandled(true)
+      }
+    }
+
+    void handleDeepLink()
+
+    return () => {
+      cancelled = true
+    }
+  }, [clearDeepLinkParams, deepLinkHandled, searchParams])
+
+  const reviewableCounts = useMemo(
+    () => countReviewableConceptTexts(conceptTexts, selectedIds),
+    [conceptTexts, selectedIds],
+  )
+
   const activeCount = conceptTexts.filter((conceptText) => conceptText.status === 'active').length
   const approvedCount = conceptTexts.filter((conceptText) => conceptText.reviewStatus === 'approved').length
   const needsReviewCount = conceptTexts.filter((conceptText) => conceptText.reviewStatus === 'needs_review').length
@@ -154,36 +241,48 @@ export function AdminConceptTextsPage() {
   function resetPageAndSetSearch(value: string) {
     setPage(1)
     setSearch(value)
+    setSelectedIds(new Set())
   }
 
   function resetPageAndSetConceptId(value: string) {
     setPage(1)
     setConceptId(value)
+    setSelectedIds(new Set())
   }
 
   function resetPageAndSetLanguageId(value: string) {
     setPage(1)
     setLanguageId(value)
+    setSelectedIds(new Set())
   }
 
   function resetPageAndSetStatus(value: ConceptTextStatus | 'all') {
     setPage(1)
     setStatus(value)
+    setSelectedIds(new Set())
   }
 
   function resetPageAndSetReviewStatus(value: ConceptTextReviewStatus | 'all') {
     setPage(1)
     setReviewStatus(value)
+    setSelectedIds(new Set())
   }
 
   function resetPageAndSetSort(value: ConceptTextSort) {
     setPage(1)
     setSort(value)
+    setSelectedIds(new Set())
+  }
+
+  function handlePageChange(nextPage: number) {
+    setPage(nextPage)
+    setSelectedIds(new Set())
   }
 
   function handlePageSizeChange(nextPageSize: number) {
     setPage(1)
     setPageSize(nextPageSize)
+    setSelectedIds(new Set())
   }
 
   function openCreateForm() {
@@ -240,6 +339,77 @@ export function AdminConceptTextsPage() {
       setError(requestError instanceof Error ? requestError.message : 'Unable to update concept text.')
     } finally {
       setSaving(false)
+    }
+  }
+
+  async function handleBulkReview(reviewStatus: ConceptTextReviewStatus) {
+    const action = reviewStatus === 'approved' ? 'approve' : 'reject'
+    const ids = reviewableConceptTextIds(conceptTexts, action, selectedIds)
+
+    if (ids.length === 0) {
+      return
+    }
+
+    setBulkReviewing(true)
+    setError('')
+    setNotice('')
+
+    try {
+      const result = await bulkUpdateConceptTextReviewStatus(ids, reviewStatus)
+      const actionLabel = reviewStatus === 'approved' ? 'approved' : 'rejected'
+
+      if (result.failed > 0) {
+        setError(`${result.failed} of ${ids.length} concept texts could not be ${actionLabel}.`)
+      }
+
+      if (result.updated > 0) {
+        setNotice(`${result.updated} concept text${result.updated === 1 ? '' : 's'} ${actionLabel}.`)
+      }
+
+      setSelectedIds(new Set())
+      await loadConceptTexts()
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : 'Unable to bulk update review status.')
+    } finally {
+      setBulkReviewing(false)
+    }
+  }
+
+  function toggleSelected(id: string) {
+    setSelectedIds((current) => {
+      const next = new Set(current)
+      if (next.has(id)) {
+        next.delete(id)
+      } else {
+        next.add(id)
+      }
+      return next
+    })
+  }
+
+  function toggleSelectAll() {
+    const selectableIds = conceptTexts
+      .filter((conceptText) => conceptText.status === 'active')
+      .map((conceptText) => conceptText.id)
+
+    setSelectedIds((current) => {
+      const allSelected = selectableIds.length > 0 && selectableIds.every((id) => current.has(id))
+      return allSelected ? new Set() : new Set(selectableIds)
+    })
+  }
+
+  async function handleQuickReview(conceptText: ConceptText, nextReviewStatus: ConceptTextReviewStatus) {
+    setReviewingTextId(conceptText.id)
+    setError('')
+
+    try {
+      await updateConceptText(conceptText.id, { reviewStatus: nextReviewStatus })
+      setNotice(nextReviewStatus === 'approved' ? 'Concept text approved.' : 'Concept text rejected.')
+      await loadConceptTexts()
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : 'Unable to update review status.')
+    } finally {
+      setReviewingTextId(null)
     }
   }
 
@@ -326,6 +496,16 @@ export function AdminConceptTextsPage() {
         onSortChange={resetPageAndSetSort}
       />
 
+      <ConceptTextBulkReviewBar
+        approveCount={reviewableCounts.approveCount}
+        rejectCount={reviewableCounts.rejectCount}
+        selectedCount={selectedIds.size}
+        busy={bulkReviewing}
+        onApprove={() => void handleBulkReview('approved')}
+        onReject={() => void handleBulkReview('rejected')}
+        onClearSelection={() => setSelectedIds(new Set())}
+      />
+
       <ConceptTextTable
         conceptTexts={conceptTexts}
         loading={loading}
@@ -334,10 +514,15 @@ export function AdminConceptTextsPage() {
         onCreate={openCreateForm}
         onEdit={openEditForm}
         onToggleStatus={setStatusTarget}
+        onReviewStatusChange={handleQuickReview}
+        reviewingTextId={reviewingTextId}
+        selectedIds={selectedIds}
+        onToggleSelected={toggleSelected}
+        onToggleSelectAll={toggleSelectAll}
         onAudioSubmitted={handleAudioSubmitted}
         page={page}
         pageSize={pageSize}
-        onPageChange={setPage}
+        onPageChange={handlePageChange}
         onPageSizeChange={handlePageSizeChange}
       />
 
@@ -385,8 +570,9 @@ export function AdminConceptTextsPage() {
 
       {formMode ? (
         <ConceptTextForm
-          key={formMode.conceptText?.id ?? 'new-concept-text'}
+          key={formMode.conceptText?.id ?? (formMode.createPrefill ? 'prefilled-create' : 'new-concept-text')}
           conceptText={formMode.conceptText}
+          createPrefill={formMode.createPrefill}
           concepts={concepts}
           languages={languages}
           conceptSearch={conceptSearch}

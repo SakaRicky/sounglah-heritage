@@ -273,6 +273,18 @@ def test_concept_completion_requires_admin_authentication():
     }
 
 
+def test_concept_completion_summary_requires_admin_authentication():
+    app = create_app(testing=True)
+    client = app.test_client()
+
+    response = client.get("/api/admin/concepts/completion/summary")
+
+    assert response.status_code == 401
+    assert response.get_json() == {
+        "error": {"message": "Admin authentication is required."}
+    }
+
+
 def test_list_concept_completion_rows():
     app = create_app(testing=True)
     client = app.test_client()
@@ -289,6 +301,11 @@ def test_list_concept_completion_rows():
     assert data["data"][0]["missingLanguages"] == ["med"]
     assert [language["languageCode"] for language in data["data"][0]["languages"]] == ["med", "en", "fr"]
     assert data["data"][0]["languages"][0]["hasText"] is False
+    review_flags = {
+        language["languageCode"]: language["requiresConceptTextReview"]
+        for language in data["data"][0]["languages"]
+    }
+    assert review_flags == {"med": True, "en": False, "fr": False}
 
 
 def test_filter_concept_completion_by_status_language_search_and_page():
@@ -430,6 +447,32 @@ def test_publish_concept_rejects_incomplete_concept():
     assert data["draftLanguages"] == []
     assert data["needsReviewLanguages"] == []
     assert data["rejectedLanguages"] == []
+
+
+def test_publish_concept_rejects_rejected_heritage_text():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+
+    with app.app_context():
+        add_required_texts(
+            "yes",
+            {"en": "approved", "fr": "approved", "med": "rejected"},
+        )
+        concept_id = Concept.query.filter_by(key="yes").first().id
+
+    response = client.post(f"/api/admin/concepts/{concept_id}/publish", headers=headers)
+
+    assert response.status_code == 400
+    data = response.get_json()
+    assert (
+        data["error"]["message"]
+        == "Concept cannot be published because required texts are missing or not approved."
+    )
+    assert data["missingLanguages"] == []
+    assert data["draftLanguages"] == []
+    assert data["needsReviewLanguages"] == []
+    assert data["rejectedLanguages"] == ["med"]
 
 
 def test_publish_concept_when_required_texts_are_approved():

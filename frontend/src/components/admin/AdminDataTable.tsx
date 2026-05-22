@@ -23,6 +23,7 @@ type AdminDataTableProps = {
   emptyState: EmptyState
   children: ReactNode
   pagination?: Pagination
+  scrollMaxHeight?: string
 }
 
 export function AdminDataTable({
@@ -34,6 +35,7 @@ export function AdminDataTable({
   emptyState,
   children,
   pagination,
+  scrollMaxHeight,
 }: AdminDataTableProps) {
   if (loading) {
     return (
@@ -63,7 +65,12 @@ export function AdminDataTable({
         <p className="text-sm font-semibold text-cocoa-800">{title}</p>
         {subtitle ? <p className="text-xs font-medium text-forest-600/80">{subtitle}</p> : null}
       </div>
-      <div className="overflow-x-auto">{children}</div>
+      <div
+        className="overflow-x-auto overflow-y-auto"
+        style={scrollMaxHeight ? { maxHeight: scrollMaxHeight } : undefined}
+      >
+        {children}
+      </div>
       {pagination ? (
         <div className="flex flex-col gap-4 border-t border-sand-200/60 bg-white/75 px-5 py-4 text-sm text-cocoa-body sm:flex-row sm:items-center sm:justify-between">
           <div className="font-medium">
@@ -78,6 +85,7 @@ export function AdminDataTable({
                 onChange={(event) => pagination.onPageSizeChange(Number(event.target.value))}
                 className="rounded-lg border border-sand-200 bg-white px-2 py-1.5 text-sm font-semibold text-cocoa-800 outline-none transition hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-200"
               >
+                <option value={20}>20</option>
                 <option value={25}>25</option>
                 <option value={50}>50</option>
                 <option value={100}>100</option>

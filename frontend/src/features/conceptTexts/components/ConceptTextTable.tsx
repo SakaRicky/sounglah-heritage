@@ -8,8 +8,9 @@ import { formatDate } from '../../../lib/date'
 import { ConceptTextAudioCell } from './ConceptTextAudioCell'
 import { ConceptTextReviewBadge } from './ConceptTextReviewBadge'
 import { ConceptTextStatusBadge } from './ConceptTextStatusBadge'
-import type { ConceptText } from '../types/conceptText.types'
+import type { ConceptText, ConceptTextReviewStatus } from '../types/conceptText.types'
 import { canRecordConceptTextAudio } from '../utils/conceptTextAudioPermissions'
+import { ConceptTextQuickReviewButtons } from './ConceptTextQuickReviewButtons'
 
 type Props = {
   conceptTexts: ConceptText[]
@@ -19,6 +20,11 @@ type Props = {
   onCreate: () => void
   onEdit: (conceptText: ConceptText) => void
   onToggleStatus: (conceptText: ConceptText) => void
+  onReviewStatusChange: (conceptText: ConceptText, reviewStatus: ConceptTextReviewStatus) => Promise<void>
+  reviewingTextId: string | null
+  selectedIds: Set<string>
+  onToggleSelected: (id: string) => void
+  onToggleSelectAll: () => void
   onAudioSubmitted: (conceptText: ConceptText, audioBlob: Blob, durationSeconds: number) => Promise<void>
   page: number
   pageSize: number
@@ -33,6 +39,8 @@ type ConceptTextTableContextValue = {
   setOpenActionId: Dispatch<SetStateAction<string | null>>
   onEdit: (conceptText: ConceptText) => void
   onToggleStatus: (conceptText: ConceptText) => void
+  onReviewStatusChange: (conceptText: ConceptText, reviewStatus: ConceptTextReviewStatus) => Promise<void>
+  reviewingTextId: string | null
   onAudioSubmitted: (conceptText: ConceptText, audioBlob: Blob, durationSeconds: number) => Promise<void>
 }
 
@@ -119,6 +127,25 @@ function AudioCell({ conceptText }: { conceptText: ConceptText }) {
   )
 }
 
+function ReviewCell({ conceptText }: { conceptText: ConceptText }) {
+  const { onReviewStatusChange, reviewingTextId } = useConceptTextTableContext()
+  const saving = reviewingTextId === conceptText.id
+
+  return (
+    <div className="flex flex-col items-start gap-2">
+      <ConceptTextReviewBadge reviewStatus={conceptText.reviewStatus} />
+      {conceptText.status === 'active' ? (
+        <ConceptTextQuickReviewButtons
+          reviewStatus={conceptText.reviewStatus}
+          saving={saving}
+          onApprove={() => onReviewStatusChange(conceptText, 'approved')}
+          onReject={() => onReviewStatusChange(conceptText, 'rejected')}
+        />
+      ) : null}
+    </div>
+  )
+}
+
 function ActionsCell({ conceptText }: { conceptText: ConceptText }) {
   const { openActionId, setOpenActionId, onEdit, onToggleStatus } = useConceptTextTableContext()
   const isActive = conceptText.status === 'active'
@@ -172,6 +199,11 @@ export function ConceptTextTable({
   onCreate,
   onEdit,
   onToggleStatus,
+  onReviewStatusChange,
+  reviewingTextId,
+  selectedIds,
+  onToggleSelected,
+  onToggleSelectAll,
   onAudioSubmitted,
   page,
   pageSize,
@@ -188,13 +220,56 @@ export function ConceptTextTable({
       setOpenActionId,
       onEdit,
       onToggleStatus,
+      onReviewStatusChange,
+      reviewingTextId,
       onAudioSubmitted,
     }),
-    [activeRecorderId, onAudioSubmitted, onEdit, onToggleStatus, openActionId],
+    [activeRecorderId, onAudioSubmitted, onEdit, onReviewStatusChange, onToggleStatus, openActionId, reviewingTextId],
   )
+
+  const selectableIds = useMemo(
+    () => conceptTexts.filter((conceptText) => conceptText.status === 'active').map((conceptText) => conceptText.id),
+    [conceptTexts],
+  )
+  const allSelected = selectableIds.length > 0 && selectableIds.every((id) => selectedIds.has(id))
+  const someSelected = selectableIds.some((id) => selectedIds.has(id))
 
   const columns = useMemo<ColumnDef<ConceptText>[]>(
     () => [
+      {
+        id: 'select',
+        header: () => (
+          <input
+            type="checkbox"
+            checked={allSelected}
+            ref={(input) => {
+              if (input) {
+                input.indeterminate = !allSelected && someSelected
+              }
+            }}
+            onChange={onToggleSelectAll}
+            disabled={selectableIds.length === 0}
+            aria-label="Select all concept texts on this page"
+            className="h-4 w-4 rounded border-sand-300 text-forest-accent focus:ring-forest-200"
+          />
+        ),
+        cell: ({ row }) => {
+          const conceptText = row.original
+          const selectable = conceptText.status === 'active'
+
+          return (
+            <input
+              type="checkbox"
+              checked={selectedIds.has(conceptText.id)}
+              disabled={!selectable}
+              onChange={() => onToggleSelected(conceptText.id)}
+              aria-label={`Select ${conceptText.concept?.title ?? 'concept text'}`}
+              className="h-4 w-4 rounded border-sand-300 text-forest-accent focus:ring-forest-200 disabled:cursor-not-allowed disabled:opacity-40"
+            />
+          )
+        },
+        meta: { cellClassName: 'w-12' },
+      },
       {
         accessorKey: 'concept',
         header: 'Concept',
@@ -262,7 +337,7 @@ export function ConceptTextTable({
       {
         accessorKey: 'reviewStatus',
         header: 'Review',
-        cell: ({ row }) => <ConceptTextReviewBadge reviewStatus={row.original.reviewStatus} />,
+        cell: ({ row }) => <ReviewCell conceptText={row.original} />,
       },
       {
         accessorKey: 'status',
@@ -282,7 +357,7 @@ export function ConceptTextTable({
         cell: ({ row }) => <ActionsCell conceptText={row.original} />,
       },
     ],
-    [],
+    [allSelected, onToggleSelectAll, onToggleSelected, selectableIds.length, selectedIds, someSelected],
   )
 
   return (
@@ -317,6 +392,7 @@ export function ConceptTextTable({
           onPageChange,
           onPageSizeChange,
         }}
+        scrollMaxHeight="32rem"
       />
     </ConceptTextTableContext.Provider>
   )

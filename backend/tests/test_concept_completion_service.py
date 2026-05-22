@@ -56,6 +56,7 @@ def test_completion_reports_missing_required_texts():
         assert completion["missingLanguages"] == ["med", "en", "fr"]
         assert [item["languageCode"] for item in completion["languages"]] == ["med", "en", "fr"]
         assert all(item["hasText"] is False for item in completion["languages"])
+        assert all(item["text"] is None for item in completion["languages"])
 
 
 def test_completion_reports_rejected_before_draft_or_review():
@@ -76,11 +77,53 @@ def test_completion_reports_rejected_before_draft_or_review():
 
         assert completion["completionStatus"] == STATUS_HAS_REJECTED_TEXT
         assert completion["rejectedLanguages"] == ["med"]
-        assert completion["draftLanguages"] == ["en"]
-        assert completion["needsReviewLanguages"] == ["fr"]
+        assert completion["draftLanguages"] == []
+        assert completion["needsReviewLanguages"] == []
+        assert completion["languages"][0]["text"] == "med text"
 
 
 def test_completion_reports_draft_before_needs_review():
+    app = create_app(testing=True)
+
+    with app.app_context():
+        concept, required_languages = _concept_and_required_languages()
+        concept_texts = _add_required_texts(
+            concept,
+            {
+                "med": "draft",
+                "en": "draft",
+                "fr": "needs_review",
+            },
+        )
+
+        completion = calculate_concept_completion(concept, required_languages, concept_texts)
+
+        assert completion["completionStatus"] == STATUS_DRAFT
+        assert completion["draftLanguages"] == ["med"]
+        assert completion["needsReviewLanguages"] == []
+
+
+def test_completion_reports_needs_review_when_heritage_text_is_not_approved():
+    app = create_app(testing=True)
+
+    with app.app_context():
+        concept, required_languages = _concept_and_required_languages()
+        concept_texts = _add_required_texts(
+            concept,
+            {
+                "med": "needs_review",
+                "en": "approved",
+                "fr": "needs_review",
+            },
+        )
+
+        completion = calculate_concept_completion(concept, required_languages, concept_texts)
+
+        assert completion["completionStatus"] == STATUS_NEEDS_REVIEW
+        assert completion["needsReviewLanguages"] == ["med"]
+
+
+def test_completion_ignores_english_and_french_review_status_when_heritage_is_approved():
     app = create_app(testing=True)
 
     with app.app_context():
@@ -96,29 +139,11 @@ def test_completion_reports_draft_before_needs_review():
 
         completion = calculate_concept_completion(concept, required_languages, concept_texts)
 
-        assert completion["completionStatus"] == STATUS_DRAFT
-        assert completion["draftLanguages"] == ["en"]
-        assert completion["needsReviewLanguages"] == ["fr"]
-
-
-def test_completion_reports_needs_review_when_all_texts_exist_without_drafts():
-    app = create_app(testing=True)
-
-    with app.app_context():
-        concept, required_languages = _concept_and_required_languages()
-        concept_texts = _add_required_texts(
-            concept,
-            {
-                "med": "approved",
-                "en": "approved",
-                "fr": "needs_review",
-            },
-        )
-
-        completion = calculate_concept_completion(concept, required_languages, concept_texts)
-
-        assert completion["completionStatus"] == STATUS_NEEDS_REVIEW
-        assert completion["needsReviewLanguages"] == ["fr"]
+        assert completion["completionStatus"] == STATUS_COMPLETE
+        assert completion["isComplete"] is True
+        assert completion["isReadyToPublish"] is True
+        assert completion["draftLanguages"] == []
+        assert completion["needsReviewLanguages"] == []
 
 
 def test_completion_reports_complete_when_required_texts_are_approved():

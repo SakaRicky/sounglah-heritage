@@ -100,3 +100,10 @@ export async function deleteConceptImage(id: string) {
     authenticated: true,
   })
 }
+
+export async function publishConcept(id: string) {
+  return apiRequest<{ data: Concept }>(`/admin/concepts/${id}/publish`, {
+    method: 'POST',
+    authenticated: true,
+  })
+}

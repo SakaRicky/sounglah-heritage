@@ -27,6 +27,7 @@ type FormValues = {
 
 type Props = {
   conceptText: ConceptText | null
+  createPrefill?: { conceptId: string; languageId: string }
   concepts: Concept[]
   languages: Language[]
   conceptSearch: string
@@ -55,8 +56,19 @@ const fieldClass = 'mt-1.5 w-full rounded-cta border border-sand-200 bg-white px
 const fieldHelpClass = 'mt-2 text-sm leading-5 text-cocoa-body/70'
 const requiredMark = <span className="text-terracotta-500">*</span>
 
-function valuesFromConceptText(conceptText: ConceptText | null): FormValues {
+function valuesFromConceptText(
+  conceptText: ConceptText | null,
+  createPrefill?: { conceptId: string; languageId: string },
+): FormValues {
   if (!conceptText) {
+    if (createPrefill) {
+      return {
+        ...emptyValues,
+        conceptId: createPrefill.conceptId,
+        languageId: createPrefill.languageId,
+      }
+    }
+
     return emptyValues
   }
 
@@ -122,6 +134,7 @@ function SectionHeader({ icon, title }: { icon: ReactNode; title: string }) {
 
 export function ConceptTextForm({
   conceptText,
+  createPrefill,
   concepts,
   languages,
   conceptSearch,
@@ -131,7 +144,7 @@ export function ConceptTextForm({
   onCancel,
   onSubmit,
 }: Props) {
-  const [values, setValues] = useState<FormValues>(() => valuesFromConceptText(conceptText))
+  const [values, setValues] = useState<FormValues>(() => valuesFromConceptText(conceptText, createPrefill))
   const title = conceptText ? 'Edit Concept Text' : 'Add Concept Text'
   const selectedConcept = concepts.find((concept) => concept.id === values.conceptId) ?? conceptText?.concept
   const selectedLanguage = languages.find((language) => language.id === values.languageId) ?? conceptText?.language

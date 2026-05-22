@@ -77,9 +77,12 @@ export interface ConceptCompletionLanguage {
   languageId: string
   languageCode: string
   languageName: string
+  requiresConceptTextReview: boolean
   hasText: boolean
   textStatus: 'draft' | 'needs_review' | 'approved' | 'rejected' | null
   textId: string | null
+  text: string | null
+  pronunciation: string | null
 }
 
 export interface ConceptCompletionRow extends Concept {

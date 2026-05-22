@@ -22,6 +22,7 @@ WRITABLE_FIELDS = {
     "direction",
     "status",
     "isRequiredForConceptCompletion",
+    "requiresConceptTextReview",
     "sortOrder",
 }
 
@@ -127,6 +128,14 @@ def _validate_payload(data, existing_language=None, partial=False):
         except ValueError:
             fields["isRequiredForConceptCompletion"] = "Required-for-completion must be true or false."
 
+    if not partial or "requiresConceptTextReview" in data:
+        try:
+            normalized["requiresConceptTextReview"] = _normalize_bool(
+                data.get("requiresConceptTextReview", False)
+            )
+        except ValueError:
+            fields["requiresConceptTextReview"] = "Requires-concept-text-review must be true or false."
+
     if not partial or "sortOrder" in data:
         try:
             normalized["sortOrder"] = int(data.get("sortOrder", 0))
@@ -143,6 +152,7 @@ def _apply_language_payload(language, payload):
     field_map = {
         "nativeName": "native_name",
         "isRequiredForConceptCompletion": "is_required_for_concept_completion",
+        "requiresConceptTextReview": "requires_concept_text_review",
         "sortOrder": "sort_order",
     }
 

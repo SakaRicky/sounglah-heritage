@@ -14,6 +14,7 @@ import {
   uploadConceptImage,
 } from '../api/conceptsApi'
 import { ConceptFilters } from '../components/ConceptFilters'
+import { ConceptsSubNav } from '../components/ConceptsSubNav'
 import type { ConceptSort } from '../components/ConceptFilters'
 import { ConceptForm } from '../components/ConceptForm'
 import type { ConceptFormSubmission } from '../components/ConceptForm'
@@ -293,6 +294,8 @@ export function AdminConceptsPage() {
           </button>
         }
       />
+
+      <ConceptsSubNav />
 
       {notice ? (
         <div className="rounded-cta border border-forest-accent/20 bg-forest-accent/10 px-4 py-3 text-sm font-medium text-forest-700">
