@@ -4,6 +4,8 @@
 
 Foundation (S001) **complete**. S016 content admin stabilization is complete; next focus can move to Lessons.
 
+Before starting Lessons implementation, use the expanded S014/S015 slice docs as the source of truth for the first lesson and lesson-item contracts. The codebase is ahead of a few older slice statuses; this board has been updated to reflect the implemented admin/auth/content surfaces verified during S016.
+
 ## Rules
 
 - One slice at a time; **one child slice (SS###) per Cursor chat or agent run** (see **`docs/agent-system.md`** and **`.cursor/rules/agent-workflow.mdc`**).
@@ -48,32 +50,32 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 
 | Slice | Status | Notes |
 |---|---|---|
-| S007 - Login page UI | Review | `/login` form UI present; wire-up / validation in later slices. |
-| S008 - Login API integration | Backlog | Token/session + backend auth. |
+| S007 - Login page UI | Done | `/login` form UI present and consistent with the public shell. |
+| S008 - Login API integration | Done | Login form submits to backend auth, stores token, handles friendly errors, and routes to `/admin`. |
 | S009 - Protected admin route | Done | `ProtectedRoute` + `AdminLayout`; token check via `isAuthenticated()`. |
-| S010 - Admin dashboard shell | Backlog | `AdminLayout` exists but router currently mounts only `/admin` dashboard stub; wire layout + nested routes when ready. |
+| S010 - Admin dashboard shell | Done | `AdminLayout`, sidebar navigation, dashboard cards, and nested admin routes exist. |
 
 ## Epic 4 - Content Admin CRUD
 
 | Slice | Status | Notes |
 |---|---|---|
-| S011 - Languages CRUD | Backlog | First backend/frontend CRUD |
-| S012 - Concepts CRUD | Backlog | Core learning concepts |
-| Unnumbered - Concept image upload with Cloudinary | Done | Backend Cloudinary upload/delete endpoints, nullable concept image fields, admin image preview/upload/remove UI, docs/env updates, backend tests passing; frontend typecheck and JSON lint pass, build blocked locally by Node 20.10.0 below Vite requirement. |
-| S013 - ConceptTexts CRUD | Backlog | English/French/Médumba text |
-| S014.1 - Concept Text Audio Data Model + Migration | Review | Adds `concept_text_audios` history model/table and nullable `concept_texts.current_audio_id`; backend tests passing. |
-| S014.2 - Concept Text Audio Storage Service | Review | Backend validation/upload service for short concept text recordings; backend tests passing. |
-| S014.3 - Concept Text Audio API Endpoints | Review | Upload, history, review queue, approve, and reject endpoints; backend tests passing. |
-| S014.4 - Concept Text Table Audio Summary | Review | Concept Texts list includes page-level `audioSummary`/`audio_summary`; table displays missing, pending, approved, and rejected audio states without per-row history requests. |
-| S014.5 - Inline Audio Recorder Component | Review | Reusable browser recorder wired into missing/rejected Concept Text table rows; local preview/retake/cancel before multipart submit for review. |
-| S014.6 - Concept Text Audio Cell | Review | Reusable audio cell handles missing, pending, approved, and rejected states with Médumba-only record/replace actions in the Concept Texts table. |
-| S014.7 - Mini Audio Player | Review | Compact reusable audio player with play/pause, loading, duration, and error states; used in the Concept Text audio cell and recorder preview. |
-| S014.8 - Recording Mode Page | Review | Focused batch recording page at `/admin/content/concept-texts/recording`; loads missing Médumba items, advances after submit, and promotes the active phrase as the primary recording target. |
-| S014.9 - Audio Review Queue | Review | Admin review queue at `/admin/audio-review` lists submitted audio, puts the reviewed phrase first on mobile and desktop, and supports approve/reject with review notes. |
-| S014.10 - Permissions and Roles | Review | MVP admin-only audio permission gates are centralized on backend and frontend; role-specific behavior is deferred until roles exist. |
+| S011 - Languages CRUD | Done | Backend/frontend CRUD exists for language management and was included in S016 QA. |
+| S012 - Concepts CRUD | Done | Backend/frontend CRUD exists for language-independent concepts and was included in S016 QA. |
+| Unnumbered - Concept image upload with Cloudinary | Done | Backend Cloudinary upload/delete endpoints, nullable concept image fields, admin image preview/upload/remove UI, docs/env updates, and S016 build/test verification complete. |
+| S013 - ConceptTexts CRUD | Done | Backend/frontend CRUD exists for English, French, Médumba, and future language text; duplicate concept/language pairs are rejected. |
+| S014.1 - Concept Text Audio Data Model + Migration | Done | Adds `concept_text_audios` history model/table and nullable `concept_texts.current_audio_id`; covered by S016 QA. |
+| S014.2 - Concept Text Audio Storage Service | Done | Backend validation/upload service for short concept text recordings; covered by S016 QA. |
+| S014.3 - Concept Text Audio API Endpoints | Done | Upload, history, review queue, approve, and reject endpoints; covered by S016 QA. |
+| S014.4 - Concept Text Table Audio Summary | Done | Concept Texts list includes page-level `audioSummary`/`audio_summary`; table displays missing, pending, approved, and rejected audio states without per-row history requests. |
+| S014.5 - Inline Audio Recorder Component | Done | Reusable browser recorder wired into missing/rejected Concept Text table rows; local preview/retake/cancel before multipart submit for review. |
+| S014.6 - Concept Text Audio Cell | Done | Reusable audio cell handles missing, pending, approved, and rejected states with Médumba-only record/replace actions in the Concept Texts table. |
+| S014.7 - Mini Audio Player | Done | Compact reusable audio player with play/pause, loading, duration, and error states; used in the Concept Text audio cell and recorder preview. |
+| S014.8 - Recording Mode Page | Done | Focused batch recording page at `/admin/content/concept-texts/recording`; loads missing Médumba items, advances after submit, and promotes the active phrase as the primary recording target. |
+| S014.9 - Audio Review Queue | Done | Admin review queue at `/admin/audio-review` lists submitted audio, puts the reviewed phrase first on mobile and desktop, and supports approve/reject with review notes. |
+| S014.10 - Permissions and Roles | Done | MVP admin-only audio permission gates are centralized on backend and frontend; role-specific behavior is deferred until roles exist. |
 | S016 - Content Admin Stabilization + QA | Done | Focused pre-Lessons QA pass for Languages, Concepts, Concept Texts, audio review, seed sanity, and build readiness. Manual QA, backend tests, frontend lint, and frontend build pass when using the repo-pinned Node 22.15.0 through nvm. |
-| S014 - Lessons CRUD | Backlog | Lesson structure |
-| S015 - LessonItems CRUD | Backlog | Exercises/items |
+| S014 - Lessons CRUD | Planned | Lesson structure; contract expanded before implementation. Note: this ID predates the audio S014.x child slices and remains the lessons slice used by existing admin placeholders. |
+| S015 - LessonItems CRUD | Planned | Exercises/items; contract expanded before implementation, including concept-backed vocabulary cards and concept-less story segments. |
 
 ## Epic 5 - Learner Experience
 
@@ -87,4 +89,4 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 
 | Slice | Status | Notes |
 |---|---|---|
-| S020 - Playwright E2E Testing Setup | Review | Frontend Playwright setup with public experience smoke coverage; lint, build, and E2E checks pass. |
+| S020 - Playwright E2E Testing Setup | Done | Frontend Playwright setup with public experience smoke coverage; lint, build, and E2E checks pass per slice doc. |

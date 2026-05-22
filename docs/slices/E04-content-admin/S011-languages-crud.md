@@ -6,7 +6,7 @@ Epic 4 - Content Admin CRUD
 
 ## Status
 
-Backlog
+Done
 
 ## Goal
 
@@ -29,3 +29,7 @@ Languages are foundational. Concepts, texts, lessons, and lesson items will depe
 - The language create/edit form is a centered modal with grouped language identity, system configuration, and notes sections.
 - Clicking the transparent backdrop outside the form closes the modal.
 - The centered layout is preferred for this form because the language fields benefit from two- and three-column scanning; a side drawer is better reserved for short quick-edit flows.
+
+## Current Notes
+
+- Backend and frontend Languages CRUD exists and was included in S016 stabilization QA.

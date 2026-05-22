@@ -6,7 +6,7 @@ Epic 3 - Authentication + Admin Shell
 
 ## Status
 
-Backlog
+Done
 
 ## Goal
 
@@ -22,3 +22,8 @@ Create the login page UI for admin/reviewer access.
 - Login page exists at `/login`.
 - Form includes email and password.
 - UI is clean and consistent with Sounglah.
+
+## Current Notes
+
+- The login UI exists and now also participates in S008 API integration.
+- This doc is retained for traceability; do not rebuild the page from this slice.
