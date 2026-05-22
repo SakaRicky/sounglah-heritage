@@ -2,11 +2,14 @@ import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { AdminPageHeader } from '../../../components/admin/AdminPageHeader'
+import { ApiError } from '../../../lib/api'
 import { useI18n } from '../../../i18n'
+import { updateLesson } from '../api/lessonsApi'
 import { LessonFilters } from '../components/LessonFilters'
 import { LessonTable } from '../components/LessonTable'
 import { useLessonsList } from '../hooks/useLessonsList'
 import type { LessonDifficulty, LessonSort, LessonStatus } from '../types/lesson.types'
+import { parsePublishErrorFields } from '../utils/lessonPublishGuards'
 
 function PlusIcon() {
   return (
@@ -25,6 +28,9 @@ export function AdminLessonsPage() {
   const [sort] = useState<LessonSort>('orderIndex')
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
+  const [publishingLessonId, setPublishingLessonId] = useState<string | null>(null)
+  const [notice, setNotice] = useState('')
+  const [publishError, setPublishError] = useState('')
 
   const queryParams = useMemo(
     () => ({
@@ -65,6 +71,29 @@ export function AdminLessonsPage() {
     navigate('/admin/content/lessons/new')
   }
 
+  async function handlePublish(lessonId: string) {
+    setPublishingLessonId(lessonId)
+    setPublishError('')
+    setNotice('')
+
+    try {
+      await updateLesson(lessonId, { status: 'published' })
+      setNotice(t('admin.lessons.actions.publishedSuccess'))
+      await reload()
+    } catch (requestError) {
+      if (requestError instanceof ApiError && requestError.fields) {
+        const reasons = parsePublishErrorFields(requestError.fields, t)
+        setPublishError(reasons.join(' '))
+      } else {
+        setPublishError(
+          requestError instanceof Error ? requestError.message : t('admin.lessons.form.publishError'),
+        )
+      }
+    } finally {
+      setPublishingLessonId(null)
+    }
+  }
+
   return (
     <div className="space-y-8">
       <AdminPageHeader
@@ -82,6 +111,18 @@ export function AdminLessonsPage() {
           </button>
         }
       />
+
+      {notice ? (
+        <div className="rounded-cta border border-forest-accent/20 bg-forest-50 px-4 py-3 text-sm font-medium text-forest-700">
+          {notice}
+        </div>
+      ) : null}
+
+      {publishError ? (
+        <div className="rounded-cta border border-terracotta-500/20 bg-terracotta-400/10 px-4 py-3 text-sm font-medium text-terracotta-600">
+          {publishError}
+        </div>
+      ) : null}
 
       {error ? (
         <div className="rounded-cta border border-terracotta-500/20 bg-terracotta-400/10 px-4 py-3 text-sm font-medium text-terracotta-600">
@@ -117,6 +158,8 @@ export function AdminLessonsPage() {
         onPageChange={setPage}
         onPageSizeChange={handlePageSizeChange}
         onCreate={openCreateLesson}
+        publishingLessonId={publishingLessonId}
+        onPublish={(lessonId) => void handlePublish(lessonId)}
       />
     </div>
   )

@@ -1,11 +1,15 @@
 from datetime import datetime, timezone
+from unittest.mock import patch
 
 from app.services.lesson_publish_service import validate_lesson_items_for_publish
 
 
 class _ConceptStub:
-    def __init__(self, published_at=None):
+    def __init__(self, published_at=None, title="Greeting", key="greeting"):
         self.published_at = published_at
+        self.title = title
+        self.key = key
+        self.id = "concept-id"
 
 
 class _ItemStub:
@@ -23,20 +27,33 @@ def test_validate_lesson_publish_requires_active_items():
     assert errors == {"status": "Published lesson must have at least one active item."}
 
 
-def test_validate_lesson_publish_requires_published_concepts():
-    errors = validate_lesson_items_for_publish(
-        [
-            _ItemStub(
-                "Hello",
-                "VOCABULARY",
-                concept_id="concept-id",
-                concept=_ConceptStub(published_at=None),
-            )
-        ]
-    )
+def test_validate_lesson_publish_requires_ready_concepts():
+    completion = {
+        "isReadyToPublish": False,
+        "missingLanguages": ["med"],
+        "draftLanguages": [],
+        "needsReviewLanguages": [],
+        "rejectedLanguages": [],
+    }
+
+    with patch(
+        "app.services.lesson_publish_service.concept_completion_for",
+        return_value=completion,
+    ):
+        errors = validate_lesson_items_for_publish(
+            [
+                _ItemStub(
+                    "Hello",
+                    "VOCABULARY",
+                    concept_id="concept-id",
+                    concept=_ConceptStub(published_at=None),
+                )
+            ]
+        )
 
     assert "items" in errors
-    assert "not published yet" in errors["items"][0]
+    assert "not ready to publish" in errors["items"][0]
+    assert "missing med" in errors["items"][0]
 
 
 def test_validate_lesson_publish_allows_cultural_note_without_concept():

@@ -181,6 +181,9 @@ export const translations = {
     'admin.lessons.actions.manageItems': 'Manage Items',
     'admin.lessons.actions.preview': 'Preview',
     'admin.lessons.actions.previewDisabled': 'Publish lesson to preview publicly.',
+    'admin.lessons.actions.publish': 'Publish',
+    'admin.lessons.actions.publishing': 'Publishing…',
+    'admin.lessons.actions.publishedSuccess': 'Lesson published.',
     'admin.lessons.empty.title': 'No lessons yet',
     'admin.lessons.empty.description':
       'Create your first lesson to help children practice heritage language with family.',
@@ -545,6 +548,9 @@ export const translations = {
     'admin.lessons.actions.manageItems': 'Gérer les éléments',
     'admin.lessons.actions.preview': 'Aperçu',
     'admin.lessons.actions.previewDisabled': 'Publiez la leçon pour la prévisualiser publiquement.',
+    'admin.lessons.actions.publish': 'Publier',
+    'admin.lessons.actions.publishing': 'Publication…',
+    'admin.lessons.actions.publishedSuccess': 'Leçon publiée.',
     'admin.lessons.empty.title': 'Aucune leçon pour l’instant',
     'admin.lessons.empty.description':
       'Créez votre première leçon pour aider les enfants à pratiquer la langue héritée en famille.',
