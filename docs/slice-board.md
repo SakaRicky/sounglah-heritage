@@ -82,3 +82,9 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 | S017 - Learner lesson shell | Backlog | Public/learner lesson layout |
 | S018 - First lesson flow | Backlog | Simple family-centered lesson |
 | S019 - Exercise interaction | Backlog | Basic practice interaction |
+
+## Epic 6 - Quality + Regression Coverage
+
+| Slice | Status | Notes |
+|---|---|---|
+| S020 - Playwright E2E Testing Setup | Review | Frontend Playwright setup with public experience smoke coverage; lint, build, and E2E checks pass. |
