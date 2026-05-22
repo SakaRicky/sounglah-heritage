@@ -1,0 +1,25 @@
+---
+description: Never implement on main; ask the human, then create and use a feature branch.
+alwaysApply: true
+---
+
+# Git branch workflow
+
+**Do not implement on `main` or `master`.** Protected branches are for merged work only.
+
+## Before any repo edit (code or docs that ship a slice)
+
+1. **Ask first:** “Should I create a branch for this work?” Propose a name (for example `feat/s022-text-review-queue` or `slice/s014l-1-lessons-model`).
+2. **Wait for approval** before creating the branch or changing files. If the user already named a branch or said to use one, skip the ask.
+3. **If approved:** create and checkout the branch, then implement.
+4. **If declined or unclear:** do not edit files; clarify or stay read-only.
+
+## While working
+
+- Stay on the feature branch for the whole slice (follow-ups in the same chat stay on that branch unless the user starts a new branch).
+- Do not commit or push to `main`/`master` unless the user explicitly asks for a hotfix on main.
+- Push the feature branch and open a PR when the user asks; do not force-push protected branches.
+
+## Read-only exception
+
+Exploration, planning, and questions without file changes may use `main` locally without a new branch.

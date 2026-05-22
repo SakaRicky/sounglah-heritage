@@ -105,6 +105,34 @@ export type ConceptTextListResponse = {
   }
 }
 
+export interface ConceptTextReferenceText {
+  languageCode: string
+  text: string
+}
+
+export interface ConceptTextReviewQueueItem extends ConceptText {
+  referenceTexts?: ConceptTextReferenceText[]
+}
+
+export type ConceptTextReviewQueueReviewStatus = ConceptTextReviewStatus | 'all'
+
+export interface ConceptTextReviewQueueParams {
+  reviewStatus?: ConceptTextReviewQueueReviewStatus
+  languageId?: string
+  search?: string
+  page?: number
+  pageSize?: number
+}
+
+export type ConceptTextReviewQueueResponse = {
+  data: ConceptTextReviewQueueItem[]
+  meta: {
+    page: number
+    pageSize: number
+    total: number
+  }
+}
+
 export type ConceptTextAudioReviewStatus = ConceptTextAudio['status'] | 'all'
 
 export interface ConceptTextAudioReviewQueueParams {

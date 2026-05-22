@@ -31,7 +31,7 @@ def _language_summary(language):
     }
 
 
-def concept_text_to_dict(concept_text, include_relationships=True, audio_summary=None):
+def concept_text_to_dict(concept_text, include_relationships=True, audio_summary=None, reference_texts=None):
     data = {
         "id": concept_text.id,
         "conceptId": concept_text.concept_id,
@@ -66,5 +66,8 @@ def concept_text_to_dict(concept_text, include_relationships=True, audio_summary
             "pending_audio_url": audio_summary["pendingAudioUrl"],
             "duration_seconds": audio_summary["durationSeconds"],
         }
+
+    if reference_texts is not None:
+        data["referenceTexts"] = reference_texts
 
     return data

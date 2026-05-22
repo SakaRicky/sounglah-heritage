@@ -2,7 +2,11 @@
 
 ## Branch Workflow
 
-- Before starting code changes in this repository, ask whether to create a new branch to work from. If the user says yes, create and switch to that branch before editing files.
+- **Never implement on `main` or `master`.** Treat them as protected; all slice work belongs on a feature branch.
+- **Before any implementation** (code or slice doc updates that ship work), ask: “Should I create a branch for this?” Propose a name (for example `feat/s022-text-review-queue`). **Wait for approval**, then create and checkout that branch before editing files.
+- If the user already approved a branch name or said to continue on the current feature branch, proceed without re-asking.
+- Read-only planning/exploration without file changes may stay on `main`.
+- Push feature branches and open PRs when asked; do not push directly to protected `main` unless the user explicitly requests it.
 
 ## Product Context
 

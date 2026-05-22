@@ -16,6 +16,8 @@ VALID_STATUSES = {"active", "disabled"}
 VALID_STATUS_FILTERS = {"active", "disabled", "all"}
 VALID_REVIEW_STATUSES = {"draft", "needs_review", "approved", "rejected"}
 VALID_REVIEW_STATUS_FILTERS = {"draft", "needs_review", "approved", "rejected", "all"}
+VALID_REVIEW_QUEUE_STATUS_FILTERS = {"draft", "needs_review", "approved", "rejected", "all"}
+REFERENCE_LANGUAGE_CODES = ("en", "fr")
 VALID_SORTS = {"updated", "concept", "language", "text"}
 WRITABLE_FIELDS = {
     "text",
@@ -323,6 +325,123 @@ def list_concept_texts():
                 concept_text_to_dict(
                     concept_text,
                     audio_summary=audio_summaries[concept_text.id],
+                )
+                for concept_text in concept_texts
+            ],
+            "meta": {"page": page, "pageSize": page_size, "total": total},
+        }
+    )
+
+
+def _reference_texts_for_concepts(concept_ids):
+    if not concept_ids:
+        return {}
+
+    unique_concept_ids = list(dict.fromkeys(concept_ids))
+    references_by_concept_id = {concept_id: [] for concept_id in unique_concept_ids}
+    reference_rows = (
+        ConceptText.query.join(Language)
+        .filter(
+            ConceptText.concept_id.in_(unique_concept_ids),
+            ConceptText.status == "active",
+            Language.code.in_(REFERENCE_LANGUAGE_CODES),
+        )
+        .all()
+    )
+
+    for concept_text in reference_rows:
+        references_by_concept_id[concept_text.concept_id].append(
+            {
+                "languageCode": concept_text.language.code,
+                "text": concept_text.text,
+            }
+        )
+
+    for concept_id in unique_concept_ids:
+        references_by_concept_id[concept_id].sort(
+            key=lambda item: (0 if item["languageCode"] == "en" else 1, item["languageCode"])
+        )
+
+    return references_by_concept_id
+
+
+@concept_text_bp.get("/review-queue")
+@require_admin
+def review_queue():
+    search = (request.args.get("search") or "").strip()
+    language_id = (request.args.get("languageId") or "").strip()
+    review_status = (request.args.get("reviewStatus") or "needs_review").strip().lower()
+
+    if review_status not in VALID_REVIEW_QUEUE_STATUS_FILTERS:
+        return _validation_error(
+            {"reviewStatus": "Review status filter must be draft, needs_review, approved, rejected, or all."}
+        )
+
+    try:
+        page = max(int(request.args.get("page", 1)), 1)
+        page_size = min(max(int(request.args.get("pageSize", 25)), 1), 100)
+    except ValueError:
+        return _validation_error({"page": "Page and page size must be numbers."})
+
+    if language_id:
+        language = db.session.get(Language, language_id)
+        if language is None:
+            return jsonify({"error": {"message": "Language not found."}}), 404
+        if not language.requires_concept_text_review:
+            return _validation_error(
+                {"languageId": "Language filter must be a local review language."}
+            )
+
+    query = (
+        ConceptText.query.join(Concept)
+        .join(Language)
+        .filter(
+            Language.requires_concept_text_review.is_(True),
+            ConceptText.status == "active",
+        )
+    )
+
+    if language_id:
+        query = query.filter(ConceptText.language_id == language_id)
+
+    if review_status != "all":
+        query = query.filter(ConceptText.review_status == review_status)
+
+    if search:
+        pattern = f"%{search.lower()}%"
+        query = query.filter(
+            or_(
+                db.func.lower(ConceptText.text).like(pattern),
+                db.func.lower(Concept.title).like(pattern),
+                db.func.lower(Concept.key).like(pattern),
+                db.func.lower(Language.name).like(pattern),
+                db.func.lower(Language.code).like(pattern),
+            )
+        )
+
+    total = query.count()
+    concept_texts = (
+        query.order_by(
+            ConceptText.updated_at.asc(),
+            Concept.title.asc(),
+            Language.name.asc(),
+        )
+        .offset((page - 1) * page_size)
+        .limit(page_size)
+        .all()
+    )
+    reference_texts_by_concept_id = _reference_texts_for_concepts(
+        [concept_text.concept_id for concept_text in concept_texts]
+    )
+    audio_summaries = _audio_summaries_for(concept_texts)
+
+    return jsonify(
+        {
+            "data": [
+                concept_text_to_dict(
+                    concept_text,
+                    audio_summary=audio_summaries[concept_text.id],
+                    reference_texts=reference_texts_by_concept_id.get(concept_text.concept_id, []),
                 )
                 for concept_text in concept_texts
             ],

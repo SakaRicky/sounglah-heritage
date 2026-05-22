@@ -3,6 +3,8 @@ import type {
   ConceptTextAudio,
   ConceptTextAudioReviewQueueParams,
   ConceptTextAudioReviewQueueResponse,
+  ConceptTextReviewQueueParams,
+  ConceptTextReviewQueueResponse,
   ConceptText,
   ConceptTextListParams,
   ConceptTextListResponse,
@@ -74,6 +76,12 @@ export async function uploadConceptTextAudio(conceptTextId: string, audioBlob: B
 
 export async function getConceptTextAudioReviewQueue(params?: ConceptTextAudioReviewQueueParams) {
   return apiRequest<ConceptTextAudioReviewQueueResponse>(`/admin/concept-text-audios/review-queue${buildQuery(params)}`, {
+    authenticated: true,
+  })
+}
+
+export async function getConceptTextReviewQueue(params?: ConceptTextReviewQueueParams) {
+  return apiRequest<ConceptTextReviewQueueResponse>(`/admin/concept-texts/review-queue${buildQuery(params)}`, {
     authenticated: true,
   })
 }
