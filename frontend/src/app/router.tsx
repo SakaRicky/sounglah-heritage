@@ -17,6 +17,7 @@ import { ConceptCompletionPage } from '../features/concepts/pages/ConceptComplet
 import { AdminConceptsPage } from '../features/concepts/pages/ConceptsPage'
 import { AdminLanguagesPage } from '../features/languages/pages/LanguagesPage'
 import { AdminLessonsPage } from '../features/lessons/pages/LessonsPage'
+import { LessonFormPage } from '../features/lessons/pages/LessonFormPage'
 
 export const router = createBrowserRouter([
   {
@@ -99,6 +100,14 @@ export const router = createBrowserRouter([
           {
             path: 'content/lessons',
             element: <AdminLessonsPage />,
+          },
+          {
+            path: 'content/lessons/new',
+            element: <LessonFormPage />,
+          },
+          {
+            path: 'content/lessons/:lessonId/edit',
+            element: <LessonFormPage />,
           },
           {
             path: 'content/lesson-items',

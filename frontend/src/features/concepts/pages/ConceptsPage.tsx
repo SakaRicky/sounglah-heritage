@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { AdminPageHeader } from '../../../components/admin/AdminPageHeader'
 import { InsightCard } from '../../../components/admin/InsightCard'
 import { StatsCard } from '../../../components/admin/StatsCard'
-import { ApiError } from '../../../lib/api'
+import { ApiError, normalizeApiFieldErrors } from '../../../lib/api'
 import {
   createConcept,
   deleteConceptImage,
@@ -248,7 +248,7 @@ export function AdminConceptsPage() {
       await loadConcepts()
     } catch (requestError) {
       if (requestError instanceof ApiError && requestError.fields) {
-        setFieldErrors(requestError.fields)
+        setFieldErrors(normalizeApiFieldErrors(requestError.fields))
       }
       setError(requestError instanceof Error ? requestError.message : 'Unable to save concept.')
     } finally {

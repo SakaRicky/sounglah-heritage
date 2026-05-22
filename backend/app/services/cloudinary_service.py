@@ -10,6 +10,7 @@ class CloudinaryConfigurationError(RuntimeError):
 MEDIA_FOLDERS = {
     "concept_image": "concepts",
     "concept_text_audio": "concept-text-audios",
+    "lesson_cover": "lesson-covers",
 }
 
 
@@ -43,6 +44,20 @@ def upload_concept_image(file_obj):
     result = uploader.upload(
         file_obj,
         folder=folder_for("concept_image"),
+        resource_type="image",
+    )
+
+    return {
+        "secure_url": result["secure_url"],
+        "public_id": result["public_id"],
+    }
+
+
+def upload_lesson_cover_image(file_obj):
+    _configure_cloudinary()
+    result = uploader.upload(
+        file_obj,
+        folder=folder_for("lesson_cover"),
         resource_type="image",
     )
 

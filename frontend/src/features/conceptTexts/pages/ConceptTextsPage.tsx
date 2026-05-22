@@ -5,7 +5,7 @@ import { Mic, Plus } from 'lucide-react'
 import { AdminPageHeader } from '../../../components/admin/AdminPageHeader'
 import { InsightCard } from '../../../components/admin/InsightCard'
 import { StatsCard } from '../../../components/admin/StatsCard'
-import { ApiError } from '../../../lib/api'
+import { ApiError, normalizeApiFieldErrors } from '../../../lib/api'
 import { getConcepts } from '../../concepts/api/conceptsApi'
 import type { Concept } from '../../concepts/types/concept.types'
 import { getLanguages } from '../../languages/api/languagesApi'
@@ -314,7 +314,7 @@ export function AdminConceptTextsPage() {
       await loadConceptTexts()
     } catch (requestError) {
       if (requestError instanceof ApiError && requestError.fields) {
-        setFieldErrors(requestError.fields)
+        setFieldErrors(normalizeApiFieldErrors(requestError.fields))
       }
       setError(requestError instanceof Error ? requestError.message : 'Unable to save concept text.')
     } finally {

@@ -29,3 +29,17 @@ export type LessonListResponse = {
     total: number
   }
 }
+
+export type CreateLessonPayload = {
+  title: string
+  slug: string
+  description?: string
+  difficulty: LessonDifficulty
+  estimatedMinutes?: number | null
+  coverImageUrl?: string | null
+  coverImageAltText?: string | null
+  status: LessonStatus
+  orderIndex?: number
+}
+
+export type UpdateLessonPayload = Partial<CreateLessonPayload>

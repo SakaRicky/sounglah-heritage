@@ -1,12 +1,16 @@
 import re
+from io import BytesIO
 
-from flask import Blueprint, jsonify, request
+from cloudinary.exceptions import Error as CloudinaryError
+from flask import Blueprint, current_app, jsonify, request
 from sqlalchemy import func, or_
 
 from app.extensions import db
 from app.models.lesson import Lesson
 from app.models.lesson_item import LessonItem
 from app.schemas.lesson_schema import lesson_to_dict
+from app.services import cloudinary_service
+from app.services.cloudinary_service import CloudinaryConfigurationError
 from app.services.lesson_publish_service import validate_lesson_publish
 from app.utils.auth import require_admin
 
@@ -17,6 +21,7 @@ VALID_STATUSES = {"draft", "published", "archived"}
 VALID_STATUS_FILTERS = {"draft", "published", "archived", "all"}
 VALID_DIFFICULTY_FILTERS = {"beginner", "intermediate", "advanced", "all"}
 VALID_SORTS = {"orderIndex", "title", "updatedAt"}
+ALLOWED_IMAGE_MIME_TYPES = {"image/jpeg", "image/png", "image/webp"}
 WRITABLE_FIELDS = {
     "title",
     "slug",
@@ -200,6 +205,25 @@ def _publish_validation_error(publish_fields):
     )
 
 
+def _image_file_from_request():
+    image_file = request.files.get("image")
+    if image_file is None or not image_file.filename:
+        return None, {"image": "Image file is required."}
+
+    if image_file.mimetype not in ALLOWED_IMAGE_MIME_TYPES:
+        return None, {"image": "Image must be a JPEG, PNG, or WebP file."}
+
+    max_bytes = current_app.config["MAX_IMAGE_UPLOAD_MB"] * 1024 * 1024
+    content = image_file.stream.read(max_bytes + 1)
+    if len(content) > max_bytes:
+        return None, {"image": f"Image must be {current_app.config['MAX_IMAGE_UPLOAD_MB']} MB or smaller."}
+
+    if not content:
+        return None, {"image": "Image file cannot be empty."}
+
+    return BytesIO(content), None
+
+
 @lesson_bp.get("")
 @require_admin
 def list_lessons():
@@ -331,3 +355,81 @@ def delete_lesson(lesson_id):
     db.session.commit()
 
     return "", 204
+
+
+@lesson_bp.post("/<lesson_id>/cover-image")
+@require_admin
+def upload_lesson_cover_image(lesson_id):
+    lesson = db.session.get(Lesson, lesson_id)
+    if lesson is None:
+        return jsonify({"error": {"message": "Lesson not found."}}), 404
+
+    image_file, errors = _image_file_from_request()
+    if errors:
+        return _validation_error(errors)
+
+    alt_text = _optional_string(request.form.get("cover_image_alt_text"))
+    old_public_id = lesson.cover_image_public_id
+
+    try:
+        uploaded_image = cloudinary_service.upload_lesson_cover_image(image_file)
+        if old_public_id:
+            cloudinary_service.delete_image(old_public_id)
+    except CloudinaryConfigurationError as error:
+        return jsonify({"error": {"message": str(error)}}), 500
+    except CloudinaryError:
+        current_app.logger.exception("Cloudinary lesson cover upload failed.")
+        return jsonify({"error": {"message": "Unable to upload lesson cover image to Cloudinary."}}), 503
+
+    lesson.cover_image_url = uploaded_image["secure_url"]
+    lesson.cover_image_public_id = uploaded_image["public_id"]
+    lesson.cover_image_alt_text = alt_text if alt_text is not None else lesson.cover_image_alt_text
+    db.session.commit()
+
+    item_count = _active_item_counts([lesson.id]).get(lesson.id, 0)
+    return jsonify({"data": lesson_to_dict(lesson, item_count=item_count)})
+
+
+@lesson_bp.patch("/<lesson_id>/cover-image-alt-text")
+@require_admin
+def update_lesson_cover_image_alt_text(lesson_id):
+    lesson = db.session.get(Lesson, lesson_id)
+    if lesson is None:
+        return jsonify({"error": {"message": "Lesson not found."}}), 404
+
+    data = request.get_json(silent=True) or {}
+    cover_image_alt_text_value = data.get("coverImageAltText", data.get("cover_image_alt_text"))
+    cover_image_alt_text, error = _optional_string_with_max(cover_image_alt_text_value, 255)
+    if error:
+        return _validation_error({"coverImageAltText": error})
+
+    lesson.cover_image_alt_text = cover_image_alt_text
+    db.session.commit()
+
+    item_count = _active_item_counts([lesson.id]).get(lesson.id, 0)
+    return jsonify({"data": lesson_to_dict(lesson, item_count=item_count)})
+
+
+@lesson_bp.delete("/<lesson_id>/cover-image")
+@require_admin
+def delete_lesson_cover_image(lesson_id):
+    lesson = db.session.get(Lesson, lesson_id)
+    if lesson is None:
+        return jsonify({"error": {"message": "Lesson not found."}}), 404
+
+    if lesson.cover_image_public_id:
+        try:
+            cloudinary_service.delete_image(lesson.cover_image_public_id)
+        except CloudinaryConfigurationError as error:
+            return jsonify({"error": {"message": str(error)}}), 500
+        except CloudinaryError:
+            current_app.logger.exception("Cloudinary lesson cover deletion failed.")
+            return jsonify({"error": {"message": "Unable to remove lesson cover image from Cloudinary."}}), 503
+
+    lesson.cover_image_url = None
+    lesson.cover_image_public_id = None
+    lesson.cover_image_alt_text = None
+    db.session.commit()
+
+    item_count = _active_item_counts([lesson.id]).get(lesson.id, 0)
+    return jsonify({"data": lesson_to_dict(lesson, item_count=item_count)})
