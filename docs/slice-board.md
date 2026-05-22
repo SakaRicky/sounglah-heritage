@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Foundation (S001) **complete**. Next: pick the next epic slice from the board (for example E02+ refinements or E03 auth).
+Foundation (S001) **complete**. S016 content admin stabilization is complete; next focus can move to Lessons.
 
 ## Rules
 
@@ -71,6 +71,7 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 | S014.8 - Recording Mode Page | Review | Focused batch recording page at `/admin/content/concept-texts/recording`; loads missing Médumba items from the concept text list and advances to the next item after submit. |
 | S014.9 - Audio Review Queue | Review | Admin review queue at `/admin/audio-review` lists submitted audio, plays recordings, and supports approve/reject with review notes; phones and tablets use stacked recording cards while desktop keeps the table. |
 | S014.10 - Permissions and Roles | Review | MVP admin-only audio permission gates are centralized on backend and frontend; role-specific behavior is deferred until roles exist. |
+| S016 - Content Admin Stabilization + QA | Done | Focused pre-Lessons QA pass for Languages, Concepts, Concept Texts, audio review, seed sanity, and build readiness. Manual QA, backend tests, frontend lint, and frontend build pass when using the repo-pinned Node 22.15.0 through nvm. |
 | S014 - Lessons CRUD | Backlog | Lesson structure |
 | S015 - LessonItems CRUD | Backlog | Exercises/items |
 
@@ -78,6 +79,6 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 
 | Slice | Status | Notes |
 |---|---|---|
-| S016 - Learner lesson shell | Backlog | Public/learner lesson layout |
-| S017 - First lesson flow | Backlog | Simple family-centered lesson |
-| S018 - Exercise interaction | Backlog | Basic practice interaction |
+| S017 - Learner lesson shell | Backlog | Public/learner lesson layout |
+| S018 - First lesson flow | Backlog | Simple family-centered lesson |
+| S019 - Exercise interaction | Backlog | Basic practice interaction |

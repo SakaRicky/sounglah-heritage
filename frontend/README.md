@@ -4,6 +4,12 @@ React + Vite + TypeScript + Tailwind frontend for Sounglah.
 
 ## Setup
 
+Use the repo-pinned Node version before installing or building:
+
+```bash
+nvm use
+```
+
 ```bash
 cd frontend
 npm install
