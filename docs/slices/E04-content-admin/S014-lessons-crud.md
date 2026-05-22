@@ -1,12 +1,14 @@
 # S014 - Lessons CRUD
 
+> **Superseded by [S023 — Lessons and Lesson Items MVP](../E05-lessons/00-overview.md).** Keep this file for historical context and seed CSV notes only. Builders should follow **S023.1–S023.15** instead.
+
 ## Epic
 
-Epic 4 - Content Admin CRUD
+Epic 4 - Content Admin CRUD (historical)
 
 ## Status
 
-Planned
+Superseded
 
 ## Goal
 

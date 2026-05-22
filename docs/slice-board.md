@@ -2,9 +2,9 @@
 
 ## Current Phase
 
-Foundation (S001) **complete**. S016 content admin stabilization is complete; next focus can move to Lessons.
+Foundation (S001) **complete**. S016 content admin stabilization and S021 concept completion are complete. **Next focus: Epic 5 — S023 Lessons and Lesson Items MVP.**
 
-Before starting Lessons implementation, use the expanded S014/S015 slice docs as the source of truth for the first lesson and lesson-item contracts. The codebase is ahead of a few older slice statuses; this board has been updated to reflect the implemented admin/auth/content surfaces verified during S016.
+Use **`docs/slices/E05-lessons/00-overview.md`** and child slices **S023.1–S023.15** as the source of truth for lessons work. Epic is **implementation-ready**; product decisions locked (anonymous public API, nested item admin, publish guards). Prerequisite: curated published concepts with approved Médumba texts and audio before seeding **Greeting Grandma** (S023.15).
 
 ## Rules
 
@@ -74,8 +74,8 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 | S014.9 - Audio Review Queue | Done | Admin review queue at `/admin/audio-review` lists submitted audio, puts the reviewed phrase first on mobile and desktop, and supports approve/reject with review notes. |
 | S014.10 - Permissions and Roles | Done | MVP admin-only audio permission gates are centralized on backend and frontend; role-specific behavior is deferred until roles exist. |
 | S016 - Content Admin Stabilization + QA | Done | Focused pre-Lessons QA pass for Languages, Concepts, Concept Texts, audio review, seed sanity, and build readiness. Manual QA, backend tests, frontend lint, and frontend build pass when using the repo-pinned Node 22.15.0 through nvm. |
-| S014 - Lessons CRUD | Planned | Lesson structure; contract expanded before implementation. Note: this ID predates the audio S014.x child slices and remains the lessons slice used by existing admin placeholders. |
-| S015 - LessonItems CRUD | Planned | Exercises/items; contract expanded before implementation, including concept-backed vocabulary cards and concept-less story segments. |
+| S014 - Lessons CRUD | Superseded | **Use S023 instead.** Historical E04 draft; admin placeholders at `/admin/content/lessons` remain until S023.3. ID predates audio S014.x child slices. |
+| S015 - LessonItems CRUD | Superseded | **Use S023 instead.** Historical E04 draft used seed types `vocabulary_card` / `story_segment`; MVP uses VOCABULARY, PHRASE, AUDIO_LISTEN, CULTURAL_NOTE. |
 | S021 - Concept Completion Workflow | Done | Admin completion dashboard at `/admin/content/concepts/completion`, required-language flags, heritage review gating, guarded publish, and backend/frontend verification complete. See `docs/slices/E04-content-admin/S021-concept-completion-workflow.md`. |
 | S021.1 - Required Language Flag | Done | Adds `languages.is_required_for_concept_completion`, seeds English/French/Médumba as required, exposes the flag through language API/admin UI, and passes backend tests plus frontend lint/build. |
 | S021.2 - Concept Text Rejected Review Status | Done | Adds `rejected` to concept text review status across backend validation/constraint, frontend form/filter/badges, API docs, and tests. |
@@ -93,13 +93,31 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 | S022.4 - Approve, Reject, And Edit Actions | Done | One-click approve/reject via concept text update, edit deep link, desktop and mobile actions; frontend lint/build pass. |
 | S022.5 - Tests, Docs, And Stabilization | Done | Review-queue backend tests, full pytest, frontend lint/build, API docs, and slice board updated; S022 complete. |
 
-## Epic 5 - Learner Experience
+## Epic 5 - Lessons and Learner Experience
+
+Parent spec: **`docs/slices/E05-lessons/00-overview.md`**. One child slice per Cursor chat (**S023.1** through **S023.15**). First complete target: **Greeting Grandma** (5 items, 4 MVP types).
 
 | Slice | Status | Notes |
 |---|---|---|
-| S017 - Learner lesson shell | Backlog | Public/learner lesson layout |
-| S018 - First lesson flow | Backlog | Simple family-centered lesson |
-| S019 - Exercise interaction | Backlog | Basic practice interaction |
+| S023 - Lessons and Lesson Items MVP | Planned | Parent epic; admin + public + player vertical slices |
+| S023.1 - Database + backend foundation | Planned | `lessons`, `lesson_items` tables and models |
+| S023.2 - Backend lessons API | Planned | Admin CRUD `/api/admin/lessons` |
+| S023.3 - Admin lessons list screen | Planned | `/admin/content/lessons` |
+| S023.4 - Admin create/edit lesson screen | Planned | Create Greeting Grandma shell |
+| S023.5 - Backend lesson items API | Planned | Items CRUD + reorder |
+| S023.6 - Admin lesson items builder | Planned | Curriculum builder list |
+| S023.7 - Admin create/edit lesson item | Planned | Dynamic form + concept picker |
+| S023.8 - Public lessons API + listing | Planned | `GET /api/lessons`, `lesson_public_service`, `/lessons` UI |
+| S023.9 - Public lesson intro | Planned | `/lessons/:slug` before play |
+| S023.10 - Lesson player shell | Planned | `/lessons/:slug/play` placeholders |
+| S023.11 - Renderer: VOCABULARY | Planned | First real learner screen |
+| S023.12 - Renderer: PHRASE | Planned | Phrase + usage note |
+| S023.13 - Renderer: AUDIO_LISTEN | Planned | Listen-first + show text |
+| S023.14 - Renderer: CULTURAL_NOTE | Planned | Warm culture card |
+| S023.15 - Seed Greeting Grandma + QA | Planned | Full loop + stabilization |
+| S017 - Learner lesson shell | Superseded | Covered by S023.10 |
+| S018 - First lesson flow | Superseded | Covered by S023.8–S023.15 |
+| S019 - Exercise interaction | Superseded | Covered by S023.11–S023.14 |
 
 ## Epic 6 - Quality + Regression Coverage
 
