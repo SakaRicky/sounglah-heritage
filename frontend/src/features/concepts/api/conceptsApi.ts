@@ -3,6 +3,7 @@ import type {
   Concept,
   ConceptCompletionListParams,
   ConceptCompletionListResponse,
+  ConceptCompletionRow,
   ConceptCompletionSummary,
   ConceptListParams,
   ConceptListResponse,
@@ -38,6 +39,12 @@ export async function getConceptById(id: string) {
 
 export async function getConceptCompletion(params?: ConceptCompletionListParams) {
   return apiRequest<ConceptCompletionListResponse>(`/admin/concepts/completion${buildQuery(params)}`, {
+    authenticated: true,
+  })
+}
+
+export async function getConceptCompletionById(id: string) {
+  return apiRequest<{ data: ConceptCompletionRow }>(`/admin/concepts/${id}/completion`, {
     authenticated: true,
   })
 }

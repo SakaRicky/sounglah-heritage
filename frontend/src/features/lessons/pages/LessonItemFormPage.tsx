@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { AdminPageHeader } from '../../../components/admin/AdminPageHeader'
 import { ApiError, normalizeApiFieldErrors } from '../../../lib/api'
 import { useI18n } from '../../../i18n'
-import { getConceptCompletion } from '../../concepts/api/conceptsApi'
+import { getConceptCompletionById } from '../../concepts/api/conceptsApi'
 import type { ConceptCompletionRow } from '../../concepts/types/concept.types'
 import { getLessonById } from '../api/lessonsApi'
 import { createLessonItem, getLessonItems, updateLessonItem } from '../api/lessonItemsApi'
@@ -51,19 +51,14 @@ export function LessonItemFormPage() {
   const [error, setError] = useState('')
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
 
-  const resolveConceptRow = useCallback(async (conceptId: string, searchHint?: string) => {
+  const resolveConceptRow = useCallback(async (conceptId: string) => {
     if (!conceptId) {
       return null
     }
 
     try {
-      const response = await getConceptCompletion({
-        search: searchHint ?? '',
-        status: 'all',
-        page: 1,
-        pageSize: 25,
-      })
-      return response.data.find((row) => row.id === conceptId) ?? null
+      const response = await getConceptCompletionById(conceptId)
+      return response.data
     } catch {
       return null
     }
@@ -97,7 +92,7 @@ export function LessonItemFormPage() {
         setConceptSearchSeed(searchHint)
 
         if (existingItem.conceptId) {
-          const conceptRow = await resolveConceptRow(existingItem.conceptId, searchHint)
+          const conceptRow = await resolveConceptRow(existingItem.conceptId)
           setSelectedConceptRow(conceptRow)
         }
       } else {

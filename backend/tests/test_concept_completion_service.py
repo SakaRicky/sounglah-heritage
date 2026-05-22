@@ -14,6 +14,7 @@ from app.services.concept_completion_service import (
     STATUS_PUBLISHED,
     calculate_concept_completion,
     get_active_required_languages,
+    is_concept_ready_for_lesson_items,
 )
 
 
@@ -221,3 +222,24 @@ def test_completion_ignores_disabled_required_language_and_disabled_text():
         assert completion["completionStatus"] == STATUS_NEEDS_TRANSLATION
         assert completion["missingLanguages"] == ["en"]
         assert [item["languageCode"] for item in completion["languages"]] == ["en", "fr"]
+
+
+def test_is_concept_ready_for_lesson_items_requires_active_complete_concept():
+    app = create_app(testing=True)
+
+    with app.app_context():
+        concept, required_languages = _concept_and_required_languages()
+        assert is_concept_ready_for_lesson_items(concept) is False
+
+        concept_texts = _add_required_texts(
+            concept,
+            {
+                "med": "approved",
+                "en": "approved",
+                "fr": "approved",
+            },
+        )
+        assert is_concept_ready_for_lesson_items(concept, concept_texts) is True
+
+        concept.status = "disabled"
+        assert is_concept_ready_for_lesson_items(concept, concept_texts) is False

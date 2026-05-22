@@ -290,15 +290,19 @@ export const translations = {
     'admin.lessons.itemForm.instructionPlaceholder': 'Tap the word, then say it with grandma.',
     'admin.lessons.itemForm.concept': 'Linked concept',
     'admin.lessons.itemForm.conceptHelp': 'Pick a concept — Médumba text, audio, and translations come from your concept library.',
+    'admin.lessons.itemForm.conceptReadyOnlyHelp':
+      'Only concepts with every required language ready (English, French, and Médumba today) appear here.',
     'admin.lessons.itemForm.linkedConceptSelected': 'Linked concept',
     'admin.lessons.itemForm.conceptTextMissing': 'No text yet',
     'admin.lessons.itemForm.conceptSearchPlaceholder': 'Search by concept title or key...',
     'admin.lessons.itemForm.conceptLoading': 'Searching concepts...',
     'admin.lessons.itemForm.conceptEmpty': 'No concepts match this search.',
+    'admin.lessons.itemForm.conceptEmptyReadyOnly':
+      'No ready concepts match this search. Finish translations and reviews in Concept Completion first.',
     'admin.lessons.itemForm.conceptLoadError': 'We could not search concepts. Please try again.',
     'admin.lessons.itemForm.conceptWarningTitle': 'This concept is not fully ready',
     'admin.lessons.itemForm.conceptWarningDescription':
-      'You can save this step now, but families may see missing text or audio until translations and reviews are complete.',
+      'This item still links an older concept that is missing translations or reviews. You can keep it for now, but choose a ready concept before families see this step.',
     'admin.lessons.itemForm.linkConceptTexts': 'Open Concept Texts',
     'admin.lessons.itemForm.linkCompletion': 'Open Completion dashboard',
     'admin.lessons.itemForm.publishedLessonConceptHint':
@@ -631,15 +635,19 @@ export const translations = {
     'admin.lessons.itemForm.instructionPlaceholder': 'Touchez le mot, puis dites-le avec grand-mère.',
     'admin.lessons.itemForm.concept': 'Concept lié',
     'admin.lessons.itemForm.conceptHelp': 'Choisissez un concept — texte, audio et traductions viennent de votre bibliothèque.',
+    'admin.lessons.itemForm.conceptReadyOnlyHelp':
+      'Seuls les concepts avec chaque langue requise prête (anglais, français et médumba pour l’instant) apparaissent ici.',
     'admin.lessons.itemForm.linkedConceptSelected': 'Concept lié',
     'admin.lessons.itemForm.conceptTextMissing': 'Pas de texte pour l’instant',
     'admin.lessons.itemForm.conceptSearchPlaceholder': 'Rechercher par titre ou clé de concept...',
     'admin.lessons.itemForm.conceptLoading': 'Recherche de concepts...',
     'admin.lessons.itemForm.conceptEmpty': 'Aucun concept ne correspond à cette recherche.',
+    'admin.lessons.itemForm.conceptEmptyReadyOnly':
+      'Aucun concept prêt ne correspond à cette recherche. Terminez d’abord traductions et révisions dans Complétion des concepts.',
     'admin.lessons.itemForm.conceptLoadError': 'Impossible de rechercher les concepts. Veuillez réessayer.',
     'admin.lessons.itemForm.conceptWarningTitle': 'Ce concept n’est pas entièrement prêt',
     'admin.lessons.itemForm.conceptWarningDescription':
-      'Vous pouvez enregistrer cette étape maintenant, mais des textes ou audios peuvent manquer jusqu’à la fin des traductions et révisions.',
+      'Cette étape est encore liée à un ancien concept sans traductions ou révisions complètes. Vous pouvez le garder pour l’instant, mais choisissez un concept prêt avant que les familles voient cette étape.',
     'admin.lessons.itemForm.linkConceptTexts': 'Ouvrir Textes de concepts',
     'admin.lessons.itemForm.linkCompletion': 'Ouvrir le tableau de complétion',
     'admin.lessons.itemForm.publishedLessonConceptHint':

@@ -99,6 +99,8 @@ export interface ConceptCompletionRow extends Concept {
 export interface ConceptCompletionListParams {
   search?: string
   status?: ConceptCompletionStatus | 'all'
+  conceptStatus?: ConceptStatus | 'all'
+  isComplete?: boolean
   language?: string
   page?: number
   pageSize?: number

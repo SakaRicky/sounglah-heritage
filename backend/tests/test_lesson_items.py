@@ -1,6 +1,9 @@
 from app import create_app
 from app.extensions import db
 from app.models.concept import Concept
+from app.models.concept_text import ConceptText
+from app.models.language import Language
+from app.models.lesson_item import LessonItem
 
 
 def auth_headers(client):
@@ -31,6 +34,42 @@ def seeded_concept():
     return Concept.query.filter_by(key="greeting").first()
 
 
+def make_concept_ready(concept_key, statuses_by_language_code=None):
+    concept = Concept.query.filter_by(key=concept_key).first()
+    if statuses_by_language_code is None:
+        statuses_by_language_code = {"en": "approved", "fr": "approved", "med": "approved"}
+
+    languages_by_code = {
+        language.code: language
+        for language in Language.query.filter(Language.code.in_(statuses_by_language_code.keys())).all()
+    }
+
+    for language_code, review_status in statuses_by_language_code.items():
+        language = languages_by_code[language_code]
+        existing = ConceptText.query.filter_by(
+            concept_id=concept.id,
+            language_id=language.id,
+        ).first()
+        if existing is not None:
+            existing.status = "active"
+            existing.review_status = review_status
+            continue
+
+        db.session.add(
+            ConceptText(
+                concept_id=concept.id,
+                language_id=language.id,
+                text=f"{concept.title} {language.code}",
+                status="active",
+                review_status=review_status,
+            )
+        )
+
+    concept.status = "active"
+    db.session.commit()
+    return concept
+
+
 def create_item(client, headers, lesson_id, app, **overrides):
     payload = {
         "type": "VOCABULARY",
@@ -39,7 +78,8 @@ def create_item(client, headers, lesson_id, app, **overrides):
     item_type = overrides.get("type", payload["type"])
     if item_type in {"VOCABULARY", "PHRASE", "AUDIO_LISTEN"} and "conceptId" not in overrides:
         with app.app_context():
-            payload["conceptId"] = seeded_concept().id
+            concept = make_concept_ready("greeting")
+            payload["conceptId"] = concept.id
     payload.update(overrides)
     return client.post(f"/api/admin/lessons/{lesson_id}/items", headers=headers, json=payload)
 
@@ -94,7 +134,8 @@ def test_create_and_list_lesson_items_in_order():
     headers = auth_headers(client)
     lesson_id = create_lesson(client, headers)
     with app.app_context():
-        concept = seeded_concept()
+        make_concept_ready("greeting")
+        concept_key = "greeting"
 
     first = create_item(client, headers, lesson_id, app, title="Grandma", orderIndex=1).get_json()["data"]
     second = create_item(
@@ -128,8 +169,84 @@ def test_create_and_list_lesson_items_in_order():
     listed = list_response.get_json()["data"]
 
     assert [item["title"] for item in listed] == ["Grandma", "Hello Grandma", "Respect"]
-    assert listed[0]["concept"]["key"] == concept.key
+    assert listed[0]["concept"]["key"] == concept_key
     assert "completionStatus" in listed[0]["concept"]
+
+
+def test_create_item_rejects_incomplete_concept():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+    lesson_id = create_lesson(client, headers)
+
+    with app.app_context():
+        concept = seeded_concept()
+        concept_id = concept.id
+
+    response = create_item(client, headers, lesson_id, app, conceptId=concept_id)
+
+    assert response.status_code == 400
+    assert (
+        response.get_json()["error"]["fields"]["conceptId"]
+        == "Concept is missing required translations or approvals. "
+        "Finish concept completion before linking it to a lesson item."
+    )
+
+
+def test_update_item_allows_keeping_existing_incomplete_concept():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+    lesson_id = create_lesson(client, headers)
+
+    with app.app_context():
+        concept = seeded_concept()
+        concept_id = concept.id
+        db.session.add(
+            LessonItem(
+                lesson_id=lesson_id,
+                type="VOCABULARY",
+                concept_id=concept_id,
+                title="Legacy greeting",
+                order_index=1,
+                is_active=True,
+            )
+        )
+        db.session.commit()
+        item_id = LessonItem.query.filter_by(lesson_id=lesson_id).first().id
+
+    response = client.patch(
+        f"/api/admin/lesson-items/{item_id}",
+        headers=headers,
+        json={"title": "Legacy greeting updated"},
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["data"]["title"] == "Legacy greeting updated"
+
+
+def test_update_item_rejects_switching_to_incomplete_concept():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+    lesson_id = create_lesson(client, headers)
+
+    with app.app_context():
+        ready_concept = make_concept_ready("greeting")
+        incomplete_concept = Concept.query.filter_by(key="mother").first()
+        ready_concept_id = ready_concept.id
+        incomplete_concept_id = incomplete_concept.id
+
+    item_id = create_item(client, headers, lesson_id, app, conceptId=ready_concept_id).get_json()["data"]["id"]
+
+    response = client.patch(
+        f"/api/admin/lesson-items/{item_id}",
+        headers=headers,
+        json={"conceptId": incomplete_concept_id},
+    )
+
+    assert response.status_code == 400
+    assert "conceptId" in response.get_json()["error"]["fields"]
 
 
 def test_create_item_rejects_disabled_concept():
@@ -234,11 +351,12 @@ def test_concept_enrichment_includes_completion_status():
     lesson_id = create_lesson(client, headers)
 
     with app.app_context():
-        concept = seeded_concept()
+        make_concept_ready("greeting")
+        concept_key = "greeting"
 
     response = create_item(client, headers, lesson_id, app)
     item = response.get_json()["data"]
 
-    assert item["concept"]["key"] == concept.key
-    assert item["concept"]["id"] == concept.id
+    assert item["concept"]["key"] == concept_key
+    assert item["concept"]["id"]
     assert isinstance(item["concept"]["completionStatus"], str)
