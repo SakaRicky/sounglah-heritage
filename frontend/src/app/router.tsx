@@ -16,6 +16,7 @@ import { ConceptTextRecordingModePage } from '../features/conceptTexts/pages/Con
 import { ConceptCompletionPage } from '../features/concepts/pages/ConceptCompletionPage'
 import { AdminConceptsPage } from '../features/concepts/pages/ConceptsPage'
 import { AdminLanguagesPage } from '../features/languages/pages/LanguagesPage'
+import { AdminLessonsPage } from '../features/lessons/pages/LessonsPage'
 
 export const router = createBrowserRouter([
   {
@@ -97,13 +98,7 @@ export const router = createBrowserRouter([
           },
           {
             path: 'content/lessons',
-            element: (
-              <AdminPlaceholderPage
-                title="Lessons"
-                description="Build structured lessons for heritage learning."
-                nextSlice="S014"
-              />
-            ),
+            element: <AdminLessonsPage />,
           },
           {
             path: 'content/lesson-items',
