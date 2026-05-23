@@ -104,7 +104,9 @@ def _image_file_from_request():
     if not content:
         return None, {"image": "Image file cannot be empty."}
 
-    return BytesIO(content), None
+    upload_file = BytesIO(content)
+    upload_file.name = image_file.filename
+    return upload_file, None
 
 
 def _validate_payload(data, existing_concept=None, partial=False):

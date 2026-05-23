@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 
 import { ModalPortal } from '../../../components/common/ModalPortal'
+import { resolveMediaUrl } from '../../../lib/media'
 import { toConceptKey, toConceptSlug } from '../utils/conceptSlug'
 import type {
   Concept,
@@ -368,7 +369,7 @@ export function ConceptForm({ concept, fieldErrors, saving, onCancel, onSubmit }
                 <div className="flex min-h-48 flex-col items-center justify-center overflow-hidden rounded-2xl border border-dashed border-sand-200 bg-cream-50/60 p-4 text-center">
                   {imagePreviewUrl ? (
                     <img
-                      src={imagePreviewUrl}
+                      src={resolveMediaUrl(imagePreviewUrl) ?? undefined}
                       alt={values.imageAltText || concept?.title || 'Concept image preview'}
                       className="h-40 w-full rounded-xl object-cover"
                     />

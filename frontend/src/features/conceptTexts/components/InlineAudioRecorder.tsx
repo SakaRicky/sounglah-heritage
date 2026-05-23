@@ -240,7 +240,7 @@ export function InlineAudioRecorder({
   }
 
   return (
-    <div className="w-[min(34rem,calc(100vw-3rem))] overflow-hidden rounded-xl border border-forest-accent/15 bg-forest-50/30 shadow-[0_8px_28px_rgba(31,90,61,0.08)]">
+    <div className="w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-forest-accent/15 bg-forest-50/30 shadow-[0_8px_28px_rgba(31,90,61,0.08)]">
       <div className="border-b border-forest-accent/10 px-4 py-3">
         <p className="text-xs font-semibold uppercase tracking-wide text-forest-700/70">
           {status === 'preview' ? 'Preview recording' : 'Recording'}
@@ -295,9 +295,9 @@ export function InlineAudioRecorder({
         ) : null}
 
         {status === 'preview' || status === 'submitting' ? (
-          <div className="space-y-3">
-            <div className="flex flex-wrap items-center gap-3">
-              <AudioPlayerMini key={previewUrl} src={previewUrl} durationSeconds={durationSeconds} className="max-w-full" />
+          <div className="min-w-0 space-y-3">
+            <div className="min-w-0 w-full">
+              <AudioPlayerMini key={previewUrl} src={previewUrl} durationSeconds={durationSeconds} className="w-full min-w-0" />
             </div>
             <div className="flex flex-wrap items-center gap-2">
               <button

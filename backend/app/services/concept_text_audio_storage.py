@@ -86,7 +86,7 @@ def upload_concept_text_audio(file_storage, duration_seconds=None):
     return {
         "audio_url": uploaded_audio["secure_url"],
         "audio_public_id": uploaded_audio["public_id"],
-        "storage_provider": "cloudinary",
+        "storage_provider": uploaded_audio.get("storage_provider", "cloudinary"),
         "duration_seconds": normalized_duration,
         "file_size_bytes": len(content),
         "mime_type": mime_type,

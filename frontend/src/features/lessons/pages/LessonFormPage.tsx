@@ -146,7 +146,7 @@ export function LessonFormPage() {
     setSaving(true)
 
     try {
-      const status = resolveSaveDraftStatus(lesson, submission.values.status)
+      const status = resolveSaveDraftStatus(submission.values.status)
       const savedLesson = await persistLesson(submission, status)
       setNotice(t('admin.lessons.form.savedDraft'))
 

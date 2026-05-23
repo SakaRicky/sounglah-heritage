@@ -1,4 +1,5 @@
-from flask import Flask
+import click
+from flask import Flask, current_app, send_from_directory
 from flask_cors import CORS
 
 from app.config import Config
@@ -12,7 +13,7 @@ from app.routes.language_routes import language_bp
 from app.routes.lesson_item_routes import lesson_item_bp, lesson_items_nested_bp
 from app.routes.lesson_routes import lesson_bp
 from app.routes.public_lesson_routes import lessons_bp
-from app.seed import seed_admin_user, seed_concept_texts, seed_concepts, seed_languages, seed_test_content
+from app.seed import reset_seed_data, seed_admin_user, seed_starter_curriculum, seed_test_content
 
 
 def create_app(testing=False):
@@ -27,6 +28,7 @@ def create_app(testing=False):
                 "ADMIN_EMAIL": "admin@sounglah.com",
                 "ADMIN_PASSWORD": "password",
                 "SECRET_KEY": "test-secret-key-for-pytest-only",
+                "MEDIA_STORAGE_PROVIDER": "cloudinary",
             }
         )
 
@@ -48,12 +50,30 @@ def create_app(testing=False):
     app.register_blueprint(lessons_bp, url_prefix="/api/lessons")
 
     @app.cli.command("seed")
-    def seed_command():
+    @click.option(
+        "--reset",
+        is_flag=True,
+        help="Delete existing local data before loading the curated starter curriculum.",
+    )
+    def seed_command(reset):
+        if reset:
+            reset_seed_data()
         seed_admin_user()
-        seed_languages()
-        seed_concepts()
-        seed_concept_texts()
-        print("Seeded Sounglah admin data.")
+        seed_starter_curriculum()
+        print("Seeded Sounglah curated starter curriculum.")
+
+    @app.get("/media/<path:filename>")
+    def local_media(filename):
+        mimetype = None
+        normalized = filename.lower()
+        if normalized.endswith(".webm") and normalized.startswith("concept-text-audios/"):
+            mimetype = "audio/webm"
+
+        return send_from_directory(
+            current_app.config["LOCAL_MEDIA_ROOT"],
+            filename,
+            mimetype=mimetype,
+        )
 
     with app.app_context():
         from app import models  # noqa: F401
@@ -61,7 +81,6 @@ def create_app(testing=False):
         if testing:
             db.create_all()
             seed_admin_user()
-            seed_languages()
             seed_test_content()
 
     return app

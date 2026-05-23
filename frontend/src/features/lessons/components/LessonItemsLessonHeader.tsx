@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ChevronLeft, Clock, ExternalLink, List, Plus } from 'lucide-react'
 import { useI18n } from '../../../i18n'
+import { resolveMediaUrl } from '../../../lib/media'
 import { LessonDifficultyBadge } from './LessonDifficultyBadge'
 import { LessonStatusBadge } from './LessonStatusBadge'
 import type { Lesson } from '../types/lesson.types'
@@ -46,7 +47,7 @@ export function LessonItemsLessonHeader({ lesson, activeItemCount, canPreview }:
         <div className="flex min-w-0 gap-4">
           {lesson.coverImageUrl ? (
             <img
-              src={lesson.coverImageUrl}
+              src={resolveMediaUrl(lesson.coverImageUrl) ?? undefined}
               alt={lesson.coverImageAltText ?? lesson.title}
               className="h-20 w-20 shrink-0 rounded-xl border border-sand-200 object-cover shadow-soft"
             />

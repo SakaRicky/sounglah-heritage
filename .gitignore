@@ -24,6 +24,10 @@ backend/sounglah_extraction/*
 *.sqlite3
 migrations/versions/*.pyc
 
+# Local uploaded media
+media/*
+!media/.gitkeep
+
 # TypeScript
 *.tsbuildinfo
 

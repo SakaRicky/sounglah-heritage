@@ -79,6 +79,8 @@ def calculate_concept_completion(concept, required_languages, concept_texts):
         requires_audio = bool(requires_review)
         audio_status = "not_required"
         has_approved_audio = False
+        audio_url = None
+        audio_duration_seconds = None
 
         if concept_text is None:
             missing_languages.append(language.code)
@@ -94,6 +96,11 @@ def calculate_concept_completion(concept, required_languages, concept_texts):
             else:
                 audio_status = _concept_text_audio_status(concept_text)
                 has_approved_audio = audio_status == ConceptTextAudio.STATUS_APPROVED
+                if has_approved_audio:
+                    current_audio = getattr(concept_text, "current_audio", None)
+                    if current_audio is not None:
+                        audio_url = current_audio.audio_url
+                        audio_duration_seconds = current_audio.duration_seconds
                 if not has_approved_audio:
                     needs_audio_languages.append(language.code)
 
@@ -111,6 +118,8 @@ def calculate_concept_completion(concept, required_languages, concept_texts):
                 "requiresAudio": requires_audio,
                 "hasApprovedAudio": has_approved_audio,
                 "audioStatus": audio_status,
+                "audioUrl": audio_url,
+                "audioDurationSeconds": audio_duration_seconds,
             }
         )
 

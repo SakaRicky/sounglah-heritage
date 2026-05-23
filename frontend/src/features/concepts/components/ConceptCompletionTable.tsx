@@ -2,6 +2,7 @@ import { AdminDataTable } from '../../../components/admin/AdminDataTable'
 import { ImagePreview } from '../../../components/admin/MediaPreview'
 import { ConceptCompletionActionsCell } from './ConceptCompletionActionsCell'
 import { ConceptCompletionLanguageCell } from './ConceptCompletionLanguageCell'
+import { ConceptCompletionMobileCard } from './ConceptCompletionMobileCard'
 import { ConceptCompletionStatusBadge } from './ConceptCompletionStatusBadge'
 import type { ConceptCompletionLanguage, ConceptCompletionRow } from '../types/concept.types'
 import type { ConceptTextReviewStatus } from '../../conceptTexts/types/conceptText.types'
@@ -96,68 +97,6 @@ function languageForColumn(
   )
 }
 
-function ConceptCompletionMobileCard({
-  row,
-  requiredLanguages,
-  showTextPreviews = false,
-  reviewingTextId = null,
-  onReviewStatusChange,
-  selectedConceptIds,
-  onToggleConceptSelected,
-  publishingConceptId = null,
-  onPublish,
-}: {
-  row: ConceptCompletionRow
-  requiredLanguages: RequiredLanguageColumn[]
-  showTextPreviews?: boolean
-  reviewingTextId?: string | null
-  onReviewStatusChange?: (textId: string, reviewStatus: ConceptTextReviewStatus) => void
-  selectedConceptIds: Set<string>
-  onToggleConceptSelected: (conceptId: string) => void
-  publishingConceptId?: string | null
-  onPublish?: (conceptId: string) => void
-}) {
-  return (
-    <article className="rounded-2xl border border-sand-200 bg-white/80 p-4 shadow-soft">
-      <ConceptCell
-        row={row}
-        selected={selectedConceptIds.has(row.id)}
-        onToggleSelected={() => onToggleConceptSelected(row.id)}
-      />
-
-      <div className="mt-4 space-y-2">
-        <p className="text-xs font-semibold uppercase tracking-wide text-forest-600/75">Required languages</p>
-        <div className="flex flex-col gap-3">
-          {requiredLanguages.map((language) => (
-            <ConceptCompletionLanguageCell
-              key={language.languageCode}
-              conceptId={row.id}
-              language={languageForColumn(row, language)}
-              showCode
-              showTextPreviews={showTextPreviews}
-              reviewingTextId={reviewingTextId}
-              onReviewStatusChange={onReviewStatusChange}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div className="mt-4 border-t border-sand-100 pt-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <ConceptCompletionStatusBadge status={row.completionStatus} />
-          {onPublish ? (
-            <ConceptCompletionActionsCell
-              row={row}
-              publishingConceptId={publishingConceptId}
-              onPublish={onPublish}
-            />
-          ) : null}
-        </div>
-      </div>
-    </article>
-  )
-}
-
 export function ConceptCompletionTable({
   rows,
   requiredLanguages,
@@ -207,12 +146,12 @@ export function ConceptCompletionTable({
           <ConceptCompletionMobileCard
             key={row.id}
             row={row}
-            requiredLanguages={requiredLanguages}
+            languages={requiredLanguages.map((language) => languageForColumn(row, language))}
             showTextPreviews={showTextPreviews}
             reviewingTextId={reviewingTextId}
             onReviewStatusChange={onReviewStatusChange}
-            selectedConceptIds={selectedConceptIds}
-            onToggleConceptSelected={onToggleConceptSelected}
+            selected={selectedConceptIds.has(row.id)}
+            onToggleSelected={() => onToggleConceptSelected(row.id)}
             publishingConceptId={publishingConceptId}
             onPublish={onPublish}
           />

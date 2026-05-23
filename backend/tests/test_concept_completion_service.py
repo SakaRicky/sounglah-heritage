@@ -254,6 +254,8 @@ def test_completion_reports_complete_when_required_texts_and_audio_are_approved(
         medumba_completion = completion["languages"][0]
         assert medumba_completion["hasApprovedAudio"] is True
         assert medumba_completion["audioStatus"] == ConceptTextAudio.STATUS_APPROVED
+        assert medumba_completion["audioUrl"] == f"https://cdn.example.com/{concept_texts[0].id}.webm"
+        assert medumba_completion["audioDurationSeconds"] == 3
 
 
 def test_completion_reports_published_when_complete_with_audio_and_published_at_exists():
