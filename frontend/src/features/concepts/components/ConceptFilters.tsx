@@ -11,11 +11,13 @@ type Props = {
   category: string
   difficultyLevel: ConceptDifficultyLevel | 'all'
   sort: ConceptSort
+  viewMode: 'list' | 'grid'
   onSearchChange: (value: string) => void
   onStatusChange: (value: ConceptStatus | 'all') => void
   onCategoryChange: (value: string) => void
   onDifficultyLevelChange: (value: ConceptDifficultyLevel | 'all') => void
   onSortChange: (value: ConceptSort) => void
+  onViewModeChange: (value: 'list' | 'grid') => void
 }
 
 function FunnelIcon() {
@@ -47,11 +49,13 @@ export function ConceptFilters({
   category,
   difficultyLevel,
   sort,
+  viewMode,
   onSearchChange,
   onStatusChange,
   onCategoryChange,
   onDifficultyLevelChange,
   onSortChange,
+  onViewModeChange,
 }: Props) {
   const [filtersOpen, setFiltersOpen] = useState(false)
   const activeFilterCount = [
@@ -81,21 +85,58 @@ export function ConceptFilters({
           />
         </label>
 
-        <button
-          type="button"
-          aria-expanded={filtersOpen}
-          onClick={() => setFiltersOpen((current) => !current)}
-          className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-forest-accent/25 bg-white/95 px-4 py-2 text-xs sm:text-sm font-semibold text-forest-700 shadow-sm transition hover:border-forest-300 hover:bg-forest-50/30 focus:outline-none focus:ring-2 focus:ring-forest-200"
-        >
-          <FunnelIcon />
-          {filtersOpen ? 'Hide filters' : 'Show filters'}
-          {activeFilterCount > 0 ? (
-            <span className="rounded-full bg-forest-accent px-1.5 py-0.5 text-[10px] font-bold text-white leading-none">
-              {activeFilterCount}
-            </span>
-          ) : null}
-          <ChevronIcon open={filtersOpen} />
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            aria-expanded={filtersOpen}
+            onClick={() => setFiltersOpen((current) => !current)}
+            className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-forest-accent/25 bg-white/95 px-4 py-2 text-xs sm:text-sm font-semibold text-forest-700 shadow-sm transition hover:border-forest-300 hover:bg-forest-50/30 focus:outline-none focus:ring-2 focus:ring-forest-200"
+          >
+            <FunnelIcon />
+            {filtersOpen ? 'Hide filters' : 'Show filters'}
+            {activeFilterCount > 0 ? (
+              <span className="rounded-full bg-forest-accent px-1.5 py-0.5 text-[10px] font-bold text-white leading-none">
+                {activeFilterCount}
+              </span>
+            ) : null}
+            <ChevronIcon open={filtersOpen} />
+          </button>
+
+          {/* Premium View Toggle Group */}
+          <div className="inline-flex rounded-lg border border-sand-200 bg-white/95 p-0.5 shadow-sm shrink-0 select-none">
+            <button
+              type="button"
+              onClick={() => onViewModeChange('list')}
+              className={`p-1.5 rounded-md transition-all duration-150 ${
+                viewMode === 'list'
+                  ? 'bg-forest-100 text-forest-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.45)] font-bold'
+                  : 'text-cocoa-700/60 hover:text-cocoa-800 hover:bg-forest-50/20'
+              }`}
+              title="List View"
+            >
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" aria-hidden>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={() => onViewModeChange('grid')}
+              className={`p-1.5 rounded-md transition-all duration-150 ${
+                viewMode === 'grid'
+                  ? 'bg-forest-100 text-forest-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.45)] font-bold'
+                  : 'text-cocoa-700/60 hover:text-cocoa-800 hover:bg-forest-50/20'
+              }`}
+              title="Grid View"
+            >
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" aria-hidden>
+                <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                <rect x="14" y="14" width="7" height="7" rx="1.5" />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
 
       {filtersOpen ? (

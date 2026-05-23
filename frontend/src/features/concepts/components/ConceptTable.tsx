@@ -25,6 +25,7 @@ type Props = {
   pageSize: number
   onPageChange: (page: number) => void
   onPageSizeChange: (pageSize: number) => void
+  viewMode?: 'list' | 'grid'
 }
 
 function ConceptMark({ title }: { title: string }) {
@@ -102,6 +103,7 @@ export function ConceptTable({
   pageSize,
   onPageChange,
   onPageSizeChange,
+  viewMode = 'list',
 }: Props) {
   const columns = useMemo<ColumnDef<Concept>[]>(
     () => [
@@ -204,8 +206,11 @@ export function ConceptTable({
 
   return (
     <div>
-      {/* Mobile/Tablet Card Layout */}
-      <div className="space-y-4 rounded-3xl border border-sand-200/80 bg-cream-50/25 p-4 lg:hidden">
+      {/* Visual Card Grid / Gallery View */}
+      <div className={[
+        "space-y-4 rounded-3xl border border-sand-200/80 bg-cream-50/25 p-4 sm:p-6 shadow-sm",
+        viewMode === 'grid' ? 'block' : 'lg:hidden'
+      ].join(' ')}>
         {loading ? (
           <div className="p-8 text-center text-sm text-cocoa-body">
             Loading concepts...
@@ -232,7 +237,7 @@ export function ConceptTable({
           </div>
         ) : (
           <>
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {concepts.map((concept) => (
                 <ConceptMobileCard
                   key={concept.id}
@@ -245,7 +250,7 @@ export function ConceptTable({
                 />
               ))}
             </div>
-            {/* Mobile Pagination */}
+            {/* Pagination Controls */}
             <div className="flex items-center justify-between border-t border-sand-200/60 pt-4 text-sm text-cocoa-body">
               <span className="font-medium">
                 Page {page} of {Math.max(Math.ceil(total / pageSize), 1)}
@@ -273,8 +278,8 @@ export function ConceptTable({
         )}
       </div>
 
-      {/* Desktop Table Layout */}
-      <div className="hidden lg:block">
+      {/* Desktop List / Table View Layout */}
+      <div className={viewMode === 'list' ? 'hidden lg:block' : 'hidden'}>
         <AdminTable
           columns={columns}
           data={concepts}

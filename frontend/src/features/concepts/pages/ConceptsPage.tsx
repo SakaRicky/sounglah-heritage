@@ -94,6 +94,7 @@ export function AdminConceptsPage() {
   const [statusTarget, setStatusTarget] = useState<Concept | null>(null)
   const [previewConcept, setPreviewConcept] = useState<Concept | null>(null)
   const [quickImageUploadingId, setQuickImageUploadingId] = useState<string | null>(null)
+  const [viewMode, setViewMode] = useState<'list' | 'grid'>('list')
 
   const loadConcepts = useCallback(async () => {
     setLoading(true)
@@ -347,11 +348,13 @@ export function AdminConceptsPage() {
             category={category}
             difficultyLevel={difficultyLevel}
             sort={sort}
+            viewMode={viewMode}
             onSearchChange={resetPageAndSetSearch}
             onStatusChange={resetPageAndSetStatus}
             onCategoryChange={resetPageAndSetCategory}
             onDifficultyLevelChange={resetPageAndSetDifficultyLevel}
             onSortChange={resetPageAndSetSort}
+            onViewModeChange={setViewMode}
           />
 
           <ConceptTable
@@ -369,6 +372,7 @@ export function AdminConceptsPage() {
             pageSize={pageSize}
             onPageChange={setPage}
             onPageSizeChange={handlePageSizeChange}
+            viewMode={viewMode}
           />
         </div>
 
