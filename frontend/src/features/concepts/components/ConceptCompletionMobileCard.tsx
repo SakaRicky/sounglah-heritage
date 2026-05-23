@@ -177,166 +177,169 @@ export function ConceptCompletionMobileCard({
         </div>
 
         {/* Card Content body */}
-        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 p-5 sm:p-6 text-center sm:text-left">
-          {/* Avatar and Quick Review Block */}
-          <div className="flex flex-col items-center gap-3.5 shrink-0">
-            <ConceptAvatar row={row} />
-            {quickReviewLanguage && quickReviewLanguage.textStatus ? (
-              <div className="flex flex-col items-center gap-1.5 pt-1">
-                <ConceptTextQuickReviewButtons
-                  reviewStatus={quickReviewLanguage.textStatus}
-                  saving={quickReviewSaving}
-                  compact
-                  onApprove={() => onReviewStatusChange?.(quickReviewLanguage.textId!, 'approved')}
-                  onReject={() => onReviewStatusChange?.(quickReviewLanguage.textId!, 'rejected')}
-                />
-                <p className="text-[9px] font-bold uppercase tracking-wider text-cocoa-body/45">Quick Review</p>
-              </div>
-            ) : null}
+        <div className="p-5 sm:p-6">
+          {/* Top Section: Avatar + Title & Description (Side-by-Side on desktop/tablet, stacked on mobile) */}
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
+            {/* Avatar & Quick Review Block */}
+            <div className="flex flex-col items-center gap-3.5 shrink-0">
+              <ConceptAvatar row={row} />
+              {quickReviewLanguage && quickReviewLanguage.textStatus ? (
+                <div className="flex flex-col items-center gap-1.5 pt-1">
+                  <ConceptTextQuickReviewButtons
+                    reviewStatus={quickReviewLanguage.textStatus}
+                    saving={quickReviewSaving}
+                    compact
+                    onApprove={() => onReviewStatusChange?.(quickReviewLanguage.textId!, 'approved')}
+                    onReject={() => onReviewStatusChange?.(quickReviewLanguage.textId!, 'rejected')}
+                  />
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-cocoa-body/45">Quick Review</p>
+                </div>
+              ) : null}
+            </div>
+
+            {/* Info Block */}
+            <div className="min-w-0 flex-1 w-full">
+              <h3 className="text-xl font-bold leading-snug tracking-tight text-cocoa-800 sm:text-[1.5rem]">
+                {row.title}
+              </h3>
+              {row.description || row.category ? (
+                <p className="mt-1.5 text-sm leading-relaxed text-cocoa-body/70 max-w-xl whitespace-normal break-words mx-auto sm:mx-0">
+                  {row.description || row.category}
+                </p>
+              ) : null}
+            </div>
           </div>
 
-          {/* Details & Info Block */}
-          <div className="min-w-0 flex-1 w-full">
-            <h3 className="text-xl font-bold leading-snug tracking-tight text-cocoa-800 sm:text-[1.5rem]">
-              {row.title}
-            </h3>
-            {row.description || row.category ? (
-              <p className="mt-1 text-sm leading-relaxed text-cocoa-body/70 max-w-xl whitespace-normal break-words mx-auto sm:mx-0">
-                {row.description || row.category}
+          {/* Bottom Section: Spacious Details & Actions at Full Card Width */}
+          <div className="mt-5 space-y-5 border-t border-sand-100/60 pt-4 text-left">
+            {/* Languages Checklist */}
+            <div className="space-y-2.5">
+              <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-forest-700">
+                <Globe className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                Required languages
               </p>
-            ) : null}
+              <div className="flex flex-wrap gap-2">
+                {languages.map((language) => (
+                  <div key={language.languageCode} className="space-y-1.5">
+                    <ConceptCompletionLanguageBadge
+                      language={language}
+                      showCode
+                      showCheckIcon={isLanguageCompletionSatisfied(language)}
+                      compact
+                    />
+                    {showTextPreviews && language.hasText && language.text ? (
+                      <p className="px-1.5 text-xs text-cocoa-ink/80 border-l-2 border-sand-200/60 pl-2 py-0.5 max-w-xs">{language.text}</p>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            </div>
 
-            {/* Content Details section */}
-            <div className="mt-5 space-y-4">
-              {/* Languages Checklist */}
-              <div className="space-y-2">
-                <p className="flex items-center justify-center sm:justify-start gap-1.5 text-[10px] font-bold uppercase tracking-widest text-forest-700">
-                  <Globe className="h-3.5 w-3.5 shrink-0" aria-hidden />
-                  Required languages
-                </p>
-                <div className="flex flex-wrap justify-center sm:justify-start gap-2">
-                  {languages.map((language) => (
-                    <div key={language.languageCode} className="space-y-1.5">
-                      <ConceptCompletionLanguageBadge
-                        language={language}
-                        showCode
-                        showCheckIcon={isLanguageCompletionSatisfied(language)}
-                        compact
-                      />
-                      {showTextPreviews && language.hasText && language.text ? (
-                        <p className="px-1.5 text-xs text-cocoa-ink/80 text-left border-l-2 border-sand-200/60 pl-2 py-0.5 max-w-xs">{language.text}</p>
-                      ) : null}
-                    </div>
-                  ))}
+            {/* Expandable Metadata Drawer */}
+            <div>
+              <button
+                type="button"
+                onClick={() => setDetailsExpanded(!detailsExpanded)}
+                className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-sand-200/50 bg-sand-50/20 py-2 text-[11px] font-semibold text-cocoa-body/65 transition hover:bg-cream-100/40 hover:text-cocoa-body active:scale-[0.99] shadow-sm"
+              >
+                <span>{detailsExpanded ? 'Hide Technical Details' : 'Show Technical Details'}</span>
+                <ChevronDown className={['h-3.5 w-3.5 transition-transform duration-200 text-cocoa-body/55', detailsExpanded ? 'rotate-180' : ''].join(' ')} />
+              </button>
+              {detailsExpanded ? (
+                <div className="mt-2.5 rounded-2xl border border-sand-200/60 bg-cream-50/20 p-3 text-left text-xs space-y-2.5 animate-in slide-in-from-top-2 duration-150">
+                  <div className="flex items-center justify-between gap-2 border-b border-sand-100/40 pb-2">
+                    <span className="font-bold text-cocoa-body/55">Concept Key:</span>
+                    <span className="rounded bg-stone-100 px-2 py-0.5 font-mono text-[10px] font-semibold text-cocoa-ink ring-1 ring-sand-100">
+                      {row.key || 'n/a'}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between gap-2 border-b border-sand-100/40 pb-2">
+                    <span className="font-bold text-cocoa-body/55">URL Slug:</span>
+                    <span className="font-mono text-cocoa-body/75">{row.slug || 'n/a'}</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-bold text-cocoa-body/55">Category:</span>
+                    <span className="font-semibold text-forest-700">{row.category || 'Uncategorized'}</span>
+                  </div>
                 </div>
-              </div>
+              ) : null}
+            </div>
 
-              {/* Expandable Metadata Drawer */}
-              <div>
-                <button
-                  type="button"
-                  onClick={() => setDetailsExpanded(!detailsExpanded)}
-                  className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-sand-200/50 bg-sand-50/20 py-2 text-[11px] font-semibold text-cocoa-body/65 transition hover:bg-cream-100/40 hover:text-cocoa-body active:scale-[0.99] shadow-sm"
-                >
-                  <span>{detailsExpanded ? 'Hide Technical Details' : 'Show Technical Details'}</span>
-                  <ChevronDown className={['h-3.5 w-3.5 transition-transform duration-200 text-cocoa-body/55', detailsExpanded ? 'rotate-180' : ''].join(' ')} />
-                </button>
-                {detailsExpanded ? (
-                  <div className="mt-2.5 rounded-2xl border border-sand-200/60 bg-cream-50/20 p-3 text-left text-xs space-y-2.5 animate-in slide-in-from-top-2 duration-150">
-                    <div className="flex items-center justify-between gap-2 border-b border-sand-100/40 pb-2">
-                      <span className="font-bold text-cocoa-body/55">Concept Key:</span>
-                      <span className="rounded bg-stone-100 px-2 py-0.5 font-mono text-[10px] font-semibold text-cocoa-ink ring-1 ring-sand-100">
-                        {row.key || 'n/a'}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between gap-2 border-b border-sand-100/40 pb-2">
-                      <span className="font-bold text-cocoa-body/55">URL Slug:</span>
-                      <span className="font-mono text-cocoa-body/75">{row.slug || 'n/a'}</span>
-                    </div>
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="font-bold text-cocoa-body/55">Category:</span>
-                      <span className="font-semibold text-forest-700">{row.category || 'Uncategorized'}</span>
-                    </div>
+            {/* Action Buttons section */}
+            <div className="pt-2">
+              {onPublish ? (
+                <div className="flex flex-col gap-3">
+                  {/* Status header */}
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-bold uppercase tracking-widest text-cocoa-body/40 text-[9px]">Stewardship</span>
+                    <span className={[
+                      'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-semibold',
+                      isPublished
+                        ? 'border-forest-accent/25 bg-forest-accent/10 text-forest-700'
+                        : 'border-gold-500/25 bg-gold-400/10 text-gold-700'
+                    ].join(' ')}>
+                      <span className={['h-1.5 w-1.5 rounded-full', isPublished ? 'bg-forest-accent' : 'bg-gold-500'].join(' ')} />
+                      {isPublished ? 'Published' : 'Needs review'}
+                    </span>
                   </div>
-                ) : null}
-              </div>
 
-              {/* Action Buttons section */}
-              <div className="pt-3 border-t border-sand-100/60">
-                {onPublish ? (
-                  <div className="flex flex-col gap-3">
-                    {/* Status header */}
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="font-bold uppercase tracking-widest text-cocoa-body/40 text-[9px]">Stewardship</span>
-                      <span className={[
-                        'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-semibold',
-                        isPublished
-                          ? 'border-forest-accent/25 bg-forest-accent/10 text-forest-700'
-                          : 'border-gold-500/25 bg-gold-400/10 text-gold-700'
-                      ].join(' ')}>
-                        <span className={['h-1.5 w-1.5 rounded-full', isPublished ? 'bg-forest-accent' : 'bg-gold-500'].join(' ')} />
-                        {isPublished ? 'Published' : 'Needs review'}
-                      </span>
-                    </div>
-
-                    {/* Actions Grid */}
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
-                      {isPublished ? (
-                        <div className="flex-1 flex min-h-11 items-center justify-center gap-1.5 rounded-2xl border border-forest-accent/20 bg-forest-accent/5 px-4 py-2 text-xs font-semibold text-forest-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]">
-                          <Check className="h-4 w-4 shrink-0 text-forest-600" />
-                          <span>Published to Curriculum</span>
-                        </div>
-                      ) : (
-                        <button
-                          type="button"
-                          disabled={!canPublish || publishing}
-                          title={disabledReason ?? 'Publish concept'}
-                          onClick={() => onPublish(row.id)}
-                          className={[
-                            'flex-1 flex min-h-11 items-center justify-center gap-2 rounded-2xl border px-4 py-2 text-xs font-bold shadow-soft transition-all duration-200 hover:scale-[1.01] active:scale-95 disabled:scale-100',
-                            canPublish
-                              ? 'border-forest-accent/35 bg-forest-600 text-white shadow-[0_8px_24px_rgba(31,90,61,0.14)] hover:bg-forest-700'
-                              : 'cursor-not-allowed border-sand-200 bg-stone-100 text-cocoa-body/45',
-                          ].join(' ')}
-                        >
-                          {publishing ? (
-                            <Loader2 className="h-4 w-4 animate-spin shrink-0" />
-                          ) : (
-                            <Rocket className="h-4 w-4 shrink-0" />
-                          )}
-                          <span>{publishing ? 'Publishing…' : 'Publish Concept'}</span>
-                        </button>
-                      )}
-
-                      <div className="flex gap-2 shrink-0">
-                        <button
-                          type="button"
-                          onClick={() => setPreviewOpen(true)}
-                          className="flex-1 sm:flex-initial inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-sand-200 bg-white px-4 py-2 text-xs font-semibold text-cocoa-body transition hover:border-forest-accent/35 hover:bg-forest-50/30 active:scale-95 shadow-sm"
-                        >
-                          <Eye className="h-4 w-4 shrink-0" />
-                          <span>Preview</span>
-                        </button>
-                        <Link
-                          to={editPath}
-                          className="flex-1 sm:flex-initial inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-forest-accent/25 bg-white px-4 py-2 text-xs font-semibold text-forest-700 transition hover:border-forest-accent hover:bg-forest-50/50 active:scale-95 shadow-sm"
-                        >
-                          <Pencil className="h-4 w-4 shrink-0" />
-                          <span>{primaryFix ? primaryFix.label : 'Edit'}</span>
-                        </Link>
+                  {/* Actions Grid */}
+                  <div className="flex flex-col gap-2.5 w-full">
+                    {isPublished ? (
+                      <div className="w-full flex min-h-11 items-center justify-center gap-1.5 rounded-2xl border border-forest-accent/20 bg-forest-accent/5 px-4 py-2 text-xs font-semibold text-forest-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]">
+                        <Check className="h-4 w-4 shrink-0 text-forest-600" />
+                        <span>Published to Curriculum</span>
                       </div>
+                    ) : (
+                      <button
+                        type="button"
+                        disabled={!canPublish || publishing}
+                        title={disabledReason ?? 'Publish concept'}
+                        onClick={() => onPublish(row.id)}
+                        className={[
+                          'w-full flex min-h-11 items-center justify-center gap-2 rounded-2xl border px-4 py-2 text-xs font-bold shadow-soft transition-all duration-200 hover:scale-[1.01] active:scale-95 disabled:scale-100',
+                          canPublish
+                            ? 'border-forest-accent/35 bg-forest-600 text-white shadow-[0_8px_24px_rgba(31,90,61,0.14)] hover:bg-forest-700'
+                            : 'cursor-not-allowed border-sand-200 bg-stone-100 text-cocoa-body/45',
+                        ].join(' ')}
+                      >
+                        {publishing ? (
+                          <Loader2 className="h-4 w-4 animate-spin shrink-0" />
+                        ) : (
+                          <Rocket className="h-4 w-4 shrink-0" />
+                        )}
+                        <span>{publishing ? 'Publishing…' : 'Publish Concept'}</span>
+                      </button>
+                    )}
+
+                    <div className="flex gap-2 w-full">
+                      <button
+                        type="button"
+                        onClick={() => setPreviewOpen(true)}
+                        className="flex-1 inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-sand-200 bg-white px-4 py-2 text-xs font-semibold text-cocoa-body transition hover:border-forest-accent/35 hover:bg-forest-50/30 active:scale-95 shadow-sm min-w-0"
+                      >
+                        <Eye className="h-4 w-4 shrink-0" />
+                        <span className="truncate">Preview</span>
+                      </button>
+                      <Link
+                        to={editPath}
+                        className="flex-1 inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-forest-accent/25 bg-white px-4 py-2 text-xs font-semibold text-forest-700 transition hover:border-forest-accent hover:bg-forest-50/50 active:scale-95 shadow-sm min-w-0"
+                      >
+                        <Pencil className="h-4 w-4 shrink-0" />
+                        <span className="truncate">{primaryFix ? primaryFix.label : 'Edit'}</span>
+                      </Link>
                     </div>
                   </div>
-                ) : (
-                  <Link
-                    to={editPath}
-                    className="flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl border border-forest-accent bg-forest-accent px-4 py-2 text-xs font-semibold text-white shadow-[0_8px_24px_rgba(31,90,61,0.18)] transition hover:bg-forest-accent-hover active:scale-98"
-                  >
-                    <Pencil className="h-4 w-4 shrink-0" />
-                    <span>{primaryFix?.label ?? 'Edit texts'}</span>
-                  </Link>
-                )}
-              </div>
+                </div>
+              ) : (
+                <Link
+                  to={editPath}
+                  className="flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl border border-forest-accent bg-forest-accent px-4 py-2 text-xs font-semibold text-white shadow-[0_8px_24px_rgba(31,90,61,0.18)] transition hover:bg-forest-accent-hover active:scale-98"
+                >
+                  <Pencil className="h-4 w-4 shrink-0" />
+                  <span>{primaryFix?.label ?? 'Edit texts'}</span>
+                </Link>
+              )}
             </div>
           </div>
         </div>
