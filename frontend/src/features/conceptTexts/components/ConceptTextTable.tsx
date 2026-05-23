@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from 'react'
+import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 import type { ColumnDef } from '@tanstack/react-table'
 import { MoreVertical, Pencil, Power, PowerOff } from 'lucide-react'
@@ -57,10 +57,10 @@ function useConceptTextTableContext() {
 }
 
 const conceptMarkColors = [
-  'border-forest-accent/15 bg-forest-accent/10 text-forest-700',
-  'border-gold-500/20 bg-gold-400/15 text-cocoa-700',
-  'border-terracotta-500/15 bg-terracotta-400/10 text-terracotta-600',
-  'border-forest-300/20 bg-forest-50 text-forest-600',
+  'border-forest-accent/20 bg-gradient-to-br from-forest-accent/15 to-forest-accent/5 text-forest-700 shadow-sm',
+  'border-gold-500/30 bg-gradient-to-br from-gold-400/20 to-gold-400/5 text-cocoa-700 shadow-sm',
+  'border-terracotta-500/25 bg-gradient-to-br from-terracotta-400/15 to-terracotta-400/5 text-terracotta-600 shadow-sm',
+  'border-forest-300/30 bg-gradient-to-br from-forest-100 to-forest-50 text-forest-600 shadow-sm',
 ]
 
 const languageFlags: Record<string, string> = {
@@ -90,7 +90,7 @@ function LanguageFlag({ code }: { code?: string }) {
   const flag = languageFlags[normalizedCode] ?? '🌍'
 
   return (
-    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white text-lg shadow-[0_0_0_1px_rgba(221,187,136,0.45)]">
+    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white text-base shadow-[0_2px_6px_rgba(0,0,0,0.06),_0_0_0_1px_rgba(221,187,136,0.5)] transform hover:scale-110 transition-transform duration-200">
       {flag}
     </span>
   )
@@ -132,7 +132,7 @@ function ReviewCell({ conceptText }: { conceptText: ConceptText }) {
   const saving = reviewingTextId === conceptText.id
 
   return (
-    <div className="flex flex-col items-start gap-2">
+    <div className="flex items-center gap-2.5">
       <ConceptTextReviewBadge reviewStatus={conceptText.reviewStatus} />
       {conceptText.status === 'active' ? (
         <ConceptTextQuickReviewButtons
@@ -160,10 +160,13 @@ function ActionsCell({ conceptText }: { conceptText: ConceptText }) {
         <Pencil className="h-4 w-4" aria-hidden />
         Edit
       </button>
-      <div className="relative">
+      <div className="relative" onClick={(event) => event.stopPropagation()}>
         <button
           type="button"
-          onClick={() => setOpenActionId((currentId) => (currentId === conceptText.id ? null : conceptText.id))}
+          onClick={(event) => {
+            event.stopPropagation()
+            setOpenActionId((currentId) => (currentId === conceptText.id ? null : conceptText.id))
+          }}
           aria-expanded={openActionId === conceptText.id}
           aria-label="More actions"
           title="More actions"
@@ -212,6 +215,22 @@ export function ConceptTextTable({
 }: Props) {
   const [openActionId, setOpenActionId] = useState<string | null>(null)
   const [activeRecorderId, setActiveRecorderId] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (openActionId === null) {
+      return
+    }
+
+    const handleDocumentClick = () => {
+      setOpenActionId(null)
+    }
+
+    document.addEventListener('click', handleDocumentClick)
+    return () => {
+      document.removeEventListener('click', handleDocumentClick)
+    }
+  }, [openActionId])
+
   const tableContextValue = useMemo(
     () => ({
       activeRecorderId,
@@ -313,13 +332,23 @@ export function ConceptTextTable({
           const conceptText = row.original
 
           return (
-            <div className="max-w-sm">
-              <p className="truncate text-sm font-semibold text-cocoa-ink">{conceptText.text}</p>
+            <div className="max-w-md space-y-1.5 py-1">
+              <p className="whitespace-normal break-words text-sm font-semibold text-cocoa-ink leading-relaxed">
+                {conceptText.text}
+              </p>
               {conceptText.pronunciation ? (
-                <p className="mt-1 truncate text-xs text-cocoa-body/65">{conceptText.pronunciation}</p>
+                <div className="pt-0.5">
+                  <p className="whitespace-normal break-words text-xs text-cocoa-body/75 font-medium leading-relaxed bg-sand-100/50 px-2.5 py-1 rounded-lg border border-sand-200/40 inline-flex items-center gap-1.5">
+                    <span className="text-sm">🗣️</span> {conceptText.pronunciation}
+                  </p>
+                </div>
               ) : null}
               {conceptText.literalMeaning ? (
-                <p className="mt-1 truncate text-xs italic text-forest-600/70">{conceptText.literalMeaning}</p>
+                <div className="pt-0.5">
+                  <p className="whitespace-normal break-words text-xs text-forest-700/80 bg-forest-50/40 px-2.5 py-1 rounded-lg border border-forest-100/20 italic inline-flex items-center gap-1.5">
+                    <span>💡</span> Literal: "{conceptText.literalMeaning}"
+                  </p>
+                </div>
               ) : null}
             </div>
           )
@@ -366,6 +395,11 @@ export function ConceptTextTable({
         columns={columns}
         data={conceptTexts}
         getRowId={(conceptText) => conceptText.id}
+        getRowClassName={(conceptText) =>
+          conceptText.status === 'disabled'
+            ? 'opacity-55 bg-sand-50/40 hover:bg-sand-50/60 transition-all duration-200'
+            : 'transition-all duration-200'
+        }
         title={`${total} concept text records`}
         subtitle="One primary expression per concept and language"
         loading={loading}

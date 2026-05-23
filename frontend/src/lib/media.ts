@@ -19,3 +19,18 @@ export function resolveMediaUrl(src?: string | null) {
 
   return src
 }
+
+export function resolveConceptPlaceholderUrl(key?: string | null) {
+  if (!key) {
+    return '/images/artifacts/sounglah_artifact_01.png'
+  }
+
+  // Generate a stable index between 1 and 10 based on the key characters
+  let hash = 0
+  for (let i = 0; i < key.length; i++) {
+    hash = key.charCodeAt(i) + ((hash << 5) - hash)
+  }
+  const index = Math.abs(hash % 10) + 1
+  const suffix = String(index).padStart(2, '0')
+  return `/images/artifacts/sounglah_artifact_${suffix}.png`
+}

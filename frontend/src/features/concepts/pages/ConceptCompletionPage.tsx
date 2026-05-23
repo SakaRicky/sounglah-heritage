@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { ChevronDown } from 'lucide-react'
 
 import { AdminPageHeader } from '../../../components/admin/AdminPageHeader'
 import { StatsCard } from '../../../components/admin/StatsCard'
+import { InsightCard } from '../../../components/admin/InsightCard'
 import { getLanguages } from '../../languages/api/languagesApi'
 import type { Language } from '../../languages/types/language.types'
 import { updateConceptText } from '../../conceptTexts/api/conceptTextsApi'
@@ -172,7 +174,7 @@ function SummaryCardsGrid({
 
   return (
     <section
-      className="grid grid-cols-2 items-stretch gap-3 sm:gap-4 xl:grid-cols-3"
+      className="grid grid-cols-2 items-stretch gap-3 sm:gap-4 lg:grid-cols-4"
       aria-label="Concept completion summary"
     >
       {cards.map((card, index) => {
@@ -186,8 +188,8 @@ function SummaryCardsGrid({
             onClick={() => onStatusSelect(isActive ? 'all' : card.status)}
             className={[
               'flex h-full w-full min-w-0 rounded-2xl text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-forest-200',
-              isActive ? 'ring-2 ring-forest-accent/35' : 'sm:hover:scale-[1.01]',
-              isLastOddMobile ? 'max-sm:col-span-2 max-sm:justify-center' : '',
+              isActive ? 'ring-2 ring-forest-accent/35 scale-[0.98]' : 'sm:hover:scale-[1.01]',
+              isLastOddMobile ? 'max-sm:col-span-2' : '',
             ].join(' ')}
           >
             <StatsCard
@@ -200,8 +202,7 @@ function SummaryCardsGrid({
               variant={card.variant}
               cardClassName={[
                 card.cardClassName,
-                'h-full',
-                isLastOddMobile ? 'max-sm:w-[calc(50%-0.375rem)]' : '',
+                'h-full w-full',
               ]
                 .filter(Boolean)
                 .join(' ')}
@@ -211,6 +212,124 @@ function SummaryCardsGrid({
         )
       })}
     </section>
+  )
+}
+
+function LeafAccent() {
+  return (
+    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gold-400/20 text-gold-500 ring-1 ring-gold-400/20">
+      <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7} aria-hidden>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 20v-7M8 20h8M9 13h6l1-6H8l1 6zM10 7c0-2 1-3 2-4 1 1 2 2 2 4" />
+      </svg>
+    </div>
+  )
+}
+
+function SidebarStatusFilterList({
+  summary,
+  activeStatus,
+  onStatusSelect,
+}: {
+  summary: ConceptCompletionSummary
+  activeStatus: ConceptCompletionStatus | 'all'
+  onStatusSelect: (status: ConceptCompletionStatus | 'all') => void
+}) {
+  const items = [
+    {
+      status: 'needs_translation' as ConceptCompletionStatus,
+      label: 'Needs translation',
+      value: summary.needsTranslation,
+      icon: <AlertIcon />,
+      colorClass: 'text-terracotta-600 bg-terracotta-400/10 border-terracotta-500/20',
+      activeClass: 'bg-terracotta-400/10 border-terracotta-500/30 text-terracotta-700 shadow-sm ring-1 ring-terracotta-500/20',
+    },
+    {
+      status: 'has_rejected_text' as ConceptCompletionStatus,
+      label: 'Has rejected text',
+      value: summary.hasRejectedText,
+      icon: <RejectIcon />,
+      colorClass: 'text-terracotta-600 bg-terracotta-400/10 border-terracotta-500/20',
+      activeClass: 'bg-terracotta-400/10 border-terracotta-500/30 text-terracotta-700 shadow-sm ring-1 ring-terracotta-500/20',
+    },
+    {
+      status: 'draft' as ConceptCompletionStatus,
+      label: 'Draft',
+      value: summary.draft,
+      icon: <DraftIcon />,
+      colorClass: 'text-cocoa-700 bg-stone-100 border-sand-200',
+      activeClass: 'bg-stone-150 border-sand-300 text-cocoa-800 shadow-sm ring-1 ring-sand-300/40',
+    },
+    {
+      status: 'needs_review' as ConceptCompletionStatus,
+      label: 'Needs review',
+      value: summary.needsReview,
+      icon: <ReviewIcon />,
+      colorClass: 'text-gold-700 bg-gold-400/10 border-gold-500/20',
+      activeClass: 'bg-gold-400/15 border-gold-500/30 text-gold-800 shadow-sm ring-1 ring-gold-500/30',
+    },
+    {
+      status: 'needs_audio' as ConceptCompletionStatus,
+      label: 'Needs audio',
+      value: summary.needsAudio,
+      icon: <AudioIcon />,
+      colorClass: 'text-gold-700 bg-gold-400/10 border-gold-500/20',
+      activeClass: 'bg-gold-400/15 border-gold-500/30 text-gold-800 shadow-sm ring-1 ring-gold-500/30',
+    },
+    {
+      status: 'complete' as ConceptCompletionStatus,
+      label: 'Complete',
+      value: summary.complete,
+      icon: <CheckIcon />,
+      colorClass: 'text-forest-700 bg-forest-accent/10 border-forest-accent/20',
+      activeClass: 'bg-forest-accent/12 border-forest-accent/30 text-forest-800 shadow-sm ring-1 ring-forest-accent/30',
+    },
+    {
+      status: 'published' as ConceptCompletionStatus,
+      label: 'Published',
+      value: summary.published,
+      icon: <PublishIcon />,
+      colorClass: 'text-forest-700 bg-forest-accent/10 border-forest-accent/20',
+      activeClass: 'bg-forest-accent/12 border-forest-accent/30 text-forest-800 shadow-sm ring-1 ring-forest-accent/30',
+    },
+  ]
+
+  return (
+    <div className="space-y-2">
+      {items.map((item) => {
+        const isActive = activeStatus === item.status
+        return (
+          <button
+            key={item.status}
+            type="button"
+            onClick={() => onStatusSelect(isActive ? 'all' : item.status)}
+            className={[
+              'w-full flex items-center justify-between gap-3 p-3 rounded-xl border text-sm font-semibold transition-all duration-200 hover:translate-x-0.5',
+              isActive
+                ? item.activeClass
+                : 'border-sand-200 bg-white text-cocoa-body hover:border-forest-accent/35 hover:bg-forest-50/20',
+            ].join(' ')}
+          >
+            <div className="flex items-center gap-3">
+              <span className={[
+                'flex h-8 w-8 items-center justify-center rounded-lg border shrink-0',
+                item.colorClass
+              ].join(' ')}>
+                {item.icon}
+              </span>
+              <span className="text-left font-semibold">{item.label}</span>
+            </div>
+            <span className={[
+              'px-2.5 py-0.5 rounded-full text-xs font-bold tabular-nums border',
+              isActive
+                ? 'bg-white border-transparent shadow-[inset_0_1px_2px_rgba(0,0,0,0.06)]'
+                : 'bg-sand-50/30 border-sand-100 text-cocoa-body/60'
+            ].join(' ')}>
+              {item.value}
+            </span>
+          </button>
+        )
+      })}
+    </div>
   )
 }
 
@@ -232,6 +351,8 @@ export function ConceptCompletionPage() {
   const [notice, setNotice] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [viewMode, setViewMode] = useState<'list' | 'grid'>('list')
+  const [statsExpanded, setStatsExpanded] = useState(false)
 
   useEffect(() => {
     let isMounted = true
@@ -443,64 +564,123 @@ export function ConceptCompletionPage() {
         description="Review concept translation status and publish when ready."
       />
 
-      <ConceptsSubNav />
-
       {notice ? (
-        <div className="rounded-cta border border-forest-accent/20 bg-forest-accent/10 px-4 py-3 text-sm font-medium text-forest-700">
+        <div className="rounded-cta border border-forest-accent/20 bg-forest-accent/10 px-4 py-3 text-sm font-medium text-forest-700 animate-fade-in">
           {notice}
         </div>
       ) : null}
 
       {error ? (
-        <div className="rounded-cta border border-terracotta-500/20 bg-terracotta-400/10 px-4 py-3 text-sm font-medium text-terracotta-600">
+        <div className="rounded-cta border border-terracotta-500/20 bg-terracotta-400/10 px-4 py-3 text-sm font-medium text-terracotta-600 animate-fade-in">
           {error}
         </div>
       ) : null}
 
-      <SummaryCardsGrid summary={summary} activeStatus={status} onStatusSelect={resetPageAndSetStatus} />
+      {/* Collapsible Stats Summary for Mobile/Tablet */}
+      <div className="lg:hidden">
+        <button
+          type="button"
+          onClick={() => setStatsExpanded(!statsExpanded)}
+          className="flex w-full items-center justify-between rounded-2xl border border-sand-200 bg-white px-5 py-3.5 text-sm font-semibold text-cocoa-800 shadow-sm transition hover:border-forest-accent/35"
+        >
+          <div className="flex items-center gap-2">
+            <span className="flex h-5 w-5 items-center justify-center rounded bg-forest-accent/10 text-forest-accent text-[10px] font-bold">
+              ∑
+            </span>
+            <span>Completion Summary Stats</span>
+          </div>
+          <span className="text-xs text-forest-600/75 flex items-center gap-1 font-bold">
+            {statsExpanded ? 'Hide' : 'Show stats'}
+            <ChevronDown className={['h-3.5 w-3.5 transition-transform duration-200', statsExpanded ? 'rotate-180' : ''].join(' ')} />
+          </span>
+        </button>
+        {statsExpanded ? (
+          <div className="mt-3 animate-in slide-in-from-top-2 duration-200">
+            <SummaryCardsGrid summary={summary} activeStatus={status} onStatusSelect={resetPageAndSetStatus} />
+          </div>
+        ) : null}
+      </div>
 
-      <ConceptCompletionFilters
-        search={search}
-        status={status}
-        language={language}
-        requiredLanguages={requiredLanguages}
-        onSearchChange={resetPageAndSetSearch}
-        onStatusChange={resetPageAndSetStatus}
-        onLanguageChange={resetPageAndSetLanguage}
-        onClearFilters={clearFilters}
-        showTextPreviews={showTextPreviews}
-        onShowTextPreviewsChange={setShowTextPreviews}
-      />
+      <div className="grid gap-6 lg:grid-cols-[1fr_18rem] xl:grid-cols-[1fr_22rem] items-start">
+        {/* Main Action Pane (Left Column) */}
+        <div className="space-y-6 min-w-0">
+          <ConceptCompletionFilters
+            search={search}
+            status={status}
+            language={language}
+            requiredLanguages={requiredLanguages}
+            viewMode={viewMode}
+            onSearchChange={resetPageAndSetSearch}
+            onStatusChange={resetPageAndSetStatus}
+            onLanguageChange={resetPageAndSetLanguage}
+            onClearFilters={clearFilters}
+            onViewModeChange={setViewMode}
+            showTextPreviews={showTextPreviews}
+            onShowTextPreviewsChange={setShowTextPreviews}
+          />
 
-      <ConceptTextBulkReviewBar
-        approveCount={reviewableCounts.approveCount}
-        rejectCount={reviewableCounts.rejectCount}
-        selectedCount={selectedConceptIds.size}
-        busy={bulkReviewing || Boolean(reviewingTextId)}
-        onApprove={() => void handleBulkReview('approved')}
-        onReject={() => void handleBulkReview('rejected')}
-        onClearSelection={() => setSelectedConceptIds(new Set())}
-      />
+          <ConceptTextBulkReviewBar
+            approveCount={reviewableCounts.approveCount}
+            rejectCount={reviewableCounts.rejectCount}
+            selectedCount={selectedConceptIds.size}
+            busy={bulkReviewing || Boolean(reviewingTextId)}
+            onApprove={() => void handleBulkReview('approved')}
+            onReject={() => void handleBulkReview('rejected')}
+            onClearSelection={() => setSelectedConceptIds(new Set())}
+          />
 
-      <ConceptCompletionTable
-        rows={rows}
-        requiredLanguages={requiredLanguageColumns}
-        loading={loading}
-        total={total}
-        filtered={filtered}
-        page={page}
-        pageSize={pageSize}
-        onPageChange={handlePageChange}
-        onPageSizeChange={handlePageSizeChange}
-        showTextPreviews={showTextPreviews}
-        reviewingTextId={reviewingTextId}
-        onReviewStatusChange={handleQuickReview}
-        selectedConceptIds={selectedConceptIds}
-        onToggleConceptSelected={toggleConceptSelected}
-        onToggleSelectAllConcepts={toggleSelectAllConcepts}
-        publishingConceptId={publishingConceptId}
-        onPublish={handlePublish}
-      />
+          <ConceptCompletionTable
+            rows={rows}
+            requiredLanguages={requiredLanguageColumns}
+            loading={loading}
+            total={total}
+            filtered={filtered}
+            page={page}
+            pageSize={pageSize}
+            onPageChange={handlePageChange}
+            onPageSizeChange={handlePageSizeChange}
+            showTextPreviews={showTextPreviews}
+            reviewingTextId={reviewingTextId}
+            onReviewStatusChange={handleQuickReview}
+            selectedConceptIds={selectedConceptIds}
+            onToggleConceptSelected={toggleConceptSelected}
+            onToggleSelectAllConcepts={toggleSelectAllConcepts}
+            publishingConceptId={publishingConceptId}
+            onPublish={handlePublish}
+            viewMode={viewMode}
+          />
+        </div>
+
+        {/* Sticky Sidebar Cabinet (Right Column) */}
+        <aside className="space-y-6 shrink-0 w-full lg:sticky lg:top-6">
+          <ConceptsSubNav />
+
+          <InsightCard title="Completion Status" description="Filter concepts by translation/review milestones.">
+            <SidebarStatusFilterList
+              summary={summary}
+              activeStatus={status}
+              onStatusSelect={resetPageAndSetStatus}
+            />
+          </InsightCard>
+
+          <InsightCard title="Stewardship Guidelines" accent={<LeafAccent />}>
+            <ul className="space-y-4 pr-1 text-sm leading-6 text-cocoa-body">
+              <li className="flex gap-3">
+                <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-forest-accent shadow-[0_0_8px_rgba(31,90,61,0.5)] animate-pulse" />
+                <span>Concept requires verified translations in all active required languages.</span>
+              </li>
+              <li className="flex gap-3">
+                <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-gold-500 shadow-[0_0_8px_rgba(185,130,36,0.5)]" />
+                <span>Audio recordings must be approved by heritage speakers.</span>
+              </li>
+              <li className="flex gap-3">
+                <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-terracotta-500 shadow-[0_0_8px_rgba(169,79,37,0.5)]" />
+                <span>Once published, concepts become instantly live in the lessons curriculum.</span>
+              </li>
+            </ul>
+          </InsightCard>
+        </aside>
+      </div>
     </div>
   )
 }

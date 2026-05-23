@@ -28,6 +28,7 @@ type AdminTableProps<TData> = {
   loadingLabel: string
   emptyState: EmptyState
   getRowId?: (row: TData) => string
+  getRowClassName?: (row: TData) => string
   pagination?: {
     page: number
     pageSize: number
@@ -47,6 +48,7 @@ export function AdminTable<TData>({
   loadingLabel,
   emptyState,
   getRowId,
+  getRowClassName,
   pagination,
   scrollMaxHeight,
 }: AdminTableProps<TData>) {
@@ -102,26 +104,35 @@ export function AdminTable<TData>({
           ))}
         </thead>
         <tbody className="divide-y divide-sand-100/80 bg-white/70">
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id} className="align-middle transition-all duration-200 hover:bg-forest-50/30">
-              {row.getVisibleCells().map((cell) => {
-                const align = cell.column.columnDef.meta?.align
+          {table.getRowModel().rows.map((row) => {
+            const customRowClass = getRowClassName ? getRowClassName(row.original) : ''
+            return (
+              <tr
+                key={row.id}
+                className={[
+                  'align-middle transition-all duration-200 hover:bg-forest-50/30',
+                  customRowClass,
+                ].join(' ')}
+              >
+                {row.getVisibleCells().map((cell) => {
+                  const align = cell.column.columnDef.meta?.align
 
-                return (
-                  <td
-                    key={cell.id}
-                    className={[
-                      'px-5 py-4 text-cocoa-body',
-                      align === 'right' ? 'text-right' : '',
-                      cell.column.columnDef.meta?.cellClassName ?? '',
-                    ].join(' ')}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                )
-              })}
-            </tr>
-          ))}
+                  return (
+                    <td
+                      key={cell.id}
+                      className={[
+                        'px-5 py-4 text-cocoa-body',
+                        align === 'right' ? 'text-right' : '',
+                        cell.column.columnDef.meta?.cellClassName ?? '',
+                      ].join(' ')}
+                    >
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </td>
+                  )
+                })}
+              </tr>
+            )
+          })}
         </tbody>
       </table>
     </AdminDataTable>

@@ -5,6 +5,7 @@ import { AdminTable } from '../../../components/admin/AdminTable'
 import { ImagePreview } from '../../../components/admin/MediaPreview'
 import { formatDate } from '../../../lib/date'
 import { ConceptDifficultyBadge } from './ConceptDifficultyBadge'
+import { ConceptMobileCard } from './ConceptMobileCard'
 import { ConceptStatusBadge } from './ConceptStatusBadge'
 import { ConceptTextsPreviewButton } from './ConceptTextsPreviewDialog'
 import type { Concept } from '../types/concept.types'
@@ -24,6 +25,7 @@ type Props = {
   pageSize: number
   onPageChange: (page: number) => void
   onPageSizeChange: (pageSize: number) => void
+  viewMode?: 'list' | 'grid'
 }
 
 function ConceptMark({ title }: { title: string }) {
@@ -101,6 +103,7 @@ export function ConceptTable({
   pageSize,
   onPageChange,
   onPageSizeChange,
+  viewMode = 'list',
 }: Props) {
   const columns = useMemo<ColumnDef<Concept>[]>(
     () => [
@@ -202,37 +205,114 @@ export function ConceptTable({
   )
 
   return (
-    <AdminTable
-      columns={columns}
-      data={concepts}
-      getRowId={(concept) => concept.id}
-      title={`${total} concept records`}
-      subtitle="Language-independent learning ideas"
-      loading={loading}
-      loadingLabel="Loading concepts..."
-      emptyState={{
-        title: filtered ? 'No matching concepts' : 'No concepts yet',
-        description: filtered
-          ? 'Try adjusting your search, category, difficulty, or status filters.'
-          : 'Create your first learning concept. Concepts are language-independent ideas such as greeting, mother, water, or thank you.',
-        action: !filtered ? (
-          <button
-            type="button"
-            onClick={onCreate}
-            className="rounded-xl bg-forest-600 px-5 py-3 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(31,90,61,0.15)] transition hover:bg-forest-700 focus:outline-none focus:ring-2 focus:ring-forest-200"
-          >
-            Add concept
-          </button>
-        ) : undefined,
-      }}
-      pagination={{
-        page,
-        pageSize,
-        total,
-        onPageChange,
-        onPageSizeChange,
-      }}
-      scrollMaxHeight="32rem"
-    />
+    <div>
+      {/* Visual Card Grid / Gallery View */}
+      <div className={[
+        "space-y-4 rounded-3xl border border-sand-200/80 bg-cream-50/25 p-4 sm:p-6 shadow-sm",
+        viewMode === 'grid' ? 'block' : 'lg:hidden'
+      ].join(' ')}>
+        {loading ? (
+          <div className="p-8 text-center text-sm text-cocoa-body">
+            Loading concepts...
+          </div>
+        ) : concepts.length === 0 ? (
+          <div className="p-8 text-center">
+            <h2 className="text-base font-semibold text-cocoa-800">
+              {filtered ? 'No matching concepts' : 'No concepts yet'}
+            </h2>
+            <p className="mx-auto mt-2 max-w-xl text-sm text-cocoa-body">
+              {filtered
+                ? 'Try adjusting your search, category, difficulty, or status filters.'
+                : 'Create your first learning concept.'}
+            </p>
+            {!filtered ? (
+              <button
+                type="button"
+                onClick={onCreate}
+                className="mt-5 rounded-xl bg-forest-600 px-5 py-3 text-sm font-semibold text-white shadow-soft transition hover:bg-forest-700 focus:outline-none"
+              >
+                Add concept
+              </button>
+            ) : null}
+          </div>
+        ) : (
+          <>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {concepts.map((concept) => (
+                <ConceptMobileCard
+                  key={concept.id}
+                  concept={concept}
+                  onEdit={onEdit}
+                  onPreviewTexts={onPreviewTexts}
+                  onToggleStatus={onToggleStatus}
+                  onQuickImageSelect={onQuickImageSelect}
+                  uploading={quickImageUploadingId === concept.id}
+                />
+              ))}
+            </div>
+            {/* Pagination Controls */}
+            <div className="flex items-center justify-between border-t border-sand-200/60 pt-4 text-sm text-cocoa-body">
+              <span className="font-medium">
+                Page {page} of {Math.max(Math.ceil(total / pageSize), 1)}
+              </span>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  disabled={page <= 1}
+                  onClick={() => onPageChange(page - 1)}
+                  className="rounded-lg border border-sand-200 bg-white px-3 py-1.5 font-semibold text-forest-700 transition hover:bg-forest-50 disabled:opacity-50"
+                >
+                  Previous
+                </button>
+                <button
+                  type="button"
+                  disabled={page >= Math.ceil(total / pageSize)}
+                  onClick={() => onPageChange(page + 1)}
+                  className="rounded-lg border border-sand-200 bg-white px-3 py-1.5 font-semibold text-forest-700 transition hover:bg-forest-50 disabled:opacity-50"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Desktop List / Table View Layout */}
+      <div className={viewMode === 'list' ? 'hidden lg:block' : 'hidden'}>
+        <AdminTable
+          columns={columns}
+          data={concepts}
+          getRowId={(concept) => concept.id}
+          title={`${total} concept records`}
+          subtitle="Language-independent learning ideas"
+          loading={loading}
+          loadingLabel="Loading concepts..."
+          emptyState={{
+            title: filtered ? 'No matching concepts' : 'No concepts yet',
+            description: filtered
+              ? 'Try adjusting your search, category, difficulty, or status filters.'
+              : 'Create your first learning concept. Concepts are language-independent ideas such as greeting, mother, water, or thank you.',
+            action: !filtered ? (
+              <button
+                type="button"
+                onClick={onCreate}
+                className="rounded-xl bg-forest-600 px-5 py-3 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(31,90,61,0.15)] transition hover:bg-forest-700 focus:outline-none focus:ring-2 focus:ring-forest-200"
+              >
+                Add concept
+              </button>
+            ) : undefined,
+          }}
+          pagination={{
+            page,
+            pageSize,
+            total,
+            onPageChange,
+            onPageSizeChange,
+          }}
+          scrollMaxHeight="32rem"
+        />
+      </div>
+    </div>
   )
 }

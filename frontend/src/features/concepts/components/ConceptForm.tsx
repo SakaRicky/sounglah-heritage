@@ -248,7 +248,7 @@ export function ConceptForm({ concept, fieldErrors, saving, onCancel, onSubmit }
       onClick={onCancel}
     >
       <div
-        className="mx-auto my-2 w-full max-w-5xl rounded-2xl border border-sand-100 bg-cream-50 p-5 shadow-card md:my-0 md:p-7"
+        className="mx-auto my-2 w-full max-w-5xl rounded-2xl border border-sand-100 bg-cream-50 p-5 shadow-card md:my-0 md:p-7 relative overflow-hidden"
         role="dialog"
         aria-modal="true"
         aria-labelledby="concept-form-title"
@@ -503,6 +503,7 @@ export function ConceptForm({ concept, fieldErrors, saving, onCancel, onSubmit }
             </button>
           </div>
         </form>
+        <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[30rem] bg-[url('/images/artifacts/sounglah_corner_decor_02.png')] bg-[length:auto_18rem] bg-right-bottom bg-no-repeat opacity-[0.45] md:block" />
       </div>
     </div>
     </ModalPortal>
