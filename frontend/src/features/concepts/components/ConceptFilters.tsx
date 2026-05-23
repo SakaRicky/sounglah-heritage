@@ -70,13 +70,13 @@ export function ConceptFilters({
 
   return (
     <AdminFilterBar>
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
-        <label className="block">
-          <span className="text-sm font-medium text-forest-600">Search</span>
+      <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+        <label className="block relative">
+          <span className="sr-only">Search</span>
           <input
             value={search}
             onChange={(event) => onSearchChange(event.target.value)}
-            className="mt-2 w-full rounded-xl border border-sand-200 bg-white/90 px-4 py-3 text-sm text-cocoa-800 outline-none transition placeholder:text-cocoa-body/45 hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-200"
+            className="w-full rounded-lg border border-sand-200 bg-white/95 px-3.5 py-2 text-xs sm:text-sm text-cocoa-800 outline-none transition placeholder:text-cocoa-body/45 hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-100"
             placeholder="Search by title, key, slug, category..."
           />
         </label>
@@ -85,12 +85,12 @@ export function ConceptFilters({
           type="button"
           aria-expanded={filtersOpen}
           onClick={() => setFiltersOpen((current) => !current)}
-          className="inline-flex min-w-40 items-center justify-center gap-2 rounded-xl border border-forest-accent/25 bg-white/95 px-5 py-3 text-sm font-semibold text-forest-700 shadow-[0_8px_24px_rgba(31,90,61,0.1)] transition hover:border-forest-300 hover:bg-forest-50/30 focus:outline-none focus:ring-2 focus:ring-forest-200"
+          className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-forest-accent/25 bg-white/95 px-4 py-2 text-xs sm:text-sm font-semibold text-forest-700 shadow-sm transition hover:border-forest-300 hover:bg-forest-50/30 focus:outline-none focus:ring-2 focus:ring-forest-200"
         >
           <FunnelIcon />
           {filtersOpen ? 'Hide filters' : 'Show filters'}
           {activeFilterCount > 0 ? (
-            <span className="rounded-full bg-forest-accent px-2 py-0.5 text-xs font-bold text-white">
+            <span className="rounded-full bg-forest-accent px-1.5 py-0.5 text-[10px] font-bold text-white leading-none">
               {activeFilterCount}
             </span>
           ) : null}
@@ -99,14 +99,14 @@ export function ConceptFilters({
       </div>
 
       {filtersOpen ? (
-        <div className="mt-5 border-t border-sand-100 pt-5">
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-3 border-t border-sand-100 pt-3">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5 items-end">
             <label className="block">
-              <span className="text-sm font-medium text-forest-600">Status</span>
+              <span className="text-[10px] font-semibold text-forest-600 uppercase tracking-wider">Status</span>
               <select
                 value={status}
                 onChange={(event) => onStatusChange(event.target.value as ConceptStatus | 'all')}
-                className="mt-2 w-full rounded-xl border border-sand-200 bg-white/90 px-4 py-3 text-sm text-cocoa-800 outline-none transition hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-200"
+                className="mt-1 w-full rounded-lg border border-sand-200 bg-white/90 px-2.5 py-1.5 text-xs sm:text-sm text-cocoa-800 outline-none transition hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-100"
               >
                 <option value="all">All</option>
                 <option value="active">Active</option>
@@ -115,21 +115,21 @@ export function ConceptFilters({
             </label>
 
             <label className="block">
-              <span className="text-sm font-medium text-forest-600">Category</span>
+              <span className="text-[10px] font-semibold text-forest-600 uppercase tracking-wider">Category</span>
               <input
                 value={category}
                 onChange={(event) => onCategoryChange(event.target.value)}
-                className="mt-2 w-full rounded-xl border border-sand-200 bg-white/90 px-4 py-3 text-sm text-cocoa-800 outline-none transition placeholder:text-cocoa-body/45 hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-200"
+                className="mt-1 w-full rounded-lg border border-sand-200 bg-white/90 px-2.5 py-1.5 text-xs sm:text-sm text-cocoa-800 outline-none transition placeholder:text-cocoa-body/45 hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-100"
                 placeholder="family_people"
               />
             </label>
 
             <label className="block">
-              <span className="text-sm font-medium text-forest-600">Difficulty</span>
+              <span className="text-[10px] font-semibold text-forest-600 uppercase tracking-wider">Difficulty</span>
               <select
                 value={difficultyLevel}
                 onChange={(event) => onDifficultyLevelChange(event.target.value as ConceptDifficultyLevel | 'all')}
-                className="mt-2 w-full rounded-xl border border-sand-200 bg-white/90 px-4 py-3 text-sm text-cocoa-800 outline-none transition hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-200"
+                className="mt-1 w-full rounded-lg border border-sand-200 bg-white/90 px-2.5 py-1.5 text-xs sm:text-sm text-cocoa-800 outline-none transition hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-100"
               >
                 <option value="all">All</option>
                 <option value="beginner">Beginner</option>
@@ -139,11 +139,11 @@ export function ConceptFilters({
             </label>
 
             <label className="block">
-              <span className="text-sm font-medium text-forest-600">Sort</span>
+              <span className="text-[10px] font-semibold text-forest-600 uppercase tracking-wider">Sort</span>
               <select
                 value={sort}
                 onChange={(event) => onSortChange(event.target.value as ConceptSort)}
-                className="mt-2 w-full rounded-xl border border-sand-200 bg-white/90 px-4 py-3 text-sm text-cocoa-800 outline-none transition hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-200"
+                className="mt-1 w-full rounded-lg border border-sand-200 bg-white/90 px-2.5 py-1.5 text-xs sm:text-sm text-cocoa-800 outline-none transition hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-100"
               >
                 <option value="sortOrder">Sort Order</option>
                 <option value="title">Title (A-Z)</option>
@@ -151,12 +151,12 @@ export function ConceptFilters({
               </select>
             </label>
 
-            <div className="flex items-end">
+            <div className="col-span-2 sm:col-span-1 lg:col-span-1">
               <button
                 type="button"
                 onClick={clearFilters}
                 disabled={activeFilterCount === 0}
-                className="w-full rounded-xl border border-sand-200 bg-white/90 px-4 py-3 text-sm font-semibold text-cocoa-body transition hover:border-forest-accent/35 hover:bg-forest-50/30 hover:text-forest-700 disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full rounded-lg border border-sand-200 bg-white/90 px-3 py-1.5 text-xs sm:text-sm font-semibold text-cocoa-body transition hover:border-forest-accent/35 hover:bg-forest-50/30 hover:text-forest-700 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Clear filters
               </button>
