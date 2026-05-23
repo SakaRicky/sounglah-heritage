@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { FormEvent, ReactNode } from 'react'
 
 import { useI18n } from '../../../i18n'
+import { resolveMediaUrl } from '../../../lib/media'
 import { toLessonSlug } from '../utils/lessonSlug'
 import type { Lesson, LessonDifficulty, LessonStatus } from '../types/lesson.types'
 
@@ -335,7 +336,7 @@ export function LessonForm({
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
               <div className="flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-sand-200 bg-cream-50">
                 {coverPreviewUrl ? (
-                  <img src={coverPreviewUrl} alt="" className="h-full w-full object-cover" />
+                  <img src={resolveMediaUrl(coverPreviewUrl) ?? undefined} alt="" className="h-full w-full object-cover" />
                 ) : (
                   <span className="px-3 text-center text-xs font-medium text-cocoa-body/50">
                     {t('admin.lessons.form.noCover')}

@@ -1,9 +1,24 @@
 import os
 from pathlib import Path
+from typing import Optional
 
 from dotenv import load_dotenv
 
 load_dotenv()
+
+_BACKEND_ROOT = Path(__file__).resolve().parents[1]
+_REPO_ROOT = _BACKEND_ROOT.parent
+
+
+def _resolve_local_media_root(value: Optional[str]) -> str:
+    if not value:
+        return str(_REPO_ROOT / "media")
+
+    path = Path(value)
+    if path.is_absolute():
+        return str(path.resolve())
+
+    return str((_BACKEND_ROOT / path).resolve())
 
 
 def _default_media_storage_provider():
@@ -22,10 +37,7 @@ class Config:
     CLOUDINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET")
     CLOUDINARY_UPLOAD_ROOT = os.getenv("CLOUDINARY_UPLOAD_ROOT", "sounglah/dev")
     MEDIA_STORAGE_PROVIDER = os.getenv("MEDIA_STORAGE_PROVIDER", _default_media_storage_provider())
-    LOCAL_MEDIA_ROOT = os.getenv(
-        "LOCAL_MEDIA_ROOT",
-        str(Path(__file__).resolve().parents[2] / "media"),
-    )
+    LOCAL_MEDIA_ROOT = _resolve_local_media_root(os.getenv("LOCAL_MEDIA_ROOT"))
     LOCAL_MEDIA_URL_PREFIX = os.getenv("LOCAL_MEDIA_URL_PREFIX", "/media")
     MAX_IMAGE_UPLOAD_MB = int(os.getenv("MAX_IMAGE_UPLOAD_MB", "5"))
     MAX_AUDIO_UPLOAD_MB = int(os.getenv("MAX_AUDIO_UPLOAD_MB", "5"))

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 
 import { useI18n } from '../../../i18n'
+import { resolveMediaUrl } from '../../../lib/media'
 import type { PublicLessonListItem } from '../types/publicLesson.types'
 
 const FALLBACK_COVER = '/images/languages/medumba.png'
@@ -64,7 +65,7 @@ export function PublicLessonCard({ lesson }: PublicLessonCardProps) {
     <article className="card flex h-full flex-col overflow-hidden transition hover:shadow-soft">
       <div className="aspect-[16/10] w-full shrink-0 overflow-hidden bg-cream-100">
         <img
-          src={lesson.coverImageUrl ?? FALLBACK_COVER}
+          src={resolveMediaUrl(lesson.coverImageUrl) ?? FALLBACK_COVER}
           alt={coverAlt}
           loading="lazy"
           className="h-full w-full object-cover"
