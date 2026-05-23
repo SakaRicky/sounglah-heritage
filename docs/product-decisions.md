@@ -62,3 +62,13 @@ Specialist agents should be used only when necessary.
 - **Delete:** Hard `DELETE` with lesson→items CASCADE; use `archived` status to hide without deleting.
 - **Player navigation:** In-memory step index only; refresh restarts lesson.
 - **Public API service:** `lesson_public_service.py` + `lessons_bp` at `/api/lessons`.
+
+## Decision 10: Heritage Audio Gates Concept Readiness (S024)
+
+- Audio is required learning content for Médumba and future heritage/local languages.
+- Do **not** block `ConceptText.status = active` when audio is missing; active text rows must remain available for review, recording, replacement, and missing-audio workflows.
+- A required heritage-language concept text counts as complete only when it is active, text-approved, and has approved current audio.
+- Concept publishing must block when required heritage audio is missing, pending, or rejected.
+- English and French support-language texts do not require audio for completion in the MVP.
+- Lesson publishing inherits this rule by requiring concept-backed lesson items to link published concepts.
+- Learner missing-audio UI remains as a defensive fallback, not the expected state for published concept-backed lessons.

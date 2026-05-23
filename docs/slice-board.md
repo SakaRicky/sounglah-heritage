@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Foundation (S001) **complete**. S016 content admin stabilization and S021 concept completion are complete. **Epic 5 — S023 Lessons MVP in progress.** **S023.1–S023.7** and **S023.8** are **Done**; **next: S023.9** (public lesson intro screen).
+Foundation (S001) **complete**. S016 content admin stabilization, S021 concept completion, and **S024 concept audio completion gate** are complete. **Epic 5 — S023 Lessons MVP in progress.** **S023.1–S023.7** and **S023.8** are **Done**; **next: S023.9** (public lesson intro screen).
 
 Use **`docs/slices/E05-lessons/00-overview.md`** and child slices **S023.1–S023.15** as the source of truth for lessons work. Epic is **implementation-ready**; product decisions locked (anonymous public API, nested item admin, publish guards). Prerequisite: curated published concepts with approved Médumba texts and audio before seeding **Greeting Grandma** (S023.15).
 
@@ -92,10 +92,11 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 | S022.3 - Review Table And Mobile Cards | Done | Filters, phrase-first desktop table, mobile cards, reference text display, and pagination; frontend lint/build pass. |
 | S022.4 - Approve, Reject, And Edit Actions | Done | One-click approve/reject via concept text update, edit deep link, desktop and mobile actions; frontend lint/build pass. |
 | S022.5 - Tests, Docs, And Stabilization | Done | Review-queue backend tests, full pytest, frontend lint/build, API docs, and slice board updated; S022 complete. |
+| S024 - Concept Audio Completion Gate | Done | Approved heritage audio is required for concept completion/publish; active concept text rows remain usable before audio exists. No DB migration needed; uses `current_audio_id` and audio review status. |
 
 ## Epic 5 - Lessons and Learner Experience
 
-Parent spec: **`docs/slices/E05-lessons/00-overview.md`**. One child slice per Cursor chat (**S023.1** through **S023.15**). First complete target: **Greeting Grandma** (5 items, 4 MVP types).
+Parent spec: **`docs/slices/E05-lessons/00-overview.md`**. One child slice per Cursor chat (**S023.1** through **S023.15**). First complete target: **Greeting Grandma** (5 items, 4 MVP types). S024 should be implemented before relying on published concepts for learner-facing audio quality.
 
 | Slice | Status | Notes |
 |---|---|---|

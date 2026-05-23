@@ -4,6 +4,7 @@ from app import create_app
 from app.extensions import db
 from app.models.concept import Concept
 from app.models.concept_text import ConceptText
+from app.models.concept_text_audio import ConceptTextAudio
 from app.models.language import Language
 from app.models.lesson import Lesson
 from app.models.lesson_item import LessonItem
@@ -43,6 +44,27 @@ def make_concept_ready(concept_key, statuses_by_language_code=None):
     concept.status = "active"
     concept.published_at = None
     db.session.commit()
+
+    medumba_status = statuses_by_language_code.get("med")
+    if medumba_status == "approved":
+        medumba = Language.query.filter_by(code="med").first()
+        medumba_text = ConceptText.query.filter_by(
+            concept_id=concept.id,
+            language_id=medumba.id,
+        ).first()
+        if medumba_text.current_audio is None:
+            audio = ConceptTextAudio(
+                concept_text_id=medumba_text.id,
+                audio_url=f"https://cdn.example.com/{medumba_text.id}.webm",
+                status=ConceptTextAudio.STATUS_APPROVED,
+                duration_seconds=3,
+                mime_type="audio/webm",
+            )
+            db.session.add(audio)
+            db.session.flush()
+            medumba_text.set_current_audio(audio)
+            db.session.commit()
+
     return concept
 
 

@@ -7,6 +7,7 @@ export type ConceptCompletionStatus =
   | 'has_rejected_text'
   | 'draft'
   | 'needs_review'
+  | 'needs_audio'
   | 'complete'
   | 'published'
 
@@ -83,6 +84,9 @@ export interface ConceptCompletionLanguage {
   textId: string | null
   text: string | null
   pronunciation: string | null
+  requiresAudio: boolean
+  hasApprovedAudio: boolean
+  audioStatus: 'not_required' | 'missing' | 'pending_review' | 'rejected' | 'approved'
 }
 
 export interface ConceptCompletionRow extends Concept {
@@ -92,6 +96,7 @@ export interface ConceptCompletionRow extends Concept {
   missingLanguages: string[]
   draftLanguages: string[]
   needsReviewLanguages: string[]
+  needsAudioLanguages: string[]
   rejectedLanguages: string[]
   languages: ConceptCompletionLanguage[]
 }
@@ -121,6 +126,7 @@ export interface ConceptCompletionSummary {
   hasRejectedText: number
   draft: number
   needsReview: number
+  needsAudio: number
   complete: number
   published: number
 }

@@ -5,6 +5,7 @@ from io import BytesIO
 from cloudinary.exceptions import Error as CloudinaryError
 from flask import Blueprint, current_app, jsonify, request
 from sqlalchemy import or_
+from sqlalchemy.orm import selectinload
 
 from app.extensions import db
 from app.models.concept import Concept
@@ -32,6 +33,7 @@ VALID_COMPLETION_STATUS_FILTERS = {
     "has_rejected_text",
     "draft",
     "needs_review",
+    "needs_audio",
     "complete",
     "published",
     "all",
@@ -223,7 +225,14 @@ def _concept_completion_rows(concepts, required_languages):
     concept_texts_by_concept_id = {concept_id: [] for concept_id in concept_ids}
 
     if concept_ids:
-        concept_texts = ConceptText.query.filter(ConceptText.concept_id.in_(concept_ids)).all()
+        concept_texts = (
+            ConceptText.query.options(
+                selectinload(ConceptText.current_audio),
+                selectinload(ConceptText.audio_attempts),
+            )
+            .filter(ConceptText.concept_id.in_(concept_ids))
+            .all()
+        )
         for concept_text in concept_texts:
             concept_texts_by_concept_id.setdefault(concept_text.concept_id, []).append(concept_text)
 
@@ -261,7 +270,9 @@ def _concept_matches_completion_language(row, language_code):
     if not language.get("requiresConceptTextReview", False):
         return False
 
-    return language["textStatus"] != "approved"
+    return language["textStatus"] != "approved" or (
+        language.get("requiresAudio", False) and not language.get("hasApprovedAudio", False)
+    )
 
 
 @concept_bp.get("")
@@ -346,7 +357,7 @@ def list_concept_completion():
             {
                 "status": (
                     "Status filter must be needs_translation, has_rejected_text, draft, "
-                    "needs_review, complete, published, or all."
+                    "needs_review, needs_audio, complete, published, or all."
                 )
             }
         )
@@ -416,6 +427,7 @@ def get_concept_completion_summary():
         "hasRejectedText": 0,
         "draft": 0,
         "needsReview": 0,
+        "needsAudio": 0,
         "complete": 0,
         "published": 0,
     }
@@ -424,6 +436,7 @@ def get_concept_completion_summary():
         "has_rejected_text": "hasRejectedText",
         "draft": "draft",
         "needs_review": "needsReview",
+        "needs_audio": "needsAudio",
         "complete": "complete",
         "published": "published",
     }
@@ -499,7 +512,14 @@ def publish_concept(concept_id):
         return jsonify({"error": {"message": "Concept not found."}}), 404
 
     required_languages = get_active_required_languages()
-    concept_texts = ConceptText.query.filter(ConceptText.concept_id == concept.id).all()
+    concept_texts = (
+        ConceptText.query.options(
+            selectinload(ConceptText.current_audio),
+            selectinload(ConceptText.audio_attempts),
+        )
+        .filter(ConceptText.concept_id == concept.id)
+        .all()
+    )
     completion = calculate_concept_completion(concept, required_languages, concept_texts)
 
     if not completion["isReadyToPublish"]:
@@ -507,11 +527,15 @@ def publish_concept(concept_id):
             jsonify(
                 {
                     "error": {
-                        "message": "Concept cannot be published because required texts are missing or not approved."
+                        "message": (
+                            "Concept cannot be published because required texts are missing, "
+                            "not approved, or missing approved audio."
+                        )
                     },
                     "missingLanguages": completion["missingLanguages"],
                     "draftLanguages": completion["draftLanguages"],
                     "needsReviewLanguages": completion["needsReviewLanguages"],
+                    "needsAudioLanguages": completion["needsAudioLanguages"],
                     "rejectedLanguages": completion["rejectedLanguages"],
                 }
             ),

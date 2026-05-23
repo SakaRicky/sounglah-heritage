@@ -30,6 +30,7 @@ const initialSummary: ConceptCompletionSummary = {
   hasRejectedText: 0,
   draft: 0,
   needsReview: 0,
+  needsAudio: 0,
   complete: 0,
   published: 0,
 }
@@ -62,6 +63,14 @@ function ReviewIcon() {
   return (
     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden>
       <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l2.5 2.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  )
+}
+
+function AudioIcon() {
+  return (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M7 9v6h3l4 3V6l-4 3H7zM17 9.5a4 4 0 010 5M19.5 7a7.5 7.5 0 010 10" />
     </svg>
   )
 }
@@ -136,10 +145,18 @@ function SummaryCardsGrid({
       variant: 'warm',
     },
     {
+      status: 'needs_audio',
+      label: 'Needs audio',
+      value: summary.needsAudio,
+      description: 'Needs approved heritage audio',
+      icon: <AudioIcon />,
+      variant: 'warm',
+    },
+    {
       status: 'complete',
       label: 'Complete',
       value: summary.complete,
-      description: 'Approved in every required language',
+      description: 'Texts and audio are ready',
       icon: <CheckIcon />,
       variant: 'green',
     },

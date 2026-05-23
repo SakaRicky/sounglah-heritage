@@ -50,6 +50,32 @@ export function ConceptCompletionLanguageBadge({ language, showCode = false }: P
     )
   }
 
+  if (
+    language.requiresAudio &&
+    language.textStatus === 'approved' &&
+    !language.hasApprovedAudio
+  ) {
+    const label =
+      language.audioStatus === 'pending_review'
+        ? 'Audio pending'
+        : language.audioStatus === 'rejected'
+          ? 'Audio rejected'
+          : 'Needs audio'
+
+    return (
+      <span
+        className={[
+          'inline-flex items-center gap-2 whitespace-nowrap rounded-full border px-3 py-1.5 text-xs font-semibold',
+          reviewBadgeClass.needs_review,
+        ].join(' ')}
+      >
+        <span className={['h-2 w-2 rounded-full', reviewDotClass.needs_review].join(' ')} />
+        {showCode ? `${language.languageCode}: ` : ''}
+        {label}
+      </span>
+    )
+  }
+
   const textStatus = language.textStatus!
 
   return (
