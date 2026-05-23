@@ -148,7 +148,7 @@ export function ConceptCompletionTable({
         "space-y-4 bg-cream-50/35 p-4 sm:p-5 lg:p-6 rounded-3xl border border-sand-200/80 shadow-sm animate-fade-in",
         viewMode === 'grid' ? 'block' : 'lg:hidden'
       ].join(' ')}>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
           {rows.map((row) => (
             <ConceptCompletionMobileCard
               key={row.id}

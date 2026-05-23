@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import { SlidersHorizontal, ChevronDown } from 'lucide-react'
+
 import { AdminFilterBar } from '../../../components/admin/AdminFilterBar'
 import { conceptCompletionStatusLabel } from '../utils/conceptCompletionLabels'
 import type { ConceptCompletionStatus } from '../types/concept.types'
@@ -42,62 +45,58 @@ export function ConceptCompletionFilters({
   showTextPreviews,
   onShowTextPreviewsChange,
 }: Props) {
+  const [isExpanded, setIsExpanded] = useState(false)
   const hasActiveFilters = Boolean(search || status !== 'all' || language)
+  const activeFiltersCount = (status !== 'all' ? 1 : 0) + (language ? 1 : 0)
 
   return (
     <AdminFilterBar>
-      <div className="grid gap-2.5 grid-cols-2 sm:grid-cols-3 lg:grid-cols-[minmax(0,1fr)_auto_auto_auto] items-end">
-        <label className="block col-span-2 sm:col-span-1 lg:col-span-1">
-          <span className="text-[10px] font-semibold text-forest-600 uppercase tracking-wider">Search</span>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        {/* Quick Search */}
+        <div className="relative flex-1 min-w-0">
           <input
             value={search}
             onChange={(event) => onSearchChange(event.target.value)}
-            className="mt-1 w-full rounded-lg border border-sand-200 bg-white/90 px-3.5 py-2 text-xs sm:text-sm text-cocoa-800 outline-none transition placeholder:text-cocoa-body/45 hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-100"
-            placeholder="Search concepts..."
+            className="w-full rounded-lg border border-sand-200 bg-white/90 pl-9 pr-3.5 py-2 text-xs sm:text-sm text-cocoa-800 outline-none transition placeholder:text-cocoa-body/45 hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-100"
+            placeholder="Search concepts by keyword..."
           />
-        </label>
+          <span className="absolute left-3 top-2.5 text-cocoa-body/40">
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </span>
+        </div>
 
-        <label className="block">
-          <span className="text-[10px] font-semibold text-forest-600 uppercase tracking-wider">Status</span>
-          <select
-            value={status}
-            onChange={(event) => onStatusChange(event.target.value as ConceptCompletionStatus | 'all')}
-            className="mt-1 w-full min-w-[9rem] sm:min-w-[11rem] rounded-lg border border-sand-200 bg-white/90 px-2.5 py-2 text-xs sm:text-sm text-cocoa-800 outline-none transition hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-100"
-          >
-            <option value="all">All statuses</option>
-            {completionStatuses.map((option) => (
-              <option key={option} value={option}>
-                {conceptCompletionStatusLabel(option)}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className="block">
-          <span className="text-[10px] font-semibold text-forest-600 uppercase tracking-wider">Required language</span>
-          <select
-            value={language}
-            onChange={(event) => onLanguageChange(event.target.value)}
-            className="mt-1 w-full min-w-[9rem] sm:min-w-[11rem] rounded-lg border border-sand-200 bg-white/90 px-2.5 py-2 text-xs sm:text-sm text-cocoa-800 outline-none transition hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-100"
-          >
-            <option value="">All languages</option>
-            {requiredLanguages.map((option) => (
-              <option key={option.id} value={option.code}>
-                {option.name} ({option.code})
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <div className="flex items-center gap-2 col-span-2 sm:col-span-1 lg:col-span-1">
+        {/* Action Controls */}
+        <div className="flex items-center gap-2.5 self-end sm:self-auto shrink-0">
           <button
             type="button"
-            onClick={onClearFilters}
-            disabled={!hasActiveFilters}
-            className="flex-1 rounded-lg border border-sand-200 bg-white/90 px-4 py-2 text-xs sm:text-sm font-semibold text-cocoa-body transition hover:border-forest-accent/35 hover:bg-forest-50/30 hover:text-forest-700 disabled:cursor-not-allowed disabled:opacity-50 lg:min-w-[8rem]"
+            onClick={() => setIsExpanded(!isExpanded)}
+            className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border text-xs sm:text-sm font-semibold shadow-sm transition-all duration-200 select-none ${
+              isExpanded || activeFiltersCount > 0
+                ? 'border-forest-accent/35 bg-forest-50/30 text-forest-700 font-bold ring-1 ring-forest-accent/20'
+                : 'border-sand-200 bg-white text-cocoa-body hover:border-forest-accent/35 hover:bg-forest-50/20'
+            }`}
           >
-            Clear
+            <SlidersHorizontal className="h-3.5 w-3.5" />
+            <span>Filters</span>
+            {activeFiltersCount > 0 && (
+              <span className="flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-forest-accent px-1 text-[9px] font-bold text-white leading-none">
+                {activeFiltersCount}
+              </span>
+            )}
+            <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
           </button>
+
+          {hasActiveFilters && (
+            <button
+              type="button"
+              onClick={onClearFilters}
+              className="rounded-lg border border-sand-200 bg-white/90 px-3.5 py-2 text-xs sm:text-sm font-semibold text-cocoa-body transition hover:border-forest-accent/35 hover:bg-forest-50/30 hover:text-forest-700"
+            >
+              Clear
+            </button>
+          )}
 
           {/* Premium View Toggle Switcher */}
           <div className="inline-flex rounded-lg border border-sand-200 bg-white/95 p-0.5 shadow-sm shrink-0 select-none">
@@ -136,18 +135,57 @@ export function ConceptCompletionFilters({
         </div>
       </div>
 
-      <div className="mt-3.5 flex flex-wrap items-center gap-3 border-t border-sand-100/60 pt-3">
-        <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-sand-200 bg-white/90 px-3 py-1.5 text-xs sm:text-sm font-semibold text-cocoa-body transition hover:border-forest-accent/35 hover:bg-forest-50/30 select-none shadow-sm">
-          <input
-            type="checkbox"
-            checked={showTextPreviews}
-            onChange={(event) => onShowTextPreviewsChange(event.target.checked)}
-            className="h-3.5 w-3.5 rounded border-sand-300 text-forest-accent focus:ring-forest-100"
-          />
-          <span>Show translation text</span>
-        </label>
-        <p className="text-xs text-cocoa-body/75">Click a language badge to preview one translation when this is off.</p>
-      </div>
+      {/* Expandable Advanced Options */}
+      {isExpanded && (
+        <div className="mt-4 border-t border-sand-100/60 pt-4 animate-in slide-in-from-top-2 duration-200 space-y-4">
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
+            <label className="block">
+              <span className="text-[10px] font-bold text-forest-600 uppercase tracking-wider">Completion Milestone Status</span>
+              <select
+                value={status}
+                onChange={(event) => onStatusChange(event.target.value as ConceptCompletionStatus | 'all')}
+                className="mt-1.5 w-full rounded-lg border border-sand-200 bg-white px-3 py-2 text-xs sm:text-sm text-cocoa-800 outline-none transition hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-100"
+              >
+                <option value="all">All statuses</option>
+                {completionStatuses.map((option) => (
+                  <option key={option} value={option}>
+                    {conceptCompletionStatusLabel(option)}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="block">
+              <span className="text-[10px] font-bold text-forest-600 uppercase tracking-wider">Required Language</span>
+              <select
+                value={language}
+                onChange={(event) => onLanguageChange(event.target.value)}
+                className="mt-1.5 w-full rounded-lg border border-sand-200 bg-white px-3 py-2 text-xs sm:text-sm text-cocoa-800 outline-none transition hover:border-forest-300 focus:border-forest-600 focus:ring-2 focus:ring-forest-100"
+              >
+                <option value="">All active languages</option>
+                {requiredLanguages.map((option) => (
+                  <option key={option.id} value={option.code}>
+                    {option.name} ({option.code})
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 border-t border-sand-100/40 pt-3.5">
+            <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-sand-200 bg-white/90 px-3 py-1.5 text-xs sm:text-sm font-semibold text-cocoa-body transition hover:border-forest-accent/35 hover:bg-forest-50/30 select-none shadow-sm">
+              <input
+                type="checkbox"
+                checked={showTextPreviews}
+                onChange={(event) => onShowTextPreviewsChange(event.target.checked)}
+                className="h-3.5 w-3.5 rounded border-sand-300 text-forest-accent focus:ring-forest-100"
+              />
+              <span>Show translation text inline</span>
+            </label>
+            <p className="text-xs text-cocoa-body/65">Click a language badge in the table to preview its translation when this is disabled.</p>
+          </div>
+        </div>
+      )}
     </AdminFilterBar>
   )
 }
