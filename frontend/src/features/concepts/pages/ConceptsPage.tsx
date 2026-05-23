@@ -311,10 +311,33 @@ export function AdminConceptsPage() {
         </div>
       ) : null}
 
-      <section className="grid gap-4 md:grid-cols-3" aria-label="Concept summary">
-        <StatsCard icon={<LayersIcon />} label="Total Concepts" value={total} description="Reusable learning ideas" variant="green" />
-        <StatsCard icon={<CheckIcon />} label="Visible Active" value={activeCount} description="On this page" />
-        <StatsCard icon={<CategoryIcon />} label="Visible Categories" value={categories} description="Current groupings" variant="warm" />
+      <section className="grid grid-cols-3 gap-2 sm:gap-4" aria-label="Concept summary">
+        <StatsCard
+          icon={<LayersIcon />}
+          label="Total Concepts"
+          value={total}
+          description="Reusable learning ideas"
+          variant="green"
+          dense={true}
+          descriptionClassName="max-sm:hidden"
+        />
+        <StatsCard
+          icon={<CheckIcon />}
+          label="Visible Active"
+          value={activeCount}
+          description="On this page"
+          dense={true}
+          descriptionClassName="max-sm:hidden"
+        />
+        <StatsCard
+          icon={<CategoryIcon />}
+          label="Visible Categories"
+          value={categories}
+          description="Current groupings"
+          variant="warm"
+          dense={true}
+          descriptionClassName="max-sm:hidden"
+        />
       </section>
 
       <ConceptFilters
