@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { Toast } from '../../../components/common/Toast'
 import { useNavigate } from 'react-router-dom'
 
 import { AdminPageHeader } from '../../../components/admin/AdminPageHeader'
@@ -112,32 +113,9 @@ export function AdminLessonsPage() {
         }
       />
 
-      {notice ? (
-        <div className="rounded-cta border border-forest-accent/20 bg-forest-50 px-4 py-3 text-sm font-medium text-forest-700">
-          {notice}
-        </div>
-      ) : null}
-
-      {publishError ? (
-        <div className="rounded-cta border border-terracotta-500/20 bg-terracotta-400/10 px-4 py-3 text-sm font-medium text-terracotta-600">
-          {publishError}
-        </div>
-      ) : null}
-
-      {error ? (
-        <div className="rounded-cta border border-terracotta-500/20 bg-terracotta-400/10 px-4 py-3 text-sm font-medium text-terracotta-600">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p>{error}</p>
-            <button
-              type="button"
-              onClick={() => void reload()}
-              className="rounded-xl border border-terracotta-500/30 bg-white px-4 py-2 text-sm font-semibold text-terracotta-600 transition hover:bg-cream-50 focus:outline-none focus:ring-2 focus:ring-forest-200"
-            >
-              {t('admin.lessons.error.retry')}
-            </button>
-          </div>
-        </div>
-      ) : null}
+      <Toast message={notice} type="success" onClose={() => setNotice('')} />
+      <Toast message={publishError} type="error" onClose={() => setPublishError('')} />
+      <Toast message={error} type="error" onClose={() => {}} />
 
       <LessonFilters
         search={search}

@@ -17,6 +17,8 @@ def _concept_summary(concept):
         "id": concept.id,
         "key": concept.key,
         "title": concept.title,
+        "image_url": concept.image_url,
+        "image_alt_text": concept.image_alt_text,
     }
 
 

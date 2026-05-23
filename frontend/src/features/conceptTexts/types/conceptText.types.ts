@@ -53,6 +53,8 @@ export interface ConceptText {
     id: string
     key: string
     title: string
+    image_url?: string | null
+    image_alt_text?: string | null
   } | null
   language?: {
     id: string

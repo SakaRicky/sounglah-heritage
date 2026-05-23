@@ -68,10 +68,16 @@ export function AudioPlayerMini({ src, durationSeconds, canReview = false, class
       return
     }
 
+    // Force initialization of the audio pipeline on mobile
+    if (audio.currentTime === 0) {
+      audio.load()
+    }
+
     try {
-      setStatus('loading')
-      await audio.play()
+      // Trigger play synchronously in the click handler to guarantee user gesture context is preserved
+      const playPromise = audio.play()
       setStatus('playing')
+      await playPromise
     } catch (playError) {
       setStatus('error')
       setError(playError instanceof Error ? playError.message : 'Unable to play this audio.')
@@ -144,7 +150,7 @@ export function AudioPlayerMini({ src, durationSeconds, canReview = false, class
       <audio
         ref={audioRef}
         src={resolvedSrc}
-        preload="metadata"
+        preload="auto"
         className="sr-only"
         onLoadedMetadata={(event) => {
           const nextDuration = Number.isFinite(event.currentTarget.duration) ? Math.round(event.currentTarget.duration) : null

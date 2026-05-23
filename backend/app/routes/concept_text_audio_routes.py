@@ -181,3 +181,22 @@ def reject_audio(audio_id):
     db.session.commit()
 
     return jsonify({"data": concept_text_audio_to_dict(audio, include_concept_text=True)})
+
+
+@concept_text_audio_bp.patch("/<audio_id>/undo")
+@require_concept_text_audio_permission(CONCEPT_TEXT_AUDIO_PERMISSIONS["review"])
+def undo_audio(audio_id):
+    audio = db.session.get(ConceptTextAudio, audio_id)
+    if audio is None:
+        return jsonify({"error": {"message": "Concept text audio not found."}}), 404
+
+    audio.status = ConceptTextAudio.STATUS_PENDING_REVIEW
+    audio.reviewed_by_user_id = None
+    audio.review_note = None
+    audio.approved_at = None
+    audio.rejected_at = None
+    if audio.concept_text.current_audio_id == audio.id:
+        audio.concept_text.current_audio_id = None
+    db.session.commit()
+
+    return jsonify({"data": concept_text_audio_to_dict(audio, include_concept_text=True)})
