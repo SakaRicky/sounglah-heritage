@@ -172,7 +172,7 @@ function SummaryCardsGrid({
 
   return (
     <section
-      className="grid grid-cols-2 items-stretch gap-3 sm:gap-4 xl:grid-cols-3"
+      className="grid grid-cols-2 items-stretch gap-3 sm:gap-4 lg:grid-cols-4"
       aria-label="Concept completion summary"
     >
       {cards.map((card, index) => {
@@ -186,8 +186,8 @@ function SummaryCardsGrid({
             onClick={() => onStatusSelect(isActive ? 'all' : card.status)}
             className={[
               'flex h-full w-full min-w-0 rounded-2xl text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-forest-200',
-              isActive ? 'ring-2 ring-forest-accent/35' : 'sm:hover:scale-[1.01]',
-              isLastOddMobile ? 'max-sm:col-span-2 max-sm:justify-center' : '',
+              isActive ? 'ring-2 ring-forest-accent/35 scale-[0.98]' : 'sm:hover:scale-[1.01]',
+              isLastOddMobile ? 'max-sm:col-span-2' : '',
             ].join(' ')}
           >
             <StatsCard
@@ -200,8 +200,7 @@ function SummaryCardsGrid({
               variant={card.variant}
               cardClassName={[
                 card.cardClassName,
-                'h-full',
-                isLastOddMobile ? 'max-sm:w-[calc(50%-0.375rem)]' : '',
+                'h-full w-full',
               ]
                 .filter(Boolean)
                 .join(' ')}
@@ -232,6 +231,7 @@ export function ConceptCompletionPage() {
   const [notice, setNotice] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [viewMode, setViewMode] = useState<'list' | 'grid'>('list')
 
   useEffect(() => {
     let isMounted = true
@@ -464,10 +464,12 @@ export function ConceptCompletionPage() {
         status={status}
         language={language}
         requiredLanguages={requiredLanguages}
+        viewMode={viewMode}
         onSearchChange={resetPageAndSetSearch}
         onStatusChange={resetPageAndSetStatus}
         onLanguageChange={resetPageAndSetLanguage}
         onClearFilters={clearFilters}
+        onViewModeChange={setViewMode}
         showTextPreviews={showTextPreviews}
         onShowTextPreviewsChange={setShowTextPreviews}
       />
@@ -500,6 +502,7 @@ export function ConceptCompletionPage() {
         onToggleSelectAllConcepts={toggleSelectAllConcepts}
         publishingConceptId={publishingConceptId}
         onPublish={handlePublish}
+        viewMode={viewMode}
       />
     </div>
   )
