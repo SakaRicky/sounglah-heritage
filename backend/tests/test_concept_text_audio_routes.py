@@ -238,3 +238,56 @@ def test_reject_audio_preserves_history_and_clears_current_audio():
         audio = db.session.get(ConceptTextAudio, audio_id)
         assert concept_text.current_audio_id is None
         assert audio.status == ConceptTextAudio.STATUS_REJECTED
+
+
+def test_undo_audio_review_requires_authentication():
+    app = create_app(testing=True)
+    client = app.test_client()
+    response = client.patch("/api/admin/concept-text-audios/123/undo")
+    assert response.status_code == 401
+
+
+def test_undo_audio_review_resets_status_and_clears_metadata():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+    with app.app_context():
+        concept_text = ConceptText.query.first()
+        audio = ConceptTextAudio(
+            concept_text_id=concept_text.id,
+            audio_url="/media/audio/current.webm",
+            status=ConceptTextAudio.STATUS_APPROVED,
+            reviewed_by_user_id=1,
+            review_note="Good recording",
+            approved_at=datetime.now(timezone.utc),
+        )
+        db.session.add(audio)
+        db.session.flush()
+        concept_text.set_current_audio(audio)
+        db.session.commit()
+        audio_id = audio.id
+        concept_text_id = concept_text.id
+
+    response = client.patch(
+        f"/api/admin/concept-text-audios/{audio_id}/undo",
+        headers=headers,
+    )
+
+    assert response.status_code == 200
+    data = response.get_json()["data"]
+    assert data["status"] == "pending_review"
+    assert data["reviewedByUserId"] is None
+    assert data["reviewNote"] is None
+    assert data["approvedAt"] is None
+    assert data["rejectedAt"] is None
+
+    with app.app_context():
+        concept_text = db.session.get(ConceptText, concept_text_id)
+        audio = db.session.get(ConceptTextAudio, audio_id)
+        assert concept_text.current_audio_id is None
+        assert audio.status == ConceptTextAudio.STATUS_PENDING_REVIEW
+        assert audio.reviewed_by_user_id is None
+        assert audio.review_note is None
+        assert audio.approved_at is None
+        assert audio.rejected_at is None
+

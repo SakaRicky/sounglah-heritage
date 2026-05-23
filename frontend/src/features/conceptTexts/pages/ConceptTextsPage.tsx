@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { Mic, Plus } from 'lucide-react'
 
 import { AdminPageHeader } from '../../../components/admin/AdminPageHeader'
+import { Toast } from '../../../components/common/Toast'
 import { InsightCard } from '../../../components/admin/InsightCard'
 import { StatsCard } from '../../../components/admin/StatsCard'
 import { ApiError, normalizeApiFieldErrors } from '../../../lib/api'
@@ -462,22 +463,36 @@ export function AdminConceptTextsPage() {
 
       <ConceptTextsSubNav />
 
-      {notice ? (
-        <div className="rounded-cta border border-forest-accent/20 bg-forest-accent/10 px-4 py-3 text-sm font-medium text-forest-700">
-          {notice}
-        </div>
-      ) : null}
+      <Toast message={notice} type="success" onClose={() => setNotice('')} />
+      <Toast message={error} type="error" onClose={() => setError('')} />
 
-      {error ? (
-        <div className="rounded-cta border border-terracotta-500/20 bg-terracotta-400/10 px-4 py-3 text-sm font-medium text-terracotta-600">
-          {error}
-        </div>
-      ) : null}
-
-      <section className="grid gap-4 md:grid-cols-3" aria-label="Concept text summary">
-        <StatsCard icon={<TranslateIcon />} label="Total Texts" value={total} description="Concept-language expressions" variant="green" />
-        <StatsCard icon={<CheckIcon />} label="Visible Active" value={activeCount} description={`${approvedCount} approved on this page`} />
-        <StatsCard icon={<ReviewIcon />} label="Visible Review" value={needsReviewCount} description="On this page" variant="warm" />
+      <section className="grid grid-cols-3 gap-2 sm:gap-4" aria-label="Concept text summary">
+        <StatsCard
+          icon={<TranslateIcon />}
+          label="Total Texts"
+          value={total}
+          description="Concept-language expressions"
+          variant="green"
+          dense={true}
+          descriptionClassName="max-sm:hidden"
+        />
+        <StatsCard
+          icon={<CheckIcon />}
+          label="Visible Active"
+          value={activeCount}
+          description={`${approvedCount} approved on this page`}
+          dense={true}
+          descriptionClassName="max-sm:hidden"
+        />
+        <StatsCard
+          icon={<ReviewIcon />}
+          label="Visible Review"
+          value={needsReviewCount}
+          description="On this page"
+          variant="warm"
+          dense={true}
+          descriptionClassName="max-sm:hidden"
+        />
       </section>
 
       <ConceptTextFilters

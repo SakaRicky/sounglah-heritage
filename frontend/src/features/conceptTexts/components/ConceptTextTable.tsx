@@ -1,10 +1,12 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
+import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import type { ColumnDef } from '@tanstack/react-table'
 import { MoreVertical, Pencil, Power, PowerOff } from 'lucide-react'
 
-import { AdminTable } from '../../../components/admin/AdminTable'
+import { AdminDataTable } from '../../../components/admin/AdminDataTable'
 import { formatDate } from '../../../lib/date'
+import { resolveMediaUrl } from '../../../lib/media'
 import { ConceptTextAudioCell } from './ConceptTextAudioCell'
 import { ConceptTextReviewBadge } from './ConceptTextReviewBadge'
 import { ConceptTextStatusBadge } from './ConceptTextStatusBadge'
@@ -191,6 +193,97 @@ function ActionsCell({ conceptText }: { conceptText: ConceptText }) {
         ) : null}
       </div>
     </div>
+  )
+}
+
+function ConceptTextMobileCard({
+  conceptText,
+  selected,
+  onToggleSelected,
+}: {
+  conceptText: ConceptText
+  selected: boolean
+  onToggleSelected: () => void
+}) {
+  const { onEdit, onToggleStatus } = useConceptTextTableContext()
+  const isActive = conceptText.status === 'active'
+
+  return (
+    <article className={`rounded-2xl border ${!isActive ? 'opacity-65 bg-sand-50/50' : 'bg-white'} border-sand-100 p-4 shadow-[0_8px_24px_rgba(47,26,16,0.04)]`}>
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <input
+            type="checkbox"
+            checked={selected}
+            disabled={!isActive}
+            onChange={onToggleSelected}
+            aria-label={`Select ${conceptText.concept?.title ?? 'concept text'}`}
+            className="h-4 w-4 rounded border-sand-300 text-forest-accent focus:ring-forest-200 disabled:cursor-not-allowed disabled:opacity-40"
+          />
+          <ConceptMark title={conceptText.concept?.title ?? 'Unknown concept'} />
+          <div className="min-w-0">
+            <h3 className="break-words text-sm font-bold text-cocoa-800">{conceptText.concept?.title ?? 'Unknown concept'}</h3>
+            <p className="font-mono text-[10px] text-cocoa-body/65 truncate">{conceptText.concept?.key ?? conceptText.conceptId}</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-1.5 shrink-0">
+          <LanguageFlag code={conceptText.language?.code} />
+          <span className="text-xs font-semibold text-cocoa-body/70 uppercase">{conceptText.language?.code ?? 'unknown'}</span>
+        </div>
+      </div>
+
+      <div className="mt-4 rounded-xl border border-forest-accent/10 bg-forest-50/10 p-3.5">
+        <p className="text-[10px] font-semibold uppercase tracking-wide text-forest-700/70">Translation Text</p>
+        <p className="mt-1 break-words text-base font-bold leading-snug text-cocoa-ink">
+          {conceptText.text}
+        </p>
+        {conceptText.pronunciation ? (
+          <p className="mt-1.5 break-words text-xs text-cocoa-body/75 font-medium flex items-center gap-1">
+            <span>🗣️</span> {conceptText.pronunciation}
+          </p>
+        ) : null}
+        {conceptText.literalMeaning ? (
+          <p className="mt-1.5 break-words text-xs text-forest-700/80 italic flex items-center gap-1">
+            <span>💡</span> Literal: "{conceptText.literalMeaning}"
+          </p>
+        ) : null}
+      </div>
+
+      <div className="mt-3.5 space-y-1.5">
+        <p className="text-[10px] font-semibold uppercase tracking-wide text-forest-700/70">Audio Pronunciation</p>
+        <div className="min-w-0 w-full">
+          <AudioCell conceptText={conceptText} />
+        </div>
+      </div>
+
+      <div className="mt-4 flex items-center justify-between border-t border-sand-100/75 pt-3">
+        <ReviewCell conceptText={conceptText} />
+        
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => onEdit(conceptText)}
+            className="inline-flex h-9 items-center justify-center gap-1.5 rounded-xl border border-forest-accent/25 bg-white px-3 text-xs font-semibold text-forest-700 shadow-sm transition hover:bg-forest-50/50"
+          >
+            <Pencil className="h-3.5 w-3.5" aria-hidden />
+            Edit
+          </button>
+          <button
+            type="button"
+            onClick={() => onToggleStatus(conceptText)}
+            className={`inline-flex h-9 items-center justify-center gap-1.5 rounded-xl border px-3 text-xs font-semibold shadow-sm transition ${
+              isActive
+                ? 'border-terracotta-500/25 text-terracotta-600 bg-white hover:bg-terracotta-50/30'
+                : 'border-sand-300 text-cocoa-body bg-white hover:bg-sand-50'
+            }`}
+          >
+            {isActive ? <PowerOff className="h-3.5 w-3.5" aria-hidden /> : <Power className="h-3.5 w-3.5" aria-hidden />}
+            {isActive ? 'Disable' : 'Enable'}
+          </button>
+        </div>
+      </div>
+    </article>
   )
 }
 
@@ -389,21 +482,22 @@ export function ConceptTextTable({
     [allSelected, onToggleSelectAll, onToggleSelected, selectableIds.length, selectedIds, someSelected],
   )
 
+  // eslint-disable-next-line react-hooks/incompatible-library
+  const table = useReactTable({
+    data: conceptTexts,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getRowId: (conceptText) => conceptText.id,
+  })
+
   return (
     <ConceptTextTableContext.Provider value={tableContextValue}>
-      <AdminTable
-        columns={columns}
-        data={conceptTexts}
-        getRowId={(conceptText) => conceptText.id}
-        getRowClassName={(conceptText) =>
-          conceptText.status === 'disabled'
-            ? 'opacity-55 bg-sand-50/40 hover:bg-sand-50/60 transition-all duration-200'
-            : 'transition-all duration-200'
-        }
+      <AdminDataTable
         title={`${total} concept text records`}
         subtitle="One primary expression per concept and language"
         loading={loading}
         loadingLabel="Loading concept texts..."
+        isEmpty={conceptTexts.length === 0}
         emptyState={{
           title: filtered ? 'No matching concept texts' : 'No concept texts yet',
           description: filtered
@@ -427,7 +521,89 @@ export function ConceptTextTable({
           onPageSizeChange,
         }}
         scrollMaxHeight="32rem"
-      />
+      >
+        {/* Mobile View */}
+        <div className="space-y-4 bg-cream-50/35 p-3 lg:hidden">
+          {conceptTexts.map((conceptText) => (
+            <ConceptTextMobileCard
+              key={conceptText.id}
+              conceptText={conceptText}
+              selected={selectedIds.has(conceptText.id)}
+              onToggleSelected={() => onToggleSelected(conceptText.id)}
+            />
+          ))}
+        </div>
+
+        {/* Desktop View */}
+        <div className="hidden lg:block overflow-x-auto">
+          <table className="min-w-full divide-y divide-sand-100 text-left text-sm">
+            <thead className="sticky top-0 z-10 bg-forest-50/95 text-xs uppercase tracking-wide text-forest-700/75 backdrop-blur-sm">
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    const align = header.column.columnDef.meta?.align
+
+                    return (
+                      <th
+                        key={header.id}
+                        className={[
+                          'group px-5 py-4 font-semibold',
+                          align === 'right' ? 'text-right' : '',
+                          header.column.columnDef.meta?.headerClassName ?? '',
+                        ].join(' ')}
+                      >
+                        {header.isPlaceholder ? null : (
+                          <div
+                            className={[
+                              'inline-flex items-center gap-1.5',
+                              align === 'right' ? 'justify-end' : '',
+                            ].join(' ')}
+                          >
+                            {flexRender(header.column.columnDef.header, header.getContext())}
+                          </div>
+                        )}
+                      </th>
+                    )
+                  })}
+                </tr>
+              ))}
+            </thead>
+            <tbody className="divide-y divide-sand-100/80 bg-white/70">
+              {table.getRowModel().rows.map((row) => {
+                const customRowClass = row.original.status === 'disabled'
+                  ? 'opacity-55 bg-sand-50/40 hover:bg-sand-50/60 transition-all duration-200'
+                  : 'transition-all duration-200'
+                return (
+                  <tr
+                    key={row.id}
+                    className={[
+                      'align-middle transition-all duration-200 hover:bg-forest-50/30',
+                      customRowClass,
+                    ].join(' ')}
+                  >
+                    {row.getVisibleCells().map((cell) => {
+                      const align = cell.column.columnDef.meta?.align
+
+                      return (
+                        <td
+                          key={cell.id}
+                          className={[
+                            'px-5 py-4 text-cocoa-body',
+                            align === 'right' ? 'text-right' : '',
+                            cell.column.columnDef.meta?.cellClassName ?? '',
+                          ].join(' ')}
+                        >
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </td>
+                      )
+                    })}
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+      </AdminDataTable>
     </ConceptTextTableContext.Provider>
   )
 }

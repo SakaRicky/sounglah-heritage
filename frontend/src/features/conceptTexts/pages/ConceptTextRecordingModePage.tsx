@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Toast } from '../../../components/common/Toast'
 import { Link } from 'react-router-dom'
 import { ChevronLeft, Loader2, Mic, Search, SkipForward } from 'lucide-react'
 
@@ -215,17 +216,8 @@ export function ConceptTextRecordingModePage() {
         }
       />
 
-      {notice ? (
-        <div className="rounded-cta border border-forest-accent/20 bg-forest-accent/10 px-4 py-3 text-sm font-medium text-forest-700">
-          {notice}
-        </div>
-      ) : null}
-
-      {error ? (
-        <div className="rounded-cta border border-terracotta-500/20 bg-terracotta-400/10 px-4 py-3 text-sm font-medium text-terracotta-600">
-          {error}
-        </div>
-      ) : null}
+      <Toast message={notice} type="success" onClose={() => setNotice('')} />
+      <Toast message={error} type="error" onClose={() => setError('')} />
 
       <section className="grid gap-4 md:grid-cols-3" aria-label="Recording summary">
         <StatsCard

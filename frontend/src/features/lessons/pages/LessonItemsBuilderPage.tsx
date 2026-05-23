@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Toast } from '../../../components/common/Toast'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Plus } from 'lucide-react'
 
@@ -161,26 +162,8 @@ export function LessonItemsBuilderPage() {
 
         <LessonItemsFilters filters={filters} onChange={setFilters} />
 
-        {notice ? (
-          <div className="rounded-cta border border-forest-accent/20 bg-forest-accent/10 px-4 py-3 text-sm font-medium text-forest-700">
-            {notice}
-          </div>
-        ) : null}
-
-        {error ? (
-          <div className="rounded-cta border border-terracotta-500/20 bg-terracotta-400/10 px-4 py-3 text-sm font-medium text-terracotta-600">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <p>{error}</p>
-              <button
-                type="button"
-                onClick={() => void loadBuilder()}
-                className="rounded-xl border border-terracotta-500/30 bg-white px-4 py-2 text-sm font-semibold text-terracotta-600"
-              >
-                {t('admin.lessons.error.retry')}
-              </button>
-            </div>
-          </div>
-        ) : null}
+        <Toast message={notice} type="success" onClose={() => setNotice('')} />
+        <Toast message={error} type="error" onClose={() => setError('')} />
 
         {items.length === 0 ? (
           <div className="rounded-2xl border border-sand-200 bg-forest-50/20 p-8 text-center shadow-soft">

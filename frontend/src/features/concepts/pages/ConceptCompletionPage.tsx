@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
+
+import { Toast } from '../../../components/common/Toast'
 import { ChevronDown } from 'lucide-react'
 
 import { AdminPageHeader } from '../../../components/admin/AdminPageHeader'
@@ -564,17 +566,8 @@ export function ConceptCompletionPage() {
         description="Review concept translation status and publish when ready."
       />
 
-      {notice ? (
-        <div className="rounded-cta border border-forest-accent/20 bg-forest-accent/10 px-4 py-3 text-sm font-medium text-forest-700 animate-fade-in">
-          {notice}
-        </div>
-      ) : null}
-
-      {error ? (
-        <div className="rounded-cta border border-terracotta-500/20 bg-terracotta-400/10 px-4 py-3 text-sm font-medium text-terracotta-600 animate-fade-in">
-          {error}
-        </div>
-      ) : null}
+      <Toast message={notice} type="success" onClose={() => setNotice('')} />
+      <Toast message={error} type="error" onClose={() => setError('')} />
 
       {/* Collapsible Stats Summary for Mobile/Tablet */}
       <div className="lg:hidden">

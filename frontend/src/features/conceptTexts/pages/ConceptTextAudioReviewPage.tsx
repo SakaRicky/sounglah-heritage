@@ -1,18 +1,21 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { CalendarDays, Check, Clock, Headphones, Loader2, RefreshCw, Search, UserRound, X } from 'lucide-react'
+import { CalendarDays, Check, Clock, Headphones, Loader2, RefreshCw, RotateCcw, Search, UserRound, X } from 'lucide-react'
 
 import { AdminDataTable } from '../../../components/admin/AdminDataTable'
 import { AdminFilterBar } from '../../../components/admin/AdminFilterBar'
 import { AdminPageHeader } from '../../../components/admin/AdminPageHeader'
 import { StatsCard } from '../../../components/admin/StatsCard'
 import { ModalPortal } from '../../../components/common/ModalPortal'
+import { Toast } from '../../../components/common/Toast'
 import { formatDate } from '../../../lib/date'
+import { resolveMediaUrl } from '../../../lib/media'
 import { getLanguages } from '../../languages/api/languagesApi'
 import type { Language } from '../../languages/types/language.types'
 import {
   approveConceptTextAudio,
   getConceptTextAudioReviewQueue,
   rejectConceptTextAudio,
+  undoConceptTextAudioReview,
 } from '../api/conceptTextsApi'
 import { AudioPlayerMini } from '../components/AudioPlayerMini'
 import { ConceptTextsSubNav } from '../components/ConceptTextsSubNav'
@@ -41,6 +44,7 @@ type MobileReviewCardProps = {
   canReject: boolean
   onApprove: (audio: ConceptTextAudio) => void
   onReject: (audio: ConceptTextAudio) => void
+  onUndo: (audio: ConceptTextAudio) => void
 }
 
 const statusLabels: Record<ConceptTextAudioReviewStatus, string> = {
@@ -155,7 +159,7 @@ function RejectDialog({ audio, note, saving, onNoteChange, onCancel, onConfirm }
   )
 }
 
-function MobileReviewCard({ audio, isSaving, canReview, canApprove, canReject, onApprove, onReject }: MobileReviewCardProps) {
+function MobileReviewCard({ audio, isSaving, canReview, canApprove, canReject, onApprove, onReject, onUndo }: MobileReviewCardProps) {
   const conceptText = audio.conceptText
   const title = conceptText?.concept?.title ?? 'Untitled concept'
   const submittedAt = audio.submittedAt ?? audio.createdAt
@@ -173,9 +177,17 @@ function MobileReviewCard({ audio, isSaving, canReview, canApprove, canReject, o
           </div>
 
           <div className="mt-3 flex min-w-0 gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-forest-50 text-lg font-bold text-forest-700">
-              {getConceptInitial(title)}
-            </div>
+            {conceptText?.concept?.image_url ? (
+              <img
+                src={resolveMediaUrl(conceptText.concept.image_url) ?? undefined}
+                alt={conceptText.concept.image_alt_text || title}
+                className="h-10 w-10 shrink-0 rounded-xl object-cover border border-sand-200"
+              />
+            ) : (
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-forest-50 text-lg font-bold text-forest-700">
+                {getConceptInitial(title)}
+              </div>
+            )}
             <div className="min-w-0">
               <h3 className="break-words text-base font-bold text-cocoa-800">{title}</h3>
               <p className="mt-2 flex flex-wrap items-center gap-2 text-sm font-medium text-cocoa-body/70">
@@ -215,26 +227,40 @@ function MobileReviewCard({ audio, isSaving, canReview, canApprove, canReject, o
         {audio.reviewNote ? <p className="rounded-xl bg-cream-100 px-3 py-2 text-xs text-cocoa-body/70">{audio.reviewNote}</p> : null}
       </div>
 
-      <div className="mt-3 grid grid-cols-2 gap-2.5 sm:ml-[3.25rem] sm:flex sm:justify-end">
-        <button
-          type="button"
-          onClick={() => onApprove(audio)}
-          disabled={!canReview || !canApprove || isSaving}
-          className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl bg-forest-accent px-3.5 py-2 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(31,90,61,0.16)] transition hover:bg-forest-accent-hover disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          {isSaving ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Check className="h-4 w-4" aria-hidden />}
-          Approve
-        </button>
-        <button
-          type="button"
-          onClick={() => onReject(audio)}
-          disabled={!canReview || !canReject || isSaving}
-          className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-terracotta-500/35 bg-white px-3.5 py-2 text-sm font-semibold text-terracotta-600 transition hover:border-terracotta-500/55 hover:bg-terracotta-400/10 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          <X className="h-4 w-4" aria-hidden />
-          Reject
-        </button>
-      </div>
+      {audio.status === 'pending_review' ? (
+        <div className="mt-3 grid grid-cols-2 gap-2.5 sm:ml-[3.25rem] sm:flex sm:justify-end">
+          <button
+            type="button"
+            onClick={() => onApprove(audio)}
+            disabled={!canReview || !canApprove || isSaving}
+            className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl bg-forest-accent px-3.5 py-2 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(31,90,61,0.16)] transition hover:bg-forest-accent-hover disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {isSaving ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Check className="h-4 w-4" aria-hidden />}
+            Approve
+          </button>
+          <button
+            type="button"
+            onClick={() => onReject(audio)}
+            disabled={!canReview || !canReject || isSaving}
+            className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-terracotta-500/35 bg-white px-3.5 py-2 text-sm font-semibold text-terracotta-600 transition hover:border-terracotta-500/55 hover:bg-terracotta-400/10 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <X className="h-4 w-4" aria-hidden />
+            Reject
+          </button>
+        </div>
+      ) : (
+        <div className="mt-3 flex sm:ml-[3.25rem] sm:justify-end">
+          <button
+            type="button"
+            onClick={() => onUndo(audio)}
+            disabled={isSaving}
+            className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-sand-300 bg-white px-3.5 py-2 text-sm font-semibold text-cocoa-700 transition hover:bg-sand-50 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <RotateCcw className="h-4 w-4" aria-hidden />
+            Undo review
+          </button>
+        </div>
+      )}
     </article>
   )
 }
@@ -374,6 +400,28 @@ export function ConceptTextAudioReviewPage() {
     }
   }
 
+  async function handleUndoReview(audio: ConceptTextAudio) {
+    const confirmed = window.confirm(
+      'Are you sure you want to undo this review? This will return the recording to Pending review status and clear any existing review notes.'
+    )
+    if (!confirmed) {
+      return
+    }
+
+    setSavingAudioId(audio.id)
+    setError('')
+
+    try {
+      await undoConceptTextAudioReview(audio.id)
+      setNotice('Review decision undone. Recording is back in Pending review status.')
+      await loadQueue()
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : 'Unable to undo review decision.')
+    } finally {
+      setSavingAudioId(null)
+    }
+  }
+
   return (
     <div className="space-y-8">
       <AdminPageHeader
@@ -395,25 +443,18 @@ export function ConceptTextAudioReviewPage() {
 
       <ConceptTextsSubNav />
 
-      {notice ? (
-        <div className="rounded-cta border border-forest-accent/20 bg-forest-accent/10 px-4 py-3 text-sm font-medium text-forest-700">
-          {notice}
-        </div>
-      ) : null}
+      <Toast message={notice} type="success" onClose={() => setNotice('')} />
+      <Toast message={error} type="error" onClose={() => setError('')} />
 
-      {error ? (
-        <div className="rounded-cta border border-terracotta-500/20 bg-terracotta-400/10 px-4 py-3 text-sm font-medium text-terracotta-600">
-          {error}
-        </div>
-      ) : null}
-
-      <section className="grid gap-4 md:grid-cols-3" aria-label="Audio review summary">
+      <section className="grid grid-cols-3 gap-2 sm:gap-4" aria-label="Audio review summary">
         <StatsCard
           icon={loading ? <LoadingIcon /> : <Clock className="h-5 w-5" aria-hidden />}
           label={statusLabels[status]}
           value={total}
           description="Recordings matching the current review filter"
           variant="warm"
+          dense={true}
+          descriptionClassName="max-sm:hidden"
         />
         <StatsCard
           icon={<Search className="h-5 w-5" aria-hidden />}
@@ -421,41 +462,45 @@ export function ConceptTextAudioReviewPage() {
           value={pendingOnPage}
           description="Items ready for approve or reject decisions"
           variant="green"
+          dense={true}
+          descriptionClassName="max-sm:hidden"
         />
         <StatsCard
           icon={<Check className="h-5 w-5" aria-hidden />}
           label="Language"
           value={selectedLanguage?.name ?? 'All'}
           description={selectedLanguage?.code ? selectedLanguage.code.toUpperCase() : 'Every active language'}
+          dense={true}
+          descriptionClassName="max-sm:hidden"
         />
       </section>
 
       <AdminFilterBar>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-[minmax(14rem,0.7fr)_minmax(14rem,0.7fr)_auto] lg:items-end">
-          <label className="block">
-            <span className="text-sm font-medium text-forest-600">Review status</span>
+        <div className="flex flex-row items-end gap-2 sm:grid sm:gap-4 sm:grid-cols-2 lg:grid-cols-[minmax(14rem,0.7fr)_minmax(14rem,0.7fr)_auto]">
+          <label className="block flex-1 min-w-0">
+            <span className="text-xs sm:text-sm font-medium text-forest-600">Status</span>
             <select
               value={status}
               onChange={(event) => handleStatusChange(event.target.value as ConceptTextAudioReviewStatus)}
-              className="mt-2 w-full rounded-xl border border-sand-200 bg-white px-4 py-3 text-sm font-semibold text-cocoa-800 outline-none transition hover:border-forest-300 focus:border-forest-accent focus:ring-2 focus:ring-forest-200"
+              className="mt-1 sm:mt-2 w-full rounded-xl border border-sand-200 bg-white px-2 py-2.5 sm:px-4 sm:py-3 text-xs sm:text-sm font-semibold text-cocoa-800 outline-none transition hover:border-forest-300 focus:border-forest-accent focus:ring-2 focus:ring-forest-200"
             >
-              <option value="pending_review">Pending review</option>
+              <option value="pending_review">Pending</option>
               <option value="approved">Approved</option>
               <option value="rejected">Rejected</option>
               <option value="draft">Draft</option>
               <option value="archived">Archived</option>
-              <option value="all">All statuses</option>
+              <option value="all">All</option>
             </select>
           </label>
 
-          <label className="block">
-            <span className="text-sm font-medium text-forest-600">Language</span>
+          <label className="block flex-1 min-w-0">
+            <span className="text-xs sm:text-sm font-medium text-forest-600">Language</span>
             <select
               value={languageId}
               onChange={(event) => handleLanguageChange(event.target.value)}
-              className="mt-2 w-full rounded-xl border border-sand-200 bg-white px-4 py-3 text-sm font-semibold text-cocoa-800 outline-none transition hover:border-forest-300 focus:border-forest-accent focus:ring-2 focus:ring-forest-200"
+              className="mt-1 sm:mt-2 w-full rounded-xl border border-sand-200 bg-white px-2 py-2.5 sm:px-4 sm:py-3 text-xs sm:text-sm font-semibold text-cocoa-800 outline-none transition hover:border-forest-300 focus:border-forest-accent focus:ring-2 focus:ring-forest-200"
             >
-              <option value="">All languages</option>
+              <option value="">All</option>
               {languages.map((language) => (
                 <option key={language.id} value={language.id}>
                   {language.name}
@@ -471,9 +516,11 @@ export function ConceptTextAudioReviewPage() {
               setStatus('pending_review')
               setLanguageId('')
             }}
-            className="rounded-xl border border-sand-200 bg-white px-4 py-3 text-sm font-semibold text-forest-700 transition hover:border-forest-accent/35 hover:bg-forest-50/40 focus:outline-none focus:ring-2 focus:ring-forest-200"
+            title="Reset filters"
+            className="flex items-center justify-center rounded-xl border border-sand-200 bg-white p-2.5 sm:px-4 sm:py-3 text-sm font-semibold text-forest-700 transition hover:border-forest-accent/35 hover:bg-forest-50/40 focus:outline-none focus:ring-2 focus:ring-forest-200 h-[38px] sm:h-[46px]"
           >
-            Reset filters
+            <span className="hidden sm:inline">Reset filters</span>
+            <span className="sm:hidden"><X className="h-4 w-4" /></span>
           </button>
         </div>
       </AdminFilterBar>
@@ -511,6 +558,7 @@ export function ConceptTextAudioReviewPage() {
                 canReject={canRejectAudio}
                 onApprove={(selectedAudio) => void handleApprove(selectedAudio)}
                 onReject={openRejectDialog}
+                onUndo={(selectedAudio) => void handleUndoReview(selectedAudio)}
               />
             )
           })}
@@ -539,7 +587,16 @@ export function ConceptTextAudioReviewPage() {
                     <p className="break-words text-xl font-bold leading-7 text-cocoa-800">{conceptText?.text ?? 'No text available'}</p>
                   </td>
                   <td className="max-w-xs px-5 py-4">
-                    <p className="font-semibold text-cocoa-800">{conceptText?.concept?.title ?? 'Untitled concept'}</p>
+                    <div className="flex items-center gap-3">
+                      {conceptText?.concept?.image_url ? (
+                        <img
+                          src={resolveMediaUrl(conceptText.concept.image_url) ?? undefined}
+                          alt={conceptText.concept.image_alt_text || (conceptText?.concept?.title ?? 'Concept')}
+                          className="h-10 w-10 shrink-0 rounded-xl object-cover border border-sand-200"
+                        />
+                      ) : null}
+                      <p className="font-semibold text-cocoa-800">{conceptText?.concept?.title ?? 'Untitled concept'}</p>
+                    </div>
                   </td>
                   <td className="px-5 py-4">
                     <p className="font-semibold text-cocoa-800">{conceptText?.language?.name ?? 'Unknown language'}</p>
@@ -562,24 +619,38 @@ export function ConceptTextAudioReviewPage() {
                   </td>
                   <td className="px-5 py-4 text-right">
                     <div className="flex justify-end gap-2">
-                      <button
-                        type="button"
-                        onClick={() => void handleApprove(audio)}
-                        disabled={!canReview || !canApproveAudio || isSaving}
-                        className="inline-flex items-center gap-2 rounded-lg bg-forest-accent px-3 py-2 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(31,90,61,0.16)] transition hover:bg-forest-accent-hover disabled:cursor-not-allowed disabled:opacity-50"
-                      >
-                        {isSaving ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Check className="h-4 w-4" aria-hidden />}
-                        Approve
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => openRejectDialog(audio)}
-                        disabled={!canReview || !canRejectAudio || isSaving}
-                        className="inline-flex items-center gap-2 rounded-lg border border-terracotta-500/25 bg-white px-3 py-2 text-sm font-semibold text-terracotta-600 transition hover:border-terracotta-500/45 hover:bg-terracotta-400/10 disabled:cursor-not-allowed disabled:opacity-50"
-                      >
-                        <X className="h-4 w-4" aria-hidden />
-                        Reject
-                      </button>
+                      {audio.status === 'pending_review' ? (
+                        <>
+                          <button
+                            type="button"
+                            onClick={() => void handleApprove(audio)}
+                            disabled={!canReview || !canApproveAudio || isSaving}
+                            className="inline-flex items-center gap-2 rounded-lg bg-forest-accent px-3 py-2 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(31,90,61,0.16)] transition hover:bg-forest-accent-hover disabled:cursor-not-allowed disabled:opacity-50"
+                          >
+                            {isSaving ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Check className="h-4 w-4" aria-hidden />}
+                            Approve
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => openRejectDialog(audio)}
+                            disabled={!canReview || !canRejectAudio || isSaving}
+                            className="inline-flex items-center gap-2 rounded-lg border border-terracotta-500/25 bg-white px-3 py-2 text-sm font-semibold text-terracotta-600 transition hover:border-terracotta-500/45 hover:bg-terracotta-400/10 disabled:cursor-not-allowed disabled:opacity-50"
+                          >
+                            <X className="h-4 w-4" aria-hidden />
+                            Reject
+                          </button>
+                        </>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => void handleUndoReview(audio)}
+                          disabled={isSaving}
+                          className="inline-flex items-center gap-2 rounded-lg border border-sand-300 bg-white px-3 py-2 text-sm font-semibold text-cocoa-700 transition hover:bg-sand-50 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          <RotateCcw className="h-4 w-4" aria-hidden />
+                          Undo review
+                        </button>
+                      )}
                     </div>
                   </td>
                 </tr>

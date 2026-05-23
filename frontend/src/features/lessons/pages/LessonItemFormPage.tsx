@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Toast } from '../../../components/common/Toast'
 import type { FormEvent } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
@@ -229,17 +230,8 @@ export function LessonItemFormPage() {
           }
         />
 
-        {notice ? (
-          <div className="mt-6 rounded-cta border border-forest-accent/20 bg-forest-accent/10 px-4 py-3 text-sm font-medium text-forest-700">
-            {notice}
-          </div>
-        ) : null}
-
-        {error ? (
-          <div className="mt-6 rounded-cta border border-terracotta-500/20 bg-terracotta-400/10 px-4 py-3 text-sm font-medium text-terracotta-600">
-            {error}
-          </div>
-        ) : null}
+        <Toast message={notice} type="success" onClose={() => setNotice('')} />
+        <Toast message={error} type="error" onClose={() => setError('')} />
 
         <div className="mt-8">
           <LessonItemForm

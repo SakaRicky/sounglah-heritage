@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
+import { Toast } from '../../../components/common/Toast'
 import { AdminPageHeader } from '../../../components/admin/AdminPageHeader'
 import { StatsCard } from '../../../components/admin/StatsCard'
 import { ApiError, normalizeApiFieldErrors } from '../../../lib/api'
@@ -244,17 +245,8 @@ export function AdminLanguagesPage() {
         }
       />
 
-      {notice ? (
-        <div className="mt-6 rounded-cta border border-forest-accent/20 bg-forest-accent/10 px-4 py-3 text-sm font-medium text-forest-700">
-          {notice}
-        </div>
-      ) : null}
-
-      {error ? (
-        <div className="mt-6 rounded-cta border border-terracotta-500/20 bg-terracotta-400/10 px-4 py-3 text-sm font-medium text-terracotta-600">
-          {error}
-        </div>
-      ) : null}
+      <Toast message={notice} type="success" onClose={() => setNotice('')} />
+      <Toast message={error} type="error" onClose={() => setError('')} />
 
       <StatsGrid total={total} active={activeCount} required={requiredCount} />
 

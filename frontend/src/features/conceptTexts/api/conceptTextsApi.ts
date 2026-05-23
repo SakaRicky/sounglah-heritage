@@ -100,3 +100,10 @@ export async function rejectConceptTextAudio(audioId: string, reviewNote: string
     authenticated: true,
   })
 }
+
+export async function undoConceptTextAudioReview(audioId: string) {
+  return apiRequest<{ data: ConceptTextAudio }>(`/admin/concept-text-audios/${audioId}/undo`, {
+    method: 'PATCH',
+    authenticated: true,
+  })
+}

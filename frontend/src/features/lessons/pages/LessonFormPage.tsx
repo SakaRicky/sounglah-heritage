@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Toast } from '../../../components/common/Toast'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import { AdminPageHeader } from '../../../components/admin/AdminPageHeader'
@@ -231,17 +232,8 @@ export function LessonFormPage() {
         }
       />
 
-      {notice ? (
-        <div className="rounded-cta border border-forest-accent/20 bg-forest-accent/10 px-4 py-3 text-sm font-medium text-forest-700">
-          {notice}
-        </div>
-      ) : null}
-
-      {error ? (
-        <div className="rounded-cta border border-terracotta-500/20 bg-terracotta-400/10 px-4 py-3 text-sm font-medium text-terracotta-600">
-          {error}
-        </div>
-      ) : null}
+      <Toast message={notice} type="success" onClose={() => setNotice('')} />
+      <Toast message={error} type="error" onClose={() => setError('')} />
 
       <LessonForm
         key={lesson?.id ?? 'new-lesson'}

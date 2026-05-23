@@ -22,6 +22,8 @@ def _concept_text_summary(concept_text):
             "id": concept_text.concept.id,
             "key": concept_text.concept.key,
             "title": concept_text.concept.title,
+            "image_url": concept_text.concept.image_url,
+            "image_alt_text": concept_text.concept.image_alt_text,
         }
         if concept_text.concept is not None
         else None,

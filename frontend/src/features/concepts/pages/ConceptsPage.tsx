@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
+import { Toast } from '../../../components/common/Toast'
 import { AdminPageHeader } from '../../../components/admin/AdminPageHeader'
 import { InsightCard } from '../../../components/admin/InsightCard'
 import { StatsCard } from '../../../components/admin/StatsCard'
@@ -298,17 +299,8 @@ export function AdminConceptsPage() {
         }
       />
 
-      {notice ? (
-        <div className="mb-4 rounded-cta border border-forest-accent/20 bg-forest-accent/10 px-4 py-3 text-sm font-medium text-forest-700">
-          {notice}
-        </div>
-      ) : null}
-
-      {error ? (
-        <div className="mb-4 rounded-cta border border-terracotta-500/20 bg-terracotta-400/10 px-4 py-3 text-sm font-medium text-terracotta-600">
-          {error}
-        </div>
-      ) : null}
+      <Toast message={notice} type="success" onClose={() => setNotice('')} />
+      <Toast message={error} type="error" onClose={() => setError('')} />
 
       <div className="grid gap-6 lg:grid-cols-[1fr_18rem] xl:grid-cols-[1fr_22rem] items-start">
         {/* Main Command Pane (Left Column) */}
