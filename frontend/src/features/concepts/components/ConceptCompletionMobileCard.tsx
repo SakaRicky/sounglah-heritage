@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Check, Eye, Globe, Loader2, MoreVertical, Pencil, Rocket, Sparkles } from 'lucide-react'
 
@@ -69,6 +69,24 @@ export function ConceptCompletionMobileCard({
 }: Props) {
   const [previewOpen, setPreviewOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!menuOpen) {
+      return
+    }
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [menuOpen])
 
   const quickReviewLanguage = languages.find(
     (language) =>
@@ -106,7 +124,7 @@ export function ConceptCompletionMobileCard({
             aria-label={`Select ${row.title}`}
             className="mt-0.5 h-4 w-4 shrink-0 rounded border-sand-300 text-forest-accent focus:ring-forest-200"
           />
-          <div className="relative flex items-start gap-2">
+          <div className="relative flex items-start gap-2" ref={menuRef}>
             <ConceptCompletionStatusBadge status={row.completionStatus} />
             <button
               type="button"

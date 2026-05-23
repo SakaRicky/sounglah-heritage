@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from 'react'
+import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 import type { ColumnDef } from '@tanstack/react-table'
 import { MoreVertical, Pencil, Power, PowerOff } from 'lucide-react'
@@ -160,10 +160,13 @@ function ActionsCell({ conceptText }: { conceptText: ConceptText }) {
         <Pencil className="h-4 w-4" aria-hidden />
         Edit
       </button>
-      <div className="relative">
+      <div className="relative" onClick={(event) => event.stopPropagation()}>
         <button
           type="button"
-          onClick={() => setOpenActionId((currentId) => (currentId === conceptText.id ? null : conceptText.id))}
+          onClick={(event) => {
+            event.stopPropagation()
+            setOpenActionId((currentId) => (currentId === conceptText.id ? null : conceptText.id))
+          }}
           aria-expanded={openActionId === conceptText.id}
           aria-label="More actions"
           title="More actions"
@@ -212,6 +215,22 @@ export function ConceptTextTable({
 }: Props) {
   const [openActionId, setOpenActionId] = useState<string | null>(null)
   const [activeRecorderId, setActiveRecorderId] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (openActionId === null) {
+      return
+    }
+
+    const handleDocumentClick = () => {
+      setOpenActionId(null)
+    }
+
+    document.addEventListener('click', handleDocumentClick)
+    return () => {
+      document.removeEventListener('click', handleDocumentClick)
+    }
+  }, [openActionId])
+
   const tableContextValue = useMemo(
     () => ({
       activeRecorderId,
