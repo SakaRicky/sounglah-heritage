@@ -17,7 +17,7 @@ import { ConceptCompletionLanguageBadge } from './ConceptCompletionLanguageBadge
 import { ConceptCompletionStatusBadge } from './ConceptCompletionStatusBadge'
 import { ConceptTextsPreviewDialog } from './ConceptTextsPreviewDialog'
 import type { ConceptCompletionLanguage, ConceptCompletionRow } from '../types/concept.types'
-import { resolveMediaUrl } from '../../../lib/media'
+import { resolveMediaUrl, resolveConceptPlaceholderUrl } from '../../../lib/media'
 
 type Props = {
   row: ConceptCompletionRow
@@ -36,27 +36,17 @@ function ConceptAvatar({ row }: { row: ConceptCompletionRow }) {
     <div className="absolute inset-0 -m-2 rounded-full bg-gradient-to-tr from-forest-accent/20 to-gold-400/20 blur-xl opacity-75 animate-pulse" />
   )
 
-  if (row.image_url) {
-    return (
-      <div className="relative">
-        {glow}
-        <img
-          src={resolveMediaUrl(row.image_url) ?? undefined}
-          alt={row.image_alt_text || row.title}
-          className="relative z-10 h-24 w-24 rounded-full border-4 border-white bg-cream-100 object-cover shadow-[0_12px_28px_rgba(31,90,61,0.14)]"
-          loading="lazy"
-        />
-        <Sparkles className="absolute -right-2 top-1 z-10 h-4 w-4 rotate-12 text-gold-500" aria-hidden />
-      </div>
-    )
-  }
+  const imageUrl = row.image_url ? resolveMediaUrl(row.image_url) : resolveConceptPlaceholderUrl(row.key)
 
   return (
     <div className="relative">
       {glow}
-      <span className="relative z-10 flex h-24 w-24 items-center justify-center rounded-full border-4 border-white bg-[linear-gradient(180deg,rgba(31,90,61,0.12),rgba(31,90,61,0.06))] text-3xl font-bold text-forest-700 shadow-[0_12px_28px_rgba(31,90,61,0.14)]">
-        {row.title.slice(0, 1).toUpperCase()}
-      </span>
+      <img
+        src={imageUrl ?? undefined}
+        alt={row.image_alt_text || row.title}
+        className="relative z-10 h-24 w-24 rounded-full border-4 border-white bg-cream-100 object-cover shadow-[0_12px_28px_rgba(31,90,61,0.14)]"
+        loading="lazy"
+      />
       <Sparkles className="absolute -right-2 top-1 z-10 h-4 w-4 rotate-12 text-gold-500" aria-hidden />
     </div>
   )

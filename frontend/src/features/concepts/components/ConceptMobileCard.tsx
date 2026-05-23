@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Eye, MoreVertical, Pencil, Power, PowerOff, Upload } from 'lucide-react'
 
-import { resolveMediaUrl } from '../../../lib/media'
+import { resolveMediaUrl, resolveConceptPlaceholderUrl } from '../../../lib/media'
 import { ConceptDifficultyBadge } from './ConceptDifficultyBadge'
 import { ConceptStatusBadge } from './ConceptStatusBadge'
 import type { Concept } from '../types/concept.types'
@@ -14,13 +14,6 @@ type Props = {
   onQuickImageSelect: (concept: Concept, file: File) => void
   uploading: boolean
 }
-
-const gradientColors = [
-  'from-forest-accent/20 to-forest-accent/5 border-forest-accent/20 text-forest-700',
-  'from-gold-400/25 to-gold-400/5 border-gold-500/20 text-cocoa-700',
-  'from-terracotta-400/20 to-terracotta-400/5 border-terracotta-500/20 text-terracotta-600',
-  'from-forest-200/40 to-forest-50/20 border-forest-300/30 text-forest-600',
-]
 
 export function ConceptMobileCard({
   concept,
@@ -35,9 +28,7 @@ export function ConceptMobileCard({
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
   const isActive = concept.status === 'active'
-  const initial = concept.title.slice(0, 1).toUpperCase()
-  const colorClass = gradientColors[initial.charCodeAt(0) % gradientColors.length]
-  const imageUrl = resolveMediaUrl(concept.image_url)
+  const imageUrl = concept.image_url ? resolveMediaUrl(concept.image_url) : resolveConceptPlaceholderUrl(concept.key)
 
   useEffect(() => {
     if (!menuOpen) {
@@ -86,17 +77,13 @@ export function ConceptMobileCard({
             >
               {uploading ? (
                 <span className="text-[10px] font-bold text-forest-700 animate-pulse">Uploading…</span>
-              ) : imageUrl ? (
+              ) : (
                 <img
-                  src={imageUrl}
+                  src={imageUrl ?? undefined}
                   alt={concept.image_alt_text || concept.title}
                   className="h-full w-full object-cover"
                   loading="lazy"
                 />
-              ) : (
-                <span className={['flex h-full w-full items-center justify-center bg-gradient-to-br text-xl font-bold', colorClass].join(' ')}>
-                  {initial}
-                </span>
               )}
               {/* Hover overlay icon */}
               <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity duration-200 group-hover:opacity-100">

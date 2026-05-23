@@ -106,6 +106,10 @@ export function PublicLessonsPage() {
         className="relative overflow-hidden bg-cream-hero pb-8 pt-4"
         aria-labelledby="lessons-hero-heading"
       >
+        {/* Subtle decorative background heritage artifacts */}
+        <div className="pointer-events-none absolute left-0 top-0 h-44 w-44 bg-[url('/images/artifacts/sounglah_corner_decor_03.png')] bg-contain bg-no-repeat opacity-[0.18]" />
+        <div className="pointer-events-none absolute right-0 bottom-0 h-56 w-56 bg-[url('/images/artifacts/sounglah_corner_decor_04.png')] bg-contain bg-no-repeat opacity-[0.18]" />
+
         <div className="section relative flex flex-row items-center justify-between gap-2 sm:gap-4 lg:gap-6 py-6 sm:py-8 lg:py-10">
           
           {/* Left Text Column */}
