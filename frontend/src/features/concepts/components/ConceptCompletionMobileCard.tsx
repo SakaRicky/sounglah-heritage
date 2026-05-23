@@ -115,37 +115,38 @@ export function ConceptCompletionMobileCard({
 
   return (
     <>
-      <article className="overflow-hidden rounded-[28px] border border-sand-100 bg-white/95 shadow-[0_14px_34px_rgba(47,26,16,0.08)]">
-        <div className="flex items-start justify-between gap-3 border-b border-sand-100/75 bg-cream-50/45 px-4 py-3">
+      <article className="overflow-hidden rounded-[28px] border border-sand-200/80 bg-white/95 shadow-[0_12px_28px_rgba(47,26,16,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_36px_rgba(47,26,16,0.09)]">
+        {/* Header Top Bar */}
+        <div className="flex items-center justify-between border-b border-sand-100/75 bg-cream-50/30 px-5 py-3.5">
           <input
             type="checkbox"
             checked={selected}
             onChange={onToggleSelected}
             aria-label={`Select ${row.title}`}
-            className="mt-0.5 h-4 w-4 shrink-0 rounded border-sand-300 text-forest-accent focus:ring-forest-200"
+            className="h-4.5 w-4.5 rounded border-sand-300 text-forest-accent focus:ring-forest-200 transition"
           />
-          <div className="relative flex items-start gap-2" ref={menuRef}>
+          <div className="relative flex items-center gap-2" ref={menuRef}>
             <ConceptCompletionStatusBadge status={row.completionStatus} />
             <button
               type="button"
               onClick={() => setMenuOpen((open) => !open)}
-              className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-cocoa-body/60 transition hover:bg-sand-100/80 hover:text-cocoa-body"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-sand-200 bg-white text-cocoa-body/60 transition hover:border-forest-accent/35 hover:text-cocoa-body shadow-sm"
               aria-label={`More actions for ${row.title}`}
             >
-              <MoreVertical className="h-5 w-5" aria-hidden />
+              <MoreVertical className="h-4 w-4" aria-hidden />
             </button>
             {menuOpen ? (
-              <div className="absolute right-4 top-12 z-10 w-44 overflow-hidden rounded-xl border border-sand-200 bg-white py-1 shadow-soft">
+              <div className="absolute right-0 top-11 z-20 w-48 overflow-hidden rounded-xl border border-sand-200 bg-white py-1.5 shadow-card animate-in fade-in duration-100">
                 <Link
                   to={`/admin/content/concept-texts?conceptId=${encodeURIComponent(row.id)}`}
-                  className="block px-3 py-2 text-sm font-medium text-cocoa-body hover:bg-cream-50"
+                  className="block px-4 py-2.5 text-sm font-semibold text-cocoa-body hover:bg-cream-100/70 hover:text-forest-700"
                   onClick={() => setMenuOpen(false)}
                 >
                   Open Concept Texts
                 </Link>
                 <Link
                   to="/admin/content/concepts"
-                  className="block px-3 py-2 text-sm font-medium text-cocoa-body hover:bg-cream-50"
+                  className="block px-4 py-2.5 text-sm font-semibold text-cocoa-body hover:bg-cream-100/70 hover:text-forest-700"
                   onClick={() => setMenuOpen(false)}
                 >
                   Manage concepts
@@ -155,11 +156,13 @@ export function ConceptCompletionMobileCard({
           </div>
         </div>
 
-        <div className="grid grid-cols-[5.5rem_minmax(0,1fr)] gap-4 px-4 py-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:gap-6">
-          <div className="flex flex-col items-center gap-4 sm:items-start">
+        {/* Card Content body */}
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 p-5 sm:p-6 text-center sm:text-left">
+          {/* Avatar and Quick Review Block */}
+          <div className="flex flex-col items-center gap-3.5 shrink-0">
             <ConceptAvatar row={row} />
             {quickReviewLanguage && quickReviewLanguage.textStatus ? (
-              <div className="flex flex-col items-center gap-2 sm:items-start">
+              <div className="flex flex-col items-center gap-1.5 pt-1">
                 <ConceptTextQuickReviewButtons
                   reviewStatus={quickReviewLanguage.textStatus}
                   saving={quickReviewSaving}
@@ -167,25 +170,31 @@ export function ConceptCompletionMobileCard({
                   onApprove={() => onReviewStatusChange?.(quickReviewLanguage.textId!, 'approved')}
                   onReject={() => onReviewStatusChange?.(quickReviewLanguage.textId!, 'rejected')}
                 />
-                <p className="text-[10px] font-semibold uppercase tracking-wide text-cocoa-body/55">Quick Review</p>
+                <p className="text-[9px] font-bold uppercase tracking-wider text-cocoa-body/45">Quick Review</p>
               </div>
             ) : null}
           </div>
 
-          <div className="min-w-0 self-center">
-            <h3 className="text-[1.55rem] font-bold leading-tight tracking-tight text-cocoa-800 sm:text-2xl">
+          {/* Details & Info Block */}
+          <div className="min-w-0 flex-1 w-full">
+            <h3 className="text-xl font-bold leading-snug tracking-tight text-cocoa-800 sm:text-[1.5rem]">
               {row.title}
             </h3>
-            <p className="mt-1 text-[0.92rem] leading-6 text-cocoa-body/72 sm:text-sm">
-              {row.description || row.category || 'Concept'}
-            </p>
-            <div className="mt-5 grid gap-4 sm:grid-cols-[minmax(0,1fr)_1px_minmax(0,17rem)] sm:items-start">
-              <div className="min-w-0 space-y-2.5">
-                <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-forest-700">
+            {row.description || row.category ? (
+              <p className="mt-1 text-sm leading-relaxed text-cocoa-body/70 max-w-xl whitespace-normal break-words mx-auto sm:mx-0">
+                {row.description || row.category}
+              </p>
+            ) : null}
+
+            {/* Content Details section */}
+            <div className="mt-5 space-y-4">
+              {/* Languages Checklist */}
+              <div className="space-y-2">
+                <p className="flex items-center justify-center sm:justify-start gap-1.5 text-[10px] font-bold uppercase tracking-widest text-forest-700">
                   <Globe className="h-3.5 w-3.5 shrink-0" aria-hidden />
                   Required languages
                 </p>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap justify-center sm:justify-start gap-2">
                   {languages.map((language) => (
                     <div key={language.languageCode} className="space-y-1.5">
                       <ConceptCompletionLanguageBadge
@@ -195,84 +204,86 @@ export function ConceptCompletionMobileCard({
                         compact
                       />
                       {showTextPreviews && language.hasText && language.text ? (
-                        <p className="px-1 text-sm leading-6 text-cocoa-800">{language.text}</p>
+                        <p className="px-1.5 text-xs text-cocoa-ink/80 text-left border-l-2 border-sand-200/60 pl-2 py-0.5 max-w-xs">{language.text}</p>
                       ) : null}
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="hidden bg-sand-200/70 sm:block" aria-hidden />
-
-              <div className="min-w-0 sm:pt-0.5">
+              {/* Action Buttons section */}
+              <div className="pt-3 border-t border-sand-100/60">
                 {onPublish ? (
-                  <>
-                    <div className="mb-3 inline-flex rounded-full border border-gold-500/25 bg-gold-400/10 px-3 py-1.5 text-xs font-semibold text-gold-700">
-                      {isPublished ? 'Published' : 'Needs review'}
+                  <div className="flex flex-col gap-3">
+                    {/* Status header */}
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-bold uppercase tracking-widest text-cocoa-body/40 text-[9px]">Stewardship</span>
+                      <span className={[
+                        'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-semibold',
+                        isPublished
+                          ? 'border-forest-accent/25 bg-forest-accent/10 text-forest-700'
+                          : 'border-gold-500/25 bg-gold-400/10 text-gold-700'
+                      ].join(' ')}>
+                        <span className={['h-1.5 w-1.5 rounded-full', isPublished ? 'bg-forest-accent' : 'bg-gold-500'].join(' ')} />
+                        {isPublished ? 'Published' : 'Needs review'}
+                      </span>
                     </div>
-                    <div className="grid grid-cols-3 gap-2 sm:grid-cols-3">
-                      <button
-                        type="button"
-                        onClick={() => setPreviewOpen(true)}
-                        aria-label="Preview concept texts"
-                        className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-2xl border border-sand-200 bg-white px-2 py-2 text-[11px] font-semibold text-cocoa-body transition hover:border-forest-accent/35 hover:bg-forest-50/30 focus:outline-none focus:ring-2 focus:ring-forest-200 max-sm:px-2.5"
-                      >
-                        <Eye className="h-4 w-4 shrink-0" aria-hidden />
-                        <span className="hidden sm:inline">Preview</span>
-                      </button>
-                      <Link
-                        to={editPath}
-                        aria-label={primaryFix ? primaryFix.label : 'Edit concept texts'}
-                        className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-2xl border border-forest-accent bg-forest-accent px-2 py-2 text-[11px] font-semibold text-white shadow-[0_6px_18px_rgba(31,90,61,0.18)] transition hover:bg-forest-accent-hover focus:outline-none focus:ring-2 focus:ring-forest-200 max-sm:px-2.5"
-                      >
-                        <Pencil className="h-4 w-4 shrink-0" aria-hidden />
-                        <span className="hidden sm:inline">{primaryFix ? primaryFix.label : 'Edit'}</span>
-                      </Link>
+
+                    {/* Actions Grid */}
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
                       {isPublished ? (
-                        <span
-                          aria-label="Published"
-                          className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-forest-accent/25 bg-forest-accent/10 px-2 py-2 text-[11px] font-semibold text-forest-700 max-sm:px-2.5"
-                        >
-                          <Check className="h-4 w-4 shrink-0 sm:hidden" aria-hidden />
-                          <span className="hidden sm:inline">Published</span>
-                        </span>
+                        <div className="flex-1 flex min-h-11 items-center justify-center gap-1.5 rounded-2xl border border-forest-accent/20 bg-forest-accent/5 px-4 py-2 text-xs font-semibold text-forest-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]">
+                          <Check className="h-4 w-4 shrink-0 text-forest-600" />
+                          <span>Published to Curriculum</span>
+                        </div>
                       ) : (
                         <button
                           type="button"
                           disabled={!canPublish || publishing}
                           title={disabledReason ?? 'Publish concept'}
-                          aria-label={
-                            publishing
-                              ? 'Publishing concept'
-                              : (disabledReason ?? 'Publish concept')
-                          }
-                          aria-busy={publishing}
                           onClick={() => onPublish(row.id)}
                           className={[
-                            'inline-flex min-h-11 items-center justify-center gap-1.5 rounded-2xl border px-2 py-2 text-[11px] font-semibold transition focus:outline-none focus:ring-2 focus:ring-forest-200 max-sm:px-2.5',
+                            'flex-1 flex min-h-11 items-center justify-center gap-2 rounded-2xl border px-4 py-2 text-xs font-bold shadow-soft transition-all duration-200 hover:scale-[1.01] active:scale-95 disabled:scale-100',
                             canPublish
-                              ? 'border-forest-accent/35 bg-white text-forest-700 hover:bg-forest-50/40'
+                              ? 'border-forest-accent/35 bg-forest-600 text-white shadow-[0_8px_24px_rgba(31,90,61,0.14)] hover:bg-forest-700'
                               : 'cursor-not-allowed border-sand-200 bg-stone-100 text-cocoa-body/45',
                           ].join(' ')}
                         >
                           {publishing ? (
-                            <Loader2 className="h-4 w-4 shrink-0 animate-spin sm:hidden" aria-hidden />
+                            <Loader2 className="h-4 w-4 animate-spin shrink-0" />
                           ) : (
-                            <Rocket className="h-4 w-4 shrink-0" aria-hidden />
+                            <Rocket className="h-4 w-4 shrink-0" />
                           )}
-                          <span className="hidden sm:inline">{publishing ? 'Publishing…' : 'Publish'}</span>
+                          <span>{publishing ? 'Publishing…' : 'Publish Concept'}</span>
                         </button>
                       )}
+
+                      <div className="flex gap-2 shrink-0">
+                        <button
+                          type="button"
+                          onClick={() => setPreviewOpen(true)}
+                          className="flex-1 sm:flex-initial inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-sand-200 bg-white px-4 py-2 text-xs font-semibold text-cocoa-body transition hover:border-forest-accent/35 hover:bg-forest-50/30 active:scale-95 shadow-sm"
+                        >
+                          <Eye className="h-4 w-4 shrink-0" />
+                          <span>Preview</span>
+                        </button>
+                        <Link
+                          to={editPath}
+                          className="flex-1 sm:flex-initial inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-forest-accent/25 bg-white px-4 py-2 text-xs font-semibold text-forest-700 transition hover:border-forest-accent hover:bg-forest-50/50 active:scale-95 shadow-sm"
+                        >
+                          <Pencil className="h-4 w-4 shrink-0" />
+                          <span>{primaryFix ? primaryFix.label : 'Edit'}</span>
+                        </Link>
+                      </div>
                     </div>
-                  </>
+                  </div>
                 ) : (
                   <Link
                     to={editPath}
-                    aria-label={primaryFix?.label ?? 'Edit concept texts'}
-                    className="inline-flex min-h-11 w-full items-center justify-center gap-1.5 rounded-2xl border border-forest-accent bg-forest-accent px-4 py-2 text-sm font-semibold text-white shadow-[0_6px_18px_rgba(31,90,61,0.18)] transition hover:bg-forest-accent-hover"
+                    className="flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl border border-forest-accent bg-forest-accent px-4 py-2 text-xs font-semibold text-white shadow-[0_8px_24px_rgba(31,90,61,0.18)] transition hover:bg-forest-accent-hover active:scale-98"
                   >
-                    <Pencil className="h-4 w-4 shrink-0" aria-hidden />
-                    <span className="hidden sm:inline">{primaryFix?.label ?? 'Edit texts'}</span>
+                    <Pencil className="h-4 w-4 shrink-0" />
+                    <span>{primaryFix?.label ?? 'Edit texts'}</span>
                   </Link>
                 )}
               </div>
