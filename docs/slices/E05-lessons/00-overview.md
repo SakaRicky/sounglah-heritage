@@ -22,14 +22,15 @@ These slices assume the content foundation is in place:
 - Concept text audio recording and review (S014.x audio child slices).
 - Content admin stabilization (S016).
 - Concept completion and publish workflow (S021).
+- Concept audio completion gate (S024): published heritage concepts require approved current audio.
 - Heritage text review queue (S022).
 
-**Do not start S023 until concept completion and text/audio review workflows are usable.** Lesson items depend on reliable, curated ConceptTexts and approved Médumba audio.
+**Do not start learner-facing S023 player/rendering work until concept completion and text/audio review workflows are usable.** Lesson items depend on reliable, curated ConceptTexts and approved Médumba audio. S024 should run before published concepts are treated as family-ready in lessons.
 
 ## Mental Model
 
 ```text
-Curated Concepts (published, EN + FR + MED texts, approved audio)
+Curated Concepts (published, EN + FR + MED texts, approved MED audio)
         ↓
 Create Lesson (admin)
         ↓
@@ -212,7 +213,7 @@ S023.15                     → seed + QA full loop
 | Difficulty | **`beginner` \| `intermediate` \| `advanced`** — same enum/check constraint pattern as concepts. |
 | Learner accounts | **Deferred.** MVP is anonymous family use (child + grandma, one device). No signup, login, or saved progress in S023. |
 | Public lesson API | **`GET /api/lessons`** and **`GET /api/lessons/:slug`** — no auth, no `/api/public/` prefix (consistent with `/api/health`, `/api/auth`). |
-| Publish guards | Published lesson requires ≥1 **active** item; every active concept-backed item must link a **published** concept. Warn in admin UI; **block publish** on backend. |
+| Publish guards | Published lesson requires ≥1 **active** item; every active concept-backed item must link a **published** concept. Published concepts must satisfy S024 approved heritage-audio readiness. Warn in admin UI; **block publish** on backend. |
 | Cultural note text | **`noteTextEn`** and **`noteTextFr`** in `content_json`; player picks by UI locale. |
 | AUDIO_LISTEN continue | **Do not hard-gate** Continue on audio played (3-year-old UX). Encourage listening with copy; Continue always enabled. |
 | Médumba seed content | S023.15 builder **must ask the human** for grandmother / hello-grandma Médumba wording and audio before seeding. |
@@ -274,14 +275,14 @@ Legacy redirect: `/admin/content/lesson-items` → `/admin/content/lessons` (rem
 
 ## Concept Completion Integration
 
-When picking concepts in S023.7, show completion badges per language (EN, FR, MED) and **warn** if the concept is incomplete or unpublished. Lesson player should still handle missing audio gracefully (disabled play + friendly message).
+When picking concepts in S023.7, show completion badges per language (EN, FR, MED) and **warn** if the concept is incomplete, missing required heritage audio, or unpublished. Lesson player should still handle missing audio gracefully (disabled play + friendly message), but missing audio should be defensive fallback rather than the expected state for published concept-backed lessons.
 
 ### Publish guards (backend + admin UI)
 
 When admin sets `status = published`:
 
 1. Lesson must have **≥1 active** lesson item.
-2. Every **active** item with a required concept (`VOCABULARY`, `PHRASE`, `AUDIO_LISTEN`) must reference a concept where `published_at` is not null.
+2. Every **active** item with a required concept (`VOCABULARY`, `PHRASE`, `AUDIO_LISTEN`) must reference a concept where `published_at` is not null. S024 ensures published heritage concepts also have approved current audio.
 3. Return **400** with field-level reasons if blocked; show the same reasons on the Publish button in S023.4.
 
 Draft lessons may reference incomplete concepts while curriculum is being built.
@@ -365,8 +366,8 @@ Draft lessons may reference incomplete concepts while curriculum is being built.
 - Load concept by `lesson_items.concept_id`; omit payload if concept missing or disabled (player shows friendly fallback).
 - **Image:** `concept.image_url` ?? `concept.default_image_url`; alt from `concept.image_alt_text`.
 - **Texts:** Active `ConceptText` rows keyed by `languages.code` (`en`, `fr`, `med`).
-- **Audio:** Only Médumba (`med`) sets `audioUrl` from approved `current_audio_id` → `ConceptTextAudio.audio_url`; set `hasApprovedAudio: true` when present.
-- Do **not** expose draft/unpublished concept text in public API for unpublished lessons; for published lessons, still resolve linked concepts even if text review is imperfect — missing fields become null and UI degrades gracefully.
+- **Audio:** Only Médumba (`med`) sets `audioUrl` from approved `current_audio_id` → `ConceptTextAudio.audio_url`; set `hasApprovedAudio: true` when present. For published concept-backed lessons, S024 should make missing approved Médumba audio exceptional.
+- Do **not** expose draft/unpublished concept text in public API for unpublished lessons. For published lessons after S024, linked concepts should already have approved heritage text and audio; still degrade gracefully when old data or local seed gaps produce missing fields.
 
 Implement resolver in a backend service (e.g. `lesson_public_service.py`) reused by list item counts and detail.
 

@@ -21,6 +21,7 @@ const completionStatuses: ConceptCompletionStatus[] = [
   'has_rejected_text',
   'draft',
   'needs_review',
+  'needs_audio',
   'complete',
   'published',
 ]

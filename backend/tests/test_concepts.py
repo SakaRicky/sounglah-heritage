@@ -6,6 +6,7 @@ from app import create_app
 from app.extensions import db
 from app.models.concept import Concept
 from app.models.concept_text import ConceptText
+from app.models.concept_text_audio import ConceptTextAudio
 from app.models.language import Language
 
 
@@ -25,6 +26,8 @@ def add_required_texts(concept_key, statuses_by_language_code):
         for language in Language.query.filter(Language.code.in_(statuses_by_language_code.keys())).all()
     }
 
+    concept_texts = []
+
     for language_code, review_status in statuses_by_language_code.items():
         language = languages_by_code[language_code]
         existing = ConceptText.query.filter_by(
@@ -34,19 +37,46 @@ def add_required_texts(concept_key, statuses_by_language_code):
         if existing is not None:
             existing.status = "active"
             existing.review_status = review_status
+            concept_texts.append(existing)
             continue
 
-        db.session.add(
-            ConceptText(
-                concept_id=concept.id,
-                language_id=language.id,
-                text=f"{concept.title} {language.code}",
-                status="active",
-                review_status=review_status,
-            )
+        concept_text = ConceptText(
+            concept_id=concept.id,
+            language_id=language.id,
+            text=f"{concept.title} {language.code}",
+            status="active",
+            review_status=review_status,
         )
+        db.session.add(concept_text)
+        concept_texts.append(concept_text)
 
     db.session.commit()
+    return concept_texts
+
+
+def add_approved_audio(concept_text):
+    audio = ConceptTextAudio(
+        concept_text_id=concept_text.id,
+        audio_url=f"https://cdn.example.com/{concept_text.id}.webm",
+        status=ConceptTextAudio.STATUS_APPROVED,
+        duration_seconds=3,
+        mime_type="audio/webm",
+    )
+    db.session.add(audio)
+    db.session.flush()
+    concept_text.set_current_audio(audio)
+    db.session.commit()
+    return audio
+
+
+def add_approved_audio_for_concept_language(concept_key, language_code="med"):
+    concept = Concept.query.filter_by(key=concept_key).first()
+    language = Language.query.filter_by(code=language_code).first()
+    concept_text = ConceptText.query.filter_by(
+        concept_id=concept.id,
+        language_id=language.id,
+    ).first()
+    return add_approved_audio(concept_text)
 
 
 def test_concepts_require_admin_authentication():
@@ -318,6 +348,7 @@ def test_filter_concept_completion_by_status_language_search_and_page():
             "greeting",
             {"en": "approved", "fr": "approved", "med": "approved"},
         )
+        add_approved_audio_for_concept_language("greeting")
         add_required_texts(
             "yes",
             {"en": "approved", "fr": "approved", "med": "rejected"},
@@ -379,6 +410,7 @@ def test_filter_concept_completion_by_is_complete_and_concept_status():
             "greeting",
             {"en": "approved", "fr": "approved", "med": "approved"},
         )
+        add_approved_audio_for_concept_language("greeting")
         greeting = Concept.query.filter_by(key="greeting").first()
         greeting.status = "disabled"
         db.session.commit()
@@ -414,6 +446,7 @@ def test_get_concept_completion_by_id():
             "greeting",
             {"en": "approved", "fr": "approved", "med": "approved"},
         )
+        add_approved_audio_for_concept_language("greeting")
         concept_id = Concept.query.filter_by(key="greeting").first().id
 
     response = client.get(f"/api/admin/concepts/{concept_id}/completion", headers=headers)
@@ -435,13 +468,19 @@ def test_concept_completion_summary_counts_statuses():
             "greeting",
             {"en": "approved", "fr": "approved", "med": "approved"},
         )
+        add_approved_audio_for_concept_language("greeting")
         add_required_texts(
             "mother",
             {"en": "approved", "fr": "approved", "med": "approved"},
         )
+        add_approved_audio_for_concept_language("mother")
         add_required_texts(
             "yes",
             {"en": "approved", "fr": "approved", "med": "rejected"},
+        )
+        add_required_texts(
+            "water",
+            {"en": "approved", "fr": "approved", "med": "approved"},
         )
         add_required_texts(
             "no",
@@ -459,10 +498,11 @@ def test_concept_completion_summary_counts_statuses():
     assert response.status_code == 200
     assert response.get_json()["data"] == {
         "totalConcepts": 10,
-        "needsTranslation": 5,
+        "needsTranslation": 4,
         "hasRejectedText": 1,
         "draft": 1,
         "needsReview": 1,
+        "needsAudio": 1,
         "complete": 1,
         "published": 1,
     }
@@ -497,11 +537,12 @@ def test_publish_concept_rejects_incomplete_concept():
     data = response.get_json()
     assert (
         data["error"]["message"]
-        == "Concept cannot be published because required texts are missing or not approved."
+        == "Concept cannot be published because required texts are missing, not approved, or missing approved audio."
     )
     assert data["missingLanguages"] == ["med", "en", "fr"]
     assert data["draftLanguages"] == []
     assert data["needsReviewLanguages"] == []
+    assert data["needsAudioLanguages"] == []
     assert data["rejectedLanguages"] == []
 
 
@@ -523,15 +564,16 @@ def test_publish_concept_rejects_rejected_heritage_text():
     data = response.get_json()
     assert (
         data["error"]["message"]
-        == "Concept cannot be published because required texts are missing or not approved."
+        == "Concept cannot be published because required texts are missing, not approved, or missing approved audio."
     )
     assert data["missingLanguages"] == []
     assert data["draftLanguages"] == []
     assert data["needsReviewLanguages"] == []
+    assert data["needsAudioLanguages"] == []
     assert data["rejectedLanguages"] == ["med"]
 
 
-def test_publish_concept_when_required_texts_are_approved():
+def test_publish_concept_rejects_approved_text_without_approved_audio():
     app = create_app(testing=True)
     client = app.test_client()
     headers = auth_headers(client)
@@ -549,6 +591,37 @@ def test_publish_concept_when_required_texts_are_approved():
             )
         )
         db.session.commit()
+        concept_id = concept.id
+
+    response = client.post(f"/api/admin/concepts/{concept_id}/publish", headers=headers)
+
+    assert response.status_code == 400
+    data = response.get_json()
+    assert data["missingLanguages"] == []
+    assert data["draftLanguages"] == []
+    assert data["needsReviewLanguages"] == []
+    assert data["needsAudioLanguages"] == ["med"]
+    assert data["rejectedLanguages"] == []
+
+
+def test_publish_concept_when_required_texts_and_audio_are_approved():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+
+    with app.app_context():
+        concept = Concept.query.filter_by(key="greeting").first()
+        medumba = Language.query.filter_by(code="med").first()
+        concept_text = ConceptText(
+            concept_id=concept.id,
+            language_id=medumba.id,
+            text="Mbote",
+            status="active",
+            review_status="approved",
+        )
+        db.session.add(concept_text)
+        db.session.commit()
+        add_approved_audio(concept_text)
         concept_id = concept.id
 
     response = client.post(f"/api/admin/concepts/{concept_id}/publish", headers=headers)

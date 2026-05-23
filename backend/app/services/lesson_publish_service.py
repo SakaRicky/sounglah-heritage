@@ -36,6 +36,8 @@ def _concept_not_ready_message(item, concept):
         detail_parts.append(f"draft {', '.join(completion['draftLanguages'])}")
     if completion["needsReviewLanguages"]:
         detail_parts.append(f"needs review {', '.join(completion['needsReviewLanguages'])}")
+    if completion.get("needsAudioLanguages"):
+        detail_parts.append(f"needs approved audio {', '.join(completion['needsAudioLanguages'])}")
     if completion["rejectedLanguages"]:
         detail_parts.append(f"rejected {', '.join(completion['rejectedLanguages'])}")
 

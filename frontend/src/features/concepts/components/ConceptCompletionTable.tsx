@@ -89,6 +89,9 @@ function languageForColumn(
       textId: null,
       text: null,
       pronunciation: null,
+      requiresAudio: column.requiresConceptTextReview,
+      hasApprovedAudio: false,
+      audioStatus: column.requiresConceptTextReview ? 'missing' : 'not_required',
     }
   )
 }

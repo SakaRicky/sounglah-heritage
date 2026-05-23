@@ -13,5 +13,9 @@ export function isLanguageCompletionSatisfied(language: ConceptCompletionLanguag
     return true
   }
 
-  return language.textStatus === 'approved'
+  if (language.textStatus !== 'approved') {
+    return false
+  }
+
+  return !language.requiresAudio || language.hasApprovedAudio
 }

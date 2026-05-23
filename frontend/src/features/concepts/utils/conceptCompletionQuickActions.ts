@@ -51,6 +51,25 @@ export function getLanguageQuickAction(language: ConceptCompletionLanguage, conc
     return null
   }
 
+  if (language.textStatus === 'approved' && language.requiresAudio && !language.hasApprovedAudio) {
+    if (language.audioStatus === 'pending_review') {
+      return {
+        label: 'Review audio',
+        to: '/admin/audio-review',
+      }
+    }
+
+    return {
+      label: 'Record audio',
+      to: buildConceptTextListPath({
+        conceptId,
+        languageId: language.languageId,
+        action: 'edit',
+        textId: language.textId ?? undefined,
+      }),
+    }
+  }
+
   const label =
     language.textStatus === 'needs_review'
       ? 'Review'
@@ -92,9 +111,13 @@ export function getPublishDisabledReason(row: ConceptCompletionRow): string | nu
     parts.push(`Needs review: ${row.needsReviewLanguages.join(', ')}`)
   }
 
+  if (row.needsAudioLanguages.length > 0) {
+    parts.push(`Needs audio: ${row.needsAudioLanguages.join(', ')}`)
+  }
+
   return parts.length > 0
     ? `Cannot publish. ${parts.join('. ')}.`
-    : 'Cannot publish until all required texts are approved.'
+    : 'Cannot publish until all required texts and heritage audio are approved.'
 }
 
 export function getPrimaryFixAction(row: ConceptCompletionRow) {
@@ -120,6 +143,13 @@ export function getPrimaryFixAction(row: ConceptCompletionRow) {
   }
 
   for (const languageCode of row.needsReviewLanguages) {
+    const language = row.languages.find((item) => item.languageCode === languageCode)
+    if (language) {
+      return getLanguageQuickAction(language, row.id)
+    }
+  }
+
+  for (const languageCode of row.needsAudioLanguages) {
     const language = row.languages.find((item) => item.languageCode === languageCode)
     if (language) {
       return getLanguageQuickAction(language, row.id)

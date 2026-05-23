@@ -6,6 +6,7 @@ export function conceptCompletionStatusLabel(status: ConceptCompletionStatus) {
     has_rejected_text: 'Has rejected text',
     draft: 'Draft',
     needs_review: 'Needs review',
+    needs_audio: 'Needs audio',
     complete: 'Complete',
     published: 'Published',
   }[status]

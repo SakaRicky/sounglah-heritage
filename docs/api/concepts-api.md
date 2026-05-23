@@ -225,7 +225,7 @@ Response:
 
 `POST /api/admin/concepts/:id/publish`
 
-Publishing is guarded by concept completion. A concept can only be published when every active language marked as required for concept completion has an active concept text, and every required language with `requiresConceptTextReview = true` has `reviewStatus = approved`. English, French, and other support languages can be required without review gating.
+Publishing is guarded by concept completion. A concept can only be published when every active language marked as required for concept completion has an active concept text, and every required language with `requiresConceptTextReview = true` has `reviewStatus = approved` plus approved current audio. English, French, and other support languages can be required without review or audio gating.
 
 Success response:
 
@@ -254,11 +254,12 @@ Incomplete response:
 ```json
 {
   "error": {
-    "message": "Concept cannot be published because required texts are missing or not approved."
+    "message": "Concept cannot be published because required texts are missing, not approved, or missing approved audio."
   },
   "missingLanguages": ["med"],
   "draftLanguages": [],
   "needsReviewLanguages": [],
+  "needsAudioLanguages": [],
   "rejectedLanguages": []
 }
 ```
@@ -274,14 +275,14 @@ Query params:
 | Param | Values | Default |
 | --- | --- | --- |
 | `search` | string | none |
-| `status` | `needs_translation`, `has_rejected_text`, `draft`, `needs_review`, `complete`, `published`, `all` | `all` |
+| `status` | `needs_translation`, `has_rejected_text`, `draft`, `needs_review`, `needs_audio`, `complete`, `published`, `all` | `all` |
 | `conceptStatus` | concept visibility: `active`, `disabled`, `all` | `all` |
 | `isComplete` | `true` or `false` — filters by required-language readiness | none |
 | `language` | active required language code, such as `med`, `en`, or `fr` | none |
 | `page` | number | `1` |
 | `pageSize` | number, max `100` | `20` |
 
-The `language` filter returns concepts where that required language is missing, or (for heritage review languages) not approved.
+The `language` filter returns concepts where that required language is missing, or (for heritage review languages) not approved or missing approved current audio.
 
 Response:
 
@@ -308,6 +309,7 @@ Response:
       "missingLanguages": ["med"],
       "draftLanguages": [],
       "needsReviewLanguages": [],
+      "needsAudioLanguages": [],
       "rejectedLanguages": [],
       "languages": [
         {
@@ -318,7 +320,10 @@ Response:
           "textStatus": null,
           "textId": null,
           "text": null,
-          "pronunciation": null
+          "pronunciation": null,
+          "requiresAudio": true,
+          "hasApprovedAudio": false,
+          "audioStatus": "missing"
         }
       ]
     }
@@ -351,7 +356,8 @@ Response:
     "hasRejectedText": 4,
     "draft": 6,
     "needsReview": 18,
-    "complete": 52,
+    "needsAudio": 9,
+    "complete": 33,
     "published": 15
   }
 }

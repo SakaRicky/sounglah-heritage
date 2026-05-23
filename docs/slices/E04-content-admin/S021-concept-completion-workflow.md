@@ -39,6 +39,7 @@ Sounglah concepts only become useful to families when children can see and hear 
 - Add `concepts.published_at`.
 - A concept is published when `published_at` is not null.
 - A concept is ready to publish only when every required active language has an active `ConceptText`, and every required language with `requires_concept_text_review` has `review_status = approved`.
+- S024 tightens this rule for heritage languages: required languages with `requires_concept_text_review = true` must also have approved current audio before they count as complete or publishable.
 - Completion APIs should use the existing admin API and frontend route conventions.
 
 ## Completion Statuses
