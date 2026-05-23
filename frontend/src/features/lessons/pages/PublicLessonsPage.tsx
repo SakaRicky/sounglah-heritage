@@ -106,10 +106,10 @@ export function PublicLessonsPage() {
         className="relative overflow-hidden bg-cream-hero pb-8 pt-4"
         aria-labelledby="lessons-hero-heading"
       >
-        <div className="section relative flex flex-row items-center justify-between gap-6 py-6 sm:py-8 lg:py-10">
+        <div className="section relative flex flex-row items-center justify-between gap-2 sm:gap-4 lg:gap-6 py-6 sm:py-8 lg:py-10">
           
           {/* Left Text Column */}
-          <div className="relative z-10 flex flex-1 flex-col justify-center pr-2 sm:pr-6 lg:max-w-[55%]">
+          <div className="relative z-10 flex flex-1 flex-col justify-center pr-2 sm:pr-4 lg:max-w-[50%]">
             <h1
               id="lessons-hero-heading"
               className="font-serif text-3xl font-bold leading-tight text-cocoa-800 sm:text-4xl md:text-5xl lg:text-6xl"
@@ -122,12 +122,12 @@ export function PublicLessonsPage() {
           </div>
 
           {/* Right Family & Leaf Illustration Column */}
-          <div className="relative shrink-0 w-[42%] sm:w-[38%] md:w-[35%] max-w-[280px] sm:max-w-[340px] lg:max-w-[380px] flex items-center justify-center select-none">
+          <div className="relative shrink-0 w-[54%] sm:w-[50%] md:w-[48%] lg:w-[46%] max-w-[380px] sm:max-w-[500px] lg:max-w-[600px] flex items-center justify-center select-none self-stretch">
             {/* Seamless Pre-rendered Hero Illustration (containing family, leaves and glow) */}
             <img
               src="/images/lessons-listing-hero.png"
               alt={t('hero.familyAlt')}
-              className="relative z-10 w-full h-auto max-h-[180px] sm:max-h-[240px] md:max-h-[300px] lg:max-h-[340px] object-contain select-none pointer-events-none"
+              className="relative z-10 w-full h-auto max-h-[280px] sm:max-h-[360px] md:max-h-[420px] lg:max-h-[500px] object-contain select-none pointer-events-none"
             />
           </div>
         </div>
