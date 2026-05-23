@@ -201,6 +201,63 @@ def test_update_and_delete_lesson():
     assert missing_response.status_code == 404
 
 
+def test_update_draft_lesson_metadata_without_publish_validation():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+
+    lesson_id = create_lesson(client, headers).get_json()["data"]["id"]
+
+    response = client.patch(
+        f"/api/admin/lessons/{lesson_id}",
+        headers=headers,
+        json={
+            "title": "Updated draft title",
+            "slug": "updated-draft-title",
+            "description": "Still working on this lesson.",
+            "status": "draft",
+            "orderIndex": 2,
+        },
+    )
+
+    assert response.status_code == 200
+    updated = response.get_json()["data"]
+    assert updated["title"] == "Updated draft title"
+    assert updated["status"] == "draft"
+
+
+def test_save_draft_unpublishes_lesson_without_curriculum_validation():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+
+    with app.app_context():
+        lesson = Lesson(
+            title="Greeting Grandma",
+            slug="greeting-grandma-published",
+            difficulty="beginner",
+            status="published",
+            order_index=1,
+        )
+        db.session.add(lesson)
+        db.session.commit()
+        lesson_id = lesson.id
+
+    response = client.patch(
+        f"/api/admin/lessons/{lesson_id}",
+        headers=headers,
+        json={
+            "title": "Greeting Grandma (draft again)",
+            "status": "draft",
+        },
+    )
+
+    assert response.status_code == 200
+    updated = response.get_json()["data"]
+    assert updated["status"] == "draft"
+    assert updated["title"] == "Greeting Grandma (draft again)"
+
+
 def test_publish_lesson_requires_active_items():
     app = create_app(testing=True)
     client = app.test_client()

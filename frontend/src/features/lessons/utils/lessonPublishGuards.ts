@@ -42,17 +42,7 @@ export function parsePublishErrorFields(
   return reasons
 }
 
-export function resolveSaveDraftStatus(
-  existing: Lesson | null,
-  formStatus: Lesson['status'],
-): Lesson['status'] {
-  if (!existing) {
-    return 'draft'
-  }
-
-  if (existing.status === 'published') {
-    return 'published'
-  }
-
+/** Save draft always keeps the lesson unpublished (or archived when chosen). */
+export function resolveSaveDraftStatus(formStatus: Lesson['status']): Lesson['status'] {
   return formStatus === 'archived' ? 'archived' : 'draft'
 }

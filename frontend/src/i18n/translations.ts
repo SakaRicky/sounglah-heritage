@@ -222,6 +222,10 @@ export const translations = {
     'admin.lessons.form.coverFileType': 'Choose a JPEG, PNG, or WebP image.',
     'admin.lessons.form.coverFileSize': 'Choose an image that is 5 MB or smaller.',
     'admin.lessons.form.status': 'Status',
+    'admin.lessons.form.statusHelp': 'Save draft keeps the lesson unpublished. Use Publish lesson when the curriculum is ready.',
+    'admin.lessons.form.statusCurrentlyPublished': 'Currently published (live for families)',
+    'admin.lessons.form.statusPublishedHelp':
+      'Save draft will unpublish this lesson and return it to draft so you can keep editing.',
     'admin.lessons.form.orderIndex': 'Order index',
     'admin.lessons.form.cancel': 'Cancel',
     'admin.lessons.form.saveDraft': 'Save draft',
@@ -592,6 +596,10 @@ export const translations = {
     'admin.lessons.form.coverFileType': 'Choisissez une image JPEG, PNG ou WebP.',
     'admin.lessons.form.coverFileSize': 'Choisissez une image de 5 Mo ou moins.',
     'admin.lessons.form.status': 'Statut',
+    'admin.lessons.form.statusHelp': 'Enregistrer le brouillon garde la leçon non publiée. Utilisez Publier la leçon quand le curriculum est prêt.',
+    'admin.lessons.form.statusCurrentlyPublished': 'Actuellement publiée (visible pour les familles)',
+    'admin.lessons.form.statusPublishedHelp':
+      'Enregistrer le brouillon dépubliera cette leçon et la remettra en brouillon pour que vous puissiez continuer à l’éditer.',
     'admin.lessons.form.orderIndex': 'Ordre',
     'admin.lessons.form.cancel': 'Annuler',
     'admin.lessons.form.saveDraft': 'Enregistrer le brouillon',

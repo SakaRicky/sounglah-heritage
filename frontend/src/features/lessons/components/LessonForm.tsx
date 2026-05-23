@@ -68,7 +68,7 @@ function valuesFromLesson(lesson: Lesson | null): LessonFormValues {
     estimatedMinutes: lesson.estimatedMinutes ? String(lesson.estimatedMinutes) : '',
     coverImageUrl: lesson.coverImageUrl ?? '',
     coverImageAltText: lesson.coverImageAltText ?? '',
-    status: lesson.status,
+    status: lesson.status === 'published' ? 'draft' : lesson.status,
     orderIndex: String(lesson.orderIndex),
   }
 }
@@ -415,15 +415,24 @@ export function LessonForm({
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           <label className="block">
             <span className={fieldLabelClass}>{t('admin.lessons.form.status')}</span>
+            {lesson?.status === 'published' ? (
+              <p className="mt-1.5 rounded-cta border border-forest-accent/20 bg-forest-accent/10 px-4 py-3 text-sm font-medium text-forest-700">
+                {t('admin.lessons.form.statusCurrentlyPublished')}
+              </p>
+            ) : null}
             <select
-              value={values.status}
+              value={values.status === 'archived' ? 'archived' : 'draft'}
               onChange={(event) => updateValue('status', event.target.value as LessonStatus)}
               className={fieldClass}
             >
               <option value="draft">{t('admin.lessons.status.draft')}</option>
-              <option value="published">{t('admin.lessons.status.published')}</option>
               <option value="archived">{t('admin.lessons.status.archived')}</option>
             </select>
+            <p className={fieldHelpClass}>
+              {lesson?.status === 'published'
+                ? t('admin.lessons.form.statusPublishedHelp')
+                : t('admin.lessons.form.statusHelp')}
+            </p>
             {errorFor('status')}
           </label>
 
