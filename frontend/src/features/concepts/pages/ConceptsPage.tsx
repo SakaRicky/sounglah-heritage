@@ -297,120 +297,126 @@ export function AdminConceptsPage() {
         }
       />
 
-      <ConceptsSubNav />
-
       {notice ? (
-        <div className="rounded-cta border border-forest-accent/20 bg-forest-accent/10 px-4 py-3 text-sm font-medium text-forest-700">
+        <div className="mb-4 rounded-cta border border-forest-accent/20 bg-forest-accent/10 px-4 py-3 text-sm font-medium text-forest-700">
           {notice}
         </div>
       ) : null}
 
       {error ? (
-        <div className="rounded-cta border border-terracotta-500/20 bg-terracotta-400/10 px-4 py-3 text-sm font-medium text-terracotta-600">
+        <div className="mb-4 rounded-cta border border-terracotta-500/20 bg-terracotta-400/10 px-4 py-3 text-sm font-medium text-terracotta-600">
           {error}
         </div>
       ) : null}
 
-      <section className="grid grid-cols-3 gap-2 sm:gap-4" aria-label="Concept summary">
-        <StatsCard
-          icon={<LayersIcon />}
-          label="Total Concepts"
-          value={total}
-          description="Reusable learning ideas"
-          variant="green"
-          dense={true}
-          descriptionClassName="max-sm:hidden"
-        />
-        <StatsCard
-          icon={<CheckIcon />}
-          label="Visible Active"
-          value={activeCount}
-          description="On this page"
-          dense={true}
-          descriptionClassName="max-sm:hidden"
-        />
-        <StatsCard
-          icon={<CategoryIcon />}
-          label="Visible Categories"
-          value={categories}
-          description="Current groupings"
-          variant="warm"
-          dense={true}
-          descriptionClassName="max-sm:hidden"
-        />
-      </section>
+      <div className="grid gap-6 lg:grid-cols-[1fr_18rem] xl:grid-cols-[1fr_22rem] items-start">
+        {/* Main Command Pane (Left Column) */}
+        <div className="space-y-6 min-w-0">
+          <section className="grid grid-cols-3 gap-2 sm:gap-4" aria-label="Concept summary">
+            <StatsCard
+              icon={<LayersIcon />}
+              label="Total Concepts"
+              value={total}
+              description="Reusable learning ideas"
+              variant="green"
+              dense={true}
+              descriptionClassName="max-sm:hidden"
+            />
+            <StatsCard
+              icon={<CheckIcon />}
+              label="Visible Active"
+              value={activeCount}
+              description="On this page"
+              dense={true}
+              descriptionClassName="max-sm:hidden"
+            />
+            <StatsCard
+              icon={<CategoryIcon />}
+              label="Visible Categories"
+              value={categories}
+              description="Current groupings"
+              variant="warm"
+              dense={true}
+              descriptionClassName="max-sm:hidden"
+            />
+          </section>
 
-      <ConceptFilters
-        search={search}
-        status={status}
-        category={category}
-        difficultyLevel={difficultyLevel}
-        sort={sort}
-        onSearchChange={resetPageAndSetSearch}
-        onStatusChange={resetPageAndSetStatus}
-        onCategoryChange={resetPageAndSetCategory}
-        onDifficultyLevelChange={resetPageAndSetDifficultyLevel}
-        onSortChange={resetPageAndSetSort}
-      />
+          <ConceptFilters
+            search={search}
+            status={status}
+            category={category}
+            difficultyLevel={difficultyLevel}
+            sort={sort}
+            onSearchChange={resetPageAndSetSearch}
+            onStatusChange={resetPageAndSetStatus}
+            onCategoryChange={resetPageAndSetCategory}
+            onDifficultyLevelChange={resetPageAndSetDifficultyLevel}
+            onSortChange={resetPageAndSetSort}
+          />
 
-      <ConceptTable
-        concepts={concepts}
-        loading={loading}
-        total={total}
-        filtered={filtered}
-        onCreate={openCreateForm}
-        onEdit={openEditForm}
-        onPreviewTexts={setPreviewConcept}
-        onQuickImageSelect={handleQuickImageSelect}
-        onToggleStatus={setStatusTarget}
-        quickImageUploadingId={quickImageUploadingId}
-        page={page}
-        pageSize={pageSize}
-        onPageChange={setPage}
-        onPageSizeChange={handlePageSizeChange}
-      />
+          <ConceptTable
+            concepts={concepts}
+            loading={loading}
+            total={total}
+            filtered={filtered}
+            onCreate={openCreateForm}
+            onEdit={openEditForm}
+            onPreviewTexts={setPreviewConcept}
+            onQuickImageSelect={handleQuickImageSelect}
+            onToggleStatus={setStatusTarget}
+            quickImageUploadingId={quickImageUploadingId}
+            page={page}
+            pageSize={pageSize}
+            onPageChange={setPage}
+            onPageSizeChange={handlePageSizeChange}
+          />
+        </div>
 
-      <section className="grid gap-6 lg:grid-cols-2">
-        <InsightCard title="Category Shape" description="A quick view of how this concept set is organized.">
-          <div className="space-y-4">
-            {(categoryCounts.length ? categoryCounts : [{ label: 'No categories yet', count: 0 }]).map((item) => {
-              const percent = concepts.length > 0 ? Math.round((item.count / concepts.length) * 100) : 0
+        {/* Sidebar Cabinet Pane (Right Column) */}
+        <aside className="space-y-6 shrink-0 w-full lg:sticky lg:top-6">
+          <ConceptsSubNav />
 
-              return (
-                <div key={item.label}>
-                  <div className="mb-2 flex items-center justify-between text-sm">
-                    <span className="font-semibold text-cocoa-800">{item.label}</span>
-                    <span className="font-medium text-forest-600/75">{item.count} items</span>
+          <InsightCard title="Category Shape" description="A quick view of how this concept set is organized.">
+            <div className="space-y-4">
+              {(categoryCounts.length ? categoryCounts : [{ label: 'No categories yet', count: 0 }]).map((item) => {
+                const percent = concepts.length > 0 ? Math.round((item.count / concepts.length) * 100) : 0
+
+                return (
+                  <div key={item.label} className="group">
+                    <div className="mb-2 flex items-center justify-between text-sm">
+                      <span className="font-semibold text-cocoa-800 transition-colors group-hover:text-forest-700">{item.label}</span>
+                      <span className="font-medium text-forest-600/75">{item.count} items</span>
+                    </div>
+                    <div className="h-2.5 rounded-full bg-cream-100 ring-1 ring-sand-100 overflow-hidden relative">
+                      <div
+                        className="h-full rounded-full bg-gradient-to-r from-forest-400 via-forest-accent to-forest-600 shadow-[0_4px_12px_rgba(15,107,58,0.25)] transition-all duration-500"
+                        style={{ width: `${percent}%` }}
+                      />
+                    </div>
                   </div>
-                  <div className="h-2.5 rounded-full bg-cream-100 ring-1 ring-sand-100">
-                    <div
-                      className="h-2.5 rounded-full bg-forest-accent shadow-[0_4px_12px_rgba(31,90,61,0.14)]"
-                      style={{ width: `${percent}%` }}
-                    />
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </InsightCard>
+                )
+              })}
+            </div>
+          </InsightCard>
 
-        <InsightCard title="Concept Stewardship" accent={<LeafAccent />}>
-          <ul className="space-y-4 pr-4 text-sm leading-6 text-cocoa-body">
-            <li className="flex gap-3">
-              <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-forest-accent" />
-              <span>Use language-neutral keys such as family_mother or thank_you.</span>
-            </li>
-            <li className="flex gap-3">
-              <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-gold-500" />
-              <span>Keep disabled concepts visible when reviewing older content dependencies.</span>
-            </li>
-            <li className="flex gap-3">
-              <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-terracotta-500" />
-              <span>Attach translated wording later through Concept Texts, not this record.</span>
-            </li>
-          </ul>
-        </InsightCard>
-      </section>
+          <InsightCard title="Concept Stewardship" accent={<LeafAccent />}>
+            <ul className="space-y-4 pr-1 text-sm leading-6 text-cocoa-body">
+              <li className="flex gap-3">
+                <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-forest-accent shadow-[0_0_8px_rgba(31,90,61,0.5)] animate-pulse" />
+                <span>Use language-neutral keys such as family_mother or thank_you.</span>
+              </li>
+              <li className="flex gap-3">
+                <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-gold-500 shadow-[0_0_8px_rgba(185,130,36,0.5)]" />
+                <span>Keep disabled concepts visible when reviewing dependencies.</span>
+              </li>
+              <li className="flex gap-3">
+                <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-terracotta-500 shadow-[0_0_8px_rgba(169,79,37,0.5)]" />
+                <span>Attach translated wording later through Concept Texts, not here.</span>
+              </li>
+            </ul>
+          </InsightCard>
+        </aside>
+      </div>
 
       {formMode ? (
         <ConceptForm
