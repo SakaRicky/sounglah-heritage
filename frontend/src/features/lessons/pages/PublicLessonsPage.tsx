@@ -125,7 +125,7 @@ export function PublicLessonsPage() {
           <div className="relative shrink-0 w-[42%] sm:w-[38%] md:w-[35%] max-w-[280px] sm:max-w-[340px] lg:max-w-[380px] flex items-center justify-center select-none">
             {/* Seamless Pre-rendered Hero Illustration (containing family, leaves and glow) */}
             <img
-              src="/images/lesson-listing-hero.png"
+              src="/images/lessons-listing-hero.png"
               alt={t('hero.familyAlt')}
               className="relative z-10 w-full h-auto max-h-[180px] sm:max-h-[240px] md:max-h-[300px] lg:max-h-[340px] object-contain select-none pointer-events-none"
             />
