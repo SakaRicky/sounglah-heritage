@@ -6,7 +6,6 @@ import { MoreVertical, Pencil, Power, PowerOff } from 'lucide-react'
 
 import { AdminDataTable } from '../../../components/admin/AdminDataTable'
 import { formatDate } from '../../../lib/date'
-import { resolveMediaUrl } from '../../../lib/media'
 import { ConceptTextAudioCell } from './ConceptTextAudioCell'
 import { ConceptTextReviewBadge } from './ConceptTextReviewBadge'
 import { ConceptTextStatusBadge } from './ConceptTextStatusBadge'
