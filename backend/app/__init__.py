@@ -64,7 +64,16 @@ def create_app(testing=False):
 
     @app.get("/media/<path:filename>")
     def local_media(filename):
-        return send_from_directory(current_app.config["LOCAL_MEDIA_ROOT"], filename)
+        mimetype = None
+        normalized = filename.lower()
+        if normalized.endswith(".webm") and normalized.startswith("concept-text-audios/"):
+            mimetype = "audio/webm"
+
+        return send_from_directory(
+            current_app.config["LOCAL_MEDIA_ROOT"],
+            filename,
+            mimetype=mimetype,
+        )
 
     with app.app_context():
         from app import models  # noqa: F401

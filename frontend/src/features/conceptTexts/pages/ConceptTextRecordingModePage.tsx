@@ -418,14 +418,14 @@ export function ConceptTextRecordingModePage() {
             </div>
           </article>
 
-          <aside className="rounded-2xl border border-sand-200 bg-white p-6 shadow-soft">
+          <aside className="min-w-0 overflow-hidden rounded-2xl border border-sand-200 bg-white p-6 shadow-soft">
             <p className="text-sm font-semibold uppercase tracking-wide text-forest-600/70">Recorder</p>
             <h3 className="mt-2 text-2xl font-bold text-cocoa-800">Record pronunciation</h3>
             <p className="mt-2 text-sm text-cocoa-body">
               Speak the phrase clearly, preview it, then submit it for review. Only Médumba is recordable in this workflow.
             </p>
 
-            <div className="mt-6 space-y-4">
+            <div className="mt-6 min-w-0 space-y-4">
               {isRecordingLanguage ? (
                 <InlineAudioRecorder
                   conceptName={currentItem.concept?.title ?? 'Unknown concept'}

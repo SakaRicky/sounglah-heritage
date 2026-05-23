@@ -87,6 +87,8 @@ export interface ConceptCompletionLanguage {
   requiresAudio: boolean
   hasApprovedAudio: boolean
   audioStatus: 'not_required' | 'missing' | 'pending_review' | 'rejected' | 'approved'
+  audioUrl?: string | null
+  audioDurationSeconds?: number | null
 }
 
 export interface ConceptCompletionRow extends Concept {

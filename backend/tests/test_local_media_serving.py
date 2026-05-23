@@ -32,3 +32,27 @@ def test_local_media_route_serves_file_with_relative_media_root(tmp_path):
 
     assert response.status_code == 200
     assert response.data == b"fake-jpeg"
+
+
+def test_local_media_route_serves_concept_text_audio_as_audio_webm(tmp_path):
+    media_root = tmp_path / "media-store"
+    audio_dir = media_root / "concept-text-audios"
+    audio_dir.mkdir(parents=True)
+    audio_name = "sample.webm"
+    (audio_dir / audio_name).write_bytes(b"fake-webm")
+
+    app = create_app(testing=True)
+    app.config.update(
+        {
+            "MEDIA_STORAGE_PROVIDER": "local",
+            "LOCAL_MEDIA_ROOT": str(media_root),
+            "LOCAL_MEDIA_URL_PREFIX": "/media",
+        }
+    )
+
+    client = app.test_client()
+    response = client.get(f"/media/concept-text-audios/{audio_name}")
+
+    assert response.status_code == 200
+    assert response.data == b"fake-webm"
+    assert response.mimetype == "audio/webm"

@@ -1,23 +1,41 @@
+import { VolumeX } from 'lucide-react'
+
 import { useI18n } from '../../../i18n'
-import type { ConceptCompletionRow } from '../../concepts/types/concept.types'
+import { resolveMediaUrl } from '../../../lib/media'
+import { AudioPlayerMini } from '../../conceptTexts/components/AudioPlayerMini'
+import type { ConceptCompletionLanguage, ConceptCompletionRow } from '../../concepts/types/concept.types'
 import type { LessonItemFormValues } from '../types/lessonItemForm.types'
-import { conceptImageUrl, languageForCode } from '../utils/lessonItemPreview'
+import { conceptImageUrl, languageForCode, previewAudioStatusKey } from '../utils/lessonItemPreview'
 
 type Props = {
   values: LessonItemFormValues
   selectedConceptRow: ConceptCompletionRow | null
 }
 
-function WaveformPlaceholder() {
-  return (
-    <div className="flex h-8 flex-1 items-end gap-0.5 px-2">
-      {[3, 6, 4, 8, 5, 7, 4, 9, 6, 5, 8, 4, 7, 5, 6].map((height, index) => (
-        <span
-          key={index}
-          className="w-1 rounded-full bg-forest-accent/35"
-          style={{ height: `${height * 3}px` }}
+function PreviewAudioSection({ language }: { language: ConceptCompletionLanguage }) {
+  const { t } = useI18n()
+
+  if (!language.requiresAudio) {
+    return null
+  }
+
+  if (language.hasApprovedAudio && language.audioUrl) {
+    return (
+      <div className="mt-4 min-w-0">
+        <AudioPlayerMini
+          key={language.audioUrl}
+          src={language.audioUrl}
+          durationSeconds={language.audioDurationSeconds}
+          className="w-full min-w-0"
         />
-      ))}
+      </div>
+    )
+  }
+
+  return (
+    <div className="mt-4 flex min-w-0 items-start gap-2 rounded-xl border border-dashed border-sand-200 bg-cream-50/80 px-3 py-2.5 text-sm text-cocoa-body/70">
+      <VolumeX className="mt-0.5 h-4 w-4 shrink-0 text-cocoa-body/45" aria-hidden />
+      <span>{t(previewAudioStatusKey(language))}</span>
     </div>
   )
 }
@@ -33,6 +51,7 @@ export function LessonItemLivePreview({ values, selectedConceptRow }: Props) {
   const previewImage = isCulturalNote
     ? values.imageUrl.trim() || null
     : conceptImageUrl(selectedConceptRow)
+  const resolvedPreviewImage = resolveMediaUrl(previewImage)
 
   const displayTitle = isCulturalNote
     ? values.title.trim() || t('admin.lessons.itemForm.previewPlaceholderTitle')
@@ -67,9 +86,9 @@ export function LessonItemLivePreview({ values, selectedConceptRow }: Props) {
           </div>
         ) : (
           <div className="p-4">
-            {previewImage ? (
+            {resolvedPreviewImage ? (
               <div className="overflow-hidden rounded-xl border border-sand-200 bg-sand-100">
-                <img src={previewImage} alt="" className="h-40 w-full object-cover" />
+                <img src={resolvedPreviewImage} alt="" className="h-40 w-full object-cover" />
               </div>
             ) : (
               <div className="flex h-40 items-center justify-center rounded-xl border border-dashed border-sand-200 bg-cream-50/80 text-sm text-cocoa-body/60">
@@ -77,17 +96,7 @@ export function LessonItemLivePreview({ values, selectedConceptRow }: Props) {
               </div>
             )}
 
-            {!isCulturalNote && selectedConceptRow ? (
-              <div className="mt-4 flex items-center gap-3 rounded-xl border border-sand-200 bg-white px-3 py-2.5">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-forest-accent text-white shadow-[0_6px_16px_rgba(15,107,58,0.25)]">
-                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </span>
-                <WaveformPlaceholder />
-                <span className="text-xs font-medium text-cocoa-body/60">00:05</span>
-              </div>
-            ) : null}
+            {!isCulturalNote && medLanguage ? <PreviewAudioSection language={medLanguage} /> : null}
 
             <div className="mt-4 text-center">
               <p className="font-serif text-2xl font-bold text-forest-700">{displayTitle}</p>

@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AlertCircle, Loader2, Pause, Play } from 'lucide-react'
 
+import { resolveMediaUrl } from '../../../lib/media'
+
 type AudioPlayerMiniProps = {
   src?: string | null
   durationSeconds?: number | null
@@ -24,6 +26,7 @@ function formatDuration(seconds: number | null | undefined) {
 }
 
 export function AudioPlayerMini({ src, durationSeconds, canReview = false, className }: AudioPlayerMiniProps) {
+  const resolvedSrc = resolveMediaUrl(src)
   const [status, setStatus] = useState<PlayerStatus>('idle')
   const [error, setError] = useState('')
   const [metadataDuration, setMetadataDuration] = useState<number | null>(null)
@@ -53,7 +56,7 @@ export function AudioPlayerMini({ src, durationSeconds, canReview = false, class
 
   async function togglePlayback() {
     const audio = audioRef.current
-    if (!audio || !src) {
+    if (!audio || !resolvedSrc) {
       return
     }
 
@@ -75,15 +78,15 @@ export function AudioPlayerMini({ src, durationSeconds, canReview = false, class
     }
   }
 
-  if (!src) {
+  if (!resolvedSrc) {
     return null
   }
 
   const buttonLabel = status === 'loading' ? 'Loading...' : status === 'playing' ? 'Pause audio' : canReview ? 'Play audio' : 'Play audio'
 
   return (
-    <div className={['inline-flex w-full max-w-full flex-col gap-1', className ?? ''].join(' ')}>
-      <div className="flex max-w-full items-center gap-2 rounded-xl border border-forest-accent/15 bg-white px-2.5 py-1.5 shadow-[0_4px_14px_rgba(47,26,16,0.04)]">
+    <div className={['flex w-full min-w-0 max-w-full flex-col gap-1', className ?? ''].join(' ')}>
+      <div className="flex min-w-0 w-full max-w-full items-center gap-2 rounded-xl border border-forest-accent/15 bg-white px-2.5 py-1.5 shadow-[0_4px_14px_rgba(47,26,16,0.04)]">
         <button
           type="button"
           onClick={togglePlayback}
@@ -104,7 +107,7 @@ export function AudioPlayerMini({ src, durationSeconds, canReview = false, class
         <button
           type="button"
           onClick={togglePlayback}
-          className="group flex min-w-36 flex-1 items-end gap-0.5 rounded-lg px-1 py-1.5 focus:outline-none focus:ring-2 focus:ring-forest-200"
+          className="group flex min-w-0 flex-1 items-end gap-0.5 overflow-hidden rounded-lg px-1 py-1.5 focus:outline-none focus:ring-2 focus:ring-forest-200"
           aria-label={buttonLabel}
         >
           {waveformBars.map((height, index) => {
@@ -140,7 +143,7 @@ export function AudioPlayerMini({ src, durationSeconds, canReview = false, class
 
       <audio
         ref={audioRef}
-        src={src}
+        src={resolvedSrc}
         preload="metadata"
         className="sr-only"
         onLoadedMetadata={(event) => {
