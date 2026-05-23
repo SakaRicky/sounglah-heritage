@@ -171,9 +171,13 @@ function SummaryCardsGrid({
   ]
 
   return (
-    <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3" aria-label="Concept completion summary">
-      {cards.map((card) => {
+    <section
+      className="grid grid-cols-2 items-stretch gap-3 sm:gap-4 xl:grid-cols-3"
+      aria-label="Concept completion summary"
+    >
+      {cards.map((card, index) => {
         const isActive = activeStatus === card.status
+        const isLastOddMobile = index === cards.length - 1 && cards.length % 2 === 1
 
         return (
           <button
@@ -181,17 +185,26 @@ function SummaryCardsGrid({
             type="button"
             onClick={() => onStatusSelect(isActive ? 'all' : card.status)}
             className={[
-              'rounded-2xl text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-forest-200',
-              isActive ? 'ring-2 ring-forest-accent/35' : 'hover:scale-[1.01]',
+              'flex h-full w-full min-w-0 rounded-2xl text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-forest-200',
+              isActive ? 'ring-2 ring-forest-accent/35' : 'sm:hover:scale-[1.01]',
+              isLastOddMobile ? 'max-sm:col-span-2 max-sm:justify-center' : '',
             ].join(' ')}
           >
             <StatsCard
+              dense
               icon={card.icon}
               label={card.label}
               value={card.value}
               description={card.description}
+              descriptionClassName="hidden sm:block"
               variant={card.variant}
-              cardClassName={card.cardClassName}
+              cardClassName={[
+                card.cardClassName,
+                'h-full',
+                isLastOddMobile ? 'max-sm:w-[calc(50%-0.375rem)]' : '',
+              ]
+                .filter(Boolean)
+                .join(' ')}
               iconClassName={card.iconClassName}
             />
           </button>

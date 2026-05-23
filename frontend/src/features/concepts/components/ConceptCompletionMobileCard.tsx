@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Eye, Globe, MoreVertical, Pencil, Rocket, Sparkles } from 'lucide-react'
+import { Check, Eye, Globe, Loader2, MoreVertical, Pencil, Rocket, Sparkles } from 'lucide-react'
 
 import { ConceptTextQuickReviewButtons } from '../../conceptTexts/components/ConceptTextQuickReviewButtons'
 import type { ConceptTextReviewStatus } from '../../conceptTexts/types/conceptText.types'
@@ -196,38 +196,53 @@ export function ConceptCompletionMobileCard({
                       <button
                         type="button"
                         onClick={() => setPreviewOpen(true)}
-                        className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-2xl border border-sand-200 bg-white px-2 py-2 text-[11px] font-semibold text-cocoa-body transition hover:border-forest-accent/35 hover:bg-forest-50/30 focus:outline-none focus:ring-2 focus:ring-forest-200"
+                        aria-label="Preview concept texts"
+                        className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-2xl border border-sand-200 bg-white px-2 py-2 text-[11px] font-semibold text-cocoa-body transition hover:border-forest-accent/35 hover:bg-forest-50/30 focus:outline-none focus:ring-2 focus:ring-forest-200 max-sm:px-2.5"
                       >
                         <Eye className="h-4 w-4 shrink-0" aria-hidden />
-                        Preview
+                        <span className="hidden sm:inline">Preview</span>
                       </button>
                       <Link
                         to={editPath}
-                        className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-2xl border border-forest-accent bg-forest-accent px-2 py-2 text-[11px] font-semibold text-white shadow-[0_6px_18px_rgba(31,90,61,0.18)] transition hover:bg-forest-accent-hover focus:outline-none focus:ring-2 focus:ring-forest-200"
+                        aria-label={primaryFix ? primaryFix.label : 'Edit concept texts'}
+                        className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-2xl border border-forest-accent bg-forest-accent px-2 py-2 text-[11px] font-semibold text-white shadow-[0_6px_18px_rgba(31,90,61,0.18)] transition hover:bg-forest-accent-hover focus:outline-none focus:ring-2 focus:ring-forest-200 max-sm:px-2.5"
                       >
                         <Pencil className="h-4 w-4 shrink-0" aria-hidden />
-                        {primaryFix ? primaryFix.label : 'Edit'}
+                        <span className="hidden sm:inline">{primaryFix ? primaryFix.label : 'Edit'}</span>
                       </Link>
                       {isPublished ? (
-                        <span className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-forest-accent/25 bg-forest-accent/10 px-2 py-2 text-[11px] font-semibold text-forest-700">
-                          Published
+                        <span
+                          aria-label="Published"
+                          className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-forest-accent/25 bg-forest-accent/10 px-2 py-2 text-[11px] font-semibold text-forest-700 max-sm:px-2.5"
+                        >
+                          <Check className="h-4 w-4 shrink-0 sm:hidden" aria-hidden />
+                          <span className="hidden sm:inline">Published</span>
                         </span>
                       ) : (
                         <button
                           type="button"
                           disabled={!canPublish || publishing}
                           title={disabledReason ?? 'Publish concept'}
-                          aria-label={disabledReason ?? 'Publish concept'}
+                          aria-label={
+                            publishing
+                              ? 'Publishing concept'
+                              : (disabledReason ?? 'Publish concept')
+                          }
+                          aria-busy={publishing}
                           onClick={() => onPublish(row.id)}
                           className={[
-                            'inline-flex min-h-11 items-center justify-center gap-1.5 rounded-2xl border px-2 py-2 text-[11px] font-semibold transition focus:outline-none focus:ring-2 focus:ring-forest-200',
+                            'inline-flex min-h-11 items-center justify-center gap-1.5 rounded-2xl border px-2 py-2 text-[11px] font-semibold transition focus:outline-none focus:ring-2 focus:ring-forest-200 max-sm:px-2.5',
                             canPublish
                               ? 'border-forest-accent/35 bg-white text-forest-700 hover:bg-forest-50/40'
                               : 'cursor-not-allowed border-sand-200 bg-stone-100 text-cocoa-body/45',
                           ].join(' ')}
                         >
-                          <Rocket className="h-4 w-4 shrink-0" aria-hidden />
-                          {publishing ? '…' : 'Publish'}
+                          {publishing ? (
+                            <Loader2 className="h-4 w-4 shrink-0 animate-spin sm:hidden" aria-hidden />
+                          ) : (
+                            <Rocket className="h-4 w-4 shrink-0" aria-hidden />
+                          )}
+                          <span className="hidden sm:inline">{publishing ? 'Publishing…' : 'Publish'}</span>
                         </button>
                       )}
                     </div>
@@ -235,10 +250,11 @@ export function ConceptCompletionMobileCard({
                 ) : (
                   <Link
                     to={editPath}
+                    aria-label={primaryFix?.label ?? 'Edit concept texts'}
                     className="inline-flex min-h-11 w-full items-center justify-center gap-1.5 rounded-2xl border border-forest-accent bg-forest-accent px-4 py-2 text-sm font-semibold text-white shadow-[0_6px_18px_rgba(31,90,61,0.18)] transition hover:bg-forest-accent-hover"
                   >
                     <Pencil className="h-4 w-4 shrink-0" aria-hidden />
-                    {primaryFix?.label ?? 'Edit texts'}
+                    <span className="hidden sm:inline">{primaryFix?.label ?? 'Edit texts'}</span>
                   </Link>
                 )}
               </div>
