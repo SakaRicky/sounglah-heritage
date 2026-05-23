@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Check, Eye, Globe, Loader2, MoreVertical, Pencil, Rocket, Sparkles } from 'lucide-react'
+import { Check, Eye, Globe, Loader2, MoreVertical, Pencil, Rocket, Sparkles, ChevronDown } from 'lucide-react'
 
 import { ConceptTextQuickReviewButtons } from '../../conceptTexts/components/ConceptTextQuickReviewButtons'
 import type { ConceptTextReviewStatus } from '../../conceptTexts/types/conceptText.types'
@@ -32,26 +32,32 @@ type Props = {
 }
 
 function ConceptAvatar({ row }: { row: ConceptCompletionRow }) {
+  const glow = (
+    <div className="absolute inset-0 -m-2 rounded-full bg-gradient-to-tr from-forest-accent/20 to-gold-400/20 blur-xl opacity-75 animate-pulse" />
+  )
+
   if (row.image_url) {
     return (
       <div className="relative">
+        {glow}
         <img
           src={resolveMediaUrl(row.image_url) ?? undefined}
           alt={row.image_alt_text || row.title}
-          className="h-24 w-24 rounded-full border-4 border-white bg-cream-100 object-cover shadow-[0_12px_28px_rgba(31,90,61,0.14)]"
+          className="relative z-10 h-24 w-24 rounded-full border-4 border-white bg-cream-100 object-cover shadow-[0_12px_28px_rgba(31,90,61,0.14)]"
           loading="lazy"
         />
-        <Sparkles className="absolute -right-2 top-1 h-4 w-4 rotate-12 text-gold-500" aria-hidden />
+        <Sparkles className="absolute -right-2 top-1 z-10 h-4 w-4 rotate-12 text-gold-500" aria-hidden />
       </div>
     )
   }
 
   return (
     <div className="relative">
-      <span className="flex h-24 w-24 items-center justify-center rounded-full border-4 border-white bg-[linear-gradient(180deg,rgba(31,90,61,0.12),rgba(31,90,61,0.06))] text-3xl font-bold text-forest-700 shadow-[0_12px_28px_rgba(31,90,61,0.14)]">
+      {glow}
+      <span className="relative z-10 flex h-24 w-24 items-center justify-center rounded-full border-4 border-white bg-[linear-gradient(180deg,rgba(31,90,61,0.12),rgba(31,90,61,0.06))] text-3xl font-bold text-forest-700 shadow-[0_12px_28px_rgba(31,90,61,0.14)]">
         {row.title.slice(0, 1).toUpperCase()}
       </span>
-      <Sparkles className="absolute -right-2 top-1 h-4 w-4 rotate-12 text-gold-500" aria-hidden />
+      <Sparkles className="absolute -right-2 top-1 z-10 h-4 w-4 rotate-12 text-gold-500" aria-hidden />
     </div>
   )
 }
@@ -69,6 +75,7 @@ export function ConceptCompletionMobileCard({
 }: Props) {
   const [previewOpen, setPreviewOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [detailsExpanded, setDetailsExpanded] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -118,13 +125,26 @@ export function ConceptCompletionMobileCard({
       <article className="overflow-hidden rounded-[28px] border border-sand-200/80 bg-white/95 shadow-[0_12px_28px_rgba(47,26,16,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_36px_rgba(47,26,16,0.09)]">
         {/* Header Top Bar */}
         <div className="flex items-center justify-between border-b border-sand-100/75 bg-cream-50/30 px-5 py-3.5">
-          <input
-            type="checkbox"
-            checked={selected}
-            onChange={onToggleSelected}
-            aria-label={`Select ${row.title}`}
-            className="h-4.5 w-4.5 rounded border-sand-300 text-forest-accent focus:ring-forest-200 transition"
-          />
+          {/* Custom vector checkbox */}
+          <label className="relative flex items-center justify-center cursor-pointer group">
+            <input
+              type="checkbox"
+              checked={selected}
+              onChange={onToggleSelected}
+              aria-label={`Select ${row.title}`}
+              className="sr-only"
+            />
+            <span className={[
+              'flex h-6 w-6 items-center justify-center rounded-lg border transition-all duration-300',
+              selected
+                ? 'border-forest-accent bg-forest-accent text-white shadow-[0_4px_12px_rgba(31,90,61,0.25)] scale-105'
+                : 'border-sand-300 bg-white hover:border-forest-300'
+            ].join(' ')}>
+              {selected ? (
+                <Check className="h-4.5 w-4.5 stroke-[3]" />
+              ) : null}
+            </span>
+          </label>
           <div className="relative flex items-center gap-2" ref={menuRef}>
             <ConceptCompletionStatusBadge status={row.completionStatus} />
             <button
@@ -209,6 +229,36 @@ export function ConceptCompletionMobileCard({
                     </div>
                   ))}
                 </div>
+              </div>
+
+              {/* Expandable Metadata Drawer */}
+              <div>
+                <button
+                  type="button"
+                  onClick={() => setDetailsExpanded(!detailsExpanded)}
+                  className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-sand-200/50 bg-sand-50/20 py-2 text-[11px] font-semibold text-cocoa-body/65 transition hover:bg-cream-100/40 hover:text-cocoa-body active:scale-[0.99] shadow-sm"
+                >
+                  <span>{detailsExpanded ? 'Hide Technical Details' : 'Show Technical Details'}</span>
+                  <ChevronDown className={['h-3.5 w-3.5 transition-transform duration-200 text-cocoa-body/55', detailsExpanded ? 'rotate-180' : ''].join(' ')} />
+                </button>
+                {detailsExpanded ? (
+                  <div className="mt-2.5 rounded-2xl border border-sand-200/60 bg-cream-50/20 p-3 text-left text-xs space-y-2.5 animate-in slide-in-from-top-2 duration-150">
+                    <div className="flex items-center justify-between gap-2 border-b border-sand-100/40 pb-2">
+                      <span className="font-bold text-cocoa-body/55">Concept Key:</span>
+                      <span className="rounded bg-stone-100 px-2 py-0.5 font-mono text-[10px] font-semibold text-cocoa-ink ring-1 ring-sand-100">
+                        {row.key || 'n/a'}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between gap-2 border-b border-sand-100/40 pb-2">
+                      <span className="font-bold text-cocoa-body/55">URL Slug:</span>
+                      <span className="font-mono text-cocoa-body/75">{row.slug || 'n/a'}</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-bold text-cocoa-body/55">Category:</span>
+                      <span className="font-semibold text-forest-700">{row.category || 'Uncategorized'}</span>
+                    </div>
+                  </div>
+                ) : null}
               </div>
 
               {/* Action Buttons section */}

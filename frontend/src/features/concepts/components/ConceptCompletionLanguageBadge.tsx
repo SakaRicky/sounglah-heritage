@@ -14,17 +14,17 @@ type Props = {
 }
 
 const reviewBadgeClass = {
-  draft: 'border-sand-200 bg-stone-100 text-cocoa-body/70',
-  needs_review: 'border-gold-500/30 bg-gold-400/15 text-gold-700',
-  approved: 'border-forest-accent/25 bg-forest-accent/10 text-forest-700',
-  rejected: 'border-terracotta-500/25 bg-terracotta-400/10 text-terracotta-600',
+  draft: 'border-sand-200 bg-stone-50 text-cocoa-body/75 shadow-sm',
+  needs_review: 'border-gold-500/35 bg-gradient-to-br from-gold-400/15 to-gold-400/3 text-gold-700 shadow-sm',
+  approved: 'border-forest-accent/30 bg-gradient-to-br from-forest-accent/12 to-forest-accent/3 text-forest-700 shadow-sm',
+  rejected: 'border-terracotta-500/25 bg-gradient-to-br from-terracotta-400/12 to-terracotta-400/3 text-terracotta-600 shadow-sm',
 } as const
 
 const reviewDotClass = {
-  draft: 'bg-cocoa-body/45',
-  needs_review: 'bg-gold-500',
-  approved: 'bg-forest-accent',
-  rejected: 'bg-terracotta-500',
+  draft: 'bg-cocoa-body/45 shadow-[0_0_8px_rgba(74,42,24,0.15)]',
+  needs_review: 'bg-gold-500 shadow-[0_0_8px_rgba(221,187,136,0.6)] animate-pulse',
+  approved: 'bg-forest-accent shadow-[0_0_8px_rgba(31,90,61,0.6)]',
+  rejected: 'bg-terracotta-500 shadow-[0_0_8px_rgba(202,68,54,0.6)]',
 } as const
 
 function BadgeShell({
