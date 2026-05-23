@@ -2,6 +2,8 @@ from cloudinary import config as cloudinary_config
 from cloudinary import uploader
 from flask import current_app
 
+from app.services import local_media_service
+
 
 class CloudinaryConfigurationError(RuntimeError):
     pass
@@ -30,6 +32,14 @@ def _configure_cloudinary():
     )
 
 
+def _storage_provider():
+    return str(current_app.config.get("MEDIA_STORAGE_PROVIDER", "local")).strip().lower()
+
+
+def _use_local_media():
+    return _storage_provider() == "local"
+
+
 def _upload_root():
     return str(current_app.config.get("CLOUDINARY_UPLOAD_ROOT", "sounglah/dev")).strip().strip("/")
 
@@ -40,6 +50,9 @@ def folder_for(media_type):
 
 
 def upload_concept_image(file_obj):
+    if _use_local_media():
+        return local_media_service.upload_concept_image(file_obj)
+
     _configure_cloudinary()
     result = uploader.upload(
         file_obj,
@@ -54,6 +67,9 @@ def upload_concept_image(file_obj):
 
 
 def upload_lesson_cover_image(file_obj):
+    if _use_local_media():
+        return local_media_service.upload_lesson_cover_image(file_obj)
+
     _configure_cloudinary()
     result = uploader.upload(
         file_obj,
@@ -68,6 +84,9 @@ def upload_lesson_cover_image(file_obj):
 
 
 def upload_concept_text_audio(file_obj):
+    if _use_local_media():
+        return local_media_service.upload_concept_text_audio(file_obj)
+
     _configure_cloudinary()
     result = uploader.upload(
         file_obj,
@@ -79,11 +98,16 @@ def upload_concept_text_audio(file_obj):
         "secure_url": result["secure_url"],
         "public_id": result["public_id"],
         "duration_seconds": result.get("duration"),
+        "storage_provider": "cloudinary",
     }
 
 
 def delete_image(public_id):
     if not public_id:
+        return
+
+    if public_id.startswith(local_media_service.LOCAL_PUBLIC_ID_PREFIX):
+        local_media_service.delete_media(public_id)
         return
 
     _configure_cloudinary()

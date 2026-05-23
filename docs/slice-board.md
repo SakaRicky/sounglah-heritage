@@ -4,7 +4,7 @@
 
 Foundation (S001) **complete**. S016 content admin stabilization, S021 concept completion, and **S024 concept audio completion gate** are complete. **Epic 5 — S023 Lessons MVP in progress.** **S023.1–S023.7** and **S023.8** are **Done**; **next: S023.9** (public lesson intro screen).
 
-Use **`docs/slices/E05-lessons/00-overview.md`** and child slices **S023.1–S023.15** as the source of truth for lessons work. Epic is **implementation-ready**; product decisions locked (anonymous public API, nested item admin, publish guards). Prerequisite: curated published concepts with approved Médumba texts and audio before seeding **Greeting Grandma** (S023.15).
+Use **`docs/slices/E05-lessons/00-overview.md`** and child slices **S023.1–S023.16** as the source of truth for lessons work. Epic is **implementation-ready**; product decisions locked (anonymous public API, nested item admin, publish guards). Prerequisite: curated published concepts with approved Médumba texts and audio before seeding **Greeting Grandma** (S023.15).
 
 ## Rules
 
@@ -96,7 +96,7 @@ See **[docs/README.md](./README.md)** for a map of all core docs.
 
 ## Epic 5 - Lessons and Learner Experience
 
-Parent spec: **`docs/slices/E05-lessons/00-overview.md`**. One child slice per Cursor chat (**S023.1** through **S023.15**). First complete target: **Greeting Grandma** (5 items, 4 MVP types). S024 should be implemented before relying on published concepts for learner-facing audio quality.
+Parent spec: **`docs/slices/E05-lessons/00-overview.md`**. One child slice per Cursor chat (**S023.1** through **S023.16**). First complete target: **Greeting Grandma** (5 items, 4 MVP types). S024 should be implemented before relying on published concepts for learner-facing audio quality.
 
 | Slice | Status | Notes |
 |---|---|---|
@@ -116,6 +116,7 @@ Parent spec: **`docs/slices/E05-lessons/00-overview.md`**. One child slice per C
 | S023.13 - Renderer: AUDIO_LISTEN | Planned | Listen-first + show text |
 | S023.14 - Renderer: CULTURAL_NOTE | Planned | Warm culture card |
 | S023.15 - Seed Greeting Grandma + QA | Planned | Full loop + stabilization |
+| S023.16 - Curated starter curriculum seed | Done | Destructive local reseed option plus 10 published starter lessons, 80 concepts, EN/FR texts, and extracted Médumba candidates marked for review |
 | S017 - Learner lesson shell | Superseded | Covered by S023.10 |
 | S018 - First lesson flow | Superseded | Covered by S023.8–S023.15 |
 | S019 - Exercise interaction | Superseded | Covered by S023.11–S023.14 |

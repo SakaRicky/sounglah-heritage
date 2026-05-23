@@ -50,11 +50,21 @@ Generate a migration after model changes:
 flask --app run.py db migrate -m "describe change"
 ```
 
-Seed local admin data and starter languages:
+Seed local admin data and the curated starter curriculum:
 
 ```bash
 flask --app run.py seed
 ```
+
+Reset local data and reseed the curated starter curriculum:
+
+```bash
+flask --app run.py seed --reset
+```
+
+Local development stores uploaded media under the repository `media/` folder by default
+(`MEDIA_STORAGE_PROVIDER=local`). Production should set `MEDIA_STORAGE_PROVIDER=cloudinary`
+with the Cloudinary credentials above.
 
 ## Structure
 

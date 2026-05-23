@@ -1,4 +1,5 @@
 from io import BytesIO
+from pathlib import Path
 from unittest.mock import patch
 
 import pytest
@@ -71,6 +72,25 @@ def test_audio_storage_uses_cloudinary_audio_folder():
     assert result["duration_seconds"] == 3.5
     assert upload_mock.call_args.kwargs["folder"] == "sounglah/test/concept-text-audios"
     assert upload_mock.call_args.kwargs["resource_type"] == "video"
+
+
+def test_audio_storage_can_use_local_media_folder(tmp_path):
+    app = create_app(testing=True)
+    app.config.update(
+        {
+            "MEDIA_STORAGE_PROVIDER": "local",
+            "LOCAL_MEDIA_ROOT": str(tmp_path),
+            "LOCAL_MEDIA_URL_PREFIX": "/media",
+        }
+    )
+
+    with app.app_context():
+        metadata = upload_concept_text_audio(_audio_file(), duration_seconds="4")
+
+    assert metadata["audio_url"].startswith("/media/concept-text-audios/")
+    assert metadata["audio_public_id"].startswith("local/concept-text-audios/")
+    assert metadata["storage_provider"] == "local"
+    assert Path(tmp_path, metadata["audio_public_id"].removeprefix("local/")).exists()
 
 
 def test_audio_storage_rejects_missing_file():
