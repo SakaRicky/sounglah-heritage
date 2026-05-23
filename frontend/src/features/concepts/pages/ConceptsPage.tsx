@@ -389,11 +389,11 @@ export function AdminConceptsPage() {
                   <div key={item.label} className="group">
                     <div className="mb-2 flex items-center justify-between text-sm">
                       <span className="font-semibold text-cocoa-800 transition-colors group-hover:text-forest-700">{item.label}</span>
-                      <span className="font-medium text-forest-600/75">{item.count} items</span>
+                      <span className="font-medium text-forest-600/75">{item.count} items &bull; {percent}%</span>
                     </div>
                     <div className="h-2.5 rounded-full bg-cream-100 ring-1 ring-sand-100 overflow-hidden relative">
                       <div
-                        className="h-full rounded-full bg-gradient-to-r from-forest-400 via-forest-accent to-forest-600 shadow-[0_4px_12px_rgba(15,107,58,0.25)] transition-all duration-500"
+                        className="h-full rounded-full bg-gradient-to-r from-forest-300 via-forest-accent to-forest-600 shadow-[0_4px_12px_rgba(15,107,58,0.25)] transition-all duration-500"
                         style={{ width: `${percent}%` }}
                       />
                     </div>
