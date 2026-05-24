@@ -29,6 +29,7 @@ type Props = {
   onToggleSelected: () => void
   publishingConceptId?: string | null
   onPublish?: (conceptId: string) => void
+  onQuickAddText?: (conceptId: string, languageId: string, textId?: string | null) => void
 }
 
 function ConceptAvatar({ row }: { row: ConceptCompletionRow }) {
@@ -62,6 +63,7 @@ export function ConceptCompletionMobileCard({
   onToggleSelected,
   publishingConceptId = null,
   onPublish,
+  onQuickAddText,
 }: Props) {
   const [previewOpen, setPreviewOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -209,19 +211,35 @@ export function ConceptCompletionMobileCard({
                 Required languages
               </p>
               <div className="flex flex-wrap gap-2">
-                {languages.map((language) => (
-                  <div key={language.languageCode} className="space-y-1.5">
+                {languages.map((language) => {
+                  const badgeElement = (
                     <ConceptCompletionLanguageBadge
                       language={language}
                       showCode
                       showCheckIcon={isLanguageCompletionSatisfied(language)}
                       compact
                     />
-                    {showTextPreviews && language.hasText && language.text ? (
-                      <p className="px-1.5 text-xs text-cocoa-ink/80 border-l-2 border-sand-200/60 pl-2 py-0.5 max-w-xs">{language.text}</p>
-                    ) : null}
-                  </div>
-                ))}
+                  )
+
+                  return (
+                    <div key={language.languageCode} className="space-y-1.5">
+                      {onQuickAddText && language.languageId ? (
+                        <button
+                          type="button"
+                          onClick={() => onQuickAddText(row.id, language.languageId!, language.textId)}
+                          className="rounded-full transition duration-150 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-forest-200"
+                        >
+                          {badgeElement}
+                        </button>
+                      ) : (
+                        badgeElement
+                      )}
+                      {showTextPreviews && language.hasText && language.text ? (
+                        <p className="px-1.5 text-xs text-cocoa-ink/80 border-l-2 border-sand-200/60 pl-2 py-0.5 max-w-xs">{language.text}</p>
+                      ) : null}
+                    </div>
+                  )
+                })}
               </div>
             </div>
 
@@ -311,24 +329,56 @@ export function ConceptCompletionMobileCard({
                         <Eye className="h-4 w-4 shrink-0" />
                         <span className="truncate">Preview</span>
                       </button>
-                      <Link
-                        to={editPath}
-                        className="flex-1 inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-forest-accent/25 bg-white px-4 py-2 text-xs font-semibold text-forest-700 transition hover:border-forest-accent hover:bg-forest-50/50 active:scale-95 shadow-sm min-w-0"
-                      >
-                        <Pencil className="h-4 w-4 shrink-0" />
-                        <span className="truncate">{primaryFix ? primaryFix.label : 'Edit'}</span>
-                      </Link>
+                      {onQuickAddText ? (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const targetLang = languages.find(lang => !isLanguageCompletionSatisfied(lang)) ?? languages[0]
+                            if (targetLang && targetLang.languageId) {
+                              onQuickAddText(row.id, targetLang.languageId, targetLang.textId)
+                            }
+                          }}
+                          className="flex-1 inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-forest-accent/25 bg-white px-4 py-2 text-xs font-semibold text-forest-700 transition hover:border-forest-accent hover:bg-forest-50/50 active:scale-95 shadow-sm min-w-0"
+                        >
+                          <Pencil className="h-4 w-4 shrink-0" />
+                          <span className="truncate">{primaryFix ? primaryFix.label : 'Edit'}</span>
+                        </button>
+                      ) : (
+                        <Link
+                          to={editPath}
+                          className="flex-1 inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-forest-accent/25 bg-white px-4 py-2 text-xs font-semibold text-forest-700 transition hover:border-forest-accent hover:bg-forest-50/50 active:scale-95 shadow-sm min-w-0"
+                        >
+                          <Pencil className="h-4 w-4 shrink-0" />
+                          <span className="truncate">{primaryFix ? primaryFix.label : 'Edit'}</span>
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </div>
               ) : (
-                <Link
-                  to={editPath}
-                  className="flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl border border-forest-accent bg-forest-accent px-4 py-2 text-xs font-semibold text-white shadow-[0_8px_24px_rgba(31,90,61,0.18)] transition hover:bg-forest-accent-hover active:scale-98"
-                >
-                  <Pencil className="h-4 w-4 shrink-0" />
-                  <span>{primaryFix?.label ?? 'Edit texts'}</span>
-                </Link>
+                onQuickAddText ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const targetLang = languages.find(lang => !isLanguageCompletionSatisfied(lang)) ?? languages[0]
+                      if (targetLang && targetLang.languageId) {
+                        onQuickAddText(row.id, targetLang.languageId, targetLang.textId)
+                      }
+                    }}
+                    className="flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl border border-forest-accent bg-forest-accent px-4 py-2 text-xs font-semibold text-white shadow-[0_8px_24px_rgba(31,90,61,0.18)] transition hover:bg-forest-accent-hover active:scale-98"
+                  >
+                    <Pencil className="h-4 w-4 shrink-0" />
+                    <span>{primaryFix?.label ?? 'Edit texts'}</span>
+                  </button>
+                ) : (
+                  <Link
+                    to={editPath}
+                    className="flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl border border-forest-accent bg-forest-accent px-4 py-2 text-xs font-semibold text-white shadow-[0_8px_24px_rgba(31,90,61,0.18)] transition hover:bg-forest-accent-hover active:scale-98"
+                  >
+                    <Pencil className="h-4 w-4 shrink-0" />
+                    <span>{primaryFix?.label ?? 'Edit texts'}</span>
+                  </Link>
+                )
               )}
             </div>
           </div>

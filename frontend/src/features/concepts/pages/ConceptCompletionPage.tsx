@@ -6,15 +6,31 @@ import { ChevronDown } from 'lucide-react'
 import { AdminPageHeader } from '../../../components/admin/AdminPageHeader'
 import { StatsCard } from '../../../components/admin/StatsCard'
 import { InsightCard } from '../../../components/admin/InsightCard'
+import { ApiError, normalizeApiFieldErrors } from '../../../lib/api'
 import { getLanguages } from '../../languages/api/languagesApi'
 import type { Language } from '../../languages/types/language.types'
-import { updateConceptText } from '../../conceptTexts/api/conceptTextsApi'
+import {
+  createConceptText,
+  getConceptTextById,
+  updateConceptText,
+} from '../../conceptTexts/api/conceptTextsApi'
 import { ConceptTextBulkReviewBar } from '../../conceptTexts/components/ConceptTextBulkReviewBar'
-import type { ConceptTextReviewStatus } from '../../conceptTexts/types/conceptText.types'
+import { ConceptTextForm } from '../../conceptTexts/components/ConceptTextForm'
+import type {
+  ConceptText,
+  ConceptTextReviewStatus,
+  CreateConceptTextPayload,
+  UpdateConceptTextPayload,
+} from '../../conceptTexts/types/conceptText.types'
 import {
   bulkUpdateConceptTextReviewStatus,
 } from '../../conceptTexts/utils/conceptTextReviewActions'
-import { getConceptCompletion, getConceptCompletionSummary, publishConcept } from '../api/conceptsApi'
+import {
+  getConceptCompletion,
+  getConceptCompletionSummary,
+  getConcepts,
+  publishConcept,
+} from '../api/conceptsApi'
 import { ConceptCompletionFilters } from '../components/ConceptCompletionFilters'
 import { ConceptCompletionTable } from '../components/ConceptCompletionTable'
 import { ConceptsSubNav } from '../components/ConceptsSubNav'
@@ -23,6 +39,7 @@ import {
   reviewableTextIdsFromCompletionRows,
 } from '../utils/conceptCompletionReviewActions'
 import type {
+  Concept,
   ConceptCompletionRow,
   ConceptCompletionStatus,
   ConceptCompletionSummary,
@@ -335,6 +352,11 @@ function SidebarStatusFilterList({
   )
 }
 
+type FormMode = {
+  conceptText: ConceptText | null
+  createPrefill?: { conceptId: string; languageId: string }
+} | null
+
 export function ConceptCompletionPage() {
   const [rows, setRows] = useState<ConceptCompletionRow[]>([])
   const [summary, setSummary] = useState<ConceptCompletionSummary>(initialSummary)
@@ -356,34 +378,39 @@ export function ConceptCompletionPage() {
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list')
   const [statsExpanded, setStatsExpanded] = useState(false)
 
+  // Form & Reference data states
+  const [formMode, setFormMode] = useState<FormMode>(null)
+  const [conceptSearch, setConceptSearch] = useState('')
+  const [concepts, setConcepts] = useState<Concept[]>([])
+  const [languages, setLanguages] = useState<Language[]>([])
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
+  const [saving, setSaving] = useState(false)
+
+  const loadReferenceData = useCallback(async () => {
+    try {
+      const [conceptResponse, languageResponse] = await Promise.all([
+        getConcepts({ search: conceptSearch, status: 'active', sort: 'title', page: 1, pageSize: 100 }),
+        getLanguages({ status: 'active', page: 1, pageSize: 100 }),
+      ])
+      setConcepts(conceptResponse.data)
+      setLanguages(languageResponse.data)
+      setRequiredLanguages(
+        languageResponse.data
+          .filter((item) => item.isRequiredForConceptCompletion)
+          .sort((first, second) => first.sortOrder - second.sortOrder || first.name.localeCompare(second.name)),
+      )
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : 'Unable to load reference data.')
+    }
+  }, [conceptSearch])
+
   useEffect(() => {
-    let isMounted = true
+    const timer = window.setTimeout(() => {
+      void loadReferenceData()
+    }, 200)
 
-    async function loadRequiredLanguages() {
-      try {
-        const response = await getLanguages({ status: 'active', pageSize: 100 })
-        if (!isMounted) {
-          return
-        }
-
-        setRequiredLanguages(
-          response.data
-            .filter((item) => item.isRequiredForConceptCompletion)
-            .sort((first, second) => first.sortOrder - second.sortOrder || first.name.localeCompare(second.name)),
-        )
-      } catch (requestError) {
-        if (isMounted) {
-          setError(requestError instanceof Error ? requestError.message : 'Unable to load required languages.')
-        }
-      }
-    }
-
-    void loadRequiredLanguages()
-
-    return () => {
-      isMounted = false
-    }
-  }, [])
+    return () => window.clearTimeout(timer)
+  }, [loadReferenceData])
 
   const loadCompletion = useCallback(async () => {
     setLoading(true)
@@ -410,6 +437,57 @@ export function ConceptCompletionPage() {
       setLoading(false)
     }
   }, [language, page, pageSize, search, status])
+
+  const handleQuickAddOrEdit = useCallback(async (conceptId: string, languageId: string, textId?: string | null) => {
+    setFieldErrors({})
+    setError('')
+
+    if (textId) {
+      setLoading(true)
+      try {
+        const response = await getConceptTextById(textId)
+        setFormMode({ conceptText: response.data })
+      } catch (requestError) {
+        setError(requestError instanceof Error ? requestError.message : 'Unable to load concept text details.')
+      } finally {
+        setLoading(false)
+      }
+    } else {
+      setFormMode({
+        conceptText: null,
+        createPrefill: {
+          conceptId,
+          languageId,
+        },
+      })
+    }
+  }, [])
+
+  const handleFormSubmit = useCallback(async (payload: CreateConceptTextPayload | UpdateConceptTextPayload) => {
+    setSaving(true)
+    setFieldErrors({})
+    setError('')
+
+    try {
+      if (formMode?.conceptText) {
+        await updateConceptText(formMode.conceptText.id, payload as UpdateConceptTextPayload)
+        setNotice('Concept text updated.')
+      } else {
+        await createConceptText(payload as CreateConceptTextPayload)
+        setNotice('Concept text created.')
+      }
+
+      setFormMode(null)
+      await loadCompletion()
+    } catch (requestError) {
+      if (requestError instanceof ApiError && requestError.fields) {
+        setFieldErrors(normalizeApiFieldErrors(requestError.fields))
+      }
+      setError(requestError instanceof Error ? requestError.message : 'Unable to save concept text.')
+    } finally {
+      setSaving(false)
+    }
+  }, [formMode, loadCompletion])
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -641,6 +719,7 @@ export function ConceptCompletionPage() {
             publishingConceptId={publishingConceptId}
             onPublish={handlePublish}
             viewMode={viewMode}
+            onQuickAddText={handleQuickAddOrEdit}
           />
         </div>
 
@@ -674,6 +753,22 @@ export function ConceptCompletionPage() {
           </InsightCard>
         </aside>
       </div>
+
+      {formMode ? (
+        <ConceptTextForm
+          key={formMode.conceptText?.id ?? (formMode.createPrefill ? 'prefilled-create' : 'new-concept-text')}
+          conceptText={formMode.conceptText}
+          createPrefill={formMode.createPrefill}
+          concepts={concepts}
+          languages={languages}
+          conceptSearch={conceptSearch}
+          fieldErrors={fieldErrors}
+          saving={saving}
+          onConceptSearchChange={setConceptSearch}
+          onCancel={() => setFormMode(null)}
+          onSubmit={handleFormSubmit}
+        />
+      ) : null}
     </div>
   )
 }
