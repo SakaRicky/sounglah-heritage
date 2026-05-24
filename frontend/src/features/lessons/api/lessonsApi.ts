@@ -7,6 +7,7 @@ import type {
   LessonSort,
   LessonStatus,
   UpdateLessonPayload,
+  LessonPublishValidation,
 } from '../types/lesson.types'
 
 export type GetLessonsParams = {
@@ -84,6 +85,12 @@ export async function updateLessonCoverImageAltText(id: string, coverImageAltTex
 export async function deleteLessonCoverImage(id: string) {
   return apiRequest<{ data: Lesson }>(`/admin/lessons/${id}/cover-image`, {
     method: 'DELETE',
+    authenticated: true,
+  })
+}
+
+export async function getLessonPublishValidation(id: string) {
+  return apiRequest<{ data: LessonPublishValidation }>(`/admin/lessons/${id}/publish-validation`, {
     authenticated: true,
   })
 }

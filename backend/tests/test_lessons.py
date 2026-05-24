@@ -425,3 +425,98 @@ def test_list_lessons_supports_sort_options():
         "beta-lesson",
         "alpha-lesson",
     ]
+
+
+def test_lesson_publish_validation_requires_admin_authentication():
+    app = create_app(testing=True)
+    client = app.test_client()
+    response = client.get("/api/admin/lessons/123/publish-validation")
+    assert response.status_code == 401
+
+
+def test_lesson_publish_validation_for_empty_active_items():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+    lesson_id = create_lesson(client, headers).get_json()["data"]["id"]
+
+    response = client.get(f"/api/admin/lessons/{lesson_id}/publish-validation", headers=headers)
+    assert response.status_code == 200
+    data = response.get_json()["data"]
+    assert data["isReadyToPublish"] is False
+    assert "at least one active item" in data["blockers"][0]
+
+
+def test_lesson_publish_validation_shows_blockers_for_incomplete_concepts():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+
+    with app.app_context():
+        lesson = Lesson(
+            title="Greeting Grandma",
+            slug="greeting-grandma",
+            difficulty="beginner",
+            status="draft",
+            order_index=1,
+        )
+        db.session.add(lesson)
+        db.session.flush()
+
+        concept = Concept.query.filter_by(key="greeting").first()
+        db.session.add(
+            LessonItem(
+                lesson_id=lesson.id,
+                type="VOCABULARY",
+                concept_id=concept.id,
+                title="Hello",
+                order_index=1,
+            )
+        )
+        db.session.commit()
+        lesson_id = lesson.id
+
+    response = client.get(f"/api/admin/lessons/{lesson_id}/publish-validation", headers=headers)
+    assert response.status_code == 200
+    data = response.get_json()["data"]
+    assert data["isReadyToPublish"] is False
+    assert any("not ready to publish" in message for message in data["blockers"])
+
+
+def test_lesson_publish_validation_passes_for_auto_publishable_concepts():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+
+    with app.app_context():
+        lesson = Lesson(
+            title="Greeting Grandma",
+            slug="greeting-grandma",
+            difficulty="beginner",
+            status="draft",
+            order_index=1,
+        )
+        db.session.add(lesson)
+        db.session.flush()
+
+        concept = make_concept_ready("greeting")
+        assert concept.published_at is None
+
+        db.session.add(
+            LessonItem(
+                lesson_id=lesson.id,
+                type="VOCABULARY",
+                concept_id=concept.id,
+                title="Hello",
+                order_index=1,
+            )
+        )
+        db.session.commit()
+        lesson_id = lesson.id
+
+    response = client.get(f"/api/admin/lessons/{lesson_id}/publish-validation", headers=headers)
+    assert response.status_code == 200
+    data = response.get_json()["data"]
+    assert data["isReadyToPublish"] is True
+    assert len(data["blockers"]) == 0
+

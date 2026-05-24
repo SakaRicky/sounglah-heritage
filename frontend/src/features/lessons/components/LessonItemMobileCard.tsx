@@ -12,6 +12,7 @@ import {
   getLessonItemMedumbaLabel,
   getLessonItemStatus,
 } from '../utils/lessonItemDisplay'
+import { PublishReadinessBadge } from './LessonItemsTable'
 
 type Props = {
   item: LessonItem
@@ -163,6 +164,7 @@ export function LessonItemMobileCard({
               {estimateLessonItemMinutes(lessonEstimatedMinutes, totalItems)}
             </span>
             <ItemStatusBadge status={status} />
+            <PublishReadinessBadge item={item} />
           </div>
         </div>
       </div>

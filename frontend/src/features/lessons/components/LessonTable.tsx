@@ -1,3 +1,7 @@
+import { useEffect, useRef, useState } from 'react'
+import { AlertCircle, Loader2 } from 'lucide-react'
+
+
 import { AdminDataTable } from '../../../components/admin/AdminDataTable'
 import {
   AdminIconAction,
@@ -12,6 +16,7 @@ import { LessonDifficultyBadge } from './LessonDifficultyBadge'
 import { LessonQuickPublishButton } from './LessonQuickPublishButton'
 import { LessonStatusBadge } from './LessonStatusBadge'
 import type { Lesson } from '../types/lesson.types'
+import { getLessonPublishValidation } from '../api/lessonsApi'
 
 type Props = {
   lessons: Lesson[]
@@ -202,7 +207,10 @@ function LessonMobileCard({
       <LessonIdentity lesson={lesson} />
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
-        <LessonStatusBadge status={lesson.status} />
+        <div className="flex items-center">
+          <LessonStatusBadge status={lesson.status} />
+          {lesson.status === 'draft' && <DraftPublishValidationIndicator lessonId={lesson.id} />}
+        </div>
         <LessonDifficultyBadge difficulty={lesson.difficulty} />
       </div>
 
@@ -223,6 +231,102 @@ function LessonMobileCard({
         />
       </div>
     </article>
+  )
+}
+
+function DraftPublishValidationIndicator({ lessonId }: { lessonId: string }) {
+  const [loading, setLoading] = useState(false)
+  const [blockers, setBlockers] = useState<string[] | null>(null)
+  const [open, setOpen] = useState(false)
+  const [error, setError] = useState('')
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!open) return
+
+    function handleClickOutside(event: MouseEvent) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [open])
+
+  async function handleToggle(event: React.MouseEvent) {
+    event.stopPropagation()
+    if (open) {
+      setOpen(false)
+      return
+    }
+
+    setOpen(true)
+    if (blockers !== null) {
+      return
+    }
+
+    setLoading(true)
+    setError('')
+    try {
+      const response = await getLessonPublishValidation(lessonId)
+      setBlockers(response.data.blockers)
+    } catch {
+      setError('Unable to load blockers.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="relative inline-flex items-center" ref={containerRef}>
+      <button
+        type="button"
+        onClick={handleToggle}
+        className="ml-1.5 flex h-5 w-5 items-center justify-center rounded-full text-amber-500 transition hover:bg-amber-50 hover:text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-200"
+        title="View publish requirements"
+      >
+        <AlertCircle className="h-4 w-4" />
+      </button>
+
+      {open ? (
+        <div className="absolute left-1/2 bottom-full z-50 mb-2 w-72 -translate-x-1/2 rounded-2xl border border-sand-200 bg-white p-4 shadow-[0_12px_36px_rgba(74,42,24,0.12)] backdrop-blur-md">
+          <div className="flex items-center justify-between border-b border-sand-100 pb-2">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-cocoa-800">Publish Requirements</h4>
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); setOpen(false); }}
+              className="text-xs font-bold text-cocoa-body/40 hover:text-cocoa-body"
+            >
+              Close
+            </button>
+          </div>
+          <div className="mt-2.5 max-h-48 overflow-y-auto pr-1 text-xs text-cocoa-body leading-relaxed">
+            {loading ? (
+              <div className="flex items-center justify-center py-4 text-cocoa-body/60">
+                <Loader2 className="h-4 w-4 animate-spin mr-1.5" />
+                Checking requirements...
+              </div>
+            ) : error ? (
+              <p className="text-terracotta-600 font-medium">{error}</p>
+            ) : blockers && blockers.length > 0 ? (
+              <ul className="list-disc list-inside space-y-1.5 pl-0.5">
+                {blockers.map((blocker, index) => (
+                  <li key={index} className="marker:text-amber-500 pl-1 text-[11px] leading-tight text-cocoa-body/90">
+                    <span className="inline-block align-top -mt-0.5">{blocker}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-forest-700 font-semibold py-1">
+                ✓ This lesson is ready to go live! All linked concepts will be published automatically.
+              </p>
+            )}
+          </div>
+          <div className="absolute top-full left-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1 rotate-45 border-r border-b border-sand-200 bg-white" />
+        </div>
+      ) : null}
+    </div>
   )
 }
 
@@ -312,7 +416,10 @@ export function LessonTable({
                 <ItemCountCell count={lesson.itemCount} t={t} />
               </td>
               <td className="px-5 py-4">
-                <LessonStatusBadge status={lesson.status} />
+                <div className="flex items-center">
+                  <LessonStatusBadge status={lesson.status} />
+                  {lesson.status === 'draft' && <DraftPublishValidationIndicator lessonId={lesson.id} />}
+                </div>
               </td>
               <td className="whitespace-nowrap px-5 py-4 text-right">
                 <LessonActions
