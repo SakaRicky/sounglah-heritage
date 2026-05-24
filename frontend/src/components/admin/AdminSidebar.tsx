@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 import { clearToken } from '../../lib/auth'
 
@@ -153,41 +154,70 @@ const navSections: NavSection[] = [
   },
 ]
 
-function navLinkClass(isActive: boolean) {
+function navLinkClass(isActive: boolean, isCollapsed: boolean) {
   return [
-    'flex items-center gap-3 rounded-cta px-3 py-2.5 text-sm font-medium transition-all duration-200',
+    'flex items-center rounded-cta transition-all duration-200 whitespace-nowrap overflow-hidden',
+    isCollapsed ? 'justify-center h-11 w-11 mx-auto' : 'gap-3 px-3 py-2.5 text-sm font-medium',
     isActive
       ? 'bg-forest-accent text-white shadow-button'
       : 'text-cocoa-body hover:bg-forest-50/45 hover:text-forest-700',
   ].join(' ')
 }
 
-function SidebarNavItem({ item, onNavigate }: { item: NavItem; onNavigate?: () => void }) {
+function SidebarNavItem({ 
+  item, 
+  isCollapsed,
+  onNavigate 
+}: { 
+  item: NavItem 
+  isCollapsed: boolean
+  onNavigate?: () => void 
+}) {
   if (item.type === 'disabled') {
     return (
       <div
-        className="flex cursor-not-allowed items-center gap-3 rounded-cta px-3 py-2.5 text-sm text-cocoa-body/45 transition-colors hover:bg-cream-100/35"
+        className={isCollapsed 
+          ? "flex h-11 w-11 items-center justify-center mx-auto rounded-cta text-cocoa-body/45 cursor-not-allowed hover:bg-cream-100/35"
+          : "flex cursor-not-allowed items-center gap-3 rounded-cta px-3 py-2.5 text-sm text-cocoa-body/45 transition-colors hover:bg-cream-100/35"
+        }
         aria-disabled="true"
+        title={`${item.label} (Coming soon)`}
       >
         <span className="opacity-50">{item.icon}</span>
-        <span className="flex-1">{item.label}</span>
-        <span className="rounded-full bg-sand-100/80 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-cocoa-body/55">
-          Coming soon
-        </span>
+        {!isCollapsed && (
+          <>
+            <span className="flex-1">{item.label}</span>
+            <span className="rounded-full bg-sand-100/80 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-cocoa-body/55">
+              Coming soon
+            </span>
+          </>
+        )}
       </div>
     )
   }
 
   return (
-    <NavLink to={item.to} end={item.end} onClick={onNavigate} className={({ isActive }) => navLinkClass(isActive)}>
+    <NavLink 
+      to={item.to} 
+      end={item.end} 
+      onClick={onNavigate} 
+      title={isCollapsed ? item.label : undefined}
+      className={({ isActive }) => navLinkClass(isActive, isCollapsed)}
+    >
       {item.icon}
-      <span>{item.label}</span>
+      {!isCollapsed && <span>{item.label}</span>}
     </NavLink>
   )
 }
 
 export function AdminSidebar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('sidebar-collapsed') === 'true'
+    }
+    return false
+  })
   const navigate = useNavigate()
 
   function handleLogout() {
@@ -195,8 +225,16 @@ export function AdminSidebar() {
     navigate('/login', { replace: true })
   }
 
+  function toggleSidebar() {
+    setIsCollapsed(prev => {
+      const next = !prev
+      localStorage.setItem('sidebar-collapsed', String(next))
+      return next
+    })
+  }
+
   return (
-    <aside className="sticky top-0 z-30 flex w-full shrink-0 flex-col border-b border-sand-200/60 bg-cream-hero md:h-screen md:w-80 md:flex-row md:border-b-0 md:border-r md:border-sand-200/50">
+    <aside className={`sticky top-0 z-30 flex w-full shrink-0 flex-col border-b border-sand-200/60 bg-cream-hero md:h-screen md:flex-row md:border-b-0 md:border-r md:border-sand-200/50 transition-all duration-300 ease-in-out ${isCollapsed ? 'md:w-24' : 'md:w-80'}`}>
       <div className="admin-sidebar-pattern" aria-hidden>
         <div className="admin-sidebar-pattern__tile" />
       </div>
@@ -227,17 +265,30 @@ export function AdminSidebar() {
           </div>
         </div>
 
-        <div className="hidden border-b border-sand-200/50 px-5 py-7 md:block md:border-b-0 md:px-4">
-          <div className="flex items-center gap-3">
-            <img
-              src="/images/brand/logo-placeholder.png"
-              alt=""
-              className="h-11 w-11 rounded-full border border-sand-200 bg-cream-100 object-cover"
-            />
-            <div>
-              <p className="font-serif text-lg font-bold leading-tight text-forest-700">Sounglah</p>
-              <p className="text-xs font-medium text-terracotta-500">Our language. Our heritage.</p>
+        <div className="hidden border-b border-sand-200/50 px-5 py-7 md:block md:border-b-0 md:px-4 shrink-0">
+          <div className={`flex items-center ${isCollapsed ? 'flex-col gap-4' : 'justify-between gap-3'}`}>
+            <div className="flex items-center gap-3 min-w-0">
+              <img
+                src="/images/brand/logo-placeholder.png"
+                alt=""
+                className="h-11 w-11 shrink-0 rounded-full border border-sand-200 bg-cream-100 object-cover"
+              />
+              {!isCollapsed && (
+                <div className="min-w-0 transition-opacity duration-300">
+                  <p className="truncate font-serif text-lg font-bold leading-tight text-forest-700">Sounglah</p>
+                  <p className="truncate text-xs font-medium text-terracotta-500">Our language. Our heritage.</p>
+                </div>
+              )}
             </div>
+
+            <button
+              type="button"
+              onClick={toggleSidebar}
+              className={`hidden md:flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-sand-200 bg-white text-cocoa-700 shadow-sm transition hover:border-forest-accent/30 hover:bg-forest-50/45 hover:text-forest-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-accent ${isCollapsed ? 'mt-1' : ''}`}
+              aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            >
+              {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+            </button>
           </div>
         </div>
 
@@ -248,16 +299,27 @@ export function AdminSidebar() {
             'max-h-[calc(100svh-4.5rem)] overflow-y-auto md:flex md:max-h-none md:min-h-0 md:flex-1 md:flex-col md:overflow-hidden',
           ].join(' ')}
         >
-          <nav className="px-3 py-5 md:flex-1 md:overflow-y-auto md:px-2 md:py-6" aria-label="Admin">
-            {navSections.map((section) => (
-              <div key={section.title} className="mb-8 last:mb-0 md:mb-9">
-                <p className="mb-3 px-3 text-[11px] font-semibold uppercase tracking-wider text-cocoa-body/55">
-                  {section.title}
-                </p>
+          <nav 
+            className={`py-5 md:flex-1 md:overflow-y-auto ${isCollapsed ? 'px-1 md:px-0 md:py-4' : 'px-3 md:px-2 md:py-6'}`} 
+            aria-label="Admin"
+          >
+            {navSections.map((section, idx) => (
+              <div key={section.title} className={isCollapsed ? "mb-4 last:mb-0" : "mb-8 last:mb-0 md:mb-9"}>
+                {isCollapsed ? (
+                  idx > 0 && <div className="mx-3 my-4 border-t border-sand-200/50" />
+                ) : (
+                  <p className="mb-3 px-3 text-[11px] font-semibold uppercase tracking-wider text-cocoa-body/55">
+                    {section.title}
+                  </p>
+                )}
                 <ul className="space-y-1">
                   {section.items.map((item) => (
                     <li key={item.label}>
-                      <SidebarNavItem item={item} onNavigate={() => setIsMenuOpen(false)} />
+                      <SidebarNavItem 
+                        item={item} 
+                        isCollapsed={isCollapsed}
+                        onNavigate={() => setIsMenuOpen(false)} 
+                      />
                     </li>
                   ))}
                 </ul>
@@ -265,24 +327,37 @@ export function AdminSidebar() {
             ))}
           </nav>
 
-          <div className="border-t border-sand-200/60 p-4">
+          <div className={`border-t border-sand-200/60 shrink-0 transition-all duration-300 ${isCollapsed ? 'px-2 py-4' : 'p-4'}`}>
             <div className="space-y-3">
-              <div className="flex items-center gap-3 rounded-cta border border-sand-100 bg-cream-50/80 p-3 shadow-soft">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-forest-accent text-sm font-bold text-white">
-                  A
+              {isCollapsed ? (
+                <div className="flex h-11 w-11 items-center justify-center mx-auto rounded-cta border border-sand-100 bg-cream-50/80 shadow-soft" title="Admin - Content manager">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-forest-accent text-sm font-bold text-white shrink-0">
+                    A
+                  </div>
                 </div>
-                <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold text-cocoa-800">Admin</p>
-                  <p className="truncate text-xs text-cocoa-body/65">Content manager</p>
+              ) : (
+                <div className="flex items-center gap-3 rounded-cta border border-sand-100 bg-cream-50/80 p-3 shadow-soft">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-forest-accent text-sm font-bold text-white">
+                    A
+                  </div>
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold text-cocoa-800">Admin</p>
+                    <p className="truncate text-xs text-cocoa-body/65">Content manager</p>
+                  </div>
                 </div>
-              </div>
+              )}
+
               <button
                 type="button"
                 onClick={handleLogout}
-                className="flex w-full items-center justify-center gap-2 rounded-cta border border-sand-200 bg-white/80 px-3 py-2.5 text-sm font-semibold text-cocoa-body transition hover:border-terracotta-500/50 hover:bg-cream-100/60 hover:text-terracotta-600 focus:outline-none focus:ring-2 focus:ring-forest-200"
+                title={isCollapsed ? 'Logout' : undefined}
+                className={isCollapsed 
+                  ? "flex h-11 w-11 items-center justify-center mx-auto rounded-cta border border-sand-200 bg-white/80 text-cocoa-body transition hover:border-terracotta-500/50 hover:bg-cream-100/60 hover:text-terracotta-600 focus:outline-none focus:ring-2 focus:ring-forest-200 shrink-0"
+                  : "flex w-full items-center justify-center gap-2 rounded-cta border border-sand-200 bg-white/80 px-3 py-2.5 text-sm font-semibold text-cocoa-body transition hover:border-terracotta-500/50 hover:bg-cream-100/60 hover:text-terracotta-600 focus:outline-none focus:ring-2 focus:ring-forest-200"
+                }
               >
                 <LogoutIcon className="h-4 w-4" />
-                <span>Logout</span>
+                {!isCollapsed && <span>Logout</span>}
               </button>
             </div>
           </div>
