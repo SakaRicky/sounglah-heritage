@@ -151,13 +151,13 @@ export function Navbar() {
       <>
         <button
           type="button"
-          className="fixed inset-0 z-[90] bg-forest-700/40 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-[90] bg-forest-700/40 backdrop-blur-sm xl:hidden"
           aria-label={t('nav.closeMenu')}
           onClick={closeMobileMenu}
         />
         <div
           id="primary-navigation-mobile"
-          className="fixed inset-x-0 z-[95] isolate max-h-[min(78vh,calc(100dvh-4rem))] overflow-y-auto border-b border-sand-100/80 bg-cream-100 shadow-[0_16px_48px_rgba(15,51,35,0.12)] lg:hidden"
+          className="fixed inset-x-0 z-[95] isolate max-h-[min(78vh,calc(100dvh-4rem))] overflow-y-auto border-b border-sand-100/80 bg-cream-100 shadow-[0_16px_48px_rgba(15,51,35,0.12)] xl:hidden"
           style={{ top: menuTopPx }}
           role="dialog"
           aria-modal="true"
@@ -231,31 +231,31 @@ export function Navbar() {
         className="sticky top-0 z-[100] shrink-0 min-w-0 border-b border-sand-100/70 bg-cream-100/95 shadow-sm backdrop-blur-md"
       >
         <nav
-          className="section flex min-h-[72px] min-w-0 items-center justify-between gap-2 py-2 sm:gap-6 sm:py-2.5 lg:gap-8"
+          className="section flex min-h-[72px] min-w-0 items-center justify-between gap-2 py-2 sm:gap-6 sm:py-2.5 lg:gap-4 xl:gap-8"
           aria-label={t('nav.primary')}
         >
           <Link
             to="/"
             aria-label={t('nav.sounglahHome')}
-            className="mr-2 flex min-w-0 flex-1 items-center gap-2.5 sm:mr-8 sm:gap-4 lg:mr-12 lg:flex-none"
+            className="mr-2 flex min-w-0 flex-1 items-center gap-2.5 sm:mr-8 sm:gap-4 lg:mr-6 xl:mr-12 xl:flex-none"
           >
             <img
               src="/images/brand/logo-placeholder.png"
               alt=""
-              className="h-12 w-auto shrink-0 sm:h-16 lg:h-20"
+              className="h-12 w-auto shrink-0 sm:h-14 xl:h-16"
               aria-hidden
             />
             <div className="min-w-0">
-              <p className="truncate font-serif text-2xl font-bold leading-tight text-forest-700 sm:text-3xl lg:text-4xl">
+              <p className="truncate font-serif text-xl font-bold leading-tight text-forest-700 sm:text-2xl xl:text-3xl">
                 Sounglah
               </p>
-              <p className="truncate text-[11px] font-semibold leading-snug text-cocoa-body sm:text-xs sm:font-medium lg:text-sm">
+              <p className="truncate text-[10px] font-semibold leading-snug text-cocoa-body sm:text-[11px] xl:text-sm">
                 {t('nav.tagline')}
               </p>
             </div>
           </Link>
 
-          <div className="hidden min-w-0 flex-1 items-center justify-center gap-8 lg:flex">
+          <div className="hidden min-w-0 flex-1 items-center justify-center gap-4 xl:gap-8 xl:flex">
             {navItems.map((item) => (
               <Link
                 key={item.label}
@@ -270,7 +270,7 @@ export function Navbar() {
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <button
               type="button"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-button border-2 border-cocoa-800/15 bg-white/70 text-cocoa-ink shadow-sm backdrop-blur-sm transition hover:bg-white/90 lg:hidden"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-button border-2 border-cocoa-800/15 bg-white/70 text-cocoa-ink shadow-sm backdrop-blur-sm transition hover:bg-white/90 xl:hidden"
               aria-expanded={mobileMenuOpen}
               aria-controls={
                 mobileMenuOpen ? 'primary-navigation-mobile' : undefined
@@ -282,10 +282,10 @@ export function Navbar() {
               </span>
               <MenuIcon open={mobileMenuOpen} />
             </button>
-            <div className="hidden lg:block">
+            <div className="hidden xl:block">
               <LanguageSwitcher />
             </div>
-            <div className="hidden items-center gap-2 sm:gap-3 lg:flex">
+            <div className="hidden items-center gap-2 sm:gap-3 xl:flex">
               {authenticated ? (
                 <>
                   <Link

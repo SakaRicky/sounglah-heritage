@@ -2,10 +2,8 @@ import { Link } from 'react-router-dom'
 
 import { useI18n } from '../../i18n'
 
-const HERO_BG = '#FFF8EC'
 /** Slightly stronger fade on the far left so copy sits on a softer canvas, still clearing before the characters. */
 const HERO_IMAGE_FADE = `linear-gradient(to right, rgba(255,248,236,0.96) 0%, rgba(255,248,236,0.7) 16%, rgba(255,248,236,0.36) 30%, rgba(255,248,236,0.1) 44%, rgba(255,248,236,0) 58%)`
-const HERO_IMAGE_FADE_MOBILE = `linear-gradient(to bottom, ${HERO_BG} 0%, rgba(255,248,236,0.34) 38%, rgba(255,248,236,0) 92%)`
 
 function SocialProof() {
   const { t } = useI18n()
@@ -37,13 +35,13 @@ export function HeroSection() {
 
   return (
     <section
-      className="relative flex w-full min-w-0 flex-col overflow-hidden bg-cream-hero max-lg:min-h-[calc(100svh-5rem)] lg:min-h-[520px]"
+      className="relative flex w-full min-w-0 flex-col overflow-hidden bg-cream-hero max-md:min-h-[calc(100svh-5rem)] md:min-h-[520px]"
       aria-labelledby="hero-heading"
     >
       {/* Match navbar / page content: full-bleed band, inner content uses .section max-width + padding */}
-      <div className="section relative flex min-h-0 w-full min-w-0 flex-1 flex-col max-lg:min-h-0 lg:min-h-[520px] lg:flex-row lg:items-stretch lg:gap-6">
+      <div className="section relative flex min-h-0 w-full min-w-0 flex-1 flex-col max-md:min-h-0 md:min-h-[520px] md:flex-row md:items-stretch md:gap-6">
         {/* Copy — horizontal padding from .section; fixed column width on large screens */}
-        <div className="relative z-10 flex w-full min-w-0 shrink-0 flex-col py-8 sm:py-10 lg:w-[min(55%,42rem)] lg:flex-none lg:justify-start lg:py-12">
+        <div className="relative z-10 flex w-full min-w-0 shrink-0 flex-col py-8 sm:py-10 md:w-[50%] lg:w-[min(55%,42rem)] md:flex-none md:justify-start lg:py-12">
           <div className="w-full shrink-0">
             <h1
               id="hero-heading"
@@ -80,8 +78,8 @@ export function HeroSection() {
           </div>
         </div>
 
-        {/* Desktop: image column fills remaining width inside .section */}
-        <div className="relative z-0 hidden min-h-0 min-w-0 flex-1 flex-col lg:flex">
+        {/* Desktop & Tablet: image column fills remaining width inside .section */}
+        <div className="relative z-0 hidden min-h-0 min-w-0 flex-1 flex-col md:flex">
           <div className="relative min-h-0 flex-1">
             <img
               src="/images/hero/hero-family.png"
@@ -96,17 +94,12 @@ export function HeroSection() {
           </div>
         </div>
 
-        {/* Mobile / tablet: block + absolute layers avoids flex shrink-to-fit width bugs with position:absolute children */}
-        <div className="relative z-0 -mt-2 block min-h-[240px] w-full min-w-0 flex-1 basis-0 sm:min-h-[280px] lg:hidden">
+        {/* Mobile: rounded card container with shadows avoids vertical gradient fade issues */}
+        <div className="relative z-0 mt-6 h-[260px] sm:h-[320px] w-full overflow-hidden rounded-2xl border border-sand-200 shadow-soft md:hidden">
           <img
             src="/images/hero/hero-family.png"
             alt={t('hero.familyAlt')}
-            className="absolute inset-0 h-full w-full object-cover object-[center_35%]"
-          />
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{ backgroundImage: HERO_IMAGE_FADE_MOBILE }}
-            aria-hidden
+            className="h-full w-full object-cover object-[center_35%]"
           />
         </div>
       </div>
