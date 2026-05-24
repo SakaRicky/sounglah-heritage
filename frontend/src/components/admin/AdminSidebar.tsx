@@ -183,7 +183,7 @@ function SidebarNavItem({
         aria-disabled="true"
         title={`${item.label} (Coming soon)`}
       >
-        <span className="opacity-50">{item.icon}</span>
+        <span className="flex items-center justify-center shrink-0 opacity-50">{item.icon}</span>
         {!isCollapsed && (
           <>
             <span className="flex-1">{item.label}</span>
@@ -265,9 +265,9 @@ export function AdminSidebar() {
           </div>
         </div>
 
-        <div className="hidden border-b border-sand-200/50 px-5 py-7 md:block md:border-b-0 md:px-4 shrink-0">
-          <div className={`flex items-center ${isCollapsed ? 'flex-col gap-4' : 'justify-between gap-3'}`}>
-            <div className="flex items-center gap-3 min-w-0">
+        <div className={`hidden border-b border-sand-200/50 py-7 md:block md:border-b-0 shrink-0 transition-all duration-300 ${isCollapsed ? 'px-0' : 'px-5 md:px-4'}`}>
+          <div className={`flex items-center ${isCollapsed ? 'flex-col justify-center gap-4 w-full' : 'justify-between gap-3'}`}>
+            <div className={`flex items-center min-w-0 ${isCollapsed ? 'justify-center w-full' : 'gap-3'}`}>
               <img
                 src="/images/brand/logo-placeholder.png"
                 alt=""
@@ -284,7 +284,7 @@ export function AdminSidebar() {
             <button
               type="button"
               onClick={toggleSidebar}
-              className={`hidden md:flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-sand-200 bg-white text-cocoa-700 shadow-sm transition hover:border-forest-accent/30 hover:bg-forest-50/45 hover:text-forest-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-accent ${isCollapsed ? 'mt-1' : ''}`}
+              className={`hidden md:flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-sand-200 bg-white text-cocoa-700 shadow-sm transition hover:border-forest-accent/30 hover:bg-forest-50/45 hover:text-forest-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-accent ${isCollapsed ? 'mt-1 mx-auto' : ''}`}
               aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             >
               {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
@@ -327,7 +327,7 @@ export function AdminSidebar() {
             ))}
           </nav>
 
-          <div className={`border-t border-sand-200/60 shrink-0 transition-all duration-300 ${isCollapsed ? 'px-2 py-4' : 'p-4'}`}>
+          <div className={`border-t border-sand-200/60 shrink-0 transition-all duration-300 ${isCollapsed ? 'px-0 py-4' : 'p-4'}`}>
             <div className="space-y-3">
               {isCollapsed ? (
                 <div className="flex h-11 w-11 items-center justify-center mx-auto rounded-cta border border-sand-100 bg-cream-50/80 shadow-soft" title="Admin - Content manager">
