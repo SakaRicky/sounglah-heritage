@@ -306,92 +306,34 @@ function DraftPublishValidationIndicator({ lessonId }: { lessonId: string }) {
       {open && typeof document !== 'undefined' ? (
         <>
           {/* Mobile View: Render centered modal with backdrop */}
-          <div className="sm:hidden">
-            {createPortal(
-              <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-cocoa-ink/35 p-4 backdrop-blur-sm" onClick={() => setOpen(false)}>
-                <div 
-                  className="w-full max-w-sm rounded-2xl border border-sand-200 bg-white p-6 shadow-card"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <div className="flex items-center justify-between border-b border-sand-100 pb-3">
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-cocoa-800">Publish Requirements</h3>
-                    <button
-                      type="button"
-                      onClick={() => setOpen(false)}
-                      className="rounded-lg p-1 text-xs font-bold text-cocoa-body/40 hover:text-cocoa-body transition"
-                    >
-                      Close
-                    </button>
-                  </div>
-                  <div className="mt-4 max-h-[60vh] overflow-y-auto pr-1 text-sm text-cocoa-body leading-relaxed">
-                    {loading ? (
-                      <div className="flex items-center justify-center py-8 text-cocoa-body/60">
-                        <Loader2 className="h-5 w-5 animate-spin mr-2" />
-                        Checking requirements...
-                      </div>
-                    ) : error ? (
-                      <p className="text-terracotta-600 font-medium">{error}</p>
-                    ) : blockers && blockers.length > 0 ? (
-                      <ul className="list-disc list-inside space-y-2.5 pl-0.5">
-                        {blockers.map((blocker, index) => (
-                          <li key={index} className="marker:text-amber-500 pl-1 text-[13px] leading-tight text-cocoa-body/90">
-                            <span className="inline-block align-top -mt-0.5">{blocker}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className="text-forest-700 font-semibold py-1">
-                        ✓ This lesson is ready to go live! All linked concepts will be published automatically.
-                      </p>
-                    )}
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setOpen(false)}
-                    className="mt-6 w-full rounded-xl bg-forest-600 py-3 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(31,90,61,0.15)] hover:bg-forest-700 transition"
-                  >
-                    Got it
-                  </button>
-                </div>
-              </div>,
-              document.body
-            )}
-          </div>
-
-          {/* Desktop/Tablet View: Render absolutely positioned popover via Portal */}
-          <div className="hidden sm:block">
-            {createPortal(
+          {createPortal(
+            <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-cocoa-ink/35 p-4 backdrop-blur-sm sm:hidden" onClick={() => setOpen(false)}>
               <div 
-                ref={popoverRef}
-                className="absolute z-[9999] w-80 rounded-2xl border border-sand-200 bg-white p-4 shadow-[0_12px_36px_rgba(74,42,24,0.15)] backdrop-blur-md"
-                style={{
-                  top: `${coords ? coords.top - 8 : 0}px`,
-                  left: `${coords ? coords.left : 0}px`,
-                  transform: 'translate(-50%, -100%)',
-                }}
+                className="w-full max-w-sm rounded-2xl border border-sand-200 bg-white p-6 shadow-card"
+                onClick={(e) => e.stopPropagation()}
               >
-                <div className="flex items-center justify-between border-b border-sand-100 pb-2">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-cocoa-800">Publish Requirements</h4>
+                <div className="flex items-center justify-between border-b border-sand-100 pb-3">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-cocoa-800">Publish Requirements</h3>
                   <button
                     type="button"
                     onClick={() => setOpen(false)}
-                    className="text-xs font-bold text-cocoa-body/40 hover:text-cocoa-body"
+                    className="rounded-lg p-1 text-xs font-bold text-cocoa-body/40 hover:text-cocoa-body transition"
                   >
                     Close
                   </button>
                 </div>
-                <div className="mt-2.5 max-h-48 overflow-y-auto pr-1 text-xs text-cocoa-body leading-relaxed">
+                <div className="mt-4 max-h-[60vh] overflow-y-auto pr-1 text-sm text-cocoa-body leading-relaxed">
                   {loading ? (
-                    <div className="flex items-center justify-center py-4 text-cocoa-body/60">
-                      <Loader2 className="h-4 w-4 animate-spin mr-1.5" />
+                    <div className="flex items-center justify-center py-8 text-cocoa-body/60">
+                      <Loader2 className="h-5 w-5 animate-spin mr-2" />
                       Checking requirements...
                     </div>
                   ) : error ? (
                     <p className="text-terracotta-600 font-medium">{error}</p>
                   ) : blockers && blockers.length > 0 ? (
-                    <ul className="list-disc list-inside space-y-1.5 pl-0.5">
+                    <ul className="list-disc list-inside space-y-2.5 pl-0.5">
                       {blockers.map((blocker, index) => (
-                        <li key={index} className="marker:text-amber-500 pl-1 text-[11px] leading-tight text-cocoa-body/90">
+                        <li key={index} className="marker:text-amber-500 pl-1 text-[13px] leading-tight text-cocoa-body/90">
                           <span className="inline-block align-top -mt-0.5">{blocker}</span>
                         </li>
                       ))}
@@ -402,12 +344,66 @@ function DraftPublishValidationIndicator({ lessonId }: { lessonId: string }) {
                     </p>
                   )}
                 </div>
-                {/* Arrow pointing down */}
-                <div className="absolute top-full left-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1.5 rotate-45 border-r border-b border-sand-200 bg-white" />
-              </div>,
-              document.body
-            )}
-          </div>
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  className="mt-6 w-full rounded-xl bg-forest-600 py-3 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(31,90,61,0.15)] hover:bg-forest-700 transition"
+                >
+                  Got it
+                </button>
+              </div>
+            </div>,
+            document.body
+          )}
+
+          {/* Desktop/Tablet View: Render absolutely positioned popover via Portal */}
+          {createPortal(
+            <div 
+              ref={popoverRef}
+              className="absolute z-[9999] hidden sm:block w-80 rounded-2xl border border-sand-200 bg-white p-4 shadow-[0_12px_36px_rgba(74,42,24,0.15)] backdrop-blur-md"
+              style={{
+                top: `${coords ? coords.top - 8 : 0}px`,
+                left: `${coords ? coords.left : 0}px`,
+                transform: 'translate(-50%, -100%)',
+              }}
+            >
+              <div className="flex items-center justify-between border-b border-sand-100 pb-2">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-cocoa-800">Publish Requirements</h4>
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  className="text-xs font-bold text-cocoa-body/40 hover:text-cocoa-body"
+                >
+                  Close
+                </button>
+              </div>
+              <div className="mt-2.5 max-h-48 overflow-y-auto pr-1 text-xs text-cocoa-body leading-relaxed">
+                {loading ? (
+                  <div className="flex items-center justify-center py-4 text-cocoa-body/60">
+                    <Loader2 className="h-4 w-4 animate-spin mr-1.5" />
+                    Checking requirements...
+                  </div>
+                ) : error ? (
+                  <p className="text-terracotta-600 font-medium">{error}</p>
+                ) : blockers && blockers.length > 0 ? (
+                  <ul className="list-disc list-inside space-y-1.5 pl-0.5">
+                    {blockers.map((blocker, index) => (
+                      <li key={index} className="marker:text-amber-500 pl-1 text-[11px] leading-tight text-cocoa-body/90">
+                        <span className="inline-block align-top -mt-0.5">{blocker}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-forest-700 font-semibold py-1">
+                    ✓ This lesson is ready to go live! All linked concepts will be published automatically.
+                  </p>
+                )}
+              </div>
+              {/* Arrow pointing down */}
+              <div className="absolute top-full left-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1.5 rotate-45 border-r border-b border-sand-200 bg-white" />
+            </div>,
+            document.body
+          )}
         </>
       ) : null}
     </div>
