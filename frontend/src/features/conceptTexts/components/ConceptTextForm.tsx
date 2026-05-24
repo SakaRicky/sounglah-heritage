@@ -4,6 +4,8 @@ import type { FormEvent, ReactNode } from 'react'
 import { ModalPortal } from '../../../components/common/ModalPortal'
 import type { Concept } from '../../concepts/types/concept.types'
 import type { Language } from '../../languages/types/language.types'
+import { uploadConceptTextAudio } from '../api/conceptTextsApi'
+import { InlineAudioRecorder } from './InlineAudioRecorder'
 import type {
   ConceptText,
   ConceptTextReviewStatus,
@@ -148,6 +150,32 @@ export function ConceptTextForm({
   const title = conceptText ? 'Edit Concept Text' : 'Add Concept Text'
   const selectedConcept = concepts.find((concept) => concept.id === values.conceptId) ?? conceptText?.concept
   const selectedLanguage = languages.find((language) => language.id === values.languageId) ?? conceptText?.language
+
+  const [recorderActive, setRecorderActive] = useState(false)
+  const [audioNotice, setAudioNotice] = useState('')
+  const [audioError, setAudioError] = useState('')
+
+  const isMedumba = selectedLanguage?.code?.toLowerCase() === 'med'
+
+  async function handleAudioSubmit(audioBlob: Blob, durationSeconds: number) {
+    if (!conceptText) {
+      return
+    }
+
+    setAudioError('')
+    setAudioNotice('')
+
+    try {
+      const response = await uploadConceptTextAudio(conceptText.id, audioBlob, durationSeconds)
+      setAudioNotice('Pronunciation audio recorded and uploaded successfully!')
+      if (response.data?.audioUrl) {
+        updateValue('audioUrl', response.data.audioUrl)
+      }
+    } catch (err) {
+      setAudioError(err instanceof Error ? err.message : 'Unable to upload audio recording.')
+      throw err
+    }
+  }
 
   function updateValue<Key extends keyof FormValues>(key: Key, value: FormValues[Key]) {
     setValues((current) => ({ ...current, [key]: value }))
@@ -308,17 +336,73 @@ export function ConceptTextForm({
               {errorFor('pronunciation')}
             </label>
 
-            <label className="block">
-              <span className={fieldLabelClass}>Audio URL</span>
-              <input
-                value={values.audioUrl}
-                onChange={(event) => updateValue('audioUrl', event.target.value)}
-                className={fieldClass}
-                maxLength={500}
-                placeholder="https://example.com/audio.mp3"
-              />
-              {errorFor('audioUrl')}
-            </label>
+            {conceptText && isMedumba ? (
+              <div className="md:col-span-2 space-y-4 rounded-2xl border border-forest-accent/15 bg-forest-50/20 p-5 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <span className={fieldLabelClass}>Pronunciation Recording</span>
+                  {values.audioUrl ? (
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-forest-accent/10 border border-forest-accent/25 px-2.5 py-0.5 text-xs font-semibold text-forest-700">
+                      <span className="h-1.5 w-1.5 rounded-full bg-forest-accent" />
+                      Has Audio
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-gold-400/10 border border-gold-500/25 px-2.5 py-0.5 text-xs font-semibold text-gold-700">
+                      <span className="h-1.5 w-1.5 rounded-full bg-gold-500 animate-pulse" />
+                      Missing Audio
+                    </span>
+                  )}
+                </div>
+
+                {audioNotice ? (
+                  <p className="text-xs font-semibold text-forest-700 bg-forest-accent/10 p-2.5 rounded-xl border border-forest-accent/20 flex items-center gap-2">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-forest-accent text-white text-[10px] font-bold">✓</span>
+                    {audioNotice}
+                  </p>
+                ) : null}
+                {audioError ? (
+                  <p className="text-xs font-semibold text-terracotta-600 bg-terracotta-400/10 p-2.5 rounded-xl border border-terracotta-500/20 flex items-center gap-2">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-terracotta-500 text-white text-[10px] font-bold">!</span>
+                    {audioError}
+                  </p>
+                ) : null}
+
+                <div className="min-w-0">
+                  <InlineAudioRecorder
+                    conceptName={selectedConcept?.title ?? 'Concept'}
+                    languageName={selectedLanguage?.name ?? 'Médumba'}
+                    text={values.text}
+                    isActive={recorderActive}
+                    onActivate={() => setRecorderActive(true)}
+                    onCancel={() => setRecorderActive(false)}
+                    onSubmit={handleAudioSubmit}
+                  />
+                </div>
+
+                {values.audioUrl ? (
+                  <div className="pt-2">
+                    <span className={fieldLabelClass}>Audio File URL</span>
+                    <input
+                      value={values.audioUrl}
+                      onChange={(event) => updateValue('audioUrl', event.target.value)}
+                      className={fieldClass}
+                      placeholder="https://example.com/audio.mp3"
+                    />
+                  </div>
+                ) : null}
+              </div>
+            ) : (
+              <label className="block">
+                <span className={fieldLabelClass}>Audio URL</span>
+                <input
+                  value={values.audioUrl}
+                  onChange={(event) => updateValue('audioUrl', event.target.value)}
+                  className={fieldClass}
+                  maxLength={500}
+                  placeholder="https://example.com/audio.mp3"
+                />
+                {errorFor('audioUrl')}
+              </label>
+            )}
             </div>
           </section>
 

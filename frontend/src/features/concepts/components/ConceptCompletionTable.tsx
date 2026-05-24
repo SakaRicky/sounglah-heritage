@@ -33,6 +33,7 @@ type Props = {
   publishingConceptId?: string | null
   onPublish?: (conceptId: string) => void
   viewMode?: 'list' | 'grid'
+  onQuickAddText?: (conceptId: string, languageId: string, textId?: string | null) => void
 }
 
 function ConceptMark({ title }: { title: string }) {
@@ -117,6 +118,7 @@ export function ConceptCompletionTable({
   publishingConceptId = null,
   onPublish,
   viewMode = 'list',
+  onQuickAddText,
 }: Props) {
   const allSelected = rows.length > 0 && rows.every((row) => selectedConceptIds.has(row.id))
   const someSelected = rows.some((row) => selectedConceptIds.has(row.id))
@@ -161,6 +163,7 @@ export function ConceptCompletionTable({
               onToggleSelected={() => onToggleConceptSelected(row.id)}
               publishingConceptId={publishingConceptId}
               onPublish={onPublish}
+              onQuickAddText={onQuickAddText}
             />
           ))}
         </div>
@@ -231,6 +234,7 @@ export function ConceptCompletionTable({
                       showTextPreviews={showTextPreviews}
                       reviewingTextId={reviewingTextId}
                       onReviewStatusChange={onReviewStatusChange}
+                      onQuickAddText={onQuickAddText}
                     />
                   </td>
                 ))}

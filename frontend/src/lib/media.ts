@@ -34,3 +34,35 @@ export function resolveConceptPlaceholderUrl(key?: string | null) {
   const suffix = String(index).padStart(2, '0')
   return `/images/artifacts/sounglah_artifact_${suffix}.png`
 }
+
+export function resolveLessonCoverUrl(slug: string, coverImageUrl?: string | null): string {
+  if (coverImageUrl) {
+    const resolved = resolveMediaUrl(coverImageUrl)
+    if (resolved) return resolved
+  }
+
+  // Pre-seed fallbacks for local dev based on lesson slugs
+  switch (slug) {
+    case 'greetings-kindness':
+      return '/images/languages/medumba.png' // Family scene
+    case 'food-eating':
+      return '/images/stories/story-market.png' // Market scene
+    case 'home-daily-actions':
+      return '/images/languages/fefe.png' // Children scene
+    case 'emotions-encouragement':
+      return '/images/languages/yemba.png'
+    case 'numbers-counting':
+      return '/images/languages/bassa.png'
+    case 'animals-around-us':
+      return '/images/stories/story-moon-transparent.png'
+    case 'nature-weather':
+      return '/images/languages/duala.png'
+    case 'school-learning':
+      return '/images/lessons-listing-hero.png'
+    case 'community-culture':
+      return '/images/stories/story-song.png'
+    default:
+      return '/images/languages/medumba.png'
+  }
+}
+

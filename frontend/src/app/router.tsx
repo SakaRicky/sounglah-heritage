@@ -20,6 +20,8 @@ import { LessonFormPage } from '../features/lessons/pages/LessonFormPage'
 import { LessonItemFormPage } from '../features/lessons/pages/LessonItemFormPage'
 import { LessonItemsBuilderPage } from '../features/lessons/pages/LessonItemsBuilderPage'
 import { PublicLessonsPage } from '../features/lessons/pages/PublicLessonsPage'
+import { PublicLessonIntroPage } from '../features/lessons/pages/PublicLessonIntroPage'
+import { PublicLessonPlayerPlaceholderPage } from '../features/lessons/pages/PublicLessonPlayerPlaceholderPage'
 
 export const router = createBrowserRouter([
   {
@@ -44,7 +46,20 @@ export const router = createBrowserRouter([
       },
       {
         path: 'lessons',
-        element: <PublicLessonsPage />,
+        children: [
+          {
+            index: true,
+            element: <PublicLessonsPage />,
+          },
+          {
+            path: ':slug',
+            element: <PublicLessonIntroPage />,
+          },
+          {
+            path: ':slug/play',
+            element: <PublicLessonPlayerPlaceholderPage />,
+          },
+        ],
       },
     ],
   },
