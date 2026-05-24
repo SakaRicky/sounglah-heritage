@@ -43,3 +43,10 @@ export type CreateLessonPayload = {
 }
 
 export type UpdateLessonPayload = Partial<CreateLessonPayload>
+
+export type LessonPublishValidation = {
+  lessonId: string
+  isReadyToPublish: boolean
+  blockers: string[]
+}
+

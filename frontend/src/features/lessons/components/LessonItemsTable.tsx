@@ -43,6 +43,59 @@ function ItemStatusBadge({ status }: { status: 'published' | 'draft' }) {
   )
 }
 
+export function PublishReadinessBadge({ item }: { item: LessonItem }) {
+  const isConceptBacked = ['VOCABULARY', 'PHRASE', 'AUDIO_LISTEN'].includes(item.type)
+
+  if (!item.isActive) {
+    return (
+      <span className="inline-flex rounded-full bg-stone-100 px-2.5 py-1 text-xs font-semibold text-cocoa-body/60">
+        Draft (Does not block)
+      </span>
+    )
+  }
+
+  if (!isConceptBacked) {
+    return (
+      <span className="inline-flex rounded-full bg-forest-accent/10 px-2.5 py-1 text-xs font-semibold text-forest-700">
+        Ready
+      </span>
+    )
+  }
+
+  if (!item.conceptId) {
+    return (
+      <span className="inline-flex rounded-full bg-terracotta-500/10 px-2.5 py-1 text-xs font-semibold text-terracotta-600">
+        No Concept (Blocks publish)
+      </span>
+    )
+  }
+
+  const concept = item.concept
+  const status = concept?.completionStatus
+
+  if (status === 'complete' || status === 'published') {
+    return (
+      <span className="inline-flex rounded-full bg-forest-accent/10 px-2.5 py-1 text-xs font-semibold text-forest-700">
+        Ready
+      </span>
+    )
+  }
+
+  const formatStatus = (s?: string) => {
+    if (!s) return 'Incomplete'
+    return s.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+  }
+
+  return (
+    <span 
+      className="inline-flex rounded-full bg-amber-500/10 px-2.5 py-1 text-xs font-semibold text-amber-600"
+      title="This concept requires completion in Concept Completion"
+    >
+      Not Ready ({formatStatus(status)}) (Blocks publish)
+    </span>
+  )
+}
+
 export function LessonItemsTable({
   items,
   lessonId,
@@ -79,6 +132,9 @@ export function LessonItemsTable({
             </th>
             <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-cocoa-body/60">
               {t('admin.lessons.items.table.status')}
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-cocoa-body/60">
+              Publish Readiness
             </th>
             <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-cocoa-body/60">
               {t('admin.lessons.items.table.actions')}
@@ -136,6 +192,9 @@ export function LessonItemsTable({
                 </td>
                 <td className="px-4 py-3">
                   <ItemStatusBadge status={status} />
+                </td>
+                <td className="px-4 py-3">
+                  <PublishReadinessBadge item={item} />
                 </td>
                 <td className="px-4 py-3 text-right">
                   <Link

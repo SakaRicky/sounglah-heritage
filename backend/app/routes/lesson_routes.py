@@ -435,3 +435,54 @@ def delete_lesson_cover_image(lesson_id):
 
     item_count = _active_item_counts([lesson.id]).get(lesson.id, 0)
     return jsonify({"data": lesson_to_dict(lesson, item_count=item_count)})
+
+
+@lesson_bp.get("/<lesson_id>/publish-validation")
+@require_admin
+def get_lesson_publish_validation(lesson_id):
+    lesson = db.session.get(Lesson, lesson_id)
+    if lesson is None:
+        return jsonify({"error": {"message": "Lesson not found."}}), 404
+
+    from app.services.concept_completion_service import concept_completion_for
+    from app.models.lesson_item import CONCEPT_BACKED_ITEM_TYPES
+    from app.services.lesson_publish_service import _concept_not_ready_message
+
+    active_items = [item for item in lesson.items if item.is_active]
+    blockers = []
+
+    if not active_items:
+        blockers.append("Published lesson must have at least one active item.")
+    else:
+        for item in active_items:
+            if item.type not in CONCEPT_BACKED_ITEM_TYPES:
+                continue
+
+            if not item.concept_id:
+                blockers.append(f'Item "{item.title}" requires a linked concept before publish.')
+                continue
+
+            concept = item.concept
+            if concept is None:
+                blockers.append(f'Item "{item.title}" links a concept that no longer exists.')
+                continue
+
+            if concept.published_at is not None:
+                continue
+
+            # Check if it would be auto-published
+            completion = concept_completion_for(concept)
+            if completion["isReadyToPublish"]:
+                continue
+
+            # It blocks!
+            blockers.append(_concept_not_ready_message(item, concept))
+
+    return jsonify({
+        "data": {
+            "lessonId": lesson.id,
+            "isReadyToPublish": len(blockers) == 0,
+            "blockers": blockers
+        }
+    })
+
