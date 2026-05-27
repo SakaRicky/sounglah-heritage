@@ -21,7 +21,7 @@ import { LessonItemFormPage } from '../features/lessons/pages/LessonItemFormPage
 import { LessonItemsBuilderPage } from '../features/lessons/pages/LessonItemsBuilderPage'
 import { PublicLessonsPage } from '../features/lessons/pages/PublicLessonsPage'
 import { PublicLessonIntroPage } from '../features/lessons/pages/PublicLessonIntroPage'
-import { PublicLessonPlayerPlaceholderPage } from '../features/lessons/pages/PublicLessonPlayerPlaceholderPage'
+import { PublicLessonPlayerPage } from '../features/lessons/pages/PublicLessonPlayerPage'
 
 export const router = createBrowserRouter([
   {
@@ -57,7 +57,7 @@ export const router = createBrowserRouter([
           },
           {
             path: ':slug/play',
-            element: <PublicLessonPlayerPlaceholderPage />,
+            element: <PublicLessonPlayerPage />,
           },
         ],
       },
