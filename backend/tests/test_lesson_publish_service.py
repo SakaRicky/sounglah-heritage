@@ -5,11 +5,20 @@ from app.services.lesson_publish_service import validate_lesson_items_for_publis
 
 
 class _ConceptStub:
-    def __init__(self, published_at=None, title="Greeting", key="greeting"):
+    def __init__(
+        self,
+        published_at=None,
+        title="Greeting",
+        key="greeting",
+        image_url="https://example.com/greeting.jpg",
+        default_image_url=None,
+    ):
         self.published_at = published_at
         self.title = title
         self.key = key
         self.id = "concept-id"
+        self.image_url = image_url
+        self.default_image_url = default_image_url
 
 
 class _ItemStub:
@@ -81,6 +90,46 @@ def test_validate_lesson_publish_passes_when_concept_is_published():
                     "VOCABULARY",
                     concept_id="concept-id",
                     concept=_ConceptStub(published_at=datetime.now(timezone.utc)),
+                )
+            ]
+        )
+        == {}
+    )
+
+
+def test_validate_lesson_publish_requires_image_for_published_vocabulary_concept():
+    errors = validate_lesson_items_for_publish(
+        [
+            _ItemStub(
+                "Hello",
+                "VOCABULARY",
+                concept_id="concept-id",
+                concept=_ConceptStub(
+                    published_at=datetime.now(timezone.utc),
+                    image_url=None,
+                    default_image_url=None,
+                ),
+            )
+        ]
+    )
+
+    assert "items" in errors
+    assert "needs an image" in errors["items"][0]
+
+
+def test_validate_lesson_publish_allows_phrase_without_concept_image():
+    assert (
+        validate_lesson_items_for_publish(
+            [
+                _ItemStub(
+                    "Hello Grandma",
+                    "PHRASE",
+                    concept_id="concept-id",
+                    concept=_ConceptStub(
+                        published_at=datetime.now(timezone.utc),
+                        image_url=None,
+                        default_image_url=None,
+                    ),
                 )
             ]
         )

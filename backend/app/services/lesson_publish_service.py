@@ -4,6 +4,23 @@ from app.models.lesson_item import CONCEPT_BACKED_ITEM_TYPES
 from app.services.concept_completion_service import concept_completion_for
 
 
+def concept_has_lesson_image(concept):
+    if concept is None:
+        return False
+
+    return bool((concept.image_url or "").strip() or (concept.default_image_url or "").strip())
+
+
+def vocabulary_image_blocker_for(item, concept):
+    if item.type != "VOCABULARY" or concept_has_lesson_image(concept):
+        return None
+
+    return (
+        f'Item "{item.title}" is a vocabulary lesson item, so concept '
+        f'"{concept.title}" ({concept.key}) needs an image before this lesson can go live.'
+    )
+
+
 def auto_publish_ready_concepts_for_lesson(lesson):
     """Publish complete-but-unpublished concepts linked by active lesson items."""
     published_concept_ids = []
@@ -74,13 +91,18 @@ def validate_lesson_items_for_publish(items):
             continue
 
         concept = item.concept
-        if concept is None or concept.published_at is None:
-            if concept is None:
-                fields.setdefault("items", []).append(
-                    f'Item "{item.title}" links a concept that no longer exists.'
-                )
-            else:
-                fields.setdefault("items", []).append(_concept_not_ready_message(item, concept))
+        if concept is None:
+            fields.setdefault("items", []).append(
+                f'Item "{item.title}" links a concept that no longer exists.'
+            )
+            continue
+
+        image_blocker = vocabulary_image_blocker_for(item, concept)
+        if image_blocker:
+            fields.setdefault("items", []).append(image_blocker)
+
+        if concept.published_at is None:
+            fields.setdefault("items", []).append(_concept_not_ready_message(item, concept))
 
     return fields
 

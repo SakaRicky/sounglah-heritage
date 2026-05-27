@@ -446,7 +446,7 @@ def get_lesson_publish_validation(lesson_id):
 
     from app.services.concept_completion_service import concept_completion_for
     from app.models.lesson_item import CONCEPT_BACKED_ITEM_TYPES
-    from app.services.lesson_publish_service import _concept_not_ready_message
+    from app.services.lesson_publish_service import _concept_not_ready_message, vocabulary_image_blocker_for
 
     active_items = [item for item in lesson.items if item.is_active]
     blockers = []
@@ -467,6 +467,10 @@ def get_lesson_publish_validation(lesson_id):
                 blockers.append(f'Item "{item.title}" links a concept that no longer exists.')
                 continue
 
+            image_blocker = vocabulary_image_blocker_for(item, concept)
+            if image_blocker:
+                blockers.append(image_blocker)
+
             if concept.published_at is not None:
                 continue
 
@@ -485,4 +489,3 @@ def get_lesson_publish_validation(lesson_id):
             "blockers": blockers
         }
     })
-
