@@ -82,10 +82,12 @@ export function PublicLessonPlayerPage() {
     stopAudio()
     if (currentItemIndex > 0) {
       setCurrentItemIndex(currentItemIndex - 1)
-    } else {
-      // If on the first slide, go back to overview
-      navigate(`/lessons/${lesson?.slug}`)
     }
+  }
+
+  const handleBackToIntro = () => {
+    stopAudio()
+    navigate(`/lessons/${lesson?.slug}`)
   }
 
   // Toggle Audio Playback
@@ -103,7 +105,7 @@ export function PublicLessonPlayerPage() {
         setIsPlaying(true)
       }).catch((err) => {
         console.error('Playback failed', err)
-        setAudioError('Unable to play audio')
+        setAudioError(t('public.lessons.player.audio.playError'))
         setIsPlaying(false)
       })
     }
@@ -111,12 +113,14 @@ export function PublicLessonPlayerPage() {
 
   // Clean up audio on component unmount
   useEffect(() => {
+    const audio = audioRef.current
+
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause()
+      if (audio) {
+        audio.pause()
       }
     }
-  }, [])
+  }, [currentItemIndex, lesson?.slug])
 
   if (loading) {
     return (
@@ -159,9 +163,9 @@ export function PublicLessonPlayerPage() {
               className="inline-flex items-center gap-2 text-sm font-semibold text-forest-accent hover:text-forest-accent-hover transition active:scale-95"
             >
               <ArrowLeft className="h-4 w-4" />
-              <span>Back to player</span>
+              <span>{t('public.lessons.player.backToPlayer')}</span>
             </button>
-            <span className="text-sm font-bold text-forest-accent uppercase tracking-wider">Lesson Complete!</span>
+            <span className="text-sm font-bold text-forest-accent uppercase tracking-wider">{t('public.lessons.player.completeBadge')}</span>
           </div>
         </header>
 
@@ -180,22 +184,28 @@ export function PublicLessonPlayerPage() {
             </div>
 
             <h1 className="font-serif text-3xl font-extrabold text-cocoa-800 md:text-4xl">
-              Mebwô! Well done!
+              {t('public.lessons.player.completionTitle')}
             </h1>
             <p className="mt-4 text-base leading-relaxed text-cocoa-700 max-w-sm mx-auto">
-              You and your family have successfully completed the <strong className="text-forest-accent font-semibold">"{lesson.title}"</strong> lesson together!
+              {t('public.lessons.player.completionDescriptionPrefix')}{' '}
+              <strong className="text-forest-accent font-semibold">"{lesson.title}"</strong>{' '}
+              {t('public.lessons.player.completionDescriptionSuffix')}
             </p>
 
             {/* Achievement card */}
             <div className="mt-8 rounded-2xl bg-forest-50/50 border border-forest-200/30 p-6 flex items-center justify-around text-left">
               <div>
-                <span className="text-xs text-cocoa-700/60 font-bold uppercase tracking-wider block">Items Practiced</span>
-                <span className="text-3xl font-extrabold text-forest-700 block mt-0.5">{lesson.items.length} words</span>
+                <span className="text-xs text-cocoa-700/60 font-bold uppercase tracking-wider block">{t('public.lessons.player.itemsPracticed')}</span>
+                <span className="text-3xl font-extrabold text-forest-700 block mt-0.5">
+                  {lesson.items.length === 1
+                    ? t('public.lessons.player.oneWord')
+                    : t('public.lessons.player.wordCount', { count: lesson.items.length })}
+                </span>
               </div>
               <div className="h-10 w-[1px] bg-sand-200/50" />
               <div>
-                <span className="text-xs text-cocoa-700/60 font-bold uppercase tracking-wider block">Language Focus</span>
-                <span className="text-3xl font-extrabold text-[#A94F25] block mt-0.5">Médumba</span>
+                <span className="text-xs text-cocoa-700/60 font-bold uppercase tracking-wider block">{t('public.lessons.player.languageFocus')}</span>
+                <span className="text-3xl font-extrabold text-[#A94F25] block mt-0.5">{t('public.lessons.player.medumba')}</span>
               </div>
             </div>
 
@@ -205,7 +215,7 @@ export function PublicLessonPlayerPage() {
                 to="/lessons"
                 className="btn-primary w-full py-4.5 rounded-cta flex items-center justify-center gap-2 hover:bg-forest-accent-hover transition shadow-button active:scale-[0.98] font-bold text-base"
               >
-                <span>Continue Learning</span>
+                <span>{t('public.lessons.player.continueLearning')}</span>
                 <ChevronRight className="h-5 w-5" />
               </Link>
               <button
@@ -216,7 +226,7 @@ export function PublicLessonPlayerPage() {
                 }}
                 className="w-full py-3.5 border-2 border-sand-200 hover:bg-cream-100 text-cocoa-700 font-bold text-sm rounded-cta transition active:scale-[0.98]"
               >
-                Practice Again
+                {t('public.lessons.player.practiceAgain')}
               </button>
             </div>
           </div>
@@ -237,8 +247,13 @@ export function PublicLessonPlayerPage() {
   
   // Custom context/usage notes logic
   const usageNoteRaw = (currentItem.contentJson?.usageNote as string) || currentItem.instructionText || ''
-  const hasUsageNote = usageNoteRaw && usageNoteRaw.trim().length > 0 && usageNoteRaw !== 'Listen, look, and say it with someone at home.'
-  const usageNote = hasUsageNote ? usageNoteRaw.trim() : 'Use this when greeting an elder in the morning.' // premium default context if missing
+  const defaultInstructionText = t('public.lessons.player.defaultInstruction')
+  const legacyDefaultInstructionText = t('public.lessons.player.defaultInstructionLegacy')
+  const usageNoteText = usageNoteRaw.trim()
+  const hasUsageNote = usageNoteText.length > 0
+    && usageNoteText !== defaultInstructionText
+    && usageNoteText !== legacyDefaultInstructionText
+  const usageNote = hasUsageNote ? usageNoteRaw.trim() : t('public.lessons.player.defaultUsageNote')
 
   // Illustration URL logic
   const imageUrl = conceptPayload?.imageUrl 
@@ -283,9 +298,9 @@ export function PublicLessonPlayerPage() {
           
           {/* Back button */}
           <button
-            onClick={handlePrevious}
+            onClick={handleBackToIntro}
             className="flex h-10 w-10 items-center justify-center rounded-full bg-white border border-sand-100/30 text-cocoa-800 shadow-sm active:scale-95 transition hover:bg-cream-50"
-            aria-label={currentItemIndex === 0 ? "Back to lesson details" : "Previous slide"}
+            aria-label={t('public.lessons.player.backToIntro')}
           >
             <ChevronLeft className="h-5 w-5 text-cocoa-700" />
           </button>
@@ -304,7 +319,7 @@ export function PublicLessonPlayerPage() {
           <Link
             to={`/lessons/${lesson.slug}`}
             className="flex h-10 w-10 items-center justify-center rounded-full bg-white border border-sand-100/30 text-cocoa-800 shadow-sm active:scale-95 transition hover:bg-cream-50"
-            aria-label="Exit lesson"
+            aria-label={t('public.lessons.player.exitLesson')}
             onClick={stopAudio}
           >
             <X className="h-5 w-5 text-cocoa-700" />
@@ -337,7 +352,7 @@ export function PublicLessonPlayerPage() {
                 />
               ) : (
                 <div className="flex h-full w-full items-center justify-center text-cocoa-700 bg-sand-100/30">
-                  No image available
+                  {t('public.lessons.player.noImage')}
                 </div>
               )}
             </div>
@@ -375,7 +390,7 @@ export function PublicLessonPlayerPage() {
                 <button
                   onClick={togglePlay}
                   className="h-16 w-16 md:h-20 md:w-20 rounded-full bg-forest-accent text-white flex items-center justify-center transition shadow-button transform hover:scale-105 active:scale-95 cursor-pointer relative"
-                  aria-label={isPlaying ? "Pause audio" : "Play audio"}
+                  aria-label={isPlaying ? t('public.lessons.player.pauseAudio') : t('public.lessons.player.playAudio')}
                 >
                   {isPlaying ? (
                     <Pause className="h-6 w-6 md:h-8 md:w-8 fill-current text-white" />
@@ -420,7 +435,7 @@ export function PublicLessonPlayerPage() {
               </div>
             ) : (
               <div className="mt-6 md:mt-8 py-3 px-6 rounded-full bg-sand-100/40 text-xs font-semibold text-cocoa-700/60 select-none uppercase tracking-wide">
-                No audio available for this word
+                {t('public.lessons.player.noAudio')}
               </div>
             )}
 
@@ -442,7 +457,7 @@ export function PublicLessonPlayerPage() {
               </div>
               <div className="min-w-0">
                 <span className="text-[10px] text-forest-accent font-extrabold uppercase tracking-widest block">
-                  English
+                  {t('public.lessons.player.english')}
                 </span>
                 <p className="text-cocoa-800 font-extrabold text-lg md:text-xl block mt-0.5 leading-snug truncate">
                   {enText}
@@ -458,7 +473,7 @@ export function PublicLessonPlayerPage() {
                 </div>
                 <div className="min-w-0">
                   <span className="text-[10px] text-[#A94F25] font-extrabold uppercase tracking-widest block">
-                    French
+                    {t('public.lessons.player.french')}
                   </span>
                   <p className="text-cocoa-800 font-extrabold text-lg md:text-xl block mt-0.5 leading-snug truncate">
                     {frText}
@@ -474,7 +489,7 @@ export function PublicLessonPlayerPage() {
               </div>
               <div className="flex-1 min-w-0">
                 <span className="text-[10px] text-[#2B6CB0] font-extrabold uppercase tracking-widest block">
-                  When to use it
+                  {t('public.lessons.player.whenToUse')}
                 </span>
                 <p className="text-cocoa-700 text-sm font-medium mt-1 leading-relaxed">
                   {usageNote}
@@ -493,10 +508,11 @@ export function PublicLessonPlayerPage() {
           {/* Previous button */}
           <button
             onClick={handlePrevious}
-            className="flex-1 border-2 border-forest-accent text-forest-accent bg-white rounded-2xl py-4 font-bold flex items-center justify-center gap-2 hover:bg-forest-50 transition active:scale-[0.98] cursor-pointer"
+            disabled={currentItemIndex === 0}
+            className="flex-1 border-2 border-forest-accent text-forest-accent bg-white rounded-2xl py-4 font-bold flex items-center justify-center gap-2 hover:bg-forest-50 transition active:scale-[0.98] cursor-pointer disabled:cursor-not-allowed disabled:border-sand-200 disabled:text-cocoa-700/40 disabled:hover:bg-white"
           >
             <ChevronLeft className="h-5 w-5" />
-            <span>Previous</span>
+            <span>{t('public.lessons.player.previous')}</span>
           </button>
 
           {/* Next / Finish button */}
@@ -504,7 +520,7 @@ export function PublicLessonPlayerPage() {
             onClick={handleNext}
             className="flex-1 bg-forest-accent hover:bg-forest-accent-hover text-white rounded-2xl py-4 font-bold flex items-center justify-center gap-2 transition active:scale-[0.98] cursor-pointer shadow-button"
           >
-            <span>{currentItemIndex === lesson.items.length - 1 ? 'Finish' : 'Next'}</span>
+            <span>{currentItemIndex === lesson.items.length - 1 ? t('public.lessons.player.finish') : t('public.lessons.player.continue')}</span>
             <ChevronRight className="h-5 w-5" />
           </button>
 

@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Foundation (S001) **complete**. S016 content admin stabilization, S021 concept completion, and **S024 concept audio completion gate** are complete. **Epic 5 — S023 Lessons MVP in progress.** **S023.1–S023.9** are **Done**; **next: S023.10** (lesson player shell).
+Foundation (S001) **complete**. S016 content admin stabilization, S021 concept completion, and **S024 concept audio completion gate** are complete. **Epic 5 — S023 Lessons MVP in progress.** **S023.1–S023.9** are **Done**; **S023.10** (lesson player shell) is in **Review**.
 
 Use **`docs/slices/E05-lessons/00-overview.md`** and child slices **S023.1–S023.16** as the source of truth for lessons work. Epic is **implementation-ready**; product decisions locked (anonymous public API, nested item admin, publish guards). Prerequisite: curated published concepts with approved Médumba texts and audio before seeding **Greeting Grandma** (S023.15).
 
@@ -110,7 +110,7 @@ Parent spec: **`docs/slices/E05-lessons/00-overview.md`**. One child slice per C
 | S023.7 - Admin create/edit lesson item | Done | Dynamic form + concept picker |
 | S023.8 - Public lessons API + listing | Done | `GET /api/lessons`, `lesson_public_service`, `/lessons` UI |
 | S023.9 - Public lesson intro | Done | `/lessons/:slug` before play |
-| S023.10 - Lesson player shell | Planned | `/lessons/:slug/play` placeholders |
+| S023.10 - Lesson player shell | Review | `/lessons/:slug/play` localized player chrome implemented; frontend lint/build pass under Node 22.15.0 |
 | S023.11 - Renderer: VOCABULARY | Planned | First real learner screen |
 | S023.12 - Renderer: PHRASE | Planned | Phrase + usage note |
 | S023.13 - Renderer: AUDIO_LISTEN | Planned | Listen-first + show text |
