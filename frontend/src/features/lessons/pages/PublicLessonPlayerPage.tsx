@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ArrowLeft, BookOpen, Clock, Play, Pause, X, ChevronLeft, ChevronRight, Sparkles, Trophy, Check } from 'lucide-react'
+import { ArrowLeft, BookOpen, Clock, Play, Pause, X, ChevronLeft, ChevronRight, Sparkles, Trophy } from 'lucide-react'
 
 import { useI18n } from '../../../i18n'
 import { getPublicLessonBySlug } from '../api/publicLessonsApi'
-import type { PublicLessonDetail, PublicLessonItem } from '../types/publicLesson.types'
+import type { PublicLessonDetail } from '../types/publicLesson.types'
 import { resolveMediaUrl, resolveConceptPlaceholderUrl } from '../../../lib/media'
 
 // Define CSS keyframes for custom wave animation
@@ -109,10 +109,14 @@ export function PublicLessonPlayerPage() {
     }
   }
 
-  // Trigger audio on item load (optional / auto-play or clean reset)
+  // Clean up audio on component unmount
   useEffect(() => {
-    stopAudio()
-  }, [currentItemIndex])
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause()
+      }
+    }
+  }, [])
 
   if (loading) {
     return (
