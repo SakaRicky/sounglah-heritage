@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { AlertCircle, Loader2 } from 'lucide-react'
+import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react'
 
 
 import { AdminDataTable } from '../../../components/admin/AdminDataTable'
@@ -244,6 +244,19 @@ function DraftPublishValidationIndicator({ lessonId }: { lessonId: string }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const popoverRef = useRef<HTMLDivElement>(null)
 
+  async function loadValidation() {
+    setLoading(true)
+    setError('')
+    try {
+      const response = await getLessonPublishValidation(lessonId)
+      setBlockers(response.data.blockers)
+    } catch {
+      setError('Unable to load blockers.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
     if (!open) return
 
@@ -261,6 +274,35 @@ function DraftPublishValidationIndicator({ lessonId }: { lessonId: string }) {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [open])
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function loadInitialValidation() {
+      setLoading(true)
+      setError('')
+      try {
+        const response = await getLessonPublishValidation(lessonId)
+        if (!cancelled) {
+          setBlockers(response.data.blockers)
+        }
+      } catch {
+        if (!cancelled) {
+          setError('Unable to load blockers.')
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false)
+        }
+      }
+    }
+
+    void loadInitialValidation()
+
+    return () => {
+      cancelled = true
+    }
+  }, [lessonId])
 
   async function handleToggle(event: React.MouseEvent) {
     event.stopPropagation()
@@ -280,27 +322,36 @@ function DraftPublishValidationIndicator({ lessonId }: { lessonId: string }) {
       return
     }
 
-    setLoading(true)
-    setError('')
-    try {
-      const response = await getLessonPublishValidation(lessonId)
-      setBlockers(response.data.blockers)
-    } catch {
-      setError('Unable to load blockers.')
-    } finally {
-      setLoading(false)
-    }
+    void loadValidation()
   }
+
+  const isReady = blockers !== null && blockers.length === 0 && !error
+  const hasBlockers = blockers !== null && blockers.length > 0
+  const buttonTitle = isReady
+    ? 'Ready to publish'
+    : hasBlockers
+      ? 'View publish blockers'
+      : 'Checking publish requirements'
 
   return (
     <div className="relative inline-flex items-center" ref={containerRef}>
       <button
         type="button"
         onClick={handleToggle}
-        className="ml-1.5 flex h-5 w-5 items-center justify-center rounded-full text-amber-500 transition hover:bg-amber-50 hover:text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-200"
-        title="View publish requirements"
+        className={`ml-1.5 flex h-5 w-5 items-center justify-center rounded-full transition focus:outline-none focus:ring-2 ${
+          isReady
+            ? 'text-forest-600 hover:bg-forest-50 hover:text-forest-700 focus:ring-forest-200'
+            : 'text-amber-500 hover:bg-amber-50 hover:text-amber-600 focus:ring-amber-200'
+        }`}
+        title={buttonTitle}
       >
-        <AlertCircle className="h-4 w-4" />
+        {loading && blockers === null ? (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        ) : isReady ? (
+          <CheckCircle2 className="h-4 w-4" />
+        ) : (
+          <AlertCircle className="h-4 w-4" />
+        )}
       </button>
 
       {open && typeof document !== 'undefined' ? (
@@ -339,8 +390,9 @@ function DraftPublishValidationIndicator({ lessonId }: { lessonId: string }) {
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-forest-700 font-semibold py-1">
-                      ✓ This lesson is ready to go live! All linked concepts will be published automatically.
+                    <p className="flex items-start gap-2 text-forest-700 font-semibold py-1">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
+                      <span>This lesson is ready to go live. All linked concepts will be published automatically.</span>
                     </p>
                   )}
                 </div>
@@ -394,8 +446,9 @@ function DraftPublishValidationIndicator({ lessonId }: { lessonId: string }) {
                     ))}
                   </ul>
                 ) : (
-                  <p className="text-forest-700 font-semibold py-1">
-                    ✓ This lesson is ready to go live! All linked concepts will be published automatically.
+                  <p className="flex items-start gap-1.5 text-forest-700 font-semibold py-1">
+                    <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                    <span>This lesson is ready to go live. All linked concepts will be published automatically.</span>
                   </p>
                 )}
               </div>

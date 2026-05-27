@@ -14,6 +14,9 @@ type Props = {
 
 export function LessonItemsLessonHeader({ lesson, activeItemCount, canPreview }: Props) {
   const { t } = useI18n()
+  const lessonsPath = '/admin/content/lessons'
+  const lessonDetailsPath = `/admin/content/lessons/${lesson.id}/edit`
+  const lessonItemsPath = `/admin/content/lessons/${lesson.id}/items`
 
   const estimatedMinutes =
     lesson.estimatedMinutes && lesson.estimatedMinutes > 0
@@ -32,15 +35,46 @@ export function LessonItemsLessonHeader({ lesson, activeItemCount, canPreview }:
         >
           <ChevronLeft className="h-4 w-4" />
         </Link>
-        <p>
-          {t('admin.lessons.breadcrumb.section')}
-          <span className="mx-1.5 text-sand-300">›</span>
-          {t('admin.lessons.breadcrumb.page')}
-          <span className="mx-1.5 text-sand-300">›</span>
-          <span className="font-medium text-cocoa-800">{lesson.title}</span>
-          <span className="mx-1.5 text-sand-300">›</span>
-          <span className="font-medium text-cocoa-800">{t('admin.lessons.items.breadcrumb')}</span>
-        </p>
+        <nav aria-label="Lesson item breadcrumbs">
+          <ol className="flex flex-wrap items-center gap-y-1">
+            <li>
+              <Link
+                to="/admin"
+                className="rounded-md transition hover:text-forest-700 focus:outline-none focus:ring-2 focus:ring-forest-200"
+              >
+                {t('admin.lessons.breadcrumb.section')}
+              </Link>
+            </li>
+            <li aria-hidden className="mx-1.5 text-sand-300">›</li>
+            <li>
+              <Link
+                to={lessonsPath}
+                className="rounded-md transition hover:text-forest-700 focus:outline-none focus:ring-2 focus:ring-forest-200"
+              >
+                {t('admin.lessons.breadcrumb.page')}
+              </Link>
+            </li>
+            <li aria-hidden className="mx-1.5 text-sand-300">›</li>
+            <li>
+              <Link
+                to={lessonDetailsPath}
+                className="rounded-md font-medium text-cocoa-800 transition hover:text-forest-700 focus:outline-none focus:ring-2 focus:ring-forest-200"
+              >
+                {lesson.title}
+              </Link>
+            </li>
+            <li aria-hidden className="mx-1.5 text-sand-300">›</li>
+            <li>
+              <Link
+                to={lessonItemsPath}
+                aria-current="page"
+                className="rounded-md font-medium text-cocoa-800 transition hover:text-forest-700 focus:outline-none focus:ring-2 focus:ring-forest-200"
+              >
+                {t('admin.lessons.items.breadcrumb')}
+              </Link>
+            </li>
+          </ol>
+        </nav>
       </div>
 
       <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">

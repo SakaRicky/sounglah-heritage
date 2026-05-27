@@ -42,6 +42,7 @@ def make_concept_ready(concept_key, statuses_by_language_code=None):
         )
 
     concept.status = "active"
+    concept.image_url = "https://example.com/concepts/greeting.jpg"
     concept.published_at = None
     db.session.commit()
 
@@ -382,6 +383,7 @@ def test_publish_lesson_when_curriculum_is_ready():
 
         concept = Concept.query.filter_by(key="greeting").first()
         concept.published_at = datetime.now(timezone.utc)
+        concept.image_url = "https://example.com/concepts/greeting.jpg"
         db.session.add(
             LessonItem(
                 lesson_id=lesson.id,
@@ -520,3 +522,85 @@ def test_lesson_publish_validation_passes_for_auto_publishable_concepts():
     assert data["isReadyToPublish"] is True
     assert len(data["blockers"]) == 0
 
+
+def test_publish_lesson_requires_vocabulary_concept_image():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+
+    with app.app_context():
+        lesson = Lesson(
+            title="Greeting Grandma",
+            slug="greeting-grandma",
+            difficulty="beginner",
+            status="draft",
+            order_index=1,
+        )
+        db.session.add(lesson)
+        db.session.flush()
+
+        concept = make_concept_ready("greeting")
+        concept.image_url = None
+        concept.default_image_url = None
+
+        db.session.add(
+            LessonItem(
+                lesson_id=lesson.id,
+                type="VOCABULARY",
+                concept_id=concept.id,
+                title="Hello",
+                order_index=1,
+            )
+        )
+        db.session.commit()
+        lesson_id = lesson.id
+
+    response = client.patch(
+        f"/api/admin/lessons/{lesson_id}",
+        headers=headers,
+        json={"status": "published"},
+    )
+
+    assert response.status_code == 400
+    items_errors = response.get_json()["error"]["fields"]["items"]
+    assert any("needs an image" in message for message in items_errors)
+
+
+def test_lesson_publish_validation_reports_missing_vocabulary_image():
+    app = create_app(testing=True)
+    client = app.test_client()
+    headers = auth_headers(client)
+
+    with app.app_context():
+        lesson = Lesson(
+            title="Greeting Grandma",
+            slug="greeting-grandma",
+            difficulty="beginner",
+            status="draft",
+            order_index=1,
+        )
+        db.session.add(lesson)
+        db.session.flush()
+
+        concept = make_concept_ready("greeting")
+        concept.image_url = None
+        concept.default_image_url = None
+
+        db.session.add(
+            LessonItem(
+                lesson_id=lesson.id,
+                type="VOCABULARY",
+                concept_id=concept.id,
+                title="Hello",
+                order_index=1,
+            )
+        )
+        db.session.commit()
+        lesson_id = lesson.id
+
+    response = client.get(f"/api/admin/lessons/{lesson_id}/publish-validation", headers=headers)
+
+    assert response.status_code == 200
+    data = response.get_json()["data"]
+    assert data["isReadyToPublish"] is False
+    assert any("needs an image" in message for message in data["blockers"])
