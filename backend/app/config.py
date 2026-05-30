@@ -26,9 +26,21 @@ def _default_media_storage_provider():
     return "cloudinary" if flask_env == "production" else "local"
 
 
+def _database_uri_from_env() -> str:
+    database_url = os.getenv("DATABASE_URL", "sqlite:///sounglah.db")
+
+    if database_url.startswith("postgresql://"):
+        return database_url.replace("postgresql://", "postgresql+psycopg://", 1)
+
+    if database_url.startswith("postgres://"):
+        return database_url.replace("postgres://", "postgresql+psycopg://", 1)
+
+    return database_url
+
+
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key")
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "sqlite:///sounglah.db")
+    SQLALCHEMY_DATABASE_URI = _database_uri_from_env()
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "admin@sounglah.com")
     ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "password")
